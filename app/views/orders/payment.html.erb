@@ -1,0 +1,105 @@
+<style>
+  .form-group {
+    text-align: left;
+  }
+</style>
+
+<div class="container text-white">
+  <h3 class="text-left mb-5">MOVE&nbsp;&nbsp;MORE</h3>
+  <h4 class="text-left">주문 / 결제</h4>
+
+  <table class="table table-bordered table-striped mt-5 text-white">
+    <thead>
+      <tr>
+        <th scope="col">상품명</th>
+        <th scope="col">수량</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @order.line_items.each do |line_item| %>
+        <tr>
+          <td><%= line_item.item.title %></td>
+          <td><%= line_item.quantity %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <!-- 결제정보 -->
+  <table class="table table-bordered table-striped mt-3 text-white">
+    <thead>
+      <tr>
+        <th scope="col">총 상품가격</th>
+        <th scope="col"><%= number_with_delimiter(@order.total) %>원</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">할인쿠폰</th>
+        <td>0원</td>
+      </tr>
+      <tr>
+        <th scope="row">배송비</th>
+        <td>0원</td>
+      </tr>
+      <tr>
+        <th scope="row">총 결제금액</th>
+        <td><%= number_with_delimiter(@order.total) %>원</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <%= form_for @order, url: { action: 'request_order' } do |f| %>
+    <div class="row mt-5">
+      <div class="col-6">
+        <h4>주문자 정보</h4>
+        <div class="form-group">
+          <label for="inputUsername" class="mt-3">이름</label>
+          <input type="text" class="form-control border border-primary" id="inputUsername" value="" name="order_name" placeholder=<%= current_user.username %>>
+        </div>
+        <div class="form-group">
+          <label for="inputPhone">연락처</label>
+          <input type="text" class="form-control border border-primary" id="inputPhone" value="" name="order_phone" placeholder=<%= current_user.phone %>>
+        </div>
+      </div>
+      <div class="col-6">
+        <h4>배송 정보</h4>
+        <div class="form-group">
+          <label for="inputFirstName" class="mt-3">이름</label>
+          <%= f.text_field :deliver_name, class:"form-control border border-primary" %>
+        </div>
+        <div class="form-group">
+          <label for="inputFirstName">우편번호</label>
+          <%= f.text_field :zipcode, class:"form-control border border-primary" %>
+        </div>
+        <div class="form-group">
+          <label for="inputFirstName">주소</label>
+          <%= f.text_field :address1, class:"form-control border border-primary" %>
+        </div>
+        <div class="form-group">
+          <label for="inputFirstName">상세주소</label>
+          <%= f.text_field :address2, class:"form-control border border-primary" %>
+        </div>
+        <div class="form-group">
+          <label for="inputnumber4">연락처</label>
+          <%= f.text_field :deliver_phone, class:"form-control border border-primary" %>
+        </div>
+        <div class="form-group">
+          <label for="inputnumber4">배송 시 요청 사항</label>
+          <%= f.text_field :requirement, class:"form-control border border-primary" %>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-2"></div>
+      <div class="form-group col-8">
+        <label for="payment_method">결제방법</label>
+        <%= f.select(:payment_method, ['신용/체크카드', '계좌이체', '휴대폰 결제', '가상계좌', '무통장입금'], {}, { class: "form-control" }) %>
+      </div>
+      <div class="col-2"></div>
+    </div>
+
+    <%#= f.hidden_field :status, value: "paid" %>
+
+    <%= f.submit "결제하기", class: "btn btn-lg mt-5 text-white", style: "background-color: #48689a;" %>
+  <% end %>
+</div>

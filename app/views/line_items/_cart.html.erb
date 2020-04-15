@@ -2,6 +2,17 @@
   #cart_image {
     width: 20%;
   }
+  .fas {
+    /* color: #48689a; */
+    font-size: 2rem;
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    .fas {
+      margin-top: 5px;
+      font-size: 1.3rem;
+    }
+  }
 </style>
 
 <div class="container">
@@ -23,20 +34,20 @@
               </td>
               <td><%= number_with_delimiter(line_item.item.price) %></td>
               <td>
-                <%#= link_to reduce_line_item_path(line_item.id), remote: true, class: "btn btn-sm btn-info" do %>
-                  <%#= fa_icon "minus" %>
-                <%# end %>
+                <%= link_to reduce_line_item_path(line_item), remote: true do %>
+                  <i class="fas fa-minus-square fa-2x btn text-white"></i>
+                <% end %>
                 <%= line_item.quantity %>
-                <%#= link_to line_item, method: :patch, remote: true, class: "btn btn-sm btn-info" do %>
-                  <%#= fa_icon "plus" %>
-                <%# end %>
+                <%= link_to line_item, method: :patch, remote: true do %>
+                  <i class="fas fa-plus-square fa-2x btn text-white"></i>
+                <% end %>
               </td>
               <td><%= number_with_delimiter(line_item.item.price * line_item.quantity) %>원</td>
             </tr>
         </tbody>
       </tr>
     </table>
-    <%= link_to "상품 삭제", line_item, method: :delete, remote: true, class: "btn btn-danger mb-5" %>
+    <%= link_to "상품 삭제", line_item, method: :delete, remote: true, class: "btn btn-outline-danger mb-5" %>
   <% end %>
 </div>
 
@@ -45,6 +56,6 @@
   <span class="navbar-brand">총 갯수: <%= order.number %>개</span>
 </nav>
 <div class="final-button mt-5">
-  <%= link_to "계속 쇼핑하기", items_path, class: "btn btn-secondary mr-2 btn-lg" %>
-  <%#= link_to "구매하기", payment_order_path(order), class: "btn btn-outline-success btn-lg" %>
+  <%= link_to "계속 쇼핑하기", items_path, class: "btn btn-outline-secondary mr-2 btn-lg" %>
+  <%= link_to "주문하기", payment_order_path(order), class: "btn btn-outline-success btn-lg" %>
 </div>

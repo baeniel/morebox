@@ -1,11 +1,8 @@
 class LineItemsController < ApplicationController
-  before_action :load_object, only: [:destroy]
+  before_action :load_object, only: [:destroy, :reduce, :update]
 
   def index
-    @order = current_user.orders.cart.first_or_create
-    line_items = @order.line_items
-    total = line_items.map{ |line_item| line_item.price*line_item.quantity }.sum
-    @order.update_attributes(number: line_items.sum(:quantity), total: total)
+    update_quantity
   end
 
   def create
@@ -19,7 +16,14 @@ class LineItemsController < ApplicationController
     @line_item.destroy
   end
 
+  def reduce
+    @line_item.decrement!(:quantity)
+    update_quantity
+  end
+
   def update
+    @line_item.increment!(:quantity)
+    update_quantity
   end
 
   private
@@ -27,4 +31,5 @@ class LineItemsController < ApplicationController
   def load_object
     @line_item = LineItem.find(params[:id])
   end
+
 end

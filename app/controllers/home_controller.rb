@@ -9,4 +9,7 @@ class HomeController < ApplicationController
       redirect_to items_path
     end
   end
+
+  def policy
+  end
 end

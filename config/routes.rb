@@ -4,6 +4,16 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   devise_for :users
   resources :items
-  resources :line_items
-  resources :orders
+  resources :line_items do
+    member do
+      get 'reduce'
+    end
+  end
+  resources :orders do
+    member do
+      get 'payment'
+      get 'request_order'
+    end
+  end
+  get 'home/policy'
 end
