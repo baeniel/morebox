@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_020245) do
+ActiveRecord::Schema.define(version: 2020_04_15_031505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,38 @@ ActiveRecord::Schema.define(version: 2020_04_15_020245) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "items", force: :cascade do |t|
+    t.string "title"
+    t.integer "price"
+    t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "item_id", null: false
+    t.integer "quantity"
+    t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_line_items_on_item_id"
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "number"
+    t.integer "total"
+    t.integer "status"
+    t.string "address1"
+    t.string "address2"
+    t.string "zipcode"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -57,4 +89,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_020245) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "line_items", "items"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "orders", "users"
 end

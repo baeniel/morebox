@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Morebox</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -20,6 +21,7 @@
         <span class="alert-content text-white"><%= notice %></span>
       </div>
     <% end %>
+    <%= render 'shared/header' %>
     <%= yield %>
     <%= render 'shared/footer' %>
   </body>

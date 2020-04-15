@@ -1,0 +1,50 @@
+<style>
+  #cart_image {
+    width: 20%;
+  }
+</style>
+
+<div class="container">
+  <% order.line_items.order(:created_at).each do |line_item| %>
+    <table class="table table-bordered table-striped mt-3 text-white">
+      <thead>
+        <tr>
+          <th>상품명</th>
+          <th>가격</th>
+          <th>수량</th>
+          <th>합계</th>
+        </tr>
+      </thead>
+      <tr class="row">
+        <tbody>
+            <tr>
+              <td>
+                <%= line_item.item.title %> <img src="<%= line_item.item.image %>" id="cart_image"/>
+              </td>
+              <td><%= number_with_delimiter(line_item.item.price) %></td>
+              <td>
+                <%#= link_to reduce_line_item_path(line_item.id), remote: true, class: "btn btn-sm btn-info" do %>
+                  <%#= fa_icon "minus" %>
+                <%# end %>
+                <%= line_item.quantity %>
+                <%#= link_to line_item, method: :patch, remote: true, class: "btn btn-sm btn-info" do %>
+                  <%#= fa_icon "plus" %>
+                <%# end %>
+              </td>
+              <td><%= number_with_delimiter(line_item.item.price * line_item.quantity) %>원</td>
+            </tr>
+        </tbody>
+      </tr>
+    </table>
+    <%= link_to "상품 삭제", line_item, method: :delete, remote: true, class: "btn btn-danger mb-5" %>
+  <% end %>
+</div>
+
+<nav class="navbar navbar-light bg-light">
+  <span class="navbar-brand">총 주문금액: <%= number_with_delimiter(order.total) %>원</span>
+  <span class="navbar-brand">총 갯수: <%= order.number %>개</span>
+</nav>
+<div class="final-button mt-5">
+  <%= link_to "계속 쇼핑하기", items_path, class: "btn btn-secondary mr-2 btn-lg" %>
+  <%#= link_to "구매하기", payment_order_path(order), class: "btn btn-outline-success btn-lg" %>
+</div>

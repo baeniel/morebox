@@ -1,0 +1,86 @@
+<style>
+  #drink-count {
+    margin-top: 0;
+    bottom: 0;
+  }
+  .fas {
+    color: #48689a;
+  }
+  .btn-lg {
+    margin-top: 20px;
+  }
+  #item-image {
+    width: 53%;
+  }
+  #item-count {
+    font-size: 25px;
+  }
+  .fa-minus-square {
+    font-size: 2rem;
+  }
+  .fa-plus-square {
+    font-size: 2rem;
+  }
+  @media (min-width: 320px) and (max-width: 480px) {
+    #item-image {
+      width: 100%;
+    }
+    #item-count {
+      font-size: 20px;
+    }
+    #drink-count {
+      padding-top: 30px;
+      bottom: 0;
+      margin-left: 20px;
+      font-size: 20px;
+    }
+    .fa-minus-square {
+      margin-top: 5px;
+      font-size: 1.3rem;
+    }
+    .fa-plus-square {
+      margin-top: 5px;
+      font-size: 1.3rem;
+    }
+    #cart-footer {
+      padding: 0;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="row mt-4">
+    <% Item.order(:created_at)&.each do |item| %>
+      <div class="col-4">
+        <img src="<%= item.image.url %>" id="item-image">
+        <div class="row mt-4">
+          <div class="col-12">
+            <%= form_for LineItem.new, remote: true do |f| %>
+              <%= f.hidden_field :item_id, value: item.id %>
+              <%= f.hidden_field :order_id, value: @order.id %>
+              <%= f.submit "장바구니 담기", class: "btn text-white card_mobile", style: "background-color: #48689a" %>
+            <% end %>
+          </div>
+
+          <button type="button" class="btn btn-primary submit-button" id="my-btn" data-toggle="modal" data-target="#exampleModal_<%= item.id %>" style="display: none;"></button>
+          <div class="modal" id="modal-show">
+            <div class="modal-fade" id="exampleModalLong_<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <p>상품이 장바구니에 담겼습니다.<br>장바구니로 이동하시겠습니까?</p>
+                  </div>
+                  <div class="modal-footer" id="cart-footer">
+                      <%= link_to "아니오", root_path, class: "btn btn-secondary" %>
+                      <%= link_to "예", line_items_path, class: "btn btn-info" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mt-5", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
+</div>
