@@ -1,0 +1,99 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+ @import "bootstrap";
+ @import "font-awesome-sprockets";
+ @import "font-awesome";
+ @import url(http://fonts.googleapis.com/css?family=Lato:300);
+ @import url(http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css);
+
+  $red: #fd7473;
+  $yellow: #fec951;
+  $blue: #47b8e0;
+  $purp: #9f68d0;
+
+  body {
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  .wrapper {
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 15px;
+  }
+
+  .alert-shape {
+    border-radius: 50px 20px;
+    position: fixed;
+    z-index: 700;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .alert-color {
+    color: #8A2BE2;
+    background-color: #48689a;
+    border-color: black;
+  }
+
+  #main-logo {
+    width: 50%;
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    .card_mobile {
+      font-size: 15px;
+    }
+
+    #main-logo {
+      width: 90%;
+      margin-left: 30px;
+      margin-top: 30px;
+    }
+
+  }
+
+  .bar {
+    position: relative;
+    width: 100%;
+    height: 48px;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 1.5rem;
+    border-radius: 30px;
+    .bar-info {
+      border-radius: 20px;
+      padding: 0.75rem;
+      background: $red;
+      color: white;
+      width: 0%;
+      position: absolute;
+      z-index: -1;
+      height: 100%;
+      transition: width 3.3s ease-in-out;
+      .percent{
+        float: right;
+      }
+      &.goal-kcal{
+       background-color: #9370DB
+      }
+      &.kcal{
+        background-color: #8A2BE2
+      }
+      &.plumpynut-gauge{
+        background-image: linear-gradient(to right, white, #0088db);
+      }
+    }
+  }

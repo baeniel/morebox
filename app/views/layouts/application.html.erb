@@ -4,12 +4,29 @@
     <title>Morebox</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   </head>
 
-  <body>
+  <body style="text-align: center; background-color: black;">
+    <% if notice %>
+      <div class="alert alert-shape alert-color mt-4">
+        <span class="badge badge-dark badge-pill">
+          알림
+        </span>
+        <span class="alert-content text-white"><%= notice %></span>
+      </div>
+    <% end %>
     <%= yield %>
+    <%= render 'shared/footer' %>
   </body>
 </html>
+
+<script>
+  $(document).ready(function() {
+    $(".alert").fadeTo(1000, 500).slideUp(400, function() { });
+  });
+</script>

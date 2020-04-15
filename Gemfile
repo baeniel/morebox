@@ -22,6 +22,25 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'bootstrap', '~> 4.4.1'
+gem 'jquery-rails'
+gem 'devise'
+gem 'activeadmin'
+gem 'capistrano-rails-console', require: false
+gem 'carrierwave', '~> 2.0'
+gem 'mini_magick'
+gem 'font-awesome-sass', '~> 5.12.0'
+gem 'capistrano', '~> 3.7', '>= 3.7.1'
+gem 'capistrano-rails', '~> 1.2'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-rbenv', '~> 2.1'
+gem 'ed25519', '>= 1.2', '< 2.0'
+gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
+gem 'httparty'
+
+gem 'popbill', '1.13.0'
+
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
