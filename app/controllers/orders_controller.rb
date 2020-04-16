@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_object, only: [:update, :destroy, :payment, :show, :request_order]
 
   def index

@@ -50,11 +50,10 @@
     <%= link_to "상품 삭제", line_item, method: :delete, remote: true, class: "btn btn-outline-danger mb-5" %>
   <% end %>
 </div>
-
-<nav class="navbar navbar-light bg-light">
+<div class="container">
   <span class="navbar-brand">총 주문금액: <%= number_with_delimiter(order.total) %>원</span>
   <span class="navbar-brand">총 갯수: <%= order.number %>개</span>
-</nav>
+</div>
 <div class="final-button mt-5">
   <%= link_to "계속 쇼핑하기", items_path, class: "btn btn-outline-secondary mr-2 btn-lg" %>
   <%= link_to "주문하기", payment_order_path(order), class: "btn btn-outline-success btn-lg" %>
