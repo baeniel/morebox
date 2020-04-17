@@ -48,7 +48,7 @@
     </tbody>
   </table>
   <hr>
-  <%= form_for @order, url: { action: 'request_order' } do |f| %>
+  <%= form_for(@order, url: { controller: 'orders', action: 'request_order' }, method: "get") do |f| %>
     <div class="row mt-5">
       <div class="col-6">
         <h4>주문자 정보</h4>

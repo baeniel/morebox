@@ -3,13 +3,15 @@ class OrdersController < ApplicationController
   before_action :load_object, only: [:update, :destroy, :payment, :show, :request_order]
 
   def index
+    @orders = current_user.orders.paid
   end
 
   def payment
   end
 
   def request_order
-    @order.update_attribute(order_params)
+    @order.update_attributes(order_params)
+    @order.paid!
   end
 
   def show

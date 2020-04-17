@@ -5,7 +5,7 @@ class Order < ApplicationRecord
 
   enum status: [:cart, :paid, :cancled]
 
-  validates :deliver_name, :deliver_phone, :zipcode, :address1, :address2, :payment_method, presence: true
+  # validates :deliver_name, :deliver_phone, :zipcode, :address1, :address2, :payment_method, presence: true
 
 
 end
