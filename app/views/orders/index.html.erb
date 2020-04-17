@@ -1,8 +1,51 @@
-<div class="container my-5">
-  <h2>주문목록</h2>
-  <hr>
-  <% @orders.each do |order| %>
-    
+<style>
+  .item-center {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  #item_picture {
+    width: 80%;
+  }
+  #order_card {
+    width: 50%;
+  }
+  /* 핸드폰일 때 */
+  @media (min-width: 320px) and (max-width: 480px) {
+    #item_picture {
+      width: 100%;
+    }
+    #order_card {
+      width: 100%;
+    }
+  }
+</style>
 
-  <% end %>
+<div class="container mt-4 text-white">
+  <h4 class="text-left">주문목록</h4>
+
+  <div class="row pt-3">
+    <% @orders.each do |order| %>
+      <div class="card mb-5" id="order_card">
+        <h5 class="card-header text-left text-dark">주문일 <%= order.created_at.strftime("%Y/%m/%d") %></h5>
+        <div class="card-body" style="background-color: #48689a;">
+          <% order.line_items.each do |line_item| %>
+            <div class="row">
+              <div class="col-4">
+                <img src="<%= line_item.item.image_url %>" id="item_picture">
+              </div>
+              <div class="col-8 item-center text-white mt-3">
+                <h5 class="card-title"><%= line_item.item.title %></h5>
+                <p class="card-text"><%= line_item.quantity %>개 | <%= number_with_delimiter(line_item.price) %>원</p>
+                <!-- <button type="button" class="btn text-white" style="background-color: #9370DB" data-toggle="modal" data-target="#exampleModalScrollable<%#= order.id %>">주문 상세보기</button> -->
+              </div>
+            </div>
+            <hr class="style-one">
+          <% end %>
+
+
+        </div>
+      </div>
+    <% end %>
+  </div>
+
 </div>
