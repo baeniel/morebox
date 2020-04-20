@@ -1,6 +1,32 @@
 <div class="container text-white">
   <h3 class="text-left mb-5">결제요청</h3>
-
-  
-
+  <div class="row">
+    <div class="col-12 text-left">
+      <div class="form-group">
+        <label for="paymentMethod" class="mt-3">결제 방법</label>
+        <input type="text" class="form-control" id="paymentMethod" value="<%= @order.payment_method %>" readonly>
+      </div>
+      <div class="form-group">
+        <label for="price">결제 금액</label>
+        <input type="text" class="form-control" id="price" value="<%= @order.total %>" readonly>
+      </div>
+      <div class="form-group">
+        <label for="inputFirstName">상품 이름</label>
+        <input type="text" class="form-control" id="item_name" value="<%= @order.line_items.map { |line_item| line_item.item.title }.flatten.join(" ") %>" readonly>
+      </div>
+      <div class="form-group">
+        <label for="order_name">주문자</label>
+        <input type="text" class="form-control" id="order_name" value="<%= @order.order_name %>" readonly>
+      </div>
+      <!-- <div class="form-group">
+        <label for="order_email">주문자 이메일</label>
+        <input type="text" class="form-control" id="order_email" value="<%#= @order.order_email %>" readonly>
+      </div> -->
+      <div class="form-group">
+        <label for="order_phone">주문자 휴대폰 번호</label>
+        <input type="text" class="form-control" id="order_phone" value="<%= @order.order_phone %>" readonly>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-lg mt-5 text-white" style="background-color: #757CFF; width: 240px;">다음</button>
 </div>
