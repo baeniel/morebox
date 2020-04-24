@@ -9,6 +9,9 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # config.hosts << "172.30.1.16.xip.io"
+  # http://172.30.1.16.xip.io:3000/users/sign_in
+
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # Show full error reports.

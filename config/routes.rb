@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     member do
       get 'payment'
       get 'request_order'
+      post 'complete'
     end
   end
   get 'home/policy'

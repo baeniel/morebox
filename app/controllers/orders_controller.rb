@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_object, only: [:update, :destroy, :payment, :show, :request_order]
+  before_action :load_object, only: [:update, :destroy, :payment, :show, :request_order, :complete]
 
   def index
     @orders = current_user.orders.paid
@@ -11,13 +11,18 @@ class OrdersController < ApplicationController
 
   def request_order
     @order.update_attributes(order_params)
-    @order.paid!
   end
 
   def show
   end
 
   def destroy
+  end
+
+  def complete
+    byebug
+    @order.paid!
+    redirect_to root_path, notice: "결제가 완료되었습니다:)"
   end
 
   private
