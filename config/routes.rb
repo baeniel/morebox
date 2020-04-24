@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post 'apis/pay_url'
   root 'home#index'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -13,7 +14,7 @@ Rails.application.routes.draw do
     member do
       get 'payment'
       get 'request_order'
-      post 'complete'
+      get 'complete'
     end
   end
   get 'home/policy'

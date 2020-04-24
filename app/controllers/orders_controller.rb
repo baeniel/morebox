@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :load_object, only: [:update, :destroy, :payment, :show, :request_order, :complete]
 
   def index
-    @orders = current_user.orders.paid
+    @orders = current_user.orders.not_cart
   end
 
   def payment
@@ -20,7 +20,6 @@ class OrdersController < ApplicationController
   end
 
   def complete
-    byebug
     @order.paid!
     redirect_to root_path, notice: "결제가 완료되었습니다:)"
   end
