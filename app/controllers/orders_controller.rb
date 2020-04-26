@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :load_object, only: [:update, :destroy, :payment, :show, :request_order, :complete]
 
   def index
-    @orders = current_user.orders.not_cart
+    @orders = current_user.orders.paid
   end
 
   def payment
@@ -17,6 +17,8 @@ class OrdersController < ApplicationController
   end
 
   def destroy
+    @order.destroy!
+    redirect_back fallback_location: root_path, notice: "주문이 취소되었습니다."
   end
 
   def complete

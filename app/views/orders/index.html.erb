@@ -34,13 +34,13 @@
               </div>
               <div class="col-8 item-center text-white mt-3">
                 <h5 class="card-title"><%= line_item.item.title %></h5>
-                <p class="card-text"><%= line_item.quantity %>개 | <%= number_with_delimiter(line_item.price) %>원</p>
-                <!-- <button type="button" class="btn text-white" style="background-color: #9370DB" data-toggle="modal" data-target="#exampleModalScrollable<%#= order.id %>">주문 상세보기</button> -->
+                <p class="card-text"><%= line_item.quantity %>박스 | <%= number_with_delimiter(line_item.price) %>원</p>
               </div>
             </div>
             <hr class="style-one">
           <% end %>
         </div>
+        <%= link_to "주문취소", order_path(order), method: :delete, class: "btn text-white", style: "background-color: #9370DB", data: { confirm: "주문을 취소하시겠습니까?" } %>
       </div>
     <% end %>
   </div>
