@@ -14,12 +14,12 @@ class ApisController < ApplicationController
         quantity: params[:number],
         vat_amount: 0,
         tax_free_amount: 0,
-        approval_url: "http://localhost:3000/orders/#{params[:id]}/complete",
-        # approval_url: "http://connect-gorilla.com/items/#{params[:id]}",
-        fail_url: 'http://localhost:3000/',
-        # fail_url: 'http://connect-gorilla.com/',
-        cancel_url: 'http://localhost:3000/',
-        # cancel_url: 'http://connect-gorilla.com/'
+        # approval_url: "http://localhost:3000/orders/#{params[:id]}/complete",
+        approval_url: "http://morebox.co.kr/orders/#{params[:id]}/complete",
+        # fail_url: 'http://localhost:3000/',
+        fail_url: 'http://morebox.co.kr/',
+        # cancel_url: 'http://localhost:3000/',
+        cancel_url: 'http://morebox.co.kr/'
       }
     )
 
