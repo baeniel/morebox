@@ -34,7 +34,7 @@
               </div>
               <div class="col-8 item-center text-white mt-3">
                 <h5 class="card-title"><%= line_item.item.title %></h5>
-                <p class="card-text"><%= line_item.quantity %>박스 | <%= number_with_delimiter(line_item.price) %>원</p>
+                <p class="card-text"><%= line_item.quantity %>박스 | <%= number_with_delimiter(order.total) %>원</p>
               </div>
             </div>
             <hr class="style-one">
