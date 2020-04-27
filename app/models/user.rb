@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, authentication_keys: [:phone]
 
-  has_many :orders, dependent: :nullify
+  has_many :orders, dependent: :destroy
 
   validates :username, :phone, presence: true
   validates :phone, uniqueness: true
