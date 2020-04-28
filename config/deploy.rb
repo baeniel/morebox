@@ -18,10 +18,15 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 #     end
 #   end
 
+
 namespace :deploy do
   task :reset do
-    on roles(:web) do
-      execute :rake, 'db:reset'
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+          execute :rake, ENV['task']
+        end
+      end
     end
   end
 end
