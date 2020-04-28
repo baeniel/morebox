@@ -24,7 +24,7 @@ namespace :deploy do
     on roles(:app) do
       within "#{current_path}" do
         with rails_env: "#{fetch(:stage)}" do
-          execute :rake, ENV['task']
+          execute :rake, 'db:reset'
         end
       end
     end
