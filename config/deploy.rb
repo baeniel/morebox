@@ -8,15 +8,23 @@ set :deploy_to, '/home/deploy/morebox'
 append :linked_files, "config/database.yml", "config/secrets.yml"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads"
 
-task :reset do
-    on primary fetch(:migration_role) do
-      within release_path do
-        with rails_env: fetch(:rails_env)  do
-          execute :rake, 'db:reset'
-        end
-      end
+# task :reset do
+#     on primary fetch(:migration_role) do
+#       within release_path do
+#         with rails_env: fetch(:rails_env)  do
+#           execute :rake, 'db:reset'
+#         end
+#       end
+#     end
+#   end
+
+namespace :deploy do
+  task :reset do
+    on roles(:web) do
+      execute :rake, 'db:reset'
     end
   end
+end
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
