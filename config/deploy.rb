@@ -8,19 +8,15 @@ set :deploy_to, '/home/deploy/morebox'
 append :linked_files, "config/database.yml", "config/secrets.yml"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/system", "public/uploads"
 
-namespace :db do
-  desc 'Resets DB without create/drop'
-  task :reset do
-    on primary :db do
+task :reset do
+    on primary fetch(:migration_role) do
       within release_path do
-        with rails_env: fetch(:stage) do
-          execute :rake, 'db:schema:load'
-          execute :rake, 'db:seed'
+        with rails_env: fetch(:rails_env)  do
+          execute :rake, 'db:reset'
         end
       end
     end
   end
-end
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
