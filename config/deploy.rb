@@ -18,7 +18,6 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 #     end
 #   end
 
-
 namespace :db do
   task :reset do
     on primary :db do
@@ -32,6 +31,21 @@ namespace :db do
     end
   end
 end
+
+
+# namespace :db do
+#   task :reset do
+#     on primary :db do
+#       within release_path do
+#         with rails_env: fetch(:stage) do
+#           execute :rake, 'db:drop'
+#           execute :rake, 'db:create'
+#           execute :rake, 'db:migrate'
+#         end
+#       end
+#     end
+#   end
+# end
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
