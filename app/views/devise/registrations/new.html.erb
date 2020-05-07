@@ -39,6 +39,7 @@
           <h5 class="text-white text-left mobile-input">이름을 입력하세요</h5>
           <%= f.text_field :username, autofocus: true, placeholder: "고릴라밤", class: "form-control registration_input" %>
         </div>
+        <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
         <div class="form-group">
           <h5 class="text-white form-text text-left mobile-input">핸드폰 번호를 입력하세요</h5>
           <%= f.number_field :phone, placeholder: "01012345678", class: "form-control registration_input" %>
