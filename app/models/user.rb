@@ -9,8 +9,6 @@ class User < ApplicationRecord
   validates :username, :phone, presence: true
   validates :phone, uniqueness: true
 
-  validates :email, uniqueness: false
-
   before_validation :assign_password, on: :create
 
   def assign_password
