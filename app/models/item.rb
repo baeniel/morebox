@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   mount_uploader :image, ImageUploader
+  mount_uploader :image2, ImageUploader
 
   has_many :line_items, dependent: :destroy
 

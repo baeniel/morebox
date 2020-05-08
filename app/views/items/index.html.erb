@@ -52,7 +52,9 @@
   <div class="row mt-4">
     <% Item.order(:created_at)&.each do |item| %>
       <div class="col-4">
-        <img src="<%= item.image.url %>" id="item-image">
+        <%= link_to item_path(item) do %>
+          <img src="<%= item.image.url %>" id="item-image">
+        <% end %>
         <div class="row mt-4">
           <div class="col-12">
             <%= form_for LineItem.new, remote: true do |f| %>
