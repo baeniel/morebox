@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, authentication_keys: [:phone]
 
   has_many :orders, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :username, :phone, presence: true
   validates :phone, uniqueness: true

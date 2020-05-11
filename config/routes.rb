@@ -17,5 +17,7 @@ Rails.application.routes.draw do
       get 'complete'
     end
   end
+  resources :comments
   get 'home/policy'
+  get 'home/faq'
 end

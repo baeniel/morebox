@@ -1,0 +1,29 @@
+
+<ul class="list-unstyled">
+  <% item.comments.order(created_at: :desc).each do |comment| %>
+    <li class="media mt-2">
+      <div class="media-body row">
+        <h5 class="mt-2 mr-4 ml-4"><%= simple_format comment.body %></h5>
+        <p class="mt-2"><%= comment.user.username %></p>
+        <% if current_user == comment.user %>
+          <%#= link_to "수정", '#', class: "text-color-primary" %>
+          <%= link_to "삭제", comment_path(comment), method: :delete, remote: true, class: "text-color-primary mt-2 ml-4", data: {confirm: "정말로 삭제하시겠습니까?"} %>
+        <% end %>
+      </div>
+    </li>
+    <hr class="style-one">
+  <% end %>
+</ul>
+
+
+
+<% if false %>
+  <img src="<%= comment.user.thumbnail_url %>" alt="">
+
+  <span><%= time_ago_in_words comment.created_at %>전</span>
+  <p><%= simple_format comment.body %></p>
+  <% if current_user == comment.user %>
+    <%#= link_to "수정", '#', class: "text-color-primary" %>
+    <%= link_to "삭제", comment, method: :delete, remote: true, class: "text-color-primary external", data: {confirm: "정말로 삭제하시겠습니까?"} %>
+  <% end %>
+<% end %>
