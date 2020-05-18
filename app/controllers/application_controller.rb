@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     @item = Item.find params[:id]
 
     if @item.count == 1
-      @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym)
+      @order = current_user.orders.first_or_create(item: @item, number: 0, gym: current_user.gym)
     else
       @order = Order.where(user: current_user, item: @item).last
       if (@order.nil? || (@order&.number > 0 && (@order&.number % @item.count == 0)))
