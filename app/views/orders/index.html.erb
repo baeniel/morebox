@@ -9,6 +9,25 @@
   #order_card {
     width: 50%;
   }
+  #modal-pop {
+    background-color: #48689a;
+    border-radius: 25px;
+  }
+  .list-group {
+    border: 1px solid;
+  }
+  .list-group-item {
+    background-color: transparent;
+  }
+  #main-logo {
+    top: -20px;
+    width: 7%;
+    position: absolute;
+    left: 35px;
+  }
+  #order_title {
+    font-size: 35px;
+  }
   /* 핸드폰일 때 */
   @media (min-width: 320px) and (max-width: 480px) {
     #item_picture {
@@ -17,32 +36,117 @@
     #order_card {
       width: 100%;
     }
+    #main-logo {
+      top: -12px;
+      width: 12%;
+      position: absolute;
+      left: 0;
+    }
+    #order_title {
+      font-size: 25px;
+    }
   }
 </style>
 
-<div class="container mt-4 text-white">
-  <h4 class="text-left">주문목록</h4>
+<%= link_to root_path do %>
+  <%= image_tag '/logo.png', id: "main-logo", class: "ml-4" %>
+<% end %>
+
+<div class="container mt-5">
+  <p class="text-white mb-5" id="order_title">주문목록/배송조회</p>
   <div class="row pt-3">
-    <% @orders.each do |order| %>
+    <% current_user.orders.order(created_at: :desc).each do |order| %>
       <div class="card mb-5" id="order_card">
-        <h5 class="card-header text-left text-dark">주문일 <%= order.created_at.strftime("%Y/%m/%d") %></h5>
+        <h5 class="card-header text-left">주문일 <%= order.created_at.strftime("%Y/%m/%d") %></h5>
         <div class="card-body" style="background-color: #48689a;">
-          <% order.line_items.each do |line_item| %>
-            <div class="row">
-              <div class="col-4">
-                <img src="<%= line_item.item.image_url %>" id="item_picture">
-              </div>
-              <div class="col-8 item-center text-white mt-3">
-                <h5 class="card-title"><%= line_item.item.title %></h5>
-                <p class="card-text"><%= line_item.quantity %>박스 | <%= number_with_delimiter(order.total) %>원</p>
+          <div class="row">
+            <div class="col-4">
+              <img src="<%= order.item.image.url %>" id="item_picture">
+            </div>
+            <div class="col-8 item-center text-white mt-3">
+              <h5 class="card-title"><%= order.item.title %></h5>
+              <p class="card-text"><%= order.item.count %>회 | <%= number_with_delimiter(order.item.price) %>원</p>
+              <button type="button" class="btn text-white" style="background-color: #9370DB" data-toggle="modal" data-target="#exampleModalScrollable<%= order.id %>">주문 상세보기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="exampleModalScrollable<%= order.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+          <div class="modal-content text-white" id="modal-pop">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalScrollableTitle">주문일 <%= order.created_at.strftime("%Y/%m/%d") %></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-left">
+              <div class="row ml-2">
+                <ul class="list-group">
+                  <li class="list-group-item active">남은횟수: <%= order.item.count - order.number %>회</li>
+                  <% order.line_items.each do |line_item| %>
+                    <li class="list-group-item"><%= line_item.title %> <%= line_item.quantity %>개</li>
+                  <% end %>
+                </ul>
               </div>
             </div>
-            <hr class="style-one">
-          <% end %>
+          </div>
         </div>
-        <%= link_to "주문취소", order_path(order), method: :delete, class: "btn text-white", style: "background-color: #9370DB", data: { confirm: "주문을 취소하시겠습니까?" } %>
       </div>
     <% end %>
   </div>
-  <%= link_to "돌아가기", :back, class: "btn btn-lg btn-outline-secondary mt-3" %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a" %>
 </div>
+
+
+<% #모어박스 쇼핑몰 구조 %>
+<% if false %>
+  <style>
+    .item-center {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    #item_picture {
+      width: 80%;
+    }
+    #order_card {
+      width: 50%;
+    }
+    /* 핸드폰일 때 */
+    @media (min-width: 320px) and (max-width: 480px) {
+      #item_picture {
+        width: 100%;
+      }
+      #order_card {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <div class="container mt-4 text-white">
+    <h4 class="text-left">주문목록</h4>
+    <div class="row pt-3">
+      <% @orders.each do |order| %>
+        <div class="card mb-5" id="order_card">
+          <h5 class="card-header text-left text-dark">주문일 <%= order.created_at.strftime("%Y/%m/%d") %></h5>
+          <div class="card-body" style="background-color: #48689a;">
+            <% order.line_items.each do |line_item| %>
+              <div class="row">
+                <div class="col-4">
+                  <img src="<%= line_item.item.image_url %>" id="item_picture">
+                </div>
+                <div class="col-8 item-center text-white mt-3">
+                  <h5 class="card-title"><%= line_item.item.title %></h5>
+                  <p class="card-text"><%= line_item.quantity %>박스 | <%= number_with_delimiter(order.total) %>원</p>
+                </div>
+              </div>
+              <hr class="style-one">
+            <% end %>
+          </div>
+          <%= link_to "주문취소", order_path(order), method: :delete, class: "btn text-white", style: "background-color: #9370DB", data: { confirm: "주문을 취소하시겠습니까?" } %>
+        </div>
+      <% end %>
+    </div>
+    <%= link_to "돌아가기", :back, class: "btn btn-lg btn-outline-secondary mt-3" %>
+  </div>
+<% end %>

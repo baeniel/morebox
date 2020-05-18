@@ -1,12 +1,33 @@
 class ItemsController < ApplicationController
   before_action :load_object, only: [:show]
 
+  #모어박스 쇼핑몰 형태
+  # def index
+  #   @order = current_user&.orders&.cart&.first_or_create!(number: 0, total: 0)
+  # end
+  #
+  # def show
+  # end
+  #
+  # private
+  #
+  # def load_object
+  #   @item = Item.find params[:id]
+  # end
+  ########################
+
+  
   def index
-    @order = current_user&.orders&.cart&.first_or_create!(number: 0, total: 0)
-    # byebug
   end
 
   def show
+    current_user&.item = @item
+    update_drink_quantity
+  end
+
+  def auto_out
+    sign_out current_user
+    redirect_to root_path, notice: "다음에 다시 이용해주시기 바랍니다:)"
   end
 
   private

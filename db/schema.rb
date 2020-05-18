@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_045134) do
+ActiveRecord::Schema.define(version: 2020_05_18_054347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,16 +67,17 @@ ActiveRecord::Schema.define(version: 2020_05_18_045134) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "image2"
+    t.integer "count"
   end
 
   create_table "line_items", force: :cascade do |t|
     t.bigint "order_id", null: false
-    t.bigint "item_id", null: false
     t.integer "quantity"
-    t.integer "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["item_id"], name: "index_line_items_on_item_id"
+    t.string "image"
+    t.string "title"
+    t.integer "temp"
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
@@ -100,6 +101,10 @@ ActiveRecord::Schema.define(version: 2020_05_18_045134) do
     t.string "bank_owner"
     t.string "bank_account"
     t.string "requirement"
+    t.bigint "gym_id", null: false
+    t.bigint "item_id", null: false
+    t.index ["gym_id"], name: "index_orders_on_gym_id"
+    t.index ["item_id"], name: "index_orders_on_item_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -110,7 +115,7 @@ ActiveRecord::Schema.define(version: 2020_05_18_045134) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "payment"
+    t.boolean "payment", default: true
     t.string "phone"
     t.string "username"
     t.boolean "fit_center"
@@ -124,8 +129,9 @@ ActiveRecord::Schema.define(version: 2020_05_18_045134) do
 
   add_foreign_key "comments", "items"
   add_foreign_key "comments", "users"
-  add_foreign_key "line_items", "items"
   add_foreign_key "line_items", "orders"
+  add_foreign_key "orders", "gyms"
+  add_foreign_key "orders", "items"
   add_foreign_key "orders", "users"
   add_foreign_key "users", "gyms"
   add_foreign_key "users", "items"

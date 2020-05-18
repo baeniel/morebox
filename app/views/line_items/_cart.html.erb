@@ -1,64 +1,67 @@
-<style>
-  #cart_image {
-    width: 20%;
-  }
-  .fas {
-    /* color: #48689a; */
-    font-size: 2rem;
-  }
 
-  @media (min-width: 320px) and (max-width: 480px) {
-    .fas {
-      margin-top: 5px;
-      font-size: 1.3rem;
+<% #모어박스 쇼핑몰 구조 %>
+<% if false %>
+  <style>
+    #cart_image {
+      width: 20%;
     }
-  }
-</style>
+    .fas {
+      /* color: #48689a; */
+      font-size: 2rem;
+    }
 
-<% if order.id.present? %>
-  <div class="container">
-    <% order.line_items.order(:created_at).each do |line_item| %>
-      <table class="table table-bordered table-striped mt-3 text-white">
-        <thead>
-          <tr>
-            <th>상품명</th>
-            <th>가격</th>
-            <th>수량</th>
-            <th>합계</th>
+    @media (min-width: 320px) and (max-width: 480px) {
+      .fas {
+        margin-top: 5px;
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+  <% if order.id.present? %>
+    <div class="container">
+      <% order.line_items.order(:created_at).each do |line_item| %>
+        <table class="table table-bordered table-striped mt-3 text-white">
+          <thead>
+            <tr>
+              <th>상품명</th>
+              <th>가격</th>
+              <th>수량</th>
+              <th>합계</th>
+            </tr>
+          </thead>
+          <tr class="row">
+            <tbody>
+                <tr>
+                  <td>
+                    <%= line_item.item.title %> <img src="<%= line_item.item.image %>" id="cart_image"/>
+                  </td>
+                  <td><%= number_with_delimiter(line_item.item.price) %></td>
+                  <td>
+                    <%= link_to reduce_line_item_path(line_item), remote: true do %>
+                      <i class="fas fa-minus-square fa-2x btn text-white"></i>
+                    <% end %>
+                    <%= line_item.quantity %>
+                    <%= link_to line_item, method: :patch, remote: true do %>
+                      <i class="fas fa-plus-square fa-2x btn text-white"></i>
+                    <% end %>
+                  </td>
+                  <td><%= number_with_delimiter(line_item.item.price * line_item.quantity) %>원</td>
+                </tr>
+            </tbody>
           </tr>
-        </thead>
-        <tr class="row">
-          <tbody>
-              <tr>
-                <td>
-                  <%= line_item.item.title %> <img src="<%= line_item.item.image %>" id="cart_image"/>
-                </td>
-                <td><%= number_with_delimiter(line_item.item.price) %></td>
-                <td>
-                  <%= link_to reduce_line_item_path(line_item), remote: true do %>
-                    <i class="fas fa-minus-square fa-2x btn text-white"></i>
-                  <% end %>
-                  <%= line_item.quantity %>
-                  <%= link_to line_item, method: :patch, remote: true do %>
-                    <i class="fas fa-plus-square fa-2x btn text-white"></i>
-                  <% end %>
-                </td>
-                <td><%= number_with_delimiter(line_item.item.price * line_item.quantity) %>원</td>
-              </tr>
-          </tbody>
-        </tr>
-      </table>
-      <%= link_to "상품 삭제", line_item, method: :delete, remote: true, class: "btn btn-outline-danger mb-5" %>
-    <% end %>
-  </div>
-  <div class="container">
-    <span class="navbar-brand">총 주문금액: <%= number_with_delimiter(order.total) %>원</span>
-    <span class="navbar-brand">총 주문수량: <%= order.number %>박스</span>
-  </div>
-  <div class="final-button mt-5">
-    <%= link_to "계속 쇼핑하기", items_path, class: "btn btn-outline-secondary mr-2 btn-lg" %>
-    <%= link_to "주문하기", payment_order_path(order), class: "btn btn-outline-success btn-lg" %>
-  </div>
-<% else %>
-  <p>장바구니가 비어있습니다.</p>
+        </table>
+        <%= link_to "상품 삭제", line_item, method: :delete, remote: true, class: "btn btn-outline-danger mb-5" %>
+      <% end %>
+    </div>
+    <div class="container">
+      <span class="navbar-brand">총 주문금액: <%= number_with_delimiter(order.total) %>원</span>
+      <span class="navbar-brand">총 주문수량: <%= order.number %>박스</span>
+    </div>
+    <div class="final-button mt-5">
+      <%= link_to "계속 쇼핑하기", items_path, class: "btn btn-outline-secondary mr-2 btn-lg" %>
+      <%= link_to "주문하기", payment_order_path(order), class: "btn btn-outline-success btn-lg" %>
+    </div>
+  <% else %>
+    <p>장바구니가 비어있습니다.</p>
+  <% end %>
 <% end %>
