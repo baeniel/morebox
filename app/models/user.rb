@@ -7,8 +7,13 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :comments, dependent: :destroy
 
-  validates :username, :phone, presence: true
+  # validates :username, :phone, presence: true
   validates :phone, uniqueness: true
+
+  #카카오페이 전환 구조
+  belongs_to :gym, optional: true
+  belongs_to :item, optional: true
+  ################
 
   before_validation :assign_password, on: :create
 

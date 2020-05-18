@@ -4,9 +4,63 @@
     border-radius: 20px;
     border: 5px solid #0f4c81;
     text-align: center;
+    color: #0f4c81;
   }
-  #registration-logo {
-    width: 50%;
+  select {
+    text-align: center;
+    text-align-last: center;
+  }
+
+  #telNumber {
+    font-size: 25px;
+    border-radius: 20px;
+    border: 5px solid #0f4c81;
+    text-align: center;
+  }
+  #login-confirm {
+    border: none;
+    background: none;
+  }
+  .span4
+  {
+    width: 23%;
+    float: left;
+    margin: 2% 2% 2% 7%;
+  }
+  .tel
+  {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 5px solid #9e9e9e;
+    border-radius: 0px;
+  }
+  .num
+  {
+    border: 1px solid #48689a;
+    -webkit-border-radius: 999px;
+    border-radius: 999px;
+    -moz-border-radius: 999px;
+    height: 70px;
+    color: #333;
+    cursor: pointer;
+  }
+  .num:hover
+  {
+    background-color: #48689a;
+    color: #fff;
+    transition-property: background-color .2s linear 0s;
+    -moz-transition: background-color .2s linear 0s;
+    -webkit-transition: background-color .2s linear 0s;
+    -o-transition: background-color .2s linear 0s;
+  }
+  .txt
+  {
+    font-size: 30px;
+    text-align: center;
+    margin-top: 15px;
+    font-family: 'Lato' , sans-serif;
+    line-height: 30px;
+    color: #fff;
   }
   @media (min-width: 320px) and (max-width: 480px) {
     .mobile-input {
@@ -16,49 +70,206 @@
       padding-right: 10px;
       padding-left: 0px;
     }
-    #registration-logo {
-      width: 90%;
-      margin-top: 40px;
-    }
     .registration_input {
       font-size: 20px;
     }
   }
 </style>
 
-<div class="container mt-5">
+<div class="container mt-4 pt-4">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
     <div class="row">
-      <div class="col-6">
-        <%= image_tag '/logo 2.png', id: "registration-logo", class: "mb-5" %>
-      </div>
-
-      <div class="col-6" id="mobile-form">
-        <div class="form-group">
-          <h5 class="text-white text-left mobile-input">이름을 입력하세요</h5>
-          <%= f.text_field :username, autofocus: true, placeholder: "고릴라밤", class: "form-control registration_input" %>
-        </div>
-        <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
+      <div class="col-6 mt-5">
         <div class="form-group">
           <h5 class="text-white form-text text-left mobile-input">핸드폰 번호를 입력하세요</h5>
-          <%= f.number_field :phone, placeholder: "01012345678", class: "form-control registration_input" %>
+          <%= f.text_field :phone, value: @phone_num.present? ? @phone_num : "010", class: "form-control registration_input", id: "telNumber", readonly: true %>
         </div>
         <div class="form-group">
-          <!-- <h5 class="text-white text-left mobile-input">헬스장을 선택하세요</h5> -->
-          <%#= f.select :gym_id, Gym.all.map {|g| [g.title, g.id]}, {include_blank: true}, { class: 'form-control registration_input' } %>
+          <h5 class="text-white text-left mobile-input">센터를 선택하세요</h5>
+          <%= f.select :gym_id, Gym.all.map { |g| [g.title, g.id] }, { include_blank: true }, { class: 'form-control registration_input' } %>
         </div>
-        <div class="field text-white">
-          <%#= f.hidden_field :calorie, value: 0 %>
+          <%= f.hidden_field :item_id, value: 1 %>
+        <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4", style: "width: 60%;" %>
+      </div>
+      <div class="col-6" id="mobile-form">
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              1
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              2
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              3
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              4
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              5
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              6
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              7
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              8
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              9
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              <%= link_to "정정", '#', class: "text-white", style: "text-decoration: none;", id: "clear-button" %>
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              0
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              <%= f.submit "가입", class: "text-white", id: "login-confirm" %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="actions mt-3 mb-3">
-      <%= f.submit "회원가입", class: "btn btn-lg text-white mt-3 card_mobile", style: "background-color: #8A2BE2" %>
-    </div>
+    <div class="actions mt-4 mb-5">
   <% end %>
-
-  <%= link_to "로그인하기", new_user_session_path, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a" %>
+    </div>
   <%#= link_to "헬스장 등록하기", new_gym_path %>
   <%#= render "devise/shared/links" %>
 </div>
+
+<script>
+  $('.num').click(function () {
+    var num = $(this);
+    var text = $.trim(num.find('.txt').clone().children().remove().end().text());
+    var telNumber = $('#telNumber');
+    $(telNumber).val(telNumber.val() + text);
+  });
+
+  $('#clear-button').click(function () {
+    phone = document.getElementById('telNumber').value = '';
+    var url = "<%= new_user_registration_path %>"
+    $('#clear-button').attr('href', url);
+  });
+</script>
+
+
+
+
+
+
+<% if false %>
+  <style>
+    .registration_input {
+      font-size: 25px;
+      border-radius: 20px;
+      border: 5px solid #0f4c81;
+      text-align: center;
+    }
+    #registration-logo {
+      width: 50%;
+    }
+    @media (min-width: 320px) and (max-width: 480px) {
+      .mobile-input {
+        font-size: 15px;
+      }
+      #mobile-form {
+        padding-right: 10px;
+        padding-left: 0px;
+      }
+      #registration-logo {
+        width: 90%;
+        margin-top: 40px;
+      }
+      .registration_input {
+        font-size: 20px;
+      }
+    }
+  </style>
+
+  <div class="container mt-5">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <div class="row">
+        <div class="col-6">
+          <%= image_tag '/logo 2.png', id: "registration-logo", class: "mb-5" %>
+        </div>
+
+        <div class="col-6" id="mobile-form">
+          <div class="form-group">
+            <h5 class="text-white text-left mobile-input">이름을 입력하세요</h5>
+            <%= f.text_field :username, autofocus: true, placeholder: "고릴라밤", class: "form-control registration_input" %>
+          </div>
+          <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
+          <div class="form-group">
+            <h5 class="text-white form-text text-left mobile-input">핸드폰 번호를 입력하세요</h5>
+            <%= f.number_field :phone, placeholder: "01012345678", class: "form-control registration_input" %>
+          </div>
+          <div class="form-group">
+            <!-- <h5 class="text-white text-left mobile-input">헬스장을 선택하세요</h5> -->
+            <%#= f.select :gym_id, Gym.all.map {|g| [g.title, g.id]}, {include_blank: true}, { class: 'form-control registration_input' } %>
+          </div>
+          <div class="field text-white">
+            <%#= f.hidden_field :calorie, value: 0 %>
+          </div>
+        </div>
+      </div>
+      <div class="actions mt-3 mb-3">
+        <%= f.submit "회원가입", class: "btn btn-lg text-white mt-3 card_mobile", style: "background-color: #8A2BE2" %>
+      </div>
+    <% end %>
+
+    <%= link_to "로그인하기", new_user_session_path, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a" %>
+    <%#= link_to "헬스장 등록하기", new_gym_path %>
+    <%#= render "devise/shared/links" %>
+  </div>
+
+<% end %>
