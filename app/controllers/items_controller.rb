@@ -16,13 +16,17 @@ class ItemsController < ApplicationController
   # end
   ########################
 
-  
+
   def index
   end
 
   def show
     current_user&.item = @item
     update_drink_quantity
+
+    if params[:pg_token].present?
+      current_user.update_attributes(payment: true)
+    end
   end
 
   def auto_out

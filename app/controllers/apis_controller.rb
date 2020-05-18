@@ -7,24 +7,23 @@ class ApisController < ApplicationController
       },
       body: {
         cid: "CT24824054", # 발급받은 cid 값
-        partner_order_id: 'partner_order_id', # 가맹점 주문 번호
-        partner_user_id: 'partner_user_id', # 가맹점 회원 id
+        partner_order_id: '12345678', # 가맹점 주문 번호
+        partner_user_id: '123', # 가맹점 회원 id
         item_name: '고릴라밤',
         quantity: 1,
         total_amount: params[:price],
         vat_amount: 0,
         tax_free_amount: 0,
-        # approval_url: "http://localhost:3000/orders/#{params[:id]}/complete",
-        approval_url: "http://morebox.co.kr/orders/#{params[:id]}/complete",
-        # fail_url: 'http://localhost:3000/',
-        fail_url: 'http://morebox.co.kr/',
-        # cancel_url: 'http://localhost:3000/',
-        cancel_url: 'http://morebox.co.kr/'
+        approval_url: "http://localhost:3000/items/#{params[:id]}/",
+        # approval_url: "http://morebox.co.kr/orders/#{params[:id]}/complete",
+        fail_url: 'http://localhost:3000/',
+        # fail_url: 'http://morebox.co.kr/',
+        cancel_url: 'http://localhost:3000/',
+        # cancel_url: 'http://morebox.co.kr/'
       }
     )
 
     data = response.parsed_response
     render json: data
   end
-
 end
