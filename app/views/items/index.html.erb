@@ -1,6 +1,6 @@
 <style>
   #item-mobile {
-    width: 70%;
+    width: 50%;
   }
   @media (min-width: 320px) and (max-width: 480px) {
     #item-mobile {
@@ -18,8 +18,8 @@
     <!-- <div class="col-12">
       <img src="/kakao.png" id="item-mobile">
     </div> -->
-    <% Item.all.each do |item| %>
-      <div class="col-4">
+    <% Item.last(2).each do |item| %>
+      <div class="col-6">
         <img src="<%= item.image.url %>" onclick="requestPay(<%= item.price %>, <%= item.id %>)" id="item-mobile">
       </div>
     <% end %>
@@ -70,14 +70,6 @@
   // });
 
 </script>
-
-
-
-
-
-
-
-
 
 <%# 모어박스 쇼핑몰 형태 %>
 <% if false %>
