@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'gyms/index'
+  get 'gyms/new'
+  get 'gyms/create'
+  get 'gyms/show'
   post 'apis/pay_url'
   root 'home#index'
   get 'home/exception'
