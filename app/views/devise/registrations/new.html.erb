@@ -90,6 +90,7 @@
           <%= f.select :gym_id, Gym.all.map { |g| [g.title, g.id] }, { include_blank: true }, { class: 'form-control registration_input' } %>
         </div>
           <%= f.hidden_field :item_id, value: Item.first.id %>
+          <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
         <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4", style: "width: 60%;" %>
       </div>
       <div class="col-6" id="mobile-form">
@@ -242,7 +243,6 @@
         <div class="col-6">
           <%= image_tag '/logo 2.png', id: "registration-logo", class: "mb-5" %>
         </div>
-
         <div class="col-6" id="mobile-form">
           <div class="form-group">
             <h5 class="text-white text-left mobile-input">이름을 입력하세요</h5>
