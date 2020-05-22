@@ -1,10 +1,11 @@
 ActiveAdmin.register User do
 
-  permit_params :password, :password_confirmation, :payment, :fit_center, :phone, :gym_id, :item_id
+  permit_params :password, :password_confirmation, :payment, :fit_center, :phone, :gym_id, :item_id, :email
 
   index do
     selectable_column
     id_column
+    column :email
     column :phone
     column "item" do |i|
       i.item&.title
@@ -31,6 +32,7 @@ ActiveAdmin.register User do
 
   form do |f|
     f.inputs do
+      f.input :email
       f.input :phone
       f.input :payment
       f.input :fit_center
