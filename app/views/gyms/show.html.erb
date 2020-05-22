@@ -1,2 +1,88 @@
-<h1>Gyms#show</h1>
-<p>Find me in app/views/gyms/show.html.erb</p>
+<style>
+  .health {
+    padding: 0;
+  }
+</style>
+
+<div class="container mt-4">
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete %>
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center text-white">
+    <h3 class="display-5"><%= @gym&.title %></h3>
+    <p class="lead mt-4">센터 관리자 페이지입니다.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card-deck mb-3 text-center">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">판매량</h4>
+      </div>
+      <div class="card-body health">
+        <h1 class="mt-3"><%= @gym_sales %> <small class="text-muted">개</small></h1>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">재고현황</h4>
+      </div>
+      <div class="card-body health">
+        <ul class="list-unstyled mt-3 mb-4">
+          <li><strong>고릴라밤 재고: </strong><%= @gorilla_stock %>개</li>
+          <li><strong>몬스터 울트라 재고: </strong><%= @ultra_stock %>개</li>
+          <li><strong>프로틴바 재고: </strong><%= @protein_stock %>개</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 정산</h4>
+      </div>
+      <div class="card-body health">
+        <h1 class="mt-3"><%= number_with_delimiter(@gym_profit) %> <small class="text-muted">원</small></h1>
+      </div>
+    </div>
+  </div>
+
+  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+      <div class="col-12 col-md">
+        <img class="mb-2" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+        <small class="d-block mb-3 text-white">© 2020 Gorilla Bomb</small>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Features</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Cool stuff</a></li>
+          <li><a class="text-muted" href="#">Random feature</a></li>
+          <li><a class="text-muted" href="#">Team feature</a></li>
+          <li><a class="text-muted" href="#">Stuff for developers</a></li>
+          <li><a class="text-muted" href="#">Another one</a></li>
+          <li><a class="text-muted" href="#">Last time</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>Resources</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Resource</a></li>
+          <li><a class="text-muted" href="#">Resource name</a></li>
+          <li><a class="text-muted" href="#">Another resource</a></li>
+          <li><a class="text-muted" href="#">Final resource</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-md">
+        <h5>About</h5>
+        <ul class="list-unstyled text-small">
+          <li><a class="text-muted" href="#">Team</a></li>
+          <li><a class="text-muted" href="#">Locations</a></li>
+          <li><a class="text-muted" href="#">Privacy</a></li>
+          <li><a class="text-muted" href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+
+
+
+<!-- 재고현황, 판매량, 이번달정산액(헬스장이 받는 금액), 주문하기 버튼 누르면 우리한테 카톡이나 이메일, 결제는 딜앱 -->
