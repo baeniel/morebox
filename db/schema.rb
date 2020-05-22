@@ -53,9 +53,9 @@ ActiveRecord::Schema.define(version: 2020_05_22_024305) do
 
   create_table "gyms", force: :cascade do |t|
     t.string "title"
-    t.integer "gorilla_purchase"
-    t.integer "ultra_purchase"
-    t.integer "protein_purchase"
+    t.integer "gorilla_purchase", default: 0, null: false
+    t.integer "ultra_purchase", default: 0, null: false
+    t.integer "protein_purchase", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
