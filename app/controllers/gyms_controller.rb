@@ -20,9 +20,9 @@ class GymsController < ApplicationController
     @gym_sales = @gym.orders.sum(:number)
 
     #재고현황
-    @ultra_stock = @gym.ultra_purchase - @gym.line_items.where(title: "몬스터울트라").sum(:quantity)
-    @gorilla_stock = @gym.gorilla_purchase - @gym.line_items.where(title: "고릴라밤").sum(:quantity)
-    @protein_stock = @gym.protein_purchase - @gym.line_items.where(title: "프로틴바").sum(:quantity)
+    @ultra_stock = @gym.ultra_stock - @gym.line_items.where(title: "몬스터울트라").sum(:quantity)
+    @gorilla_stock = @gym.gorilla_stock - @gym.line_items.where(title: "고릴라밤").sum(:quantity)
+    @protein_stock = @gym.protein_stock - @gym.line_items.where(title: "프로틴바").sum(:quantity)
 
     #정산 (매출의 20%)
     @gym_profit = (@gym.orders.where.not(item: Item.first).map { |order| order.item.price }.sum * 0.2).to_i
