@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_054347) do
+ActiveRecord::Schema.define(version: 2020_05_22_012425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2020_05_18_054347) do
     t.boolean "fit_center"
     t.string "email", default: "", null: false
     t.bigint "gym_id", null: false
-    t.bigint "item_id", null: false
+    t.bigint "item_id"
     t.index ["gym_id"], name: "index_users_on_gym_id"
     t.index ["item_id"], name: "index_users_on_item_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
