@@ -58,11 +58,6 @@
     margin-top: 30px;
     width: 60%;
   }
-  #clear-confirm {
-    border: none;
-    background: none;
-    /* "text-decoration: none; background: none;" */
-  }
 
   /* 핸드폰일 때 */
   @media (min-width: 320px) and (max-width: 480px) {
@@ -78,6 +73,7 @@
     .txt {
       margin-top: 10px;
       font-size: 17px;
+      text-align: center;
     }
     #telNumber {
       width: 200%;
@@ -170,7 +166,8 @@
           <div class="span4">
             <div class="num">
               <div class="txt">
-                <%= link_to "clear", '#', class: "text-white", type: "reset", id: "clear-confirm" %>
+                <%#= link_to "clear", '#', class: "text-white", type: "reset" %>
+                <%= button_tag "clear", type: :reset, class: "text-white", style: "border: none; background: none;" %>
               </div>
             </div>
           </div>
