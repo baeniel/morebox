@@ -54,6 +54,10 @@
     line-height: 30px;
     color: #fff;
   }
+  #regi-button {
+    margin-top: 30px;
+    width: 60%;
+  }
 
   /* 핸드폰일 때 */
   @media (min-width: 320px) and (max-width: 480px) {
@@ -71,7 +75,6 @@
       font-size: 17px;
     }
     #telNumber {
-      margin-top: 50px;
       width: 200%;
       margin-left: 10px;
     }
@@ -79,13 +82,17 @@
       padding-left: 0;
       padding-right: 10px;
     }
+    #regi-button {
+      margin-top: 110px;
+      width: 100%;
+    }
   }
 </style>
 
 <div class="container mt-5" id="smoke">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="row mb-4">
-      <div class="col-6 mt-5">
+      <div class="col-6 mt-2">
         <%= image_tag '/logo 2.png', class: "mb-5", id: "main-logo" %>
         <%= f.text_field :phone, id: "telNumber", class: "form-control tel", value: "010", readonly: true %>
         <!-- <button class="btn cancel" type="reset"><span class="fas fa-backspace icon cancel"></span></button> -->
@@ -176,7 +183,7 @@
               </div>
             </div>
           </div>
-        <%= link_to "가입", new_user_registration_path(), class: "btn btn-lg text-white mt-4 mb-2", style: "background-color: #757CFF; width: 60%;", id: "regi-button" %>
+        <%= link_to "가입", new_user_registration_path(), class: "btn btn-lg text-white mb-2", style: "background-color: #757CFF;", id: "regi-button" %>
       </div>
     </div>
   <% end %>
