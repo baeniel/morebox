@@ -15,16 +15,16 @@
 <div class="container">
   <div class="card-deck mb-3 text-center">
     <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">판매량</h4>
+      <div class="card-header" style="background-color: #0f4c83;">
+        <h4 class="my-0 font-weight-normal text-white">판매량</h4>
       </div>
-      <div class="card-body health">
+      <div class="card-body health pb-3">
         <h1 class="mt-3"><%= @gym_sales %> <small class="text-muted">개</small></h1>
       </div>
     </div>
     <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">재고현황</h4>
+      <div class="card-header" style="background-color: #0f4c83;">
+        <h4 class="my-0 font-weight-normal text-white">재고현황</h4>
       </div>
       <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
@@ -35,20 +35,20 @@
       </div>
     </div>
     <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">이번 달 정산</h4>
+      <div class="card-header" style="background-color: #0f4c83;">
+        <h4 class="my-0 font-weight-normal text-white">이번 달 정산</h4>
       </div>
-      <div class="card-body health">
+      <div class="card-body health pb-3">
         <h1 class="mt-3"><%= number_with_delimiter(@gym_profit) %> <small class="text-muted">원</small></h1>
       </div>
     </div>
   </div>
 
-  <footer class="pt-4 my-md-5 pt-md-5 border-top">
+  <footer class="my-md-5 pt-md-5 border-top mb-2">
     <div class="row">
       <div class="col-12 col-md">
         <img class="mb-2" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
-        <small class="d-block mb-3 text-white">© 2020 Gorilla Bomb</small>
+        <small class="d-block mb-3 text-white">© 2020 Move More</small>
       </div>
       <div class="col-6 col-md">
         <h5>Features</h5>
@@ -57,8 +57,8 @@
           <li><a class="text-muted" href="#">Random feature</a></li>
           <li><a class="text-muted" href="#">Team feature</a></li>
           <li><a class="text-muted" href="#">Stuff for developers</a></li>
-          <li><a class="text-muted" href="#">Another one</a></li>
-          <li><a class="text-muted" href="#">Last time</a></li>
+          <!-- <li><a class="text-muted" href="#">Another one</a></li>
+          <li><a class="text-muted" href="#">Last time</a></li> -->
         </ul>
       </div>
       <div class="col-6 col-md">
@@ -70,7 +70,7 @@
           <li><a class="text-muted" href="#">Final resource</a></li>
         </ul>
       </div>
-      <div class="col-6 col-md">
+      <!-- <div class="col-6 col-md">
         <h5>About</h5>
         <ul class="list-unstyled text-small">
           <li><a class="text-muted" href="#">Team</a></li>
@@ -78,7 +78,7 @@
           <li><a class="text-muted" href="#">Privacy</a></li>
           <li><a class="text-muted" href="#">Terms</a></li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </footer>
 </div>
