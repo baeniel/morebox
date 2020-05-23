@@ -58,6 +58,11 @@
     margin-top: 30px;
     width: 60%;
   }
+  #clear-confirm {
+    border: none;
+    background: none;
+    /* "text-decoration: none; background: none;" */
+  }
 
   /* 핸드폰일 때 */
   @media (min-width: 320px) and (max-width: 480px) {
@@ -165,7 +170,7 @@
           <div class="span4">
             <div class="num">
               <div class="txt">
-                <%= link_to "clear", '#', class: "text-white", type: "reset", style: "text-decoration: none; background: none;" %>
+                <%= link_to "clear", '#', class: "text-white", type: "reset", id: "clear-confirm" %>
               </div>
             </div>
           </div>
