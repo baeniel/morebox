@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'gyms/index'
-  get 'gyms/new'
-  get 'gyms/create'
-  get 'gyms/show'
   post 'apis/pay_url'
   root 'home#index'
   get 'home/exception'
@@ -23,7 +19,7 @@ Rails.application.routes.draw do
   resources :orders, only: [:update, :index, :show]
   resources :gyms
 
-  
+
   #모어박스 쇼핑몰 구조
   # post 'apis/pay_url'
   # root 'home#index'

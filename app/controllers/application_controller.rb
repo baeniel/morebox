@@ -22,6 +22,12 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def gym_stock
+    @ultra_stock = @gym.ultra_purchase - @gym.line_items.where(title: "몬스터울트라").sum(:quantity)
+    @gorilla_stock = @gym.gorilla_purchase - @gym.line_items.where(title: "고릴라밤").sum(:quantity)
+    @protein_stock = @gym.protein_purchase - @gym.line_items.where(title: "프로틴바").sum(:quantity)
+  end
+
   def update_drink_quantity
     @item = Item.find params[:id]
 

@@ -76,7 +76,8 @@
             <p class="text-white" id="item-count"><%= line_item.temp %></p>
           </div>
           <div class="col-4">
-            <%= link_to line_item_path(line_item), method: :patch, remote: true, onclick: "sound()" do %>
+            <%= link_to line_item_path(line_item), method: :patch, remote: true do %>
+            <%# , onclick: "sound()" %>
               <i class="fas fa-plus-square"></i>
             <% end %>
           </div>

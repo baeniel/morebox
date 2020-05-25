@@ -1,5 +1,5 @@
 ActiveAdmin.register Gym do
-  permit_params :title, :purchase, :gorilla_stock, :ultra_stock, :protein_stock
+  permit_params :title, :gorilla_stock, :ultra_stock, :protein_stock, :gorilla_purchase, :ultra_purchase, :protein_purchase
 
   action_item :gorilla_improve, only: :edit do
     link_to "고릴라 1박스 더!", gorilla_improve_admin_gym_path(gym), method: :put
@@ -15,19 +15,19 @@ ActiveAdmin.register Gym do
 
   member_action :gorilla_improve, method: :put do
     gym = Gym.find params[:id]
-    gym.increment!(:gorilla_stock, 20)
+    gym.increment!(:gorilla_purchase, 20)
     redirect_to admin_gyms_path
   end
 
   member_action :ultra_improve, method: :put do
     gym = Gym.find params[:id]
-    gym.increment!(:ultra_stock, 24)
+    gym.increment!(:ultra_purchase, 24)
     redirect_to admin_gyms_path
   end
 
   member_action :protein_improve, method: :put do
     gym = Gym.find params[:id]
-    gym.increment!(:protein_stock, 20)
+    gym.increment!(:protein_purchase, 20)
     redirect_to admin_gyms_path
   end
 end
