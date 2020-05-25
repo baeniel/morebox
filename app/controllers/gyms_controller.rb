@@ -19,7 +19,7 @@ class GymsController < ApplicationController
     #헬스장의 총 판매 갯수 (정확한 재고 파악을 위해 무료로 하나 가져가는 것 포함)
     @gym_sales = @gym.orders.sum(:number)
 
-    #재고현황
+    #관리자 페이지 재고현황
     gym_stock
 
     #정산 (매출의 20%)

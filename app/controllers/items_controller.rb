@@ -24,6 +24,11 @@ class ItemsController < ApplicationController
     current_user&.item = @item
     update_drink_quantity
 
+    #데이터베이스 재고 갱신
+    @gym = @order.gym
+    gym_stock
+    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock)
+
     if params[:pg_token].present?
       current_user.update_attributes(payment: true)
       response = HTTParty.post(

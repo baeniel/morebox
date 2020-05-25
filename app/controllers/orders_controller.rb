@@ -24,28 +24,22 @@ class OrdersController < ApplicationController
 
   def update
     @item = @order.item
-    @order.update_attributes(number: @order.line_items.sum(:quantity))
-
-    @gym = @order.gym
-    gym_stock
-    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock)
 
     #재고가 부족한 헬스장 찾기
-    @gyms = Gym.where(gorilla_stock: 15..20).or(Gym.where(ultra_stock: 15..20)).or(Gym.where(protein_stock: 15..20))
+    @gyms = Gym.where(gorilla_stock: 15..22).or(Gym.where(ultra_stock: 15..22)).or(Gym.where(protein_stock: 15..22))
 
     if @gyms.present?
       corpNum = "7468701862"
       userID = "jb1014"
       snd = '010-5605-3087'
       templateCode = '020050000216'
-      content = @gyms.pluck(:title).map { |gym| gym }.join()+" 센터의 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-      # byebug
+      content = @gyms.pluck(:title).map { |gym| gym }.join()+" 센터의 재고가 곧 소진됩니다. 센터에 배송해주십시오."
       altContent = '대체문자 내용 입니다'
       # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-      altSendType = 'C'
+      altSendType = 'A'
       # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
       sndDT = ''
-      receiverName = "박진배"
+      receiverName = '박진배'
       # receiver = '010-5605-3087'
       receiver = '010-5605-3087'
       # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
@@ -70,9 +64,12 @@ class OrdersController < ApplicationController
 
       rescue PopbillException => pe
         @Response = pe
+
         redirect_to home_exception_path
       end
     end
+
+    @order.update_attributes(number: @order.line_items.sum(:quantity))
 
   end
 
