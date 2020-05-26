@@ -26,7 +26,7 @@ class OrdersController < ApplicationController
     @item = @order.item
 
     #재고가 부족한 헬스장 찾기
-    @gyms = Gym.where(gorilla_stock: 15..22).or(Gym.where(ultra_stock: 15..22)).or(Gym.where(protein_stock: 15..22))
+    @gyms = Gym.where(gorilla_stock: 15..20).or(Gym.where(ultra_stock: 15..20)).or(Gym.where(protein_stock: 15..20))
 
     if @gyms.present?
       corpNum = "7468701862"
@@ -64,7 +64,6 @@ class OrdersController < ApplicationController
 
       rescue PopbillException => pe
         @Response = pe
-
         redirect_to home_exception_path
       end
     end
