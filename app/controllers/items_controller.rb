@@ -33,7 +33,6 @@ class ItemsController < ApplicationController
   # 인증토큰 IP제한기능 사용여부, true-권장
   KakaoService.setIpRestrictOnOff(true)
 
-
   def index
   end
 

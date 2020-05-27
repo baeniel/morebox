@@ -26,7 +26,7 @@
     </div> -->
     <% Item.where.not(count: 1).order(created_at: :desc).each do |item| %>
       <div class="col-md-4">
-        <img src="<%= item.image.url %>" onclick="requestPay(<%= item.price %>, <%= item.id %>)" id="item-mobile">
+        <img src="<%= item.image.url %>" onclick="requestPay(<%= item.price %>, <%= item.id %>, <%= item.count %>)" id="item-mobile">
       </div>
     <% end %>
   </div>
@@ -45,7 +45,8 @@
       },
       data: {
         price: price,
-        id: id
+        id: id,
+        count: count
       },
       success: function(data) {
         location.href = data.next_redirect_pc_url

@@ -8,8 +8,8 @@ class ApisController < ApplicationController
       body: {
         cid: "CT24824054",#, 발급받은 cid 값
         # cid: "TC0ONETIME", 발급받은 cid 값
-        partner_order_id: '12345678', # 가맹점 주문 번호
-        partner_user_id: '123', # 가맹점 회원 id
+        partner_order_id: '0000_'+params[:count], # 가맹점 주문 번호
+        partner_user_id: current_user.phone.last(4), # 가맹점 회원 id
         item_name: '고릴라밤',
         quantity: 1,
         total_amount: params[:price],
