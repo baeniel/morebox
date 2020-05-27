@@ -55,8 +55,8 @@ class ItemsController < ApplicationController
         body: {
           cid: "CT24824054", # 발급받은 cid 값
           tid: cookies[:tid],
-          partner_order_id: '0000_'+@order.item.count, # 가맹점 주문 번호
-          partner_user_id: current_user.phone.last(4), # 가맹점 회원 id
+          partner_order_id: '12345678', # 가맹점 주문 번호
+          partner_user_id: '123', # 가맹점 회원 id
           pg_token: params[:pg_token]
         }
       )
