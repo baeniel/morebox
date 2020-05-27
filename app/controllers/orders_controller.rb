@@ -28,14 +28,14 @@ class OrdersController < ApplicationController
     @order.update_attributes(number: @order.line_items.sum(:quantity))
 
     #사용권이 만료됐을 때
-    if @item.count == @order.number
-      templateCode = '020050000281'
-      content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 사용권이 소진되었습니다ㅠ\n\n아래 버튼으로 결제하시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n\n무브모어 카카오톡 채널:\n@무브모어 @movemore"
-    else
+    # if @item.count == @order.number
+    #   templateCode = '020050000281'
+    #   content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 사용권이 소진되었습니다ㅠ\n\n아래 버튼으로 결제하시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n\n무브모어 카카오톡 채널:\n@무브모어 @movemore"
+    # else
     #사용권 남아있을 때
-      templateCode = '020040000334'
-      content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 "+@order.line_items.where("temp is NOT NULL and temp != 0").map { |item| item.title }.flatten.join(' ')+@order.line_items.sum(:temp).to_s+"개 꺼내기가 완료되었습니다.\n\n현재 잔여 갯수: "+(@item.count-@order.number).to_s+"개\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
-    end
+    templateCode = '020040000334'
+    content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 "+@order.line_items.where("temp is NOT NULL and temp != 0").map { |item| item.title }.flatten.join(' ')+@order.line_items.sum(:temp).to_s+"개 꺼내기가 완료되었습니다.\n\n현재 잔여 갯수: "+(@item.count-@order.number).to_s+"개\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
+    # end
 
     altContent = '대체문자 내용 입니다'
     # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
 
     #재고가 부족한 헬스장 찾기
     @gyms = Gym.where(gorilla_stock: 15..20).or(Gym.where(ultra_stock: 15..20)).or(Gym.where(protein_stock: 15..20))
-    
+
     if @gyms.present?
       templateCode = '020050000216'
       content = @gyms.pluck(:title).map { |gym| gym }.join()+" 센터의 재고가 곧 소진됩니다. 센터에 배송해주십시오."
