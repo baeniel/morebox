@@ -60,48 +60,48 @@ class ItemsController < ApplicationController
           pg_token: params[:pg_token]
         }
       )
-      # case response.code
-      # when 200
-      current_user.update_attributes(payment: true)
-      templateCode = '020050000309'
-      content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n당신의 땀을 가치있게 만들겠습니다.\nMake Your Sweat Worth, MoveMore\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
-      corpNum = "7468701862"
-      userID = "jb1014"
-      snd = '010-5605-3087'
-      altContent = '대체문자 내용 입니다'
-      # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-      altSendType = 'A'
-      # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
-      sndDT = ''
-      receiverName = @order.user.phone.last(4)
-      receiver = @order.user.phone
-      # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
-      # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
-      requestNum = ''
+      case response.code
+      when 200
+        current_user.update_attributes(payment: true)
+        templateCode = '020050000309'
+        content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n당신의 땀을 가치있게 만들겠습니다.\nMake Your Sweat Worth, MoveMore\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
+        corpNum = "7468701862"
+        userID = "jb1014"
+        snd = '010-5605-3087'
+        altContent = '대체문자 내용 입니다'
+        # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
+        altSendType = 'A'
+        # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
+        sndDT = ''
+        receiverName = @order.user.phone.last(4)
+        receiver = @order.user.phone
+        # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
+        # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
+        requestNum = ''
 
-      begin
-        @value = OrdersController::KakaoService.sendATS_one(
-            corpNum,
-            templateCode,
-            snd,
-            content,
-            altContent,
-            altSendType,
-            sndDT,
-            receiver,
-            receiverName,
-            requestNum,
-            userID,
-        )['receiptNum']
-        @name = "receiptNum(접수번호)"
-      rescue PopbillException => pe
-        @Response = pe
-        redirect_to home_exception_path
-      end
-      # else
+        begin
+          @value = OrdersController::KakaoService.sendATS_one(
+              corpNum,
+              templateCode,
+              snd,
+              content,
+              altContent,
+              altSendType,
+              sndDT,
+              receiver,
+              receiverName,
+              requestNum,
+              userID,
+          )['receiptNum']
+          @name = "receiptNum(접수번호)"
+        rescue PopbillException => pe
+          @Response = pe
+          redirect_to home_exception_path
+        end
+      else
         # redirect_back fallback_location: root_path, notice: "#{response.message}"
         # {'error' => response.message}
-      # end
+      end
     end
   end
 
