@@ -70,7 +70,7 @@ class ItemsController < ApplicationController
         snd = '010-5605-3087'
         altContent = '대체문자 내용 입니다'
         # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-        altSendType = 'A'
+        altSendType = 'C'
         # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
         sndDT = ''
         receiverName = @order.user.phone.last(4)
