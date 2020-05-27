@@ -91,7 +91,8 @@
         </div>
           <%= f.hidden_field :item_id, value: Item.first.id %>
           <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
-        <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4", style: "width: 60%;" %>
+        <%= f.submit "가입", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-1", style: "width: 60%;" %>
+        <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-3", style: "width: 60%;" %>
       </div>
       <div class="col-6" id="mobile-form">
         <div class="span4">
@@ -160,7 +161,7 @@
         <div class="span4">
           <div class="num">
             <div class="txt">
-              <%= link_to "정정", '#', class: "text-white", style: "text-decoration: none;", id: "clear-button" %>
+              <%= link_to "수정", '#', class: "text-white", style: "text-decoration: none;", id: "clear-button" %>
             </div>
           </div>
         </div>
@@ -171,13 +172,7 @@
             </div>
           </div>
         </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              <%= f.submit "가입", class: "text-white", id: "login-confirm" %>
-            </div>
-          </div>
-        </div>
+        <div class="span4"></div>
       </div>
     </div>
     <div class="actions mt-4 mb-5">
