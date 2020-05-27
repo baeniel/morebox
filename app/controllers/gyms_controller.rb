@@ -23,7 +23,7 @@ class GymsController < ApplicationController
     gym_stock
 
     #정산 (매출의 20%)
-    @gym_profit = (@ m * 0.2).to_i
+    @gym_profit = (@gym.orders.where.not(item: Item.first).map { |order| order.item.price }.sum * 0.2).to_i
   end
 
   private
