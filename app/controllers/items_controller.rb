@@ -99,7 +99,7 @@ class ItemsController < ApplicationController
             redirect_to home_exception_path
           end
         else
-          redirect_back fallback_location: root_path, notice: "#{response.message}"
+          # redirect_back fallback_location: root_path, notice: "#{response.message}"
           # {'error' => response.message}
       end
     end
