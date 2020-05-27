@@ -2,30 +2,36 @@
   #item-mobile {
     width: 100%;
   }
+  #item-button {
+    margin-top: 60px;
+  }
   @media (min-width: 320px) and (max-width: 480px) {
-    #item-mobile {
-      width: 100%;
-    }
     #mobile-button {
       font-size: 15px;
       padding-bottom: 30px;
+    }
+    #item-mobile {
+      width: 75%;
+    }
+    #item-button {
+      margin-top: 10px;
     }
   }
 </style>
 
 <div class="container">
-  <div class="row mt-5 mb-5">
+  <div class="row mt-2">
     <!-- <div class="col-12">
       <img src="/kakao.png" id="item-mobile">
     </div> -->
     <% Item.where.not(count: 1).order(created_at: :desc).each do |item| %>
-      <div class="col-4">
+      <div class="col-md-4">
         <img src="<%= item.image.url %>" onclick="requestPay(<%= item.price %>, <%= item.id %>)" id="item-mobile">
       </div>
     <% end %>
   </div>
   <!-- <h4 class="beverage-tip text-white mt-5" style="text-align: center;" id="mobile-button">사용권이 모두 소진되었습니다 ㅠ_ㅠ..&nbsp;&nbsp;&nbsp;카카오 알람을 확인해주세요:)</h4> -->
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white mt-5 card_mobile", style: "background-color: #48689a" %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a", id: "item-button" %>
 </div>
 
 <script>
