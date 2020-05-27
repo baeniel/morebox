@@ -115,6 +115,8 @@
   <% end %>
 </div>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
   $(document).ready(function (){
     $('#myModal').modal('show')
@@ -130,36 +132,74 @@
   var timeoutTimer;
 
   function AutoLogout(condition) {
-    if(confirm(condition+"개가 맞습니까?")) {
+    swal({
+        title: condition+"개가 맞습니까?",
+        type: "success",
+        showCancelButton: true,
+        confirmButtonText: '예',
+        cancelButtonText: "아니오",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+    function (isConfirm) {
+        if (isConfirm) {
+          if(<%= @order.line_items.sum(:quantity) <= @order.item.count %>) {
+            $.ajax({
+              // order update
+              url : "<%= order_path(@order) %>",
+              type : "patch",
+              contentType: "application/javascript",
+              dataType: "script",
+              beforeSend: function ( xhr ) {
+                xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
+              }
+            });
+            swal({
+                title: "구매가 완료되었습니다.",
+                text: "자동 로그아웃 됩니다.",
+                type: "success",
+                confirmButtonText: '예',
+                closeOnConfirm: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                  StartTimers()
+                  IdleTimeout()
+                }
+                else {
 
-      if(<%= @order.line_items.sum(:quantity) <= @order.item.count %>) {
-        $.ajax({
-          // order update
-          url : "<%= order_path(@order) %>",
-          type : "patch",
-          contentType: "application/javascript",
-          dataType: "script",
-          beforeSend: function ( xhr ) {
-            xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
+                }
+            });
           }
-        });
-        alert("구매가 완료되었습니다. 자동 로그아웃 됩니다.")
-        StartTimers()
-        IdleTimeout()
-      }
-      else {
-        alert("사용권의 횟수를 초과하였습니다. 다시 선택해주세요!")
-      }
-    }
-  }
+          else {
+            swal("사용권 횟수를 초과하셨습니다.", "다시 선택해주세요!", "error");
+          }
+        }
+        else {
+          swal("취소하셨습니다.", "다시 선택해주세요!", "error");
+        }
+      })
+    };
 
   function StartTimers() {
     timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
   }
 
   function IdleTimeout() {
-    alert("이제 냉장고를 열고 꺼내 드세요!")
-    window.location = 'http://morebox.co.kr/items/auto_out'
-    // window.location = 'http://localhost:3000/items/auto_out'
+    swal({
+        title: "이제 냉장고에서 꺼내 드세요!",
+        type: "success",
+        confirmButtonText: '예',
+        closeOnConfirm: false
+    },
+    function (isConfirm) {
+        if (isConfirm) {
+          // window.location = 'http://localhost:3000/items/auto_out'
+          window.location = 'http://morebox.co.kr/items/auto_out'
+        }
+        else {
+
+        }
+    });
   }
 </script>
