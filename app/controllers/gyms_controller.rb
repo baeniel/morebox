@@ -17,7 +17,7 @@ class GymsController < ApplicationController
     @fit_center = @gym.users.find_by(fit_center: true)
 
     #헬스장의 총 판매 갯수 (정확한 재고 파악을 위해 무료로 하나 가져가는 것 포함)
-    @gym_sales = @gym.orders.sum(:number)
+    @gym_sales = @gym.line_items.sum(:quantity)
 
     #관리자 페이지 재고현황
     gym_stock
