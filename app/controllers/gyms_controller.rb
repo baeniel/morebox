@@ -16,8 +16,8 @@ class GymsController < ApplicationController
   def show
     @fit_center = @gym.users.find_by(fit_center: true)
 
-    #헬스장의 총 판매 갯수 (정확한 재고 파악을 위해 무료로 하나 가져가는 것 포함)
-    @gym_sales = @gym.orders.sum(:number)
+    #헬스장 판매 갯수 (무료 체험 제외)
+    @gym_sales = @gym.orders.where.not(item: Item.first).sum(:number)
 
     #관리자 페이지 재고현황
     gym_stock
