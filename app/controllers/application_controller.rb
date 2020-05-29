@@ -31,14 +31,19 @@ class ApplicationController < ActionController::Base
   def update_drink_quantity
     @item = Item.find params[:id]
 
-    if @item.count == 1
-      @order = current_user.orders.first_or_create(item: @item, number: 0, gym: current_user.gym)
-    else
-      @order = Order.where(user: current_user, item: @item).last
-      if (@order.nil? || (@order&.number > 0 && (@order&.number % @item.count == 0)))
-        @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym)
-      end
+    @order = Order.where(user: current_user, item: @item).last
+    if (@order.nil? || (@order&.number > 0 && (@order&.number % @item.count == 0)))
+      @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym)
     end
+
+    # if @item.count == 1
+    #   @order = current_user.orders.first_or_create(item: @item, number: 0, gym: current_user.gym)
+    # else
+    #   @order = Order.where(user: current_user, item: @item).last
+    #   if (@order.nil? || (@order&.number > 0 && (@order&.number % @item.count == 0)))
+    #     @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym)
+    #   end
+    # end
 
     #line_item 3가지 생성
     titles = ["몬스터울트라", "고릴라밤", "프로틴바"]
