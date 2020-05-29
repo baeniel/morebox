@@ -1,6 +1,6 @@
 <style>
   #item-mobile {
-    width: 100%;
+    width: 60%;
   }
   #item-button {
     margin-top: 60px;
@@ -24,8 +24,8 @@
     <!-- <div class="col-12">
       <img src="/kakao.png" id="item-mobile">
     </div> -->
-    <% Item.where.not(count: 1).order(created_at: :desc).each do |item| %>
-      <div class="col-md-4">
+    <% Item.order(created_at: :desc).each do |item| %>
+      <div class="col-md-6">
         <img src="<%= item.image.url %>" onclick="requestPay(<%= item.price %>, <%= item.id %>, <%= item.count %>)" id="item-mobile">
       </div>
     <% end %>
