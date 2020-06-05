@@ -58,8 +58,10 @@
   <% count = 0 %>
   <%#= render 'shared/mypage', order: @order %>
   <h3 class="text-white mb-4" id="drink-count">누적 사용 <%= (@order&.number % @order&.item&.count) %> / <%= @order&.item&.count %>개</h3>
-  <div class="description mt-3 text-right">
-    <small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small>
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4 text-white">최초 1회는 무료이니 그냥 드시면 됩니다:)</div>
+    <div class="col-4"><small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small></div>
   </div>
   <div class="row mt-4">
     <% @gym&.sub_items&.order(:created_at)&.each do |sub_item| %>
