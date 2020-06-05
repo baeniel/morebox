@@ -62,8 +62,8 @@ class ItemsController < ApplicationController
       case response.code
       when 200
         current_user.update_attributes(payment: true)
-        templateCode = '020050000328'
-        content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\nMake Your Sweat Worth, MoveMore\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
+        templateCode = '020050000437'
+        content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
         corpNum = "7468701862"
         userID = "jb1014"
         snd = '010-5605-3087'

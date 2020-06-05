@@ -62,28 +62,53 @@
     <small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small>
   </div>
   <div class="row mt-4">
-    <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
+    <% @gym&.sub_items&.order(:created_at)&.each do |sub_item| %>
+      <%# byebug %>
       <div class="col-4">
-        <img src="/<%= count %>.png" id="item-image">
+        <img src="<%= sub_item.image_url %>" id="item-image">
         <div class="row mt-4">
           <!-- line_item update -->
           <div class="col-4">
-            <%= link_to reduce_line_item_path(line_item), remote: true do %>
+            <%= link_to reduce_line_item_path(LineItem.find_by(title: sub_item.title, order: @order)), remote: true do %>
               <i class="fas fa-minus-square"></i>
             <% end %>
           </div>
           <div class="col-4">
-            <p class="text-white" id="item-count"><%= line_item.temp %></p>
+            <p class="text-white" id="item-count"><%= LineItem.find_by(title: sub_item.title, order: @order).temp %></p>
           </div>
           <div class="col-4">
-            <%= link_to line_item_path(line_item), method: :patch, remote: true do %>
+            <%= link_to line_item_path(LineItem.find_by(title: sub_item.title, order: @order)), method: :patch, remote: true do %>
             <%# , onclick: "sound()" %>
               <i class="fas fa-plus-square"></i>
             <% end %>
           </div>
         </div>
       </div>
-      <% count += 1 %>
+    <% end %>
+    <% if false %>
+      <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
+        <div class="col-4">
+          <img src="/<%= count %>.png" id="item-image">
+          <div class="row mt-4">
+            <!-- line_item update -->
+            <div class="col-4">
+              <%= link_to reduce_line_item_path(line_item), remote: true do %>
+                <i class="fas fa-minus-square"></i>
+              <% end %>
+            </div>
+            <div class="col-4">
+              <p class="text-white" id="item-count"><%= line_item.temp %></p>
+            </div>
+            <div class="col-4">
+              <%= link_to line_item_path(line_item), method: :patch, remote: true do %>
+              <%# , onclick: "sound()" %>
+                <i class="fas fa-plus-square"></i>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% count += 1 %>
+      <% end %>
     <% end %>
   </div>
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
@@ -143,7 +168,7 @@
     },
     function (isConfirm) {
         if (isConfirm) {
-          if(<%= @order.line_items.sum(:quantity) <= @order.item.count %>) {
+          if(<%= @order.line_items.sum(:temp) <= @order.item.count %>) {
             $.ajax({
               // order update
               url : "<%= order_path(@order) %>",

@@ -46,10 +46,24 @@ class ApplicationController < ActionController::Base
     # end
 
     #line_item 3가지 생성
-    titles = ["몬스터울트라", "고릴라밤", "프로틴바"]
+    # titles = ["몬스터울트라", "고릴라밤", "프로틴바"]
+    # titles.each do |title|
+    #   LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+    # end
+
+    titles = current_user.gym&.sub_items&.pluck(:title)
     titles.each do |title|
       LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+      # LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
     end
+
+    # sub_item을 어드민에 등록시키고, 이 때 gym_id도 같이 등록
+    # sub_item과 gym을 line_item을 연결 고리로 해서 m:n 관계
+    # line_item은 sub_item의 id가 있어야 하기에, LineItem만들 때 sub_item id를 넣어준다.
+
+    # card에서 line_item들이 나오고 있는데, 이것을 @gym.sub_items로 변경
+    #
+
   end
 
   protected

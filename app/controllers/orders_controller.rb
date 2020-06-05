@@ -25,6 +25,13 @@ class OrdersController < ApplicationController
   def update
     @item = @order.item
 
+    @order.line_items.each do |line_item|
+      if line_item.temp != 0
+        line_item.update_attributes(quantity: line_item.temp)
+      end
+    end
+
+    # @line_item.update_attributes(quantity: @line_item.sum(:temp))
     @order.update_attributes(number: @order.line_items.sum(:quantity))
 
     #사용권이 만료됐을 때

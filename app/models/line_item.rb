@@ -7,6 +7,8 @@ class LineItem < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   belongs_to :order
+  # belongs_to :sub_item
+  # belongs_to :gym
 
   def image_url
     image.url.present? ? image.url(:square) : '/logo.png'
