@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       get 'auto_out'
     end
   end
-  resources :line_items, only: [:update, :create] do
+  resources :line_items, only: [:update, :create, :destroy] do
     member do
       get 'reduce'
     end

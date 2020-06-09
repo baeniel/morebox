@@ -134,6 +134,8 @@ GEM
     erubi (1.9.0)
     execjs (2.7.0)
     ffi (1.12.2)
+    font-awesome-rails (4.7.0.5)
+      railties (>= 3.2, < 6.1)
     font-awesome-sass (5.12.0)
       sassc (>= 1.11)
     formtastic (3.1.5)
@@ -340,6 +342,7 @@ DEPENDENCIES
   carrierwave (~> 2.0)
   devise
   ed25519 (>= 1.2, < 2.0)
+  font-awesome-rails
   font-awesome-sass (~> 5.12.0)
   httparty
   jbuilder (~> 2.7)

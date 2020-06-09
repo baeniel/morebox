@@ -5,8 +5,7 @@ class HomeController < ApplicationController
     if current_user.fit_center? == true
       redirect_to gym_path(current_user.gym)
     else
-      # 일반 소비자의 경우
-      current_user&.line_items&.update(temp: 0)
+      current_user.line_items.update(temp: 0)
       if current_user.payment? == true
         redirect_to item_path(current_user.item)
       else

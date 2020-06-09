@@ -4,11 +4,20 @@ class LineItemsController < ApplicationController
   # 음료수 갯수 조정
   def update
     @line_item.increment!(:temp)
+    @sub_item = SubItem.find(params[:sub_item])
   end
 
   def reduce
     @line_item.decrement!(:temp)
+    @sub_item = SubItem.find(params[:sub_item])
   end
+
+  def destroy
+    @line_item.destroy!
+    redirect_back fallback_location: root_path, notice: "장바구니에서 삭제되었습니다."
+  end
+
+  private
 
   def load_object
     @line_item = LineItem.find params[:id]

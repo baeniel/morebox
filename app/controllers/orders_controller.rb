@@ -25,10 +25,8 @@ class OrdersController < ApplicationController
   def update
     @item = @order.item
 
-    @order.line_items.each do |line_item|
-      if line_item.temp != 0
-        line_item.update_attributes(quantity: line_item.temp)
-      end
+    @order.line_items.where.not(temp: 0).each do |line_item|
+      line_item.increment!('quantity', line_item.temp)
     end
 
     # @line_item.update_attributes(quantity: @line_item.sum(:temp))
@@ -126,6 +124,7 @@ class OrdersController < ApplicationController
 
   def load_object
     @order = Order.find params[:id]
+    @line_item = Order.find params[:id]
   end
 
 end
