@@ -1,4 +1,7 @@
 <style>
+  #change-color {
+    background-color: #e9eef2;
+  }
   #smoke {
     background-image: url('/smoke.gif');
     background-repeat: no-repeat;
@@ -52,7 +55,7 @@
     margin-top: 15px;
     font-family: 'Lato' , sans-serif;
     line-height: 30px;
-    color: #fff;
+    /* color: #fff; */
   }
   #regi-button {
     margin-top: 30px;
@@ -90,13 +93,14 @@
   }
 </style>
 
-<div class="container mt-5" id="smoke">
+<div class="container mt-5">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="row mb-4">
-      <div class="col-6 mt-2">
-        <%= image_tag '/logo 2.png', class: "mb-5", id: "main-logo" %>
+      <div class="col-6 mt-5">
+      <!-- <div class="col-6 mt-2"> -->
+        <%#= image_tag '/logo 2.png', class: "mb-5", id: "main-logo" %>
+        <%= image_tag '/morebox.png', class: "mb-5", id: "main-logo" %>
         <%= f.text_field :phone, id: "telNumber", class: "form-control tel", value: "010", readonly: true %>
-        <!-- <button class="btn cancel" type="reset"><span class="fas fa-backspace icon cancel"></span></button> -->
         <%= f.hidden_field :password, value: "111111" %>
       </div>
       <div class="col-6">
@@ -167,7 +171,7 @@
             <div class="num">
               <div class="txt">
                 <%#= link_to "clear", '#', class: "text-white", type: "reset" %>
-                <%= button_tag "←", type: :reset, class: "text-white", style: "border: none; background: none;" %>
+                <%= button_tag "←", type: :reset, style: "border: none; background: none;" %>
               </div>
             </div>
           </div>

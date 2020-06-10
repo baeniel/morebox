@@ -56,8 +56,13 @@
     border-color: black;
   }
 
+  #change-color {
+    background-color: black;
+  }
+
   #main-logo {
-    width: 50%;
+    // width: 50%;
+    width: 80%;
   }
 
   @media (min-width: 320px) and (max-width: 480px) {
