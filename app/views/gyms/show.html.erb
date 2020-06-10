@@ -47,7 +47,7 @@
         <h4 class="my-0 font-weight-normal text-white">무료 체험</h4>
       </div>
       <div class="card-body health pb-3">
-        <h1 class="mt-3"><%= number_with_delimiter(Order.where(item: Item.first, gym: @gym).sum(:number)) %> <small class="text-muted">개</small></h1>
+        <h1 class="mt-3"><%= number_with_delimiter(@gym_free) %><small class="text-muted">개</small></h1>
       </div>
     </div>
   </div>
