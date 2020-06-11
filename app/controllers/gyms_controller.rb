@@ -16,7 +16,7 @@ class GymsController < ApplicationController
   def show
     @fit_center = @gym.users.find_by(fit_center: true)
 
-    #헬스장 무료 체 -
+    #헬스장 무료 체험
     @gym_free = @gym.orders.where(item: Item.first).group(:item_id, :user_id).size.count
 
     #헬스장 판매 갯수 (총 판매 - 무료 체험)

@@ -13,6 +13,10 @@ ActiveAdmin.register Gym do
     link_to "프로틴 1박스 더!", protein_improve_admin_gym_path(gym), method: :put
   end
 
+  action_item :protein_improve, only: :edit do
+    link_to "과일 1박스 더!", fruit_improve_admin_gym_path(gym), method: :put
+  end
+
   member_action :gorilla_improve, method: :put do
     gym = Gym.find params[:id]
     gym.increment!(:gorilla_purchase, 20)
@@ -31,6 +35,12 @@ ActiveAdmin.register Gym do
     redirect_to admin_gyms_path
   end
 
+  member_action :fruit_improve, method: :put do
+    gym = Gym.find params[:id]
+    gym.increment!(:purchase_1, 10)
+    redirect_to admin_gyms_path
+  end
+
   index do
     selectable_column
     id_column
@@ -39,9 +49,17 @@ ActiveAdmin.register Gym do
     column :gorilla_stock
     column :ultra_stock
     column :protein_stock
+    column :stock_1
+    column :stock_2
+    column :stock_3
+    column :stock_4
     column :gorilla_purchase
     column :ultra_purchase
     column :protein_purchase
+    column :purchase_1
+    column :purchase_2
+    column :purchase_3
+    column :purchase_4
 
     # column :sub_items do |gym|
     #   table_for gym.sub_items.order(created_at: :desc) do
@@ -62,15 +80,13 @@ ActiveAdmin.register Gym do
       f.input :gorilla_stock
       f.input :ultra_stock
       f.input :protein_stock
+      f.input :stock_1
       f.input :gorilla_purchase
       f.input :ultra_purchase
       f.input :protein_purchase
+      f.input :purchase_1
       f.input :sub_items, as: :check_boxes, collection: SubItem.all
-      # f.inputs "Subitems" do # Make a panel that holds inputs for lifestyles
-      #   f.input :sub_items, as: :check_boxes, collection: SubItem.all # Use formtastic to output my collection of checkboxes
-      # end
     end
     f.actions
-    # byebug
   end
 end

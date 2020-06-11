@@ -43,7 +43,7 @@ class ItemsController < ApplicationController
     #데이터베이스 재고 갱신
     @gym = @order.gym
     gym_stock
-    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock)
+    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock, stock_1: @stock_1)
 
     if params[:pg_token].present?
       response = HTTParty.post(
