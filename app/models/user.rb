@@ -38,6 +38,8 @@ class User < ApplicationRecord
     too_long: "유효하지 않은 전화번호입니다."
   }
 
+  enum gender: [:man, :woman]
+
   before_validation :assign_password, on: :create
 
   def assign_password

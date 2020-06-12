@@ -1,12 +1,13 @@
 ActiveAdmin.register User do
 
-  permit_params :password, :password_confirmation, :payment, :fit_center, :phone, :gym_id, :item_id, :email
+  permit_params :password, :password_confirmation, :payment, :fit_center, :phone, :gym_id, :item_id, :email, :gender
 
   index do
     selectable_column
     id_column
     column :email
     column :phone
+    column :gender
     column "item" do |i|
       i.item&.title
     end
@@ -25,6 +26,7 @@ ActiveAdmin.register User do
   show do
     attributes_table do
       row :phone
+      row :gender
       row :payment
       row :created_at
     end
