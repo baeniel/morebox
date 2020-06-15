@@ -13,7 +13,8 @@ class LineItemsController < ApplicationController
   end
 
   def destroy
-    @line_item.destroy!
+    # @line_item.destroy!
+    @line_item.update(temp: 0)
     redirect_back fallback_location: root_path, notice: "장바구니에서 삭제되었습니다."
   end
 

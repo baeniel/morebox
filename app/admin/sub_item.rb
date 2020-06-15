@@ -1,5 +1,5 @@
 ActiveAdmin.register SubItem do
-  permit_params :title, :image
+  permit_params :title, :image, :point
   filter :created_at
 
   index do
@@ -10,6 +10,7 @@ ActiveAdmin.register SubItem do
     column :image do |sub_item|
       image_tag(sub_item.image_url, class: 'admin-index-image')
     end
+    column :point
     column :created_at
     actions
   end
@@ -18,6 +19,7 @@ ActiveAdmin.register SubItem do
     f.inputs do
       f.input :title
       f.input :image
+      f.input :point
     end
     f.actions
   end

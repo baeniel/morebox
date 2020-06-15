@@ -1,5 +1,5 @@
 ActiveAdmin.register Order do
-  permit_params :user_id, :item_id, :number
+  permit_params :user_id, :item_id, :number, :point
 
   index do
     selectable_column
@@ -15,6 +15,7 @@ ActiveAdmin.register Order do
       g.gym.title
     end
     column :number
+    column :point
     column :created_at
     actions
   end

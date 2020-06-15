@@ -15,6 +15,7 @@ ActiveAdmin.register LineItem do
     column "item" do |line_item|
       line_item.order.item
     end
+    column :point
     column :quantity
     column :temp
     column :created_at

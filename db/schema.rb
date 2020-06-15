@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_12_045207) do
+ActiveRecord::Schema.define(version: 2020_06_12_055246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_045207) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "image2"
     t.integer "count"
+    t.integer "point", default: 0
   end
 
   create_table "line_items", force: :cascade do |t|
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_045207) do
     t.string "image"
     t.string "title"
     t.integer "temp"
+    t.integer "point", default: 0
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
 
@@ -121,6 +123,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_045207) do
     t.string "requirement"
     t.bigint "gym_id", null: false
     t.bigint "item_id", null: false
+    t.integer "point", default: 0
     t.index ["gym_id"], name: "index_orders_on_gym_id"
     t.index ["item_id"], name: "index_orders_on_item_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
@@ -129,6 +132,7 @@ ActiveRecord::Schema.define(version: 2020_06_12_045207) do
   create_table "sub_items", force: :cascade do |t|
     t.string "title"
     t.string "image"
+    t.integer "point", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

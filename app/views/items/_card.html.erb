@@ -55,20 +55,18 @@
       <span class="alert-content text-white">결제가 완료되었습니다:)</span>
     </div>
   <% end %>
-  <% count = 0 %>
   <%#= render 'shared/mypage', order: @order %>
-  <h3 class="text-white mb-4" id="drink-count">누적 사용 <%= (@order&.number % @order&.item&.count) %> / <%= @order&.item&.count %>개</h3>
+  <h3 class="text-white mb-4" id="drink-count">잔여 포인트: <%= number_with_delimiter(current_user.orders.sum(:point) - current_user.line_items.sum(:point)) %> P</h3>
   <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4 text-white">최초 1회는 무료이니 그냥 드시면 됩니다:)</div>
-    <div class="col-4"><small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small></div>
+    <div class="col-12 text-white">최초 1번은 무료이니 자유롭게 선택해서 드세요:)</div>
+    <!-- <div class="col-4"><small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small></div> -->
   </div>
   <div class="row mt-4 mb-2">
     <% @gym&.sub_items&.order(:created_at)&.each do |sub_item| %>
       <%# byebug %>
       <div class="col-3">
         <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
-        <p class="text-white mt-3">click!</p>
+        <p class="text-white mt-3"><%= sub_item.point %> point</p>
       </div>
       <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -82,7 +80,7 @@
               </div>
               <div class="col-7 row mt-5 pt-5">
                 <div class="col-5">
-                  <%= link_to reduce_line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item), remote: true do %>
+                  <%= link_to reduce_line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item, item: @item), remote: true do %>
                     <i class="fa fa-minus mt-2" aria-hidden="true"></i>
                   <% end %>
                 </div>
@@ -90,7 +88,7 @@
                   <p id="item-count"><%= LineItem.find_by(title: sub_item.title, order: @order).temp %></p>
                 </div>
                 <div class="col-5">
-                  <%= link_to line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item), method: :patch, remote: true do %>
+                  <%= link_to line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item, item: @item), method: :patch, remote: true do %>
                   <%# , onclick: "sound()" %>
                     <i class="fa fa-plus mt-2" aria-hidden="true"></i>
                   <% end %>
@@ -113,7 +111,6 @@
     <% current_user.line_items.where.not(temp: 0).each do |line_item| %>
       <div class="row">
         <p class="ml-3"><%= line_item.title %> <%= line_item.temp %>개</p>
-        <!-- <i class="fa fa-trash-o mt-1 ml-3" aria-hidden="true" style="color: red;"></i> -->
         <%= link_to line_item_path(line_item), method: :delete do %>
           <i class="fa fa-trash-o mt-1 ml-3" aria-hidden="true" style="color: red;"></i>
         <% end %>
@@ -124,22 +121,10 @@
 
 <div class="container">
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-  <a onclick="AutoLogout(<%= @order&.line_items&.where.not(temp: 0).order(:created_at)&.pluck(:title, :temp)&.map { |result| result.flatten.join(' ') } %>)" id="bb-box" class="btn btn-lg text-white card_mobile ml-5 mb-4" style="background-color: #48689a">
+  <a onclick="AutoLogout(<%= @order&.line_items&.where.not(temp: 0).order(:created_at)&.pluck(:title, :temp)&.map { |result| " "+result.flatten.join(' ') } %>)" id="bb-box" class="btn btn-lg text-white card_mobile ml-5 mb-4" style="background-color: #48689a">
     꺼내 먹기
   </a>
 </div>
-
-  <% if false %>
-    <div class="col-4">
-
-    </div>
-    <div class="col-4">
-      <p class="text-white" id="item-count"><%= LineItem.find_by(title: sub_item.title, order: @order).temp %></p>
-    </div>
-    <div class="col-4">
-
-    </div>
-  <% end %>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
@@ -154,7 +139,7 @@
     sound.play();
   }
 
-  var timoutNow = 1000;
+  var timoutNow = 2000;
   var timeoutTimer;
 
   function AutoLogout(condition) {
@@ -169,7 +154,10 @@
     },
     function (isConfirm) {
         if (isConfirm) {
-          if(<%= @order.line_items.sum(:temp) <= @order.item.count %>) {
+          <% sum = 0 %>
+          <% @order.line_items.where.not(temp: 0).map { |result| sum += (result.temp * SubItem.find_by(title: result.title).point) }.join.to_i %>
+          if(<%= sum <= current_user.orders.sum(:point) - current_user.line_items.sum(:point) %>) {
+            <%# byebug %>
             $.ajax({
               // order update
               url : "<%= order_path(@order) %>",
@@ -183,7 +171,7 @@
             StartTimers();
           }
           else {
-            swal("사용권 횟수를 초과하셨습니다.", "다시 선택해주세요!", "error");
+            swal("포인트를 초과하셨습니다.", "다시 선택하시거나 결제해주세요!", "error");
           }
         }
         else {
@@ -196,7 +184,7 @@
     swal({
       title: "이제 냉장고에서 꺼내 드세요!",
       button: false,
-      text: "1초 후 자동로그아웃 됩니다."
+      text: "2초 후 자동로그아웃 됩니다."
     });
     timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
   }

@@ -1,5 +1,5 @@
 ActiveAdmin.register Gym do
-  permit_params :title, :gorilla_stock, :ultra_stock, :protein_stock, :gorilla_purchase, :ultra_purchase, :protein_purchase, sub_item_ids: []
+  permit_params :title, :gorilla_stock, :ultra_stock, :protein_stock, :gorilla_purchase, :ultra_purchase, :protein_purchase, :purchase_1, sub_item_ids: []
 
   action_item :gorilla_improve, only: :edit do
     link_to "고릴라 1박스 더!", gorilla_improve_admin_gym_path(gym), method: :put

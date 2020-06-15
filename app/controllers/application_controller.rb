@@ -39,9 +39,11 @@ class ApplicationController < ActionController::Base
     @item = Item.find params[:id]
 
     @order = Order.where(user: current_user, item: @item).last
-    if (@order.nil? || (@order&.number > 0 && (@order&.number % @item.count == 0)))
-      @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym)
+    if (@order.nil? || (@order&.number > 0 && (current_user.orders.sum(:point) - current_user.line_items.sum(:point) < current_user.gym.sub_items.order('point asc').first.point)))
+      @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
     end
+
+    # || (@order&.number > 0 && @order&.line_items.sum(:point))
 
     # if @item.count == 1
     #   @order = current_user.orders.first_or_create(item: @item, number: 0, gym: current_user.gym)
