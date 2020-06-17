@@ -16,11 +16,11 @@ class ApisController < ApplicationController
         vat_amount: 0,
         tax_free_amount: 0,
         # approval_url: "http://localhost:3000/items/#{params[:id]}/",
-        approval_url: "http://morebox.co.kr/items/#{params[:id]}/",
+        approval_url: "https://morebox.co.kr/items/#{params[:id]}/",
         # fail_url: 'http://localhost:3000/',
-        fail_url: 'http://morebox.co.kr/',
+        fail_url: 'https://morebox.co.kr/',
         # cancel_url: 'http://localhost:3000/',
-        cancel_url: 'http://morebox.co.kr/'
+        cancel_url: 'https://morebox.co.kr/'
       }
     )
 
