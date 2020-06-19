@@ -48,9 +48,10 @@
           <li><strong>프로틴바 재고: </strong><%= @protein_stock %>개</li>
 
           <% unless @stock_1 == 0 %>
-            <li><strong>프로틴에이드 재고: </strong><%= @stock_1 %>개</li>
             <% if @gym.title == "스프링타운2층" %>
               <li><strong>과일 재고: </strong><%= @stock_1 %>개</li>
+            <% else %>
+              <li><strong>프로틴에이드 재고: </strong><%= @stock_1 %>개</li>
             <% end %>
           <% end %>
 

@@ -33,11 +33,6 @@ class OrdersController < ApplicationController
     # @line_item.update_attributes(quantity: @line_item.sum(:temp))
     @order.update_attributes(number: @order.line_items.sum(:quantity))
 
-    #사용권이 만료됐을 때
-    # if @item.count == @order.number
-    #   templateCode = '020050000281'
-    #   content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 사용권이 소진되었습니다ㅠ\n\n아래 버튼으로 결제하시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n\n무브모어 카카오톡 채널:\n@무브모어 @movemore"
-
     templateCode = '020060000176'
     content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 "+@order.line_items.where("temp is NOT NULL and temp != 0").map { |item| item.title }.flatten.join(' ')+" "+@order.line_items.sum(:temp).to_s+"개 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+(current_user.orders.sum(:point) - current_user.line_items.sum(:point)).to_s+"포인트\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
 
@@ -74,46 +69,63 @@ class OrdersController < ApplicationController
       redirect_to home_exception_path
     end
 
-    #재고가 부족한 헬스장 찾기
-    @gyms = Gym.where(gorilla_stock: 15..20).or(Gym.where(ultra_stock: 15..20)).or(Gym.where(protein_stock: 15..20))
+    #데이터베이스 재고 갱신
+    @gym = current_user.gym
+    gym_stock
+    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock, stock_1: @stock_1)
 
-    # if @gyms.present?
-    #   templateCode = '020050000216'
-    #   content = @gyms.pluck(:title).map { |gym| gym }.join()+" 센터의 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-    #   receiverName = '박진배'
-    #   receiver = '010-5605-3087'
-    #   corpNum = "7468701862"
-    #   userID = "jb1014"
-    #   snd = '010-5605-3087'
-    #   altContent = '대체문자 내용 입니다'
-    #   # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-    #   altSendType = 'A'
-    #   # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
-    #   sndDT = ''
-    #   # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
-    #   # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
-    #   requestNum = ''
-    #   begin
-    #     @value = OrdersController::KakaoService.sendATS_one(
-    #         corpNum,
-    #         templateCode,
-    #         snd,
-    #         content,
-    #         altContent,
-    #         altSendType,
-    #         sndDT,
-    #         receiver,
-    #         receiverName,
-    #         requestNum,
-    #         userID,
-    #     )['receiptNum']
-    #     @name = "receiptNum(접수번호)"
-    #
-    #   rescue PopbillException => pe
-    #     @Response = pe
-    #     redirect_to home_exception_path
-    #   end
-    # end
+    templateCode = '020050000216'
+    receiverName = '박진배'
+    receiver = '010-5605-3087'
+    corpNum = "7468701862"
+    userID = "jb1014"
+    snd = '010-5605-3087'
+    altContent = '대체문자 내용 입니다'
+    # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
+    altSendType = 'A'
+    # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
+    sndDT = ''
+    # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
+    # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
+    requestNum = ''
+
+    if @gym.title == "스프링타운2층"
+      stock_1_quantity = 5
+    else
+      stock_1_quantity = 20
+    end
+
+    if @gym.gorilla_stock < 20
+      content = @gym.title+" 센터의 "+"고릴라밤 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+    elsif @gym.ultra_stock < 20
+      content = @gym.title+" 센터의 "+"울트라 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+    elsif @gym.protein_stock < 20
+      content = @gym.title+" 센터의 "+"프로틴바 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+    elsif @gym.stock_1 < stock_1_quantity
+      content = @gym.title+" 센터의 "+"stock_1 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+    end
+
+    begin
+      @value = OrdersController::KakaoService.sendATS_one(
+          corpNum,
+          templateCode,
+          snd,
+          content,
+          altContent,
+          altSendType,
+          sndDT,
+          receiver,
+          receiverName,
+          requestNum,
+          userID,
+      )['receiptNum']
+      @name = "receiptNum(접수번호)"
+
+    rescue PopbillException => pe
+      @Response = pe
+      redirect_to home_exception_path
+    end
+
   end
 
   def show
