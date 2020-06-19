@@ -52,14 +52,14 @@ ActiveAdmin.register Gym do
     column :stock_1
     column :stock_2
     column :stock_3
-    column :stock_4
+    # column :stock_4
     column :gorilla_purchase
     column :ultra_purchase
     column :protein_purchase
     column :purchase_1
     column :purchase_2
     column :purchase_3
-    column :purchase_4
+    # column :purchase_4
 
     # column :sub_items do |gym|
     #   table_for gym.sub_items.order(created_at: :desc) do
@@ -81,10 +81,14 @@ ActiveAdmin.register Gym do
       f.input :ultra_stock
       f.input :protein_stock
       f.input :stock_1
+      f.input :stock_2
+      f.input :stock_3
       f.input :gorilla_purchase
       f.input :ultra_purchase
       f.input :protein_purchase
       f.input :purchase_1
+      f.input :purchase_2
+      f.input :purchase_3
       f.input :sub_items, as: :check_boxes, collection: SubItem.all
     end
     f.actions

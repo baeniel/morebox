@@ -55,6 +55,15 @@
             <% end %>
           <% end %>
 
+          <% unless @stock_2 == 0 %>
+            <li><strong>닭가슴살칩 재고: </strong><%= @stock_2 %>개</li>
+          <% end %>
+
+          <% unless @stock_3 == 0 %>
+            <li><strong>닭가슴살육포 재고: </strong><%= @stock_3 %>개</li>
+          <% end %>
+
+
         </ul>
       </div>
     </div>
