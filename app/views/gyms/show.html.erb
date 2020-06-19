@@ -46,10 +46,14 @@
           <li><strong>고릴라밤 재고: </strong><%= @gorilla_stock %>개</li>
           <li><strong>몬스터 울트라 재고: </strong><%= @ultra_stock %>개</li>
           <li><strong>프로틴바 재고: </strong><%= @protein_stock %>개</li>
-          <li><strong>과일 재고: </strong><%= @stock_1 %>개</li>
-          <%# unless @stock_2 != 0 %>
-            <!-- <li><strong>요거트 재고: </strong><%= @stock_2 %>개</li> -->
-          <%# end %>
+
+          <% unless @stock_1 == 0 %>
+            <li><strong>프로틴에이드 재고: </strong><%= @stock_1 %>개</li>
+            <% if @gym.title == "스프링타운2층" %>
+              <li><strong>과일 재고: </strong><%= @stock_1 %>개</li>
+            <% end %>
+          <% end %>
+
         </ul>
       </div>
     </div>
