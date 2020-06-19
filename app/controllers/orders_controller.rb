@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
     #데이터베이스 재고 갱신
     @gym = current_user.gym
     gym_stock
-    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock, stock_1: @stock_1)
+    @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock, stock_1: @stock_1, stock_2: @stock_2, stock_3: @stock_3)
 
     templateCode = '020050000216'
     receiverName = '박진배'
