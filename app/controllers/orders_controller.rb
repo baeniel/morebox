@@ -74,56 +74,60 @@ class OrdersController < ApplicationController
     gym_stock
     @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock, stock_1: @stock_1, stock_2: @stock_2, stock_3: @stock_3)
 
-    templateCode = '020050000216'
-    receiverName = '박진배'
-    receiver = '010-5605-3087'
-    corpNum = "7468701862"
-    userID = "jb1014"
-    snd = '010-5605-3087'
-    altContent = '대체문자 내용 입니다'
-    # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-    altSendType = 'A'
-    # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
-    sndDT = ''
-    # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
-    # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
-    requestNum = ''
 
-    if @gym.title == "스프링타운2층"
-      stock_1_quantity = 5
-    else
-      stock_1_quantity = 20
-    end
+    @gyms = Gym.where(gorilla_stock: 15..20).or(Gym.where(ultra_stock: 15..20)).or(Gym.where(protein_stock: 15..20)).or(Gym.where(stock_1: 15..20))
+    if @gyms.present?
+      templateCode = '020050000216'
+      receiverName = '박진배'
+      receiver = '010-5605-3087'
+      corpNum = "7468701862"
+      userID = "jb1014"
+      snd = '010-5605-3087'
+      altContent = '대체문자 내용 입니다'
+      # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
+      altSendType = 'A'
+      # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
+      sndDT = ''
+      # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
+      # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
+      requestNum = ''
 
-    if @gym.gorilla_stock < 20
-      content = @gym.title+" 센터의 "+"고릴라밤 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-    elsif @gym.ultra_stock < 20
-      content = @gym.title+" 센터의 "+"울트라 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-    elsif @gym.protein_stock < 20
-      content = @gym.title+" 센터의 "+"프로틴바 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-    elsif @gym.stock_1 < stock_1_quantity
-      content = @gym.title+" 센터의 "+"stock_1 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-    end
+      if @gym.title == "스프링타운2층"
+        stock_1_quantity = 5
+      else
+        stock_1_quantity = 20
+      end
 
-    begin
-      @value = OrdersController::KakaoService.sendATS_one(
-          corpNum,
-          templateCode,
-          snd,
-          content,
-          altContent,
-          altSendType,
-          sndDT,
-          receiver,
-          receiverName,
-          requestNum,
-          userID,
-      )['receiptNum']
-      @name = "receiptNum(접수번호)"
+      if @gym.gorilla_stock < 20
+        content = @gym.title+" 센터의 "+"고릴라밤 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+      elsif @gym.ultra_stock < 20
+        content = @gym.title+" 센터의 "+"울트라 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+      elsif @gym.protein_stock < 20
+        content = @gym.title+" 센터의 "+"프로틴바 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+      elsif @gym.stock_1 < stock_1_quantity
+        content = @gym.title+" 센터의 "+"stock_1 재고가 곧 소진됩니다. 센터에 배송해주십시오."
+      end
 
-    rescue PopbillException => pe
-      @Response = pe
-      redirect_to home_exception_path
+      begin
+        @value = OrdersController::KakaoService.sendATS_one(
+            corpNum,
+            templateCode,
+            snd,
+            content,
+            altContent,
+            altSendType,
+            sndDT,
+            receiver,
+            receiverName,
+            requestNum,
+            userID,
+        )['receiptNum']
+        @name = "receiptNum(접수번호)"
+
+      rescue PopbillException => pe
+        @Response = pe
+        redirect_to home_exception_path
+      end
     end
 
   end
