@@ -39,8 +39,11 @@ class ItemsController < ApplicationController
   def show
     current_user&.item = @item
 
-    update_drink_quantity
-    # @order = Order.where(user: current_user, item: @item).last
+    # update_drink_quantity
+    @order = Order.where(user: current_user, item: @item).last
+    if @order.nil?
+      @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
+    end
 
     @gym = @order.gym
 
@@ -61,7 +64,7 @@ class ItemsController < ApplicationController
       case response.code
       when 200
 
-        # @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
+        @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
         current_user.update_attributes(payment: true)
 
         templateCode = '020050000437'
@@ -105,11 +108,11 @@ class ItemsController < ApplicationController
       end
     end
 
-    # titles = current_user.gym&.sub_items&.pluck(:title)
-    # titles.each do |title|
-    #   LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
-    #   # LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
-    # end
+    titles = current_user.gym&.sub_items&.pluck(:title)
+    titles.each do |title|
+      LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+      # LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+    end
 
   end
 
