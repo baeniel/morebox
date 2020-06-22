@@ -41,12 +41,7 @@ class ItemsController < ApplicationController
 
     # update_drink_quantity
     @order = Order.where(user: current_user, item: @item).last
-    if @order.nil?
-      @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
-    end
-
-    @gym = @order.gym
-
+    
     if params[:pg_token].present?
       response = HTTParty.post(
         "https://kapi.kakao.com/v1/payment/approve",
@@ -105,6 +100,10 @@ class ItemsController < ApplicationController
       else
         # redirect_back fallback_location: root_path, notice: "#{response.message}"
         # {'error' => response.message}
+      end
+    else
+      if @order.nil?
+        @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
       end
     end
 
