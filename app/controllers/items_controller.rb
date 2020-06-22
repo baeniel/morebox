@@ -41,6 +41,7 @@ class ItemsController < ApplicationController
 
     # update_drink_quantity
     @order = Order.where(user: current_user, item: @item).last
+    @gym = current_user.gym
     
     if params[:pg_token].present?
       response = HTTParty.post(
