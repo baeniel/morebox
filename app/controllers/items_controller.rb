@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
     # update_drink_quantity
     @order = Order.where(user: current_user, item: @item).last
     @gym = current_user.gym
-    
+
     if params[:pg_token].present?
       response = HTTParty.post(
         "https://kapi.kakao.com/v1/payment/approve",
@@ -59,7 +59,7 @@ class ItemsController < ApplicationController
       )
       case response.code
       when 200
-
+        #결제가 성공적으로 이루어졌을 때
         @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
         current_user.update_attributes(payment: true)
 
@@ -71,12 +71,9 @@ class ItemsController < ApplicationController
         altContent = '대체문자 내용 입니다'
         # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
         altSendType = 'C'
-        # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
         sndDT = ''
         receiverName = @order.user.phone.last(4)
         receiver = @order.user.phone
-        # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
-        # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
         requestNum = ''
 
         begin
@@ -98,6 +95,41 @@ class ItemsController < ApplicationController
           @Response = pe
           redirect_to home_exception_path
         end
+
+        #관리자 결제 알람
+        templateCode = '020060000152'
+        content = current_user.gym+" "+current_user.phone.last(4)+"님의 "+@order.item+"결제가 완료되었습니다."
+        corpNum = "7468701862"
+        userID = "jb1014"
+        snd = '010-5605-3087'
+        altContent = '대체문자 내용 입니다'
+        # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
+        altSendType = 'C'
+        sndDT = ''
+        receiverName = '박진배'
+        receiver = '010-5605-3087'
+        requestNum = ''
+
+        begin
+          @value = OrdersController::KakaoService.sendATS_one(
+              corpNum,
+              templateCode,
+              snd,
+              content,
+              altContent,
+              altSendType,
+              sndDT,
+              receiver,
+              receiverName,
+              requestNum,
+              userID,
+          )['receiptNum']
+          @name = "receiptNum(접수번호)"
+        rescue PopbillException => pe
+          @Response = pe
+          redirect_to home_exception_path
+        end
+
       else
         # redirect_back fallback_location: root_path, notice: "#{response.message}"
         # {'error' => response.message}
@@ -111,7 +143,6 @@ class ItemsController < ApplicationController
     titles = current_user.gym&.sub_items&.pluck(:title)
     titles.each do |title|
       LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
-      # LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
     end
 
   end

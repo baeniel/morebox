@@ -39,7 +39,6 @@ class OrdersController < ApplicationController
     altContent = '대체문자 내용 입니다'
     # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
     altSendType = 'C'
-    # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
     sndDT = ''
     receiverName = @order.user.phone.last(4)
     receiver = @order.user.phone
@@ -85,11 +84,8 @@ class OrdersController < ApplicationController
       snd = '010-5605-3087'
       altContent = '대체문자 내용 입니다'
       # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-      altSendType = 'A'
-      # 예약일시 (작성형식: 20190120012753 yyyyMMddHHmmss)
+      altSendType = 'C'
       sndDT = ''
-      # 전송요청번호, 파트너가 전송요청에 대한 관리번호를 직접 할당하여 관리하는 경우 기재
-      # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
       requestNum = ''
 
       hash = { gorilla: @gym.gorilla_stock, ultra: @gym.ultra_stock, protein: @gym.protein_stock, stock_1: @gym.stock_1, stock_2: @gym.stock_2, stock_3: @gym.stock_3 }
