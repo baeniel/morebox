@@ -97,38 +97,38 @@ class ItemsController < ApplicationController
         end
 
         #관리자 결제 알람
-        templateCode = '020060000152'
-        content = current_user.gym+" "+current_user.phone.last(4)+"님의 "+@order.item+"결제가 완료되었습니다."
-        corpNum = "7468701862"
-        userID = "jb1014"
-        snd = '010-5605-3087'
-        altContent = '대체문자 내용 입니다'
-        # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-        altSendType = 'C'
-        sndDT = ''
-        receiverName = '박진배'
-        receiver = '010-5605-3087'
-        requestNum = ''
-
-        begin
-          @value = OrdersController::KakaoService.sendATS_one(
-              corpNum,
-              templateCode,
-              snd,
-              content,
-              altContent,
-              altSendType,
-              sndDT,
-              receiver,
-              receiverName,
-              requestNum,
-              userID,
-          )['receiptNum']
-          @name = "receiptNum(접수번호)"
-        rescue PopbillException => pe
-          @Response = pe
-          redirect_to home_exception_path
-        end
+        # templateCode = '020060000152'
+        # content = current_user.gym+" "+current_user.phone.last(4)+"님의 "+@order.item+"결제가 완료되었습니다."
+        # corpNum = "7468701862"
+        # userID = "jb1014"
+        # snd = '010-5605-3087'
+        # altContent = '대체문자 내용 입니다'
+        # # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
+        # altSendType = 'C'
+        # sndDT = ''
+        # receiverName = '박진배'
+        # receiver = '010-5605-3087'
+        # requestNum = ''
+        #
+        # begin
+        #   @value = OrdersController::KakaoService.sendATS_one(
+        #       corpNum,
+        #       templateCode,
+        #       snd,
+        #       content,
+        #       altContent,
+        #       altSendType,
+        #       sndDT,
+        #       receiver,
+        #       receiverName,
+        #       requestNum,
+        #       userID,
+        #   )['receiptNum']
+        #   @name = "receiptNum(접수번호)"
+        # rescue PopbillException => pe
+        #   @Response = pe
+        #   redirect_to home_exception_path
+        # end
 
       else
         # redirect_back fallback_location: root_path, notice: "#{response.message}"
