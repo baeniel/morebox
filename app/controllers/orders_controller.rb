@@ -92,21 +92,15 @@ class OrdersController < ApplicationController
       # 최대 36자리, 영문, 숫자, 언더바('_'), 하이픈('-')을 조합하여 사업자별로 중복되지 않도록 구성
       requestNum = ''
 
-      if @gym.title == "스프링타운2층"
-        stock_1_quantity = 5
-      else
-        stock_1_quantity = 20
+      hash = { gorilla: @gym.gorilla_stock, ultra: @gym.ultra_stock, protein: @gym.protein_stock, stock_1: @gym.stock_1, stock_2: @gym.stock_2, stock_3: @gym.stock_3 }
+      arr = []
+      hash.map.each do |k, v|
+        if v > 0 && v < 15
+          arr << k
+        end
       end
 
-      if @gym.gorilla_stock < 20
-        content = @gym.title+" 센터의 "+"고릴라밤 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-      elsif @gym.ultra_stock < 20
-        content = @gym.title+" 센터의 "+"울트라 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-      elsif @gym.protein_stock < 20
-        content = @gym.title+" 센터의 "+"프로틴바 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-      elsif @gym.stock_1 < stock_1_quantity
-        content = @gym.title+" 센터의 "+"stock_1 재고가 곧 소진됩니다. 센터에 배송해주십시오."
-      end
+      content = @gym.title+" 센터의 "+arr.map(&:inspect).join(',')+" 재고가 곧 소진됩니다. 센터에 배송해주십시오."
 
       begin
         @value = OrdersController::KakaoService.sendATS_one(
