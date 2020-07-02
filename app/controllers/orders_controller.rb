@@ -73,7 +73,6 @@ class OrdersController < ApplicationController
     gym_stock
     @gym.update_attributes(ultra_stock: @ultra_stock, gorilla_stock: @gorilla_stock, protein_stock: @protein_stock, stock_1: @stock_1, stock_2: @stock_2, stock_3: @stock_3)
 
-
     @gyms = Gym.where(gorilla_stock: 15..20).or(Gym.where(ultra_stock: 15..20)).or(Gym.where(protein_stock: 15..20)).or(Gym.where(stock_1: 15..20))
     if @gyms.present?
       templateCode = '020050000216'

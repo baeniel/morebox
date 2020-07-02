@@ -88,7 +88,7 @@
               </div>
               <div class="col-7 row mt-5 pt-5">
                 <div class="col-5">
-                  <%= link_to reduce_line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item, item: @item), remote: true do %>
+                  <%= link_to reduce_line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item), remote: true do %>
                     <i class="fa fa-minus mt-2" aria-hidden="true"></i>
                   <% end %>
                 </div>
@@ -96,7 +96,7 @@
                   <p id="item-count"><%= LineItem.find_by(title: sub_item.title, order: @order).temp %></p>
                 </div>
                 <div class="col-5">
-                  <%= link_to line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item, item: @item), method: :patch, remote: true do %>
+                  <%= link_to line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item), method: :patch, remote: true do %>
                   <%# , onclick: "sound()" %>
                     <i class="fa fa-plus mt-2" aria-hidden="true"></i>
                   <% end %>
