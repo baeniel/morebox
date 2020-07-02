@@ -70,33 +70,33 @@
     <!-- <div class="col-4"><small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small></div> -->
   </div>
   <div class="row mt-4 mb-2">
-    <% @gym&.sub_items&.order(:created_at)&.each do |sub_item| %>
+    <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
       <%# byebug %>
       <div class="col-3">
-        <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
-        <p class="text-white mt-3"><%= sub_item.point %> point</p>
+        <img src="<%= SubItem.find_by(title: line_item.title).image_url %>" id="item-image" data-target="#exampleModal_<%= line_item.id %>" data-toggle="modal">
+        <p class="text-white mt-3"><%= SubItem.find_by(title: line_item.title).point %> point</p>
       </div>
-      <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="exampleModal_<%= line_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %></h5>
+              <h5 class="modal-title" id="exampleModalLabel"><%= line_item.title %></h5>
             </div>
             <div class="modal-body row">
               <div class="col-5">
-                <img src="<%= sub_item.image_url %>" style="width: 100%;">
+                <img src="<%= SubItem.find_by(title: line_item.title).image_url %>" style="width: 100%;">
               </div>
               <div class="col-7 row mt-5 pt-5">
                 <div class="col-5">
-                  <%= link_to reduce_line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item), remote: true do %>
+                  <%= link_to reduce_line_item_path(line_item), remote: true do %>
                     <i class="fa fa-minus mt-2" aria-hidden="true"></i>
                   <% end %>
                 </div>
                 <div class="col-2">
-                  <p id="item-count"><%= LineItem.find_by(title: sub_item.title, order: @order).temp %></p>
+                  <p id="item-count"><%= line_item.temp %></p>
                 </div>
                 <div class="col-5">
-                  <%= link_to line_item_path(LineItem.find_by(title: sub_item.title, order: @order), sub_item: sub_item), method: :patch, remote: true do %>
+                  <%= link_to line_item_path(line_item), method: :patch, remote: true do %>
                   <%# , onclick: "sound()" %>
                     <i class="fa fa-plus mt-2" aria-hidden="true"></i>
                   <% end %>

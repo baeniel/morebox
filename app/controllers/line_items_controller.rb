@@ -4,12 +4,10 @@ class LineItemsController < ApplicationController
   # 음료수 갯수 조정
   def update
     @line_item.increment!(:temp)
-    @sub_item = SubItem.find(params[:sub_item])
   end
 
   def reduce
     @line_item.decrement!(:temp)
-    @sub_item = SubItem.find(params[:sub_item])
   end
 
   def destroy
