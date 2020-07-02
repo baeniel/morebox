@@ -23,7 +23,7 @@ class GymsController < ApplicationController
         arr << order
       end
     end
-    @gym_free = arr.first.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
+    @gym_free = arr.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
     # @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
 
     #헬스장 판매 갯수 (총 판매 - 무료 체험)
