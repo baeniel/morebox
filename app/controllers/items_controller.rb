@@ -39,7 +39,7 @@ class ItemsController < ApplicationController
   def show
     current_user&.item = @item
 
-    @order = Order.where(user: current_user, item: @item).last
+    @order = Order.where(user: current_user).last
     # update_drink_quantity
     @gym = current_user.gym
 
