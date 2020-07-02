@@ -39,7 +39,8 @@ class ItemsController < ApplicationController
   def show
     current_user&.item = @item
 
-    update_drink_quantity
+    @order = Order.where(user: current_user, item: @item).last
+    # update_drink_quantity
     @gym = current_user.gym
 
     if params[:pg_token].present?
