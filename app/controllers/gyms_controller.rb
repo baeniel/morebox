@@ -17,7 +17,14 @@ class GymsController < ApplicationController
     @fit_center = @gym.users.find_by(fit_center: true)
 
     #헬스장 무료 체험
-    @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
+    arr = []
+    @gym.orders.where(item: Item.first, number: 1).each do |order|
+      if order.created_at.month == Date.today.month
+        arr << order
+      end
+    end
+    @gym_free = arr.first.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
+    # @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
 
     #헬스장 판매 갯수 (총 판매 - 무료 체험)
     @gym_sales = @gym.orders.sum(:number) - @gym_free
