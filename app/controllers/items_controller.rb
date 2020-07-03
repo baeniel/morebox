@@ -2,6 +2,7 @@ require 'popbill/kakaotalk'
 
 class ItemsController < ApplicationController
   before_action :load_object, only: [:show]
+  skip_before_action :verify_authenticity_token
 
   #모어박스 쇼핑몰 형태
   # def index
