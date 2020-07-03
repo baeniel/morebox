@@ -50,6 +50,11 @@ class ApplicationController < ActionController::Base
     if (@order.nil? || (@order&.number > 0 && (current_user.orders.sum(:point) - current_user.line_items.sum(:point) < current_user.gym.sub_items.order('point asc').first.point)))
       @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
     end
+
+    titles = current_user.gym&.sub_items&.pluck(:title)
+    titles.each do |title|
+      LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+    end
   end
 
   protected

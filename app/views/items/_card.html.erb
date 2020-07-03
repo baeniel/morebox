@@ -71,9 +71,8 @@
   </div>
   <div class="row mt-4 mb-2">
     <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
-      <%# byebug %>
       <div class="col-3">
-        <img src="<%= SubItem.find_by(title: line_item.title).image_url %>" id="item-image" data-target="#exampleModal_<%= line_item.id %>" data-toggle="modal">
+        <img src="<%= SubItem.find_by(title: line_item.title)&.image_url %>" id="item-image" data-target="#exampleModal_<%= line_item.id %>" data-toggle="modal">
         <p class="text-white mt-3"><%= SubItem.find_by(title: line_item.title).point %> point</p>
       </div>
       <div class="modal fade" id="exampleModal_<%= line_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
