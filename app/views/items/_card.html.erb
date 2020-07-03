@@ -73,7 +73,7 @@
     <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
       <div class="col-3">
         <img src="<%= SubItem.find_by(title: line_item.title)&.image_url %>" id="item-image" data-target="#exampleModal_<%= line_item.id %>" data-toggle="modal">
-        <p class="text-white mt-3"><%= SubItem.find_by(title: line_item.title).point %> point</p>
+        <p class="text-white mt-3"><%= SubItem.find_by(title: line_item.title)&.point %> point</p>
       </div>
       <div class="modal fade" id="exampleModal_<%= line_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -83,7 +83,7 @@
             </div>
             <div class="modal-body row">
               <div class="col-5">
-                <img src="<%= SubItem.find_by(title: line_item.title).image_url %>" style="width: 100%;">
+                <img src="<%= SubItem.find_by(title: line_item.title)&.image_url %>" style="width: 100%;">
               </div>
               <div class="col-7 row mt-5 pt-5">
                 <div class="col-5">
@@ -162,7 +162,7 @@
     function (isConfirm) {
         if (isConfirm) {
           <% sum = 0 %>
-          <% @order.line_items.where.not(temp: 0).map { |result| sum += (result.temp * SubItem.find_by(title: result.title).point) }.join.to_i %>
+          <% @order.line_items.where.not(temp: 0).map { |result| sum += (result.temp * SubItem.find_by(title: result.title)&.point) }.join.to_i %>
           if(<%= sum <= current_user.orders.sum(:point) - current_user.line_items.sum(:point) %>) {
             <%# byebug %>
             $.ajax({

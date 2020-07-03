@@ -41,6 +41,10 @@ class ItemsController < ApplicationController
     current_user&.item = @item
 
     @order = Order.where(user: current_user, item: @item).last
+    titles = current_user.gym&.sub_items&.pluck(:title)
+    titles.each do |title|
+      LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+    end
     # update_drink_quantity
     @gym = current_user.gym
 
@@ -139,11 +143,6 @@ class ItemsController < ApplicationController
       if @order.nil?
         @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
       end
-    end
-
-    titles = current_user.gym&.sub_items&.pluck(:title)
-    titles.each do |title|
-      LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
     end
 
   end
