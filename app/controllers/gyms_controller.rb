@@ -24,8 +24,8 @@ class GymsController < ApplicationController
       end
     end
 
-    @gym_free = arr.group_by { |arr| arr[:user_id] }.count
-    # @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
+    @gym_free_month = arr.group_by { |arr| arr[:user_id] }.count
+    @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
 
     #헬스장 판매 갯수 (총 판매 - 무료 체험)
     @gym_sales = @gym.orders.sum(:number) - @gym_free
@@ -34,7 +34,7 @@ class GymsController < ApplicationController
     gym_stock
 
     #정산 (매출의 20%)
-    @gym_profit = ((@gym.orders.map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum - @gym_free * Item.first.price) * 0.2).to_i
+    @gym_profit = ((@gym.orders.map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum - @gym_free_month * Item.first.price) * 0.2).to_i
   end
 
   private
