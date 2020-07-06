@@ -61,6 +61,11 @@ class ItemsController < ApplicationController
       when 200
         #결제가 성공적으로 이루어졌을 때
         @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
+        titles = @gym&.sub_items&.pluck(:title)
+        titles.each do |title|
+          LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
+        end
+        
         current_user.update_attributes(payment: true)
 
         templateCode = '020050000437'
