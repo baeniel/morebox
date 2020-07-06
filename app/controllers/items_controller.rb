@@ -62,9 +62,8 @@ class ItemsController < ApplicationController
       when 200
         #결제가 성공적으로 이루어졌을 때
         # @order = Order.where(user: current_user, item: @item).last
-        if (@order.nil? || (@order&.number > 0))
-          @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
-        end
+        @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
+
 
         titles = @gym&.sub_items&.pluck(:title)
         titles.each do |title|
