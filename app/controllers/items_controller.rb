@@ -60,7 +60,7 @@ class ItemsController < ApplicationController
       case response.code
       when 200
         #결제가 성공적으로 이루어졌을 때
-        # @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
+        @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
         current_user.update_attributes(payment: true)
 
         templateCode = '020050000437'
