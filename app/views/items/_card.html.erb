@@ -83,7 +83,7 @@
   </div>
   <div class="row mt-4 mb-2">
     <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
-      <div class="col-3">
+      <div class="col-2">
         <img src="<%= SubItem.find_by(title: line_item.title)&.image_url %>" id="item-image" data-target="#exampleModal_<%= line_item.id %>" data-toggle="modal">
         <p class="text-white mt-3"><%= SubItem.find_by(title: line_item.title)&.point %> point</p>
       </div>
