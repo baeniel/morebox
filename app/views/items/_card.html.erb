@@ -21,6 +21,9 @@
   .fa-plus-square {
     font-size: 2.6rem;
   }
+  #point-button {
+    width: 140px;
+  }
 
   @media (min-width: 320px) and (max-width: 480px) {
     #item-image {
@@ -43,6 +46,14 @@
       margin-top: 5px;
       font-size: 1.3rem;
     }
+    #point-button {
+      width: 75px;
+    }
+    #card-footer {
+      position: absolute;
+      top: 130%;
+      /* margin-top: 80%; */
+    }
   }
 </style>
 
@@ -57,17 +68,18 @@
   <% end %>
   <%#= render 'shared/mypage', order: @order %>
   <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4">
+    <div class="col-3"></div>
+    <div class="col-6">
       <h3 class="text-white mb-4" id="drink-count">잔여 포인트: <%= number_with_delimiter(current_user.orders.sum(:point) - current_user.line_items.sum(:point)) %> P</h3>
     </div>
-    <div class="col-4 mt-3 text-right">
-      <%= link_to "충전", items_path, class: "btn btn-danger", style: "width: 130px;" %>
+    <div class="col-3 mt-3 text-right">
+      <%= link_to "충전", items_path, class: "btn btn-danger", id: "point-button" %>
     </div>
   </div>
   <div class="row">
-    <div class="col-12 text-white">최초 1번은 무료이니 자유롭게 선택해서 드세요:)</div>
-    <!-- <div class="col-4"><small class="text-white">모든 제품이 동일하게 1개 차감됩니다.</small></div> -->
+    <% if current_user.orders.count == 1 %>
+      <div class="col-12 text-white">최초 1번은 무료이니 자유롭게 선택해서 드세요:)</div>
+    <% end %>
   </div>
   <div class="row mt-4 mb-2">
     <% @order&.line_items&.order(:created_at)&.each do |line_item| %>
@@ -126,7 +138,7 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container" id="card-footer">
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
   <a onclick="AutoLogout(<%= @order&.line_items&.where.not(temp: 0).order(:created_at)&.pluck(:title, :temp)&.map { |result| " "+result.flatten.join(' ') } %>)" id="bb-box" class="btn btn-lg text-white card_mobile ml-5 mb-4" style="background-color: #48689a">
     꺼내 먹기
