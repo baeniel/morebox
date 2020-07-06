@@ -40,6 +40,7 @@ class ItemsController < ApplicationController
   def show
     current_user&.item = @item
 
+    #맨 처음 가입할 때 빈 창 뜨는 것을 방지하기 위해서
     update_drink_quantity
     @gym = current_user.gym
 
@@ -60,12 +61,12 @@ class ItemsController < ApplicationController
       case response.code
       when 200
         #결제가 성공적으로 이루어졌을 때
-        @order = Order.where(user: current_user, item: @item).last
-        if (@order.nil? || (@order&.number > 0 && (current_user.orders.sum(:point) - current_user.line_items.sum(:point) < current_user.gym.sub_items.order('point asc').first.point)))
+        # @order = Order.where(user: current_user, item: @item).last
+        if (@order.nil? || (@order&.number > 0))
           @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
         end
 
-        titles = current_user.gym&.sub_items&.pluck(:title)
+        titles = @gym&.sub_items&.pluck(:title)
         titles.each do |title|
           LineItem.where(title: title, order: @order).first_or_create(quantity: 0, temp: 0)
         end
