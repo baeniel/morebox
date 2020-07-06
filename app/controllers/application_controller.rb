@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
 
   def update_drink_quantity
-    @item = Item.find params[:id]
+    # @item = Item.find params[:id]
 
     @order = Order.where(user: current_user, item: @item).last
     if (@order.nil? || (@order&.number > 0 && (current_user.orders.sum(:point) - current_user.line_items.sum(:point) < current_user.gym.sub_items.order('point asc').first.point)))
