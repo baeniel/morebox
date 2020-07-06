@@ -1,4 +1,5 @@
 require 'popbill/kakaotalk'
+require 'popbill/message'
 
 class OrdersController < ApplicationController
   before_action :load_object, only: [:update, :show]
@@ -18,6 +19,18 @@ class OrdersController < ApplicationController
   # 인증토큰 IP제한기능 사용여부, true-권장
   KakaoService.setIpRestrictOnOff(true)
 
+  # 팝빌 문자 Service 초기화
+  MSGService = MessageService.instance(
+    OrdersController::LinkID,
+    OrdersController::SecretKey
+  )
+
+  # 연동환경 설정값, (true-개발용, false-상업용)
+  MSGService.setIsTest(false)
+
+  # 인증토큰 IP제한기능 사용여부, true-권장
+  MSGService.setIpRestrictOnOff(true)
+
   def index
     # @orders = current_user.orders.paid
   end
@@ -32,44 +45,72 @@ class OrdersController < ApplicationController
 
     @order.update_attributes(number: @order.line_items.sum(:quantity))
 
-    # if current_user.orders.sum(:point) - current_user.line_items.sum(:point) <= 2000
-    #   templateCode = '020060000378'
-    #   content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 "+@order.line_items.where("temp is NOT NULL and temp != 0").map { |item| item.title }.flatten.join(' ')+" "+@order.line_items.sum(:temp).to_s+"개 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+(current_user.orders.sum(:point) - current_user.line_items.sum(:point)).to_s+"포인트\n\n모바일로 모어박스에 로그인하신 후\n헬스장 오시기 전에 결제하세요:)"
-    # else
-    templateCode = '020060000176'
-    content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 "+@order.line_items.where("temp is NOT NULL and temp != 0").map { |item| item.title }.flatten.join(' ')+" "+@order.line_items.sum(:temp).to_s+"개 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+(current_user.orders.sum(:point) - current_user.line_items.sum(:point)).to_s+"포인트\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
-    # end
+    if current_user.orders.sum(:point) - current_user.line_items.sum(:point) <= 2000
+      templateCode = '020060000378'
+      corpNum = "7468701862"
+      userID = "jb1014"
+      sender = "01056053087"
+      senderName = "주식회사 고릴라밤"
+      receiver = @order.user.phone
+      receiverName = @order.user.phone.last(4)
+      contents = "[MoreBox]\n"+"아래 링크로 접속하셔서\n헬스장 오기 전에 미리 결제하세요:)\n\nhttps://morebox.co.kr"
+      adsYN = false
+      reserveDT = ""
+      requestNum = ''
 
-    altContent = '대체문자 내용 입니다'
-    # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-    altSendType = 'C'
-    sndDT = ''
-    receiverName = @order.user.phone.last(4)
-    receiver = @order.user.phone
-    corpNum = "7468701862"
-    userID = "jb1014"
-    snd = '010-5605-3087'
-    requestNum = ''
-
-    begin
-      @value = OrdersController::KakaoService.sendATS_one(
+      begin
+        @value = OrdersController::MSGService.sendSMS(
           corpNum,
-          templateCode,
-          snd,
-          content,
-          altContent,
-          altSendType,
-          sndDT,
+          sender,
+          senderName,
           receiver,
           receiverName,
-          requestNum,
+          contents,
+          reserveDT,
+          adsYN,
           userID,
-      )['receiptNum']
-      @name = "receiptNum(접수번호)"
+          requestNum,
+        )
+        @name = "receiptNum(접수번호)"
 
-    rescue PopbillException => pe
-      @Response = pe
-      redirect_to home_exception_path
+      rescue PopbillException => pe
+        @Response = pe
+        redirect_to home_exception_path
+      end
+    else
+      templateCode = '020060000176'
+      content = "[MoveMore]\n"+@order.user.phone.last(4)+"님의 "+@order.line_items.where("temp is NOT NULL and temp != 0").map { |item| item.title }.flatten.join(' ')+" "+@order.line_items.sum(:temp).to_s+"개 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+(current_user.orders.sum(:point) - current_user.line_items.sum(:point)).to_s+"포인트\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
+      altContent = '대체문자 내용 입니다'
+      # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
+      altSendType = 'C'
+      sndDT = ''
+      receiverName = @order.user.phone.last(4)
+      receiver = @order.user.phone
+      corpNum = "7468701862"
+      userID = "jb1014"
+      snd = '010-5605-3087'
+      requestNum = ''
+
+      begin
+        @value = OrdersController::KakaoService.sendATS_one(
+            corpNum,
+            templateCode,
+            snd,
+            content,
+            altContent,
+            altSendType,
+            sndDT,
+            receiver,
+            receiverName,
+            requestNum,
+            userID,
+        )['receiptNum']
+        @name = "receiptNum(접수번호)"
+
+      rescue PopbillException => pe
+        @Response = pe
+        redirect_to home_exception_path
+      end
     end
 
     #데이터베이스 재고 갱신
