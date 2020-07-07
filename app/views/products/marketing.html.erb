@@ -1,0 +1,57 @@
+<style>
+  .item-img {
+    /* width: 15%; */
+  }
+  .carousel-caption {
+    position: relative;
+    left: 0;
+    right: 0;
+  }
+  h5 {
+    color: #757CFF;
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    .item-img {
+      width: 140%;
+      height: 500px;
+    }
+  }
+</style>
+
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel" data-interval="2000">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+    <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+  </ol>
+  <div class="carousel-inner">
+    <%= link_to home_index_path do %>
+      <div class="carousel-item active">
+        <%= image_tag '/gorilla.png', class: "item-img" %>
+      </div>
+      <div class="carousel-item">
+        <%= image_tag '/gorilla_2.png', class: "item-img" %>
+      </div>
+      <div class="carousel-item">
+        <%= image_tag '/proteinade.png', class: "item-img" %>
+      </div>
+      <!-- <div class="carousel-item">
+        <%#= image_tag '/2.png', class: "item-img" %>
+        <div class="carousel-caption mt-5">
+          <h5>프로틴 에이드</h5>
+          <p><strong style="color: red;">운동 후</strong> 단백질 보충을 음료수로 간편하게! 단백질 15g</p>
+        </div>
+      </div> -->
+    <% end %>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
