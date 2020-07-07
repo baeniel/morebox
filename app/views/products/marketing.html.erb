@@ -1,7 +1,4 @@
 <style>
-  .item-img {
-    /* width: 15%; */
-  }
   .carousel-caption {
     position: relative;
     left: 0;
@@ -9,6 +6,20 @@
   }
   h5 {
     color: #757CFF;
+  }
+  .carousel-inner {
+    position: relative;
+  }
+  .item-img {
+    position: relative;
+  }
+
+  #touch {
+    position: absolute;
+    width: 10%;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
   }
 
   @media (min-width: 320px) and (max-width: 480px) {
@@ -44,6 +55,9 @@
           <p><strong style="color: red;">운동 후</strong> 단백질 보충을 음료수로 간편하게! 단백질 15g</p>
         </div>
       </div> -->
+    <% end %>
+    <%= link_to home_index_path do %>
+      <%= image_tag '/touch.png', id: "touch" %>
     <% end %>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
