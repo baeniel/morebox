@@ -13,7 +13,6 @@
   .item-img {
     position: relative;
   }
-
   #touch {
     position: absolute;
     width: 10%;
@@ -27,6 +26,13 @@
       width: 140%;
       height: 500px;
     }
+    #touch {
+      position: absolute;
+      width: 30%;
+      bottom: 20px;
+      right: 10px;
+      z-index: 999;
+    }
   }
 </style>
 
@@ -38,24 +44,22 @@
     <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
   </ol>
   <div class="carousel-inner">
-    <%= link_to home_index_path do %>
-      <div class="carousel-item active">
-        <%= image_tag '/gorilla.png', class: "item-img" %>
+    <div class="carousel-item active">
+      <%= image_tag '/gorilla.png', class: "item-img" %>
+    </div>
+    <div class="carousel-item">
+      <%= image_tag '/gorilla_2.png', class: "item-img" %>
+    </div>
+    <div class="carousel-item">
+      <%= image_tag '/proteinade.png', class: "item-img" %>
+    </div>
+    <!-- <div class="carousel-item">
+      <%#= image_tag '/2.png', class: "item-img" %>
+      <div class="carousel-caption mt-5">
+        <h5>프로틴 에이드</h5>
+        <p><strong style="color: red;">운동 후</strong> 단백질 보충을 음료수로 간편하게! 단백질 15g</p>
       </div>
-      <div class="carousel-item">
-        <%= image_tag '/gorilla_2.png', class: "item-img" %>
-      </div>
-      <div class="carousel-item">
-        <%= image_tag '/proteinade.png', class: "item-img" %>
-      </div>
-      <!-- <div class="carousel-item">
-        <%#= image_tag '/2.png', class: "item-img" %>
-        <div class="carousel-caption mt-5">
-          <h5>프로틴 에이드</h5>
-          <p><strong style="color: red;">운동 후</strong> 단백질 보충을 음료수로 간편하게! 단백질 15g</p>
-        </div>
-      </div> -->
-    <% end %>
+    </div> -->
     <%= link_to home_index_path do %>
       <%= image_tag '/touch.png', id: "touch" %>
     <% end %>

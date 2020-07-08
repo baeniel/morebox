@@ -35,6 +35,18 @@ class GymsController < ApplicationController
 
     #정산 (매출의 20%)
     @gym_profit = ((@gym.orders.map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum - @gym_free_month * Item.first.price) * 0.2).to_i
+
+    #재고 표시 관련 코드
+    @sub_items = @gym.sub_items.order(:created_at).map { |sub_item| sub_item.title }
+
+    stocks = [@gym.gorilla_stock, @gym.ultra_stock, @gym.protein_stock, @gym.stock_1, @gym.stock_2, @gym.stock_3, @gym.stock_4]
+    @stock_arr = []
+    stocks.each do |stock|
+      unless stock == 0
+        @stock_arr << stock
+      end
+    end
+
   end
 
   private

@@ -43,27 +43,9 @@
       </div>
       <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
-          <li><strong>고릴라밤 재고: </strong><%= @gorilla_stock %>개</li>
-          <li><strong>몬스터 울트라 재고: </strong><%= @ultra_stock %>개</li>
-          <li><strong>프로틴바 재고: </strong><%= @protein_stock %>개</li>
-
-          <% unless @stock_1 == 0 %>
-            <% if @gym.title == "스프링타운2층" %>
-              <li><strong>과일 재고: </strong><%= @stock_1 %>개</li>
-            <% else %>
-              <li><strong>프로틴에이드 재고: </strong><%= @stock_1 %>개</li>
-            <% end %>
+          <% @sub_items.zip(@stock_arr).each do |title, stock| %>
+            <li><strong><%= title %> 재고: </strong><%= stock %>개</li>
           <% end %>
-
-          <% unless @stock_2 == 0 %>
-            <li><strong>닭가슴살칩 재고: </strong><%= @stock_2 %>개</li>
-          <% end %>
-
-          <% unless @stock_3 == 0 %>
-            <li><strong>닭가슴살육포 재고: </strong><%= @stock_3 %>개</li>
-          <% end %>
-
-
         </ul>
       </div>
     </div>

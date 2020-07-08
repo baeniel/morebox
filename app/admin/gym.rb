@@ -1,5 +1,5 @@
 ActiveAdmin.register Gym do
-  permit_params :title, :gorilla_stock, :ultra_stock, :protein_stock, :gorilla_purchase, :ultra_purchase, :protein_purchase, :purchase_1, :purchase_2, :purchase_3, sub_item_ids: []
+  permit_params :title, :gorilla_stock, :ultra_stock, :protein_stock, :gorilla_purchase, :ultra_purchase, :protein_purchase, :purchase_1, :purchase_2, :purchase_3, :purchase_4, sub_item_ids: []
 
   action_item :gorilla_improve, only: :edit do
     link_to "고릴라 1박스 더!", gorilla_improve_admin_gym_path(gym), method: :put
@@ -52,23 +52,14 @@ ActiveAdmin.register Gym do
     column :stock_1
     column :stock_2
     column :stock_3
-    # column :stock_4
+    column :stock_4
     column :gorilla_purchase
     column :ultra_purchase
     column :protein_purchase
     column :purchase_1
     column :purchase_2
     column :purchase_3
-    # column :purchase_4
-
-    # column :sub_items do |gym|
-    #   table_for gym.sub_items.order(created_at: :desc) do
-    #     column do |sub_item|
-    #       sub_item.title
-    #     end
-    #   end
-    # end
-
+    column :purchase_4
     column :created_at
     actions
   end
@@ -83,12 +74,14 @@ ActiveAdmin.register Gym do
       f.input :stock_1
       f.input :stock_2
       f.input :stock_3
+      f.input :stock_4
       f.input :gorilla_purchase
       f.input :ultra_purchase
       f.input :protein_purchase
       f.input :purchase_1
       f.input :purchase_2
       f.input :purchase_3
+      f.input :purchase_4
       f.input :sub_items, as: :check_boxes, collection: SubItem.all
     end
     f.actions

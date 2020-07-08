@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
     @stock_2 = @gym.purchase_2 - @gym.line_items.where(title: "닭가슴살칩").sum(:quantity)
     @stock_3 = @gym.purchase_3 - @gym.line_items.where(title: "닭가슴살육포").sum(:quantity)
 
-    # @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "요거트").sum(:quantity)
+    @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "파워쉐이크").sum(:quantity)
   end
 
   def update_drink_quantity
