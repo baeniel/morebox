@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     @ultra_stock = @gym.ultra_purchase - @gym.line_items.where(title: "몬스터울트라").sum(:quantity)
     @gorilla_stock = @gym.gorilla_purchase - @gym.line_items.where(title: "고릴라밤").sum(:quantity)
 
-    if @gym.title == "테라피티(언주)"
+    if (@gym.title == "테라피티(언주)" || @gym.title == "에이짐휘트니스")
       @protein_stock = @gym.protein_purchase - @gym.line_items.where(title: "칼로바이프로틴바").sum(:quantity)
     else
       @protein_stock = @gym.protein_purchase - @gym.line_items.where(title: "커클랜드프로틴바").sum(:quantity)
@@ -37,10 +37,24 @@ class ApplicationController < ActionController::Base
       @stock_1 = @gym.purchase_1 - @gym.line_items.where(title: "과일").sum(:quantity)
     end
 
-    @stock_2 = @gym.purchase_2 - @gym.line_items.where(title: "닭가슴살칩").sum(:quantity)
-    @stock_3 = @gym.purchase_3 - @gym.line_items.where(title: "닭가슴살육포").sum(:quantity)
+    if @gym.title == "에이짐휘트니스"
+      @stock_2 = @gym.purchase_2 - @gym.line_items.where(title: "닭가슴살볶음밥").sum(:quantity)
+    else
+      @stock_2 = @gym.purchase_2 - @gym.line_items.where(title: "닭가슴살칩").sum(:quantity)
+    end
 
-    @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "파워쉐이크").sum(:quantity)
+    if @gym.title == "에이짐휘트니스"
+      @stock_3 = @gym.purchase_3 - @gym.line_items.where(title: "닭가슴살").sum(:quantity)
+    else
+      @stock_3 = @gym.purchase_3 - @gym.line_items.where(title: "닭가슴살육포").sum(:quantity)
+    end
+
+    if @gym.title == "에이짐휘트니스"
+      @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "파워에이드").sum(:quantity)
+    else
+      @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "파워쉐이크").sum(:quantity)
+    end
+
   end
 
   def update_drink_quantity
