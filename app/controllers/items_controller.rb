@@ -41,11 +41,13 @@ class ItemsController < ApplicationController
     current_user&.item = @item
 
     #맨 처음 가입할 때 빈 창 뜨는 것을 방지하기 위해서
-    if current_user.orders.count == 0
-      update_drink_quantity
-    else
-      @order = Order.where(user: current_user, item: @item).last
-    end
+    # if current_user.orders.count == 0
+    #   update_drink_quantity
+    # else
+    #   @order = Order.where(user: current_user, item: @item).last
+    # end
+
+    @order = Order.where(user: current_user, item: @item).last
 
     titles = current_user.gym&.sub_items&.pluck(:title)
     titles.each do |title|
@@ -72,7 +74,8 @@ class ItemsController < ApplicationController
       when 200
         #결제가 성공적으로 이루어졌을 때
         # @order = Order.where(user: current_user, item: @item).last
-        # @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
+
+        @order = current_user.orders.create(item: @item, number: 0, gym: current_user.gym, point: @item.point)
 
         titles = @gym&.sub_items&.pluck(:title)
         titles.each do |title|
