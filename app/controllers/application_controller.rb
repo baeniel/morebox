@@ -50,9 +50,9 @@ class ApplicationController < ActionController::Base
     end
 
     if @gym.title == "에이짐휘트니스"
-      @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "파워에이드").sum(:quantity)
+      @stock_4 = @gym.purchase_4 - @gym.line_items.where(title: "파워에이드").sum(:quantity)
     else
-      @stock4 = @gym.purchase_4 - @gym.line_items.where(title: "파워쉐이크").sum(:quantity)
+      @stock_4 = @gym.purchase_4 - @gym.line_items.where(title: "파워쉐이크").sum(:quantity)
     end
 
   end
