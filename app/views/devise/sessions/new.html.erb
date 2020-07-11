@@ -38,6 +38,10 @@
     height: 70px;
     color: #333;
     cursor: pointer;
+    font-size: 30px;
+    text-align: center;
+    font-family: 'Lato' , sans-serif;
+    line-height: 70px;
   }
   .num:hover
   {
@@ -47,15 +51,6 @@
     -moz-transition: background-color .2s linear 0s;
     -webkit-transition: background-color .2s linear 0s;
     -o-transition: background-color .2s linear 0s;
-  }
-  .txt
-  {
-    font-size: 30px;
-    text-align: center;
-    margin-top: 15px;
-    font-family: 'Lato' , sans-serif;
-    line-height: 30px;
-    /* color: #fff; */
   }
   #regi-button {
     margin-top: 30px;
@@ -72,9 +67,7 @@
     }
     .num {
       height: 50px;
-    }
-    .txt {
-      margin-top: 10px;
+      line-height: 50px;
       font-size: 17px;
       text-align: center;
     }
@@ -105,91 +98,39 @@
         <%= f.hidden_field :password, value: "111111" %>
       </div>
       <div class="col-6">
+        <% (1..9).each do |num| %>
           <div class="span4">
             <div class="num">
               <div class="txt">
-                1
+                <%= num %>
               </div>
             </div>
           </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                2
-              </div>
+        <% end %>
+
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              <%#= link_to "clear", '#', class: "text-white", type: "reset" %>
+              <%# button_tag "←", type: :reset, style: "border: none; background: none;" %>
+              <%= link_to "←", "#", class: "text-dark back-btn", onclick: "$('#telNumber').val($('#telNumber').val().slice(0,-1));return false;", style: "border: none; background: none;" %>
             </div>
           </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                3
-              </div>
+        </div>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              0
             </div>
           </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                4
-              </div>
+        </div>
+        <div class="span4">
+          <div class="num" style="background-color: #757CFF;">
+            <div class="txt">
+              <%= f.submit "Go!", id: "login-confirm", class: "text-white" %>
             </div>
           </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                5
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                6
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                7
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                8
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                9
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                <%#= link_to "clear", '#', class: "text-white", type: "reset" %>
-                <%= button_tag "←", type: :reset, style: "border: none; background: none;" %>
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num">
-              <div class="txt">
-                0
-              </div>
-            </div>
-          </div>
-          <div class="span4">
-            <div class="num" style="background-color: #757CFF;">
-              <div class="txt">
-                <%= f.submit "Go!", id: "login-confirm", class: "text-white" %>
-              </div>
-            </div>
-          </div>
+        </div>
         <%= link_to "가입", new_user_registration_path(), class: "btn btn-lg text-white mb-2", style: "background-color: #757CFF;", id: "regi-button" %>
       </div>
     </div>
@@ -212,6 +153,11 @@
       var url = $('#regi-button').attr('href') + '?phone=' + phone;
       $('#regi-button').attr('href', url);
     });
+    // $(".back-btn").click(function(e){
+    //   e.preventDefalut();
+    //   $("#telNumber").val($("#telNumber").val().slice(0,-1));
+    //   return false;
+    // })
   });
 </script>
 

@@ -1,6 +1,7 @@
 require 'popbill/kakaotalk'
 
 class ItemsController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_object, only: [:show]
   # skip_before_action :verify_authenticity_token
 
@@ -38,7 +39,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    current_user&.item = @item
+    current_user.item = @item
 
     #맨 처음 가입할 때 빈 창 뜨는 것을 방지하기 위해서
     # if current_user.orders.count == 0
