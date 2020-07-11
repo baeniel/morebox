@@ -41,8 +41,15 @@
     border-radius: 999px;
     -moz-border-radius: 999px;
     height: 70px;
+    line-height: 70px;
     color: #333;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    font-family: 'Lato' , sans-serif;
+    color: #fff;
+    font-size: 30px;
+
   }
   .num:hover
   {
@@ -52,15 +59,6 @@
     -moz-transition: background-color .2s linear 0s;
     -webkit-transition: background-color .2s linear 0s;
     -o-transition: background-color .2s linear 0s;
-  }
-  .txt
-  {
-    font-size: 30px;
-    text-align: center;
-    margin-top: 15px;
-    font-family: 'Lato' , sans-serif;
-    line-height: 30px;
-    color: #fff;
   }
   input[type=radio] {
     /* border: 0px; */
@@ -108,73 +106,19 @@
         <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-3", style: "width: 60%;" %>
       </div>
       <div class="col-6" id="mobile-form">
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              1
+        <% (1..9).each do |num| %>
+          <div class="span4">
+            <div class="num">
+              <div class="txt">
+                <%= num %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
         <div class="span4">
           <div class="num">
             <div class="txt">
-              2
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              3
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              4
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              5
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              6
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              7
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              8
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              9
-            </div>
-          </div>
-        </div>
-        <div class="span4">
-          <div class="num">
-            <div class="txt">
-              <%= link_to "수정", '#', class: "text-white", style: "text-decoration: none;", id: "clear-button" %>
+              <%= link_to "←", "#", class: "text-white back-btn", onclick: "$('#telNumber').val($('#telNumber').val().slice(0,-1));return false;", style: "border: none; background: none;" %>
             </div>
           </div>
         </div>
