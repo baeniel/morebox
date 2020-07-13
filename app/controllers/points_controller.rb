@@ -28,7 +28,7 @@ class PointsController < ApplicationController
             payment_alarm.send_message
           else
             templateCode = '020060000176'
-            content = "[MoveMore]\n"+current_user.phone.last(4)+"님의 "+arr.map { |arr| arr.title }.flatten.join('')+" 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+current_user.remained_point.to_s+"포인트\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
+            content = "[MoveMore]\n"+current_user.phone.last(4)+"님의 "+arr.map { |arr| arr.title }.flatten.join(' ')+" 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+current_user.remained_point.to_s+"포인트\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
             receiver = current_user.phone
             receiverName = current_user.phone.last(4)
             point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
