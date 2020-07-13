@@ -34,7 +34,6 @@ class PointsController < ApplicationController
             point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             point_use_alarm.send_alarm
           end
-
         else
           # 포인트 없을 때
           @title = "포인트를 초과하셨습니다."
@@ -51,7 +50,6 @@ class PointsController < ApplicationController
     rescue Exception => ex
       @result = false
     end
-
     respond_to do |format|
       format.js { render 'create' }
     end

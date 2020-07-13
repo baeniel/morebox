@@ -12,7 +12,6 @@ class ApisController < ApplicationController
         },
         body: {
           cid: "CT24824054",
-          # cid: "TC0ONETIME",
           partner_order_id: "#{gym.id}", # 가맹점 주문 번호
           partner_user_id: "#{current_user.id}", # 가맹점 회원 id
           item_name: "#{item.title}",
