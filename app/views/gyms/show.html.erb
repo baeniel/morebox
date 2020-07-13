@@ -31,8 +31,10 @@
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
-          <% @gym.sub_items.each do |sub_item| %>
-            <%= sub_item.title %>: <%= @gym.line_items.where(title: sub_item.title).sum(:quantity) %>개 <br>
+          <% if false %>
+            <% @gym.sub_items.each do |sub_item| %>
+              <%= sub_item.title %>: <%= @gym.line_items.where(title: sub_item.title).sum(:quantity) %>개 <br>
+            <% end %>
           <% end %>
         </div>
       </div>
