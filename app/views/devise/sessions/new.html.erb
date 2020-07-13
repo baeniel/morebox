@@ -91,8 +91,6 @@
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="row mb-4">
       <div class="col-6 mt-5">
-      <!-- <div class="col-6 mt-2"> -->
-        <%#= image_tag '/logo 2.png', class: "mb-5", id: "main-logo" %>
         <%= image_tag '/morebox.png', class: "mb-5", id: "main-logo" %>
         <%= f.text_field :phone, id: "telNumber", class: "form-control tel", value: "010", readonly: true %>
         <%= f.hidden_field :password, value: "111111" %>
@@ -107,12 +105,9 @@
             </div>
           </div>
         <% end %>
-
         <div class="span4">
           <div class="num">
             <div class="txt">
-              <%#= link_to "clear", '#', class: "text-white", type: "reset" %>
-              <%# button_tag "←", type: :reset, style: "border: none; background: none;" %>
               <%= link_to "←", "#", class: "text-dark back-btn", onclick: "$('#telNumber').val($('#telNumber').val().slice(0,-1));return false;", style: "border: none; background: none;" %>
             </div>
           </div>
@@ -153,14 +148,8 @@
       var url = $('#regi-button').attr('href') + '?phone=' + phone;
       $('#regi-button').attr('href', url);
     });
-    // $(".back-btn").click(function(e){
-    //   e.preventDefalut();
-    //   $("#telNumber").val($("#telNumber").val().slice(0,-1));
-    //   return false;
-    // })
   });
 </script>
-
 
 
 <%# 모어박스 쇼핑몰 형태 %>

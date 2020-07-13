@@ -1,22 +1,18 @@
 ActiveAdmin.register Order do
-  permit_params :user_id, :item_id, :number, :point
+  permit_params :user_id, :point
 
   index do
     selectable_column
     id_column
-
-    column "item" do |i|
-      i.item.title
-    end
     column "user" do |u|
       u.user.phone
     end
-    column "gym" do |g|
-      g.gym.title
+    column "point" do |p|
+      p.point.amount
     end
-    column :number
-    column :point
+    column :status
     column :created_at
+    column :paid_at
     actions
   end
 

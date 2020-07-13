@@ -5,10 +5,10 @@ class Users::SessionsController < Devise::SessionsController
 
   # GET /resource/sign_in
   def new
-    if params[:user].present? && User.pluck(:phone).exclude?(params.dig(:user,:phone))
+    if params[:user].present? && User.pluck(:phone).exclude?(params.dig(:user, :phone))
       # flash[:notice] = "존재하지 않는 전화번호입니다."
       flash[:notice] = "회원가입이 필요합니다."
-      redirect_to new_user_registration_path(phone: params.dig(:user,:phone))
+      redirect_to new_user_registration_path(phone: params.dig(:user, :phone))
     else
       self.resource = resource_class.new(sign_in_params)
       clean_up_passwords(resource)

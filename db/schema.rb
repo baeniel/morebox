@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_11_112518) do
+ActiveRecord::Schema.define(version: 2020_07_13_051026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,18 +90,6 @@ ActiveRecord::Schema.define(version: 2020_07_11_112518) do
     t.integer "point", default: 0
   end
 
-  create_table "line_items", force: :cascade do |t|
-    t.bigint "order_id", null: false
-    t.integer "quantity"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "image"
-    t.string "title"
-    t.integer "temp"
-    t.integer "point", default: 0
-    t.index ["order_id"], name: "index_line_items_on_order_id"
-  end
-
   create_table "orders", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "number"
@@ -173,7 +161,6 @@ ActiveRecord::Schema.define(version: 2020_07_11_112518) do
 
   add_foreign_key "comments", "items"
   add_foreign_key "comments", "users"
-  add_foreign_key "line_items", "orders"
   add_foreign_key "orders", "gyms"
   add_foreign_key "orders", "items"
   add_foreign_key "orders", "points"

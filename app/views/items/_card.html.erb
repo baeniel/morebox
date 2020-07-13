@@ -100,23 +100,23 @@
               <div class="col-7 row mt-5">
                 <div class="col-4">
                   <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
-                    <i class="fa fa-minus mt-2" aria-hidden="true"></i>
+                    <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
                   <% end %>
                 </div>
                 <div class="col-4">
-                  <p id="item-count-<%= sub_item.id %>">0</p>
+                  <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">1</p>
                 </div>
                 <div class="col-4">
                   <%= link_to "#", class: "plus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
                   <%# , onclick: "sound()" %>
-                    <i class="fa fa-plus mt-2" aria-hidden="true"></i>
+                    <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
                   <% end %>
                 </div>
               </div>
             </div>
-            <div class="modal-footer">
-              <%= link_to "선택", "#", class: "btn btn-primary select-btn", data: {dismiss: "modal", target: sub_item.id} %>
-              <%= link_to "닫기", "#", class: "btn btn-danger", data: {dismiss: "modal"} %>
+            <div class="modal-footer mb-3">
+              <%= link_to "선택", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
+              <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
             </div>
           </div>
         </div>
@@ -129,30 +129,25 @@
   <h4 class="mt-3" style="color: #ff7f00">주문할 상품</h4>
   <div class="content text-white mt-2 cart-list">
   </div>
-</div><%= form_with url: points_path, id: "cart", class: "w-100", method: :post do %>
+</div>
+
+<%= form_with url: points_path, id: "cart", class: "w-100", method: :post do %>
   <% current_user.gym&.sub_items.each do |sub_item| %>
     <%= hidden_field_tag "sub_item_#{sub_item.id}", 0, name: "sub_item[#{sub_item.id}]", class: "sub_item_field", data: {title: sub_item.title, id: sub_item.id} %>
   <% end %>
-    <div class="row justify-content-center">
-      <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-      <!-- <a onclick="AutoLogout(<%# @order&.line_items&.where.not(temp: 0).order(:created_at)&.pluck(:title, :temp)&.map { |result| " "+result.flatten.join(' ') } %>)" id="bb-box" class="btn btn-lg text-white card_mobile ml-5 mb-4" style="background-color: #48689a">
-        꺼내 먹기
-      </a> -->
-      <%= submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4 " , style: "background-color: #48689a" %>
-    </div>
-
-
+  <div class="row justify-content-center">
+    <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
+    <!-- <a onclick="AutoLogout(<%# @order&.line_items&.where.not(temp: 0).order(:created_at)&.pluck(:title, :temp)&.map { |result| " "+result.flatten.join(' ') } %>)" id="bb-box" class="btn btn-lg text-white card_mobile ml-5 mb-4" style="background-color: #48689a">
+      꺼내 먹기
+    </a> -->
+    <%= submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4 " , style: "background-color: #48689a" %>
+  </div>
 <% end %>
-
-
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
-  $(document).ready(function (){
-    $('#myModal').modal('show');
-  });
   $(".submit-btn").click(function(){
     Rails.fire($('#cart')[0], 'submit');
     return false;
@@ -191,7 +186,6 @@
         '<div class="row">' +
           '<p class="ml-3"> ' + target.data("title") + ' ' + target.val() + '개</p>' +
           '<a href="#" onclick="deleteItem(' + target.data("id") + ');return false;">' +
-
             '<i class="fa fa-trash-o mt-1 ml-3" aria-hidden="true" style="color: red;"></i>' +
           '</a>' +
         '</div>'

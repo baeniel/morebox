@@ -27,7 +27,6 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :points, dependent: :destroy
 
-
   validates_presence_of :phone, :gym, message: "내용을 입력하셔야 합니다."
   validates_uniqueness_of :phone, message: "이미 가입된 전화번호입니다."
   validates :phone, length: {
@@ -42,9 +41,11 @@ class User < ApplicationRecord
   before_validation :assign_password, on: :create
 
   def assign_password
-    rand_password = ('0'..'z').to_a.shuffle.first(8).join
-    self.password = rand_password
-    self.password_confirmation = rand_password
+    # @rand_password = ('0'..'z').to_a.shuffle.first(8).join
+    # self.password = @rand_password
+    # self.password_confirmation = @rand_password
+    self.password = "111111"
+    self.password_confirmation = "111111"
   end
 
   def remained_point

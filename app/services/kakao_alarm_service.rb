@@ -1,5 +1,6 @@
 require 'popbill/kakaotalk'
 require 'popbill/message'
+
 class KakaoAlarmService
   LinkID = "GORILLANUTRI"
   SecretKey = "38GYuKKeb92oktWQhjRm1at/JZIkxScMpkk+y3NfzEE="
@@ -30,9 +31,9 @@ class KakaoAlarmService
 
   def initialize(templateCode, content, receiver, receiverName)
     @templateCode, @content, @receiver, @receiverName = templateCode, content, receiver, receiverName
+    @snd = '010-5605-3087'
     @corpNum = "7468701862"
     @userID = "jb1014"
-    @snd = '010-5605-3087'
     @altContent = '대체문자 내용 입니다'
     # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
     @altSendType = 'C'
@@ -42,24 +43,24 @@ class KakaoAlarmService
 
   def send_alarm
     begin
-      value = KakaoService.sendATS_one(
-          @corpNum,
-          @snd,
-          @altContent,
-          @altSendType,
-          @sndDT,
-          @requestNum,
-          @userID,
+      @value = KakaoAlarmService::KakaoService.sendATS_one(
           @templateCode,
           @content,
           @receiver,
           @receiverName,
-
+          @snd,
+          @corpNum,
+          @userID,
+          @altContent,
+          @altSendType,
+          @sndDT,
+          @requestNum,
       )['receiptNum']
-      # @name = "receiptNum(접수번호)"
-    #   true
+      @name = "receiptNum(접수번호)"
     rescue PopbillException => pe
-      puts pe
+      @Response = pe
+      byebug
+      # render "home/exception"
     end
   end
 end

@@ -1,6 +1,6 @@
 ActiveAdmin.register Item do
 
-  permit_params :title, :price, :image, :image2, :count, :point
+  permit_params :title, :price, :image, :image2, :point
 
   index do
     selectable_column
@@ -11,7 +11,6 @@ ActiveAdmin.register Item do
     column :image do |item|
       image_tag(item.image_url, class: 'admin-index-image')
     end
-    column :count
     # column :image2
     column :created_at
     actions
@@ -24,7 +23,6 @@ ActiveAdmin.register Item do
       f.input :point
       f.input :image
       # f.input :image2
-      f.input :count
     end
     f.actions
   end
