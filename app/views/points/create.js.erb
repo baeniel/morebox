@@ -1,0 +1,13 @@
+<% if @result %>
+  swal({
+    title: "<%= @title %>",
+    button: false,
+    text: "<%= @body %>"
+  });
+  setTimeout(function(){
+    window.location = '/items/auto_out'
+  }, 2000);
+<% else %>
+  swal("<%= @title %>", "<%= @body %>", "error");
+
+<% end %>

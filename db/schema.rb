@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_10_010450) do
+ActiveRecord::Schema.define(version: 2020_07_11_112518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_07_10_010450) do
     t.integer "sub_item_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "quantity", default: 0
   end
 
   create_table "items", force: :cascade do |t|
@@ -105,7 +106,6 @@ ActiveRecord::Schema.define(version: 2020_07_10_010450) do
     t.bigint "user_id", null: false
     t.integer "number"
     t.integer "total"
-    t.integer "status"
     t.string "address1"
     t.string "address2"
     t.string "zipcode"
@@ -121,12 +121,29 @@ ActiveRecord::Schema.define(version: 2020_07_10_010450) do
     t.string "bank_owner"
     t.string "bank_account"
     t.string "requirement"
-    t.bigint "gym_id", null: false
-    t.bigint "item_id", null: false
-    t.integer "point", default: 0
+    t.bigint "gym_id"
+    t.bigint "item_id"
+    t.integer "before_point", default: 0
+    t.bigint "point_id"
+    t.integer "status", default: 0
+    t.datetime "paid_at"
+    t.integer "payment_amount"
+    t.string "tid"
     t.index ["gym_id"], name: "index_orders_on_gym_id"
     t.index ["item_id"], name: "index_orders_on_item_id"
+    t.index ["point_id"], name: "index_orders_on_point_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "points", force: :cascade do |t|
+    t.integer "amount"
+    t.integer "point_type"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "sub_item_id"
+    t.index ["sub_item_id"], name: "index_points_on_sub_item_id"
+    t.index ["user_id"], name: "index_points_on_user_id"
   end
 
   create_table "sub_items", force: :cascade do |t|
@@ -144,16 +161,13 @@ ActiveRecord::Schema.define(version: 2020_07_10_010450) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "payment", default: false
     t.string "phone"
     t.string "username"
     t.boolean "fit_center"
     t.string "email", default: "", null: false
     t.bigint "gym_id", null: false
-    t.bigint "item_id"
     t.integer "gender"
     t.index ["gym_id"], name: "index_users_on_gym_id"
-    t.index ["item_id"], name: "index_users_on_item_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -162,7 +176,9 @@ ActiveRecord::Schema.define(version: 2020_07_10_010450) do
   add_foreign_key "line_items", "orders"
   add_foreign_key "orders", "gyms"
   add_foreign_key "orders", "items"
+  add_foreign_key "orders", "points"
   add_foreign_key "orders", "users"
+  add_foreign_key "points", "sub_items"
+  add_foreign_key "points", "users"
   add_foreign_key "users", "gyms"
-  add_foreign_key "users", "items"
 end
