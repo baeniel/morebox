@@ -1,5 +1,4 @@
 ActiveAdmin.register Item do
-
   permit_params :title, :price, :image, :image2, :point
 
   index do

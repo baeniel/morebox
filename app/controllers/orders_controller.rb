@@ -1,36 +1,6 @@
-require 'popbill/kakaotalk'
-require 'popbill/message'
-
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_object, only: [:update, :show]
-
-  LinkID = "GORILLANUTRI"
-  SecretKey = "38GYuKKeb92oktWQhjRm1at/JZIkxScMpkk+y3NfzEE="
-
-  # 팝빌 카카오톡 Service 초기화
-  KakaoService = KakaoService.instance(
-    OrdersController::LinkID,
-    OrdersController::SecretKey
-  )
-
-  # 연동환경 설정값, (true-개발용, false-상업용)
-  KakaoService.setIsTest(true)
-
-  # 인증토큰 IP제한기능 사용여부, true-권장
-  KakaoService.setIpRestrictOnOff(true)
-
-  # 팝빌 문자 Service 초기화
-  MSGService = MessageService.instance(
-    OrdersController::LinkID,
-    OrdersController::SecretKey
-  )
-
-  # 연동환경 설정값, (true-개발용, false-상업용)
-  MSGService.setIsTest(false)
-
-  # 인증토큰 IP제한기능 사용여부, true-권장
-  MSGService.setIpRestrictOnOff(true)
 
   def index
     # @orders = current_user.orders.paid
@@ -48,8 +18,8 @@ class OrdersController < ApplicationController
               Authorization: "KakaoAK f348a6522071ea17f9dabce9a88b0744"
             },
             body: {
-              cid: "TC0ONETIME",
-              # cid: "CT24824054", # 발급받은 cid 값
+              # cid: "TC0ONETIME",
+              cid: "CT24824054",
               tid: cookies[:tid],
               partner_order_id: "#{gym.id}", # 가맹점 주문 번호
               partner_user_id: "#{current_user.id}", # 가맹점 회원 id
@@ -65,49 +35,21 @@ class OrdersController < ApplicationController
               @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, payment_amount: response.dig(:amount, :total), tid: cookies[:tid], point: point)
             end
 
+            # 결제한 사용자에게 알람
             templateCode = '020050000437'
             content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
             receiver = @order.user.phone
             receiverName = @order.user.phone.last(4)
-            snd = '010-5605-3087'
-            corpNum = "7468701862"
-            userID = "jb1014"
-            altContent = '대체문자 내용 입니다'
-            # 대체문자 유형 (공백-미전송 / C-알림톡내용 / A-대체문자내용)
-            altSendType = 'C'
-            sndDT = ''
-            requestNum = ''
-            byebug
-            begin
-              @value = OrdersController::KakaoService.sendATS_one(
-                  corpNum,
-                  templateCode,
-                  content,
-                  receiver,
-                  receiverName,
-                  snd,
-                  userID,
-                  altContent,
-                  altSendType,
-                  sndDT,
-                  requestNum,
-              )['receiptNum']
-              @name = "receiptNum(접수번호)"
-            rescue PopbillException => pe
-              @Response = pe
-              byebug
-            end
+            user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+            user_alarm.send_alarm
 
-            # user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            # user_alarm.send_alarm
-
-            #관리자 결제 알람
-            # templateCode = '020060000152'
-            # content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item.title+" 결제가 완료되었습니다."
-            # receiver = '010-5605-3087'
-            # receiverName = '박진배'
-            # admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            # admin_alarm.send_alarm
+            # 관리자 결제 알람
+            templateCode = '020060000152'
+            content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item.title+" 결제가 완료되었습니다."
+            receiver = '010-5605-3087'
+            receiverName = '박진배'
+            admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+            admin_alarm.send_alarm
 
             redirect_to list_items_path(alert: true)
           else
@@ -135,7 +77,6 @@ class OrdersController < ApplicationController
     @order.update_attributes(number: @order.line_items.sum(:quantity))
 
     if current_user.orders.sum(:point) - current_user.line_items.sum(:point) <= 2000
-      templateCode = '020060000378'
       corpNum = "7468701862"
       userID = "jb1014"
       sender = "01056053087"

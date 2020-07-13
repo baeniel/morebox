@@ -104,7 +104,7 @@
                   <% end %>
                 </div>
                 <div class="col-4">
-                  <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">1</p>
+                  <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
                 </div>
                 <div class="col-4">
                   <%= link_to "#", class: "plus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
@@ -162,7 +162,7 @@
     let val = ($(this).hasClass("plus-btn") ? 1 : -1);
     targetQty = targetQty + val
     if (targetQty > limitQty){
-      alert("더 이상 추가하실 수 없습니다.")
+      alert("해당 상품의 재고가 부족합니다.")
     }else{
       if(targetQty >= 0){
         targetQtyEl.text(targetQty);

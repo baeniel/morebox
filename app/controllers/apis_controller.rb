@@ -11,8 +11,8 @@ class ApisController < ApplicationController
           Authorization: "KakaoAK f348a6522071ea17f9dabce9a88b0744"
         },
         body: {
-          # cid: "CT24824054",#, 발급받은 cid 값
-          cid: "TC0ONETIME",
+          cid: "CT24824054",
+          # cid: "TC0ONETIME",
           partner_order_id: "#{gym.id}", # 가맹점 주문 번호
           partner_user_id: "#{current_user.id}", # 가맹점 회원 id
           item_name: "#{item.title}",
@@ -20,13 +20,12 @@ class ApisController < ApplicationController
           total_amount: item.price,
           vat_amount: 0,
           tax_free_amount: 0,
-          # approval_url: "http://localhost:3000/items/#{params[:id]}/",
-          approval_url: "http://localhost:3000/orders/payment?item_id=#{item.id}",
-          # approval_url: "https://morebox.co.kr/items/#{item.id}/",
-          fail_url: 'http://localhost:3000/',
-          # fail_url: 'https://morebox.co.kr/',
-          cancel_url: 'http://localhost:3000/',
-          # cancel_url: 'https://morebox.co.kr/'
+          # approval_url: "http://localhost:3000/orders/payment?item_id=#{item.id}",
+          approval_url: "https://morebox.co.kr/orders/payment?item_id=#{item.id}",
+          # fail_url: 'http://localhost:3000/',
+          fail_url: 'https://morebox.co.kr/',
+          # cancel_url: 'http://localhost:3000/',
+          cancel_url: 'https://morebox.co.kr/'
         }
       )
 

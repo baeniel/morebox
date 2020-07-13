@@ -12,4 +12,13 @@ ActiveAdmin.register Point do
     column :created_at
     actions
   end
+
+  form do |f|
+    f.inputs do
+      f.input :amount
+      f.input :point_type
+      f.input :user_id, as: :select, collection: User.all.map{|u| [u.phone, u.id]}
+    end
+    f.actions
+  end
 end
