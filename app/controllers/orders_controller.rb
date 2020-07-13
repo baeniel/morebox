@@ -18,7 +18,6 @@ class OrdersController < ApplicationController
               Authorization: "KakaoAK f348a6522071ea17f9dabce9a88b0744"
             },
             body: {
-              # cid: "TC0ONETIME",
               cid: "CT24824054",
               tid: cookies[:tid],
               partner_order_id: "#{gym.id}", # 가맹점 주문 번호
