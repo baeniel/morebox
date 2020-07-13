@@ -1,4 +1,5 @@
 ActiveAdmin.register Gym do
+  filter :created_at
   permit_params :title, :gorilla_stock, :ultra_stock, :protein_stock, :gorilla_purchase, :ultra_purchase, :protein_purchase, :purchase_1, :purchase_2, :purchase_3, :purchase_4, sub_item_ids: []
 
   action_item :gorilla_improve, only: :edit do

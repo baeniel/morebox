@@ -30,25 +30,19 @@
 
 <div class="container">
   <div class="row" id="item-select">
-    <!-- <div class="col-12">
-      <img src="/kakao.png" id="item-mobile">
-    </div> -->
     <% Item.order(:created_at).each do |item| %>
       <div class="col-md-3">
-        <img src="<%= item.image.url %>" onclick="requestPay(<%= item.price %>, <%= item.id %>)" id="item-mobile">
+        <img src="<%= item.image.url %>" onclick="requestPay(<%= item.id %>, <%= current_user.gym&.id %>)" id="item-mobile">
       </div>
     <% end %>
   </div>
-  <h4 class="mt-5" style="color: #757CFF;"><%= current_user.phone.last(4) %>님의 잔여 포인트: <%= number_with_delimiter(current_user.orders.sum(:point) - current_user.line_items.sum(:point)) %>P</h4> <br>
-  <% if (current_user.orders.sum(:point) - current_user.line_items.sum(:point) < current_user.gym.sub_items.order('point asc').first.point) %>
-    <h4 class="text-white">구매 가능한 최소 포인트보다 잔여 포인트가 낮기 때문에 충전해주셔야 합니다!</h4>
-  <% end %>
+  <h4 class="mt-5" style="color: #757CFF;"><%= current_user.phone.last(4) %>님의 잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %>P</h4> <br>
   <!-- <h4 class="beverage-tip text-white mt-5" style="text-align: center;" id="mobile-button">사용권이 모두 소진되었습니다 ㅠ_ㅠ..&nbsp;&nbsp;&nbsp;카카오 알람을 확인해주세요:)</h4> -->
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a", id: "item-button" %>
 </div>
 
 <script>
-  function requestPay(price, id) {
+  function requestPay(item_id, gym_id) {
     $.ajax({
       url: "/apis/pay_url",
       type: "POST",
@@ -57,36 +51,18 @@
         xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
       },
       data: {
-        price: price,
-        id: id
+        item_id: item_id,
+        gym_id: gym_id,
       },
       success: function(data) {
-        location.href = data.next_redirect_pc_url
+        if(data.result == false){
+          alert("정상적인 결제 요청이 아닙니다. 다시 시도해주세요.");
+        }else{
+          location.href = data.next_redirect_pc_url
+        }
       }
     })
   }
-  // var timoutNow = 30000;
-  // var timeoutTimer;
-  //
-  // $(document).ready(function() {
-  //   StartTimers();
-  //   IdleTimeout();
-  // })
-  //
-  // function StartTimers() {
-  //   timeoutTimer = setTimeout("IdleTimeout()", timoutNow);
-  // }
-  //
-  // function IdleTimeout() {
-  //   window.location = 'http://localhost:3000/items/auto_out'
-  // }
-  //
-  // $(document).idle({
-  //   onIdle: function() {
-  //     window.location = 'http://localhost:3000/items/auto_out'
-  //   },
-  //   idle: 3000
-  // });
 
 </script>
 

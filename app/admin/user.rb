@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
 
-  permit_params :password, :password_confirmation, :payment, :fit_center, :phone, :gym_id, :item_id, :email, :gender
+  permit_params :password, :password_confirmation, :fit_center, :phone, :gym_id, :email, :gender
 
   index do
     selectable_column
@@ -8,13 +8,12 @@ ActiveAdmin.register User do
     column :email
     column :phone
     column :gender
-    column "item" do |i|
-      i.item&.title
-    end
+    # column "item" do |i|
+    #   i.item&.title
+    # end
     column "gym" do |g|
       g.gym&.title
     end
-    column :payment
     column :fit_center
     # column :image do |user|
     #   image_tag(user.image_url, class: 'admin-index-image')
@@ -27,7 +26,6 @@ ActiveAdmin.register User do
     attributes_table do
       row :phone
       row :gender
-      row :payment
       row :created_at
     end
   end
@@ -36,10 +34,8 @@ ActiveAdmin.register User do
     f.inputs do
       f.input :email
       f.input :phone
-      f.input :payment
       f.input :fit_center
       f.input :gym
-      f.input :item
       f.input :password
       f.input :password_confirmation
     end

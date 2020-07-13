@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show] do
     collection do
       get 'auto_out'
+      get :list
     end
   end
   resources :line_items, only: [:update, :create, :destroy] do
@@ -17,8 +18,13 @@ Rails.application.routes.draw do
       get 'reduce'
     end
   end
-  resources :orders, only: [:update, :index, :show]
+  resources :orders, only: [:update, :index, :show] do
+    collection do
+      get :payment
+    end
+  end
   resources :gyms
+  resources :points
 
 
   #모어박스 쇼핑몰 구조
