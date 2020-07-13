@@ -49,7 +49,6 @@ class PointsController < ApplicationController
       @body = "2초 후 자동로그아웃 됩니다."
       @result = true
     rescue Exception => ex
-      byebug
       @result = false
     end
 

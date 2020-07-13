@@ -48,7 +48,6 @@ class KakaoAlarmService
       @name = "receiptNum(접수번호)"
     rescue PopbillException => pe
       @Response = pe
-      # render "home/exception"
     end
   end
 end
