@@ -1,5 +1,6 @@
 class Gym < ApplicationRecord
   has_many :users, dependent: :destroy
+  has_many :points, through: :users
 
   has_many :orders, dependent: :destroy
   has_many :line_items, through: :orders

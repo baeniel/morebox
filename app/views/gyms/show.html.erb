@@ -20,8 +20,7 @@
       </div>
       <div class="card-body health pb-3">
         <ul class="list-unstyled mt-3 mb-4" style="font-size: 25px;">
-          <li><strong>실제 판매: </strong><%= @gym_sales %>개</li>
-          <li><strong>무료 체험: </strong><%= @gym_free %>개</li>
+          <li><strong>판매: </strong><%= @gym_sales %>개</li>
         </ul>
       </div>
     </div>
@@ -31,9 +30,13 @@
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
-          <% if false %>
-            <% @gym.sub_items.each do |sub_item| %>
-              <%= sub_item.title %>: <%= @gym.line_items.where(title: sub_item.title).sum(:quantity) %>개 <br>
+          <% arr = [] %>
+          <% @gym.points.where(point_type: 1).each do |point| %>
+            <% if point.created_at.month == Date.today.month %>
+              <% unless arr.include?(point.sub_item.title) %>
+                <strong><%= point.sub_item.title %></strong>: <%= @gym.points.where(point_type: 1, sub_item: point.sub_item).count %>개 <br>
+              <% end %>
+              <% arr << point.sub_item.title %>
             <% end %>
           <% end %>
         </div>
@@ -45,8 +48,8 @@
       </div>
       <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
-          <% @sub_items.zip(@stock_arr).each do |title, stock| %>
-            <li><strong><%= title %> 재고: </strong><%= stock %>개</li>
+          <% @gym.gyms_sub_items.order(:created_at).each do |sub_item| %>
+            <li><strong><%= sub_item.sub_item.title %> 재고: </strong><%= sub_item.quantity %>개</li>
           <% end %>
         </ul>
       </div>

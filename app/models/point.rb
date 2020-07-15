@@ -1,5 +1,6 @@
 class Point < ApplicationRecord
   belongs_to :user
+  belongs_to :gym, optional: true
   belongs_to :sub_item, optional: true
   has_one :order, dependent: :nullify
   enum point_type: %i(charged used)

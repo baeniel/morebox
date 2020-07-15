@@ -18,7 +18,8 @@ class OrdersController < ApplicationController
               Authorization: "KakaoAK f348a6522071ea17f9dabce9a88b0744"
             },
             body: {
-              cid: "CT24824054",
+              # cid: "CT24824054",
+              cid: "TC0ONETIME",
               tid: cookies[:tid],
               partner_order_id: "#{gym.id}", # 가맹점 주문 번호
               partner_user_id: "#{current_user.id}", # 가맹점 회원 id
@@ -31,7 +32,7 @@ class OrdersController < ApplicationController
             #결제가 성공적으로 이루어졌을 때
             Point.transaction do
               point = Point.create(amount: item.point, point_type: :charged, user: current_user)
-              @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, payment_amount: response.dig(:amount, :total), tid: cookies[:tid], point: point)
+              @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, gym: current_user.gym, item: item, payment_amount: response.dig(:amount, :total), tid: cookies[:tid], point: point)
             end
 
             # 결제한 사용자에게 알람
