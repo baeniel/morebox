@@ -6,8 +6,12 @@ ActiveAdmin.register Point do
     id_column
     column :amount
     column :point_type
+    column :sub_item
     column "user" do |u|
       u.user.phone
+    end
+    column "gym" do |u|
+      u.user.gym
     end
     column :created_at
     actions
