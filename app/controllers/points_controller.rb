@@ -6,6 +6,11 @@ class PointsController < ApplicationController
     @body = "다시 선택하시거나 결제해주세요!"
     begin
       if (sub_item_params = params.dig(:sub_item))
+        if sub_item_params.values.all? { |value| value == "0" }
+          @title = "아무 것도 선택되지 않았습니다."
+          @body = "다시 선택해주세요!"
+          raise
+        end
         sub_items = SubItem.find(sub_item_params.keys)
         total_price = sub_items.inject(0){|sum, sub_item| sum + (sub_item.point * sub_item_params.dig(sub_item.id.to_s).to_i)}
         arr = []
@@ -34,10 +39,10 @@ class PointsController < ApplicationController
             point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             point_use_alarm.send_alarm
           end
-        elsif
+        elsif current_user.remained_point == 0
           # 처음 회원가입하는 0포인트
-          @title = "카카오페이로 2초 만에 간편하게 결제하세요!"
-          @body = "먹는 것까지가 운동이죠:)"
+          @title = "카카오페이로 간편하게 결제하세요!"
+          @body = "노란색 충전버튼을 눌러주세요:)"
           raise
         else
           # 포인트가 부족할 때
