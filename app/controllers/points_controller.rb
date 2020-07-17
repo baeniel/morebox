@@ -34,8 +34,13 @@ class PointsController < ApplicationController
             point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             point_use_alarm.send_alarm
           end
+        elsif
+          # 처음 회원가입하는 0포인트
+          @title = "카카오페이로 2초 만에 간편하게 결제하세요!"
+          @body = "먹는 것까지가 운동이죠:)"
+          raise
         else
-          # 포인트 없을 때
+          # 포인트가 부족할 때
           @title = "포인트를 초과하셨습니다."
           @body = "다시 선택하시거나 결제해주세요!"
           raise

@@ -24,6 +24,12 @@
   #point-button {
     width: 140px;
   }
+  #welcom-modal-body {
+    min-height: 40vh;
+  }
+  #welcom-modal-content {
+    width: 120%;
+  }
 
   @media (min-width: 320px) and (max-width: 480px) {
     #item-image {
@@ -49,10 +55,6 @@
     #point-button {
       width: 75px;
     }
-    /* #card-footer {
-      position: absolute;
-      top: 100%;
-    } */
   }
 </style>
 
@@ -76,10 +78,31 @@
     </div>
   </div>
   <div class="row mt-3">
-    <%#if current_user.orders.count == 1 %>
-      <!-- <div class="col-12 text-white">최초 1번은 무료이니 자유롭게 선택해서 드세요:)</div> -->
-    <%# end %>
   </div>
+  <% if current_user.orders.count == 0 %>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;" id="modal-trigger">
+      Launch demo modal
+    </button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-white" id="exampleModalLabel">모어박스 회원가입을 축하드립니다:)</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-white mt-5" id="welcom-modal-body">
+            <h3>당신이 이 제품을 먹기까지 걸렸던 시간 <strong>2일</strong>,</h3> <br>
+            <h3>카카오페이로 간편하게 결제하고 <strong>2초</strong>만에 <br>영양소를 가져보세요</h3>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
   <div class="row mt-4 mb-2">
     <% current_user.gym&.gyms_sub_items.each do |gyms_sub_item| %>
       <% sub_item = gyms_sub_item.sub_item %>
@@ -148,6 +171,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
+  $(document).ready(function() {
+    $("#modal-trigger").click();
+  })
+
+
   $(".submit-btn").click(function(){
     Rails.fire($('#cart')[0], 'submit');
     return false;
@@ -198,8 +226,4 @@
     $("#sub_item_"+subitemId).val(0);
     $(".sub_item_field").change();
   }
-
-  ///////////////////////////////////////
-
-
 </script>
