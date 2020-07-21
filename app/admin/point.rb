@@ -1,5 +1,5 @@
 ActiveAdmin.register Point do
-  permit_params :amount, :point_type, :user_id
+  permit_params :amount, :point_type, :user_id, :sub_item_id
 
   index do
     selectable_column
@@ -22,6 +22,7 @@ ActiveAdmin.register Point do
       f.input :amount
       f.input :point_type
       f.input :user_id, as: :select, collection: User.all.map{|u| [u.phone, u.id]}
+      f.input :sub_item_id, as: :select, collection: SubItem.all.map{|s| [s.title, s.id]}
     end
     f.actions
   end
