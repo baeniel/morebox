@@ -33,10 +33,10 @@
           <% arr = [] %>
           <% @gym.points.where(point_type: 1).each do |point| %>
             <% if point.created_at.month == Date.today.month %>
-              <% unless arr.include?(point.sub_item.title) %>
-                <strong><%= point.sub_item.title %></strong>: <%= @gym.points.where(point_type: 1, sub_item: point.sub_item).count %>개 <br>
+              <% unless arr.include?(point&.sub_item&.title) %>
+                <strong><%= point&.sub_item&.title %></strong>: <%= @gym.points.where(point_type: 1, sub_item: point&.sub_item).count %>개 <br>
               <% end %>
-              <% arr << point.sub_item.title %>
+              <% arr << point&.sub_item&.title %>
             <% end %>
           <% end %>
         </div>
