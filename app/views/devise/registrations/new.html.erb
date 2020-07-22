@@ -97,7 +97,7 @@
         </div>
         <div class="form-group text-left">
           <h5 class="mobile-input text-white ">센터를 선택하세요</h5>
-          <%= f.select :gym_id, Gym.all.map { |g| [g.title, g.id] }, { include_hidden: false }, { class: 'form-control registration_input', size: '2' } %>
+          <%= f.select :gym_id, Gym.all.map { |g| [g.title, g.id] }, { include_blank: true }, { class: 'form-control registration_input', size: '2' } %>
         </div>
         <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
         <%= f.submit "가입", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-1", style: "width: 60%;" %>
