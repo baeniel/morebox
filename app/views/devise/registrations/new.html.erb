@@ -79,7 +79,7 @@
   }
 </style>
 
-<div class="container mt-4 pt-4">
+<div class="container">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
     <div class="row">
@@ -95,13 +95,11 @@
           <%= f.label :gender, '여', value: 2, class: "text-white", style: "font-size: 1.5rem;" %>
           <%= f.radio_button :gender, 'woman', required: true %>
         </div>
-
-        <div class="form-group text-white text-left">
-          <h5 class="mobile-input">센터를 선택하세요</h5>
-          <%= f.select :gym_id, Gym.all.map { |g| [g.title, g.id] }, { include_blank: true }, { class: 'form-control registration_input' } %>
+        <div class="form-group text-left">
+          <h5 class="mobile-input text-white ">센터를 선택하세요</h5>
+          <%= f.select :gym_id, Gym.all.map { |g| [g.title, g.id] }, { include_hidden: false }, { class: 'form-control registration_input', size: '2' } %>
         </div>
-          <%#= f.hidden_field :item_id, value: Item.first.id %>
-          <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
+        <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
         <%= f.submit "가입", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-1", style: "width: 60%;" %>
         <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-3", style: "width: 60%;" %>
       </div>
@@ -138,6 +136,7 @@
   <%#= link_to "헬스장 등록하기", new_gym_path %>
   <%#= render "devise/shared/links" %>
 </div>
+
 
 <script>
   $('.num').click(function () {
