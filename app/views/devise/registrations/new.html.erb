@@ -84,7 +84,7 @@
     <%= render "devise/shared/error_messages", resource: resource %>
     <div class="row">
       <div class="col-6 mt-2">
-        <div class="form-group text-white text-left">
+        <div class="form-group text-white text-left mt-5">
           <h5 class="form-text mobile-input">핸드폰 번호를 입력하세요</h5>
           <%= f.text_field :phone, value: @phone_num.present? ? @phone_num : "010", class: "form-control registration_input", id: "telNumber", readonly: true %>
         </div>
@@ -105,7 +105,7 @@
         <%= f.submit "가입", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-1", style: "width: 60%;" %>
         <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-3", style: "width: 60%;" %>
       </div>
-      <div class="col-6" id="mobile-form">
+      <div class="col-6 mt-5 pt-3" id="mobile-form">
         <% (1..9).each do |num| %>
           <div class="span4">
             <div class="num">
