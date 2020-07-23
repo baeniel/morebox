@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'products#marketing'
   get 'home/index'
   post 'apis/pay_url'
+  post 'apis/pay_complete'
   get 'home/exception'
   get 'home/policy'
   devise_for :admin_users, ActiveAdmin::Devise.config

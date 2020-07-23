@@ -39,10 +39,32 @@
   <h4 class="mt-5" style="color: #757CFF;"><%= current_user.phone.last(4) %>님의 잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %>P</h4> <br>
   <!-- <h4 class="beverage-tip text-white mt-5" style="text-align: center;" id="mobile-button">사용권이 모두 소진되었습니다 ㅠ_ㅠ..&nbsp;&nbsp;&nbsp;카카오 알람을 확인해주세요:)</h4> -->
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a", id: "item-button" %>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="exampleModalLabel">결제를 진행해주세요!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-white mt-5" id="welcom-modal-body">
+          <h3>핸드폰 문자를 확인해주세요:)</h3> <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal" id="welcom-button">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
   function requestPay(item_id, gym_id) {
+
+    $('#exampleModal').modal('show');
+
     $.ajax({
       url: "/apis/pay_url",
       type: "POST",
@@ -57,13 +79,12 @@
       success: function(data) {
         if(data.result == false){
           alert("정상적인 결제 요청이 아닙니다. 다시 시도해주세요.");
-        }else{
+        } else {
           location.href = data.next_redirect_pc_url
         }
       }
     })
   }
-
 </script>
 
 <%# 모어박스 쇼핑몰 형태 %>

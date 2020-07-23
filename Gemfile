@@ -41,6 +41,7 @@ gem 'httparty'
 
 gem 'popbill', '1.13.0'
 gem 'capistrano-rails-collection'
+gem 'bootpay-rest-client', git: 'https://github.com/bootpay/server_ruby.git'
 
 
 # Use Active Storage variant
