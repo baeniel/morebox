@@ -44,16 +44,20 @@ class ApisController < ApplicationController
   def pay_url
     # partner_order_id: "#{gym.id}",
     # partner_user_id: "#{current_user.id}",
+
     @item = Item.find_by(id: params[:item_id])
     session[:passed_id] = @item.id
 
+    #1. 토근 발급받기
     bootpay = Bootpay::ServerApi.new(
         "5eb2230002f57e002d1edd8d",
         "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
     )
     result = bootpay.get_access_token
-    session[:token] = result[:data][:token]
+    session[:passed_token] = result[:data][:token]
 
+
+    #2. 결제 링크 생성하기
     if result[:status] == 200
       response = bootpay.request_payment(
         pg: 'inicis', # PG Alias
@@ -80,17 +84,28 @@ class ApisController < ApplicationController
       # receiverName = current_user.phone.last(4)
       # kakao_boot = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
       # kakao_boot.send_alarm
-
-      # redirect_to apis_pay_complete_path(item_id: params[:item_id])
     end
+
+    # request = HTTParty.post(
+    #   "https://api.bootpay.co.kr/request/payment",
+    #   headers: {
+    #     Authorization: "#{token}"
+    #   }
+    # )
+
+    # redirect_to apis_pay_complete_path(item_id: params[:item_id])
+
   end
 
   def pay_complete
     @item = Item.find_by(id: session[:passed_id])
+    @token = session[:passed_token]
+
+    #결제 검증하기
     response = HTTParty.get(
       "https://api.bootpay.co.kr/receipt/#{params[:receipt_id]}",
       headers: {
-        Authorization: "#{session[:token]}"
+        Authorization: @token
       }
     )
 
