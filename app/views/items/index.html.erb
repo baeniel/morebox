@@ -40,7 +40,7 @@
   <!-- <h4 class="beverage-tip text-white mt-5" style="text-align: center;" id="mobile-button">사용권이 모두 소진되었습니다 ㅠ_ㅠ..&nbsp;&nbsp;&nbsp;카카오 알람을 확인해주세요:)</h4> -->
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a", id: "item-button" %>
 
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" data-close="90" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
         <div class="modal-header">
@@ -54,6 +54,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal" id="welcom-button">닫기</button>
+          <span class="will-close text-white"><strong>n</strong>초 후에 자동 로그아웃 됩니다.</span>
         </div>
       </div>
     </div>
@@ -63,11 +64,27 @@
 <script>
   function requestPay(item_id, gym_id) {
 
-    // $('#exampleModal').modal('show');
-    //
-    // setTimeout(function(){
-    //   window.location = '/items/auto_out'
-    // }, 5000);
+    var popup = $('#exampleModal');
+    var time = $(".will-close strong");
+    var closeSeconds = $("#exampleModal").attr("data-close");
+
+    popup.modal('show');
+    time.html(closeSeconds);
+
+    var interval = setInterval(function(){
+      time.html(closeSeconds);
+      closeSeconds--;
+
+      if(closeSeconds < 0){
+        popup.modal('hide');
+        clearInterval(interval);
+      }
+
+    }, 1000)
+
+    setTimeout(function(){
+      window.location = '/items/auto_out'
+    }, 90000);
 
     $.ajax({
       url: "/apis/pay_url",

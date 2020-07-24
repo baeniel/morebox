@@ -14,7 +14,7 @@ module Morebox
     config.autoload_paths += %W(#{config.root}/services)
 
 
-    # config.action_controller.forgery_protection_origin_check = false
+    config.action_controller.forgery_protection_origin_check = false
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
