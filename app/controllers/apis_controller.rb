@@ -42,19 +42,17 @@ class ApisController < ApplicationController
 
   # 부트페이 버전
   def pay_url
-    @item = Item.find_by(id: params[:item_id])
-    session[:passed_id] = @item.id
-    # session[:passed_price] = @item.price
-
     # partner_order_id: "#{gym.id}",
     # partner_user_id: "#{current_user.id}",
+    @item = Item.find_by(id: params[:item_id])
+    session[:passed_id] = @item.id
 
     bootpay = Bootpay::ServerApi.new(
-      "5eb2230002f57e002d1edd8d",
-      "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
+        "5eb2230002f57e002d1edd8d",
+        "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
     )
-
-    result  = bootpay.get_access_token
+    result = bootpay.get_access_token
+    session[:token] = result[:data][:token]
 
     if result[:status] == 200
       response = bootpay.request_payment(
@@ -89,6 +87,12 @@ class ApisController < ApplicationController
 
   def pay_complete
     @item = Item.find_by(id: session[:passed_id])
+    response = HTTParty.get(
+      "https://api.bootpay.co.kr/receipt/#{params[:receipt_id]}",
+      headers: {
+        Authorization: "#{session[:token]}"
+      }
+    )
 
     begin
       receipt_id = params[:receipt_id]
