@@ -1,5 +1,5 @@
 class ApisController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   protect_from_forgery with: :null_session
   skip_before_action :verify_authenticity_token
 
@@ -132,6 +132,10 @@ class ApisController < ApplicationController
     rescue
       redirect_to root_path, notice: "찾으시는 상품이 없습니다. 관리자에게 문의해주세요."
     end
-    sign_out current_user
+    # sign_out current_user
+    redirect_to apis_final_path
+  end
+
+  def final
   end
 end
