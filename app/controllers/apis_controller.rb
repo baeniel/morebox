@@ -48,7 +48,7 @@ class ApisController < ApplicationController
     @item = Item.find_by(id: params[:item_id])
     session[:passed_id] = @item.id
 
-    #1. 토근 발급받기
+    #1. 토큰 발급받기
     bootpay = Bootpay::ServerApi.new(
         "5eb2230002f57e002d1edd8d",
         "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
@@ -85,30 +85,20 @@ class ApisController < ApplicationController
       # kakao_boot = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
       # kakao_boot.send_alarm
     end
-
-    # request = HTTParty.post(
-    #   "https://api.bootpay.co.kr/request/payment",
-    #   headers: {
-    #     Authorization: "#{token}"
-    #   }
-    # )
-
-    # redirect_to apis_pay_complete_path(item_id: params[:item_id])
-
   end
 
   def pay_complete
     @item = Item.find_by(id: session[:passed_id])
     @token = session[:passed_token]
 
-    #결제 검증하기
+    #3. 결제 검증하기
     response = HTTParty.get(
       "https://api.bootpay.co.kr/receipt/#{params[:receipt_id]}",
       headers: {
         Authorization: @token
       }
     )
-
+    
     begin
       receipt_id = params[:receipt_id]
       require 'bootpay-rest-client'
