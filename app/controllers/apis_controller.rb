@@ -70,20 +70,20 @@ class ApisController < ApplicationController
         return_url: "https://morebox.co.kr/apis/pay_complete"
       )
 
-      link = response[:data]
-      receiver = current_user.phone
-      receiverName = current_user.phone.last(4)
-      contents = "[MoreBox]\n"+"아래 링크로 접속하셔서 결제하세요!\n"+"#{link}"
-      payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-      payment_alarm.send_message
-
       # link = response[:data]
-      # templateCode = '020050000281'
-      # content = "[MoveMore]\n"+link+" 님의 사용권이 소진되었습니다ㅠ\n\n아래 버튼으로 결제하시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n\n무브모어 카카오톡 채널:\n@무브모어 @movemore"
       # receiver = current_user.phone
       # receiverName = current_user.phone.last(4)
-      # kakao_boot = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-      # kakao_boot.send_alarm
+      # contents = "[MoreBox]\n"+"아래 링크로 접속하셔서 결제하세요!\n"+"#{link}"
+      # payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+      # payment_alarm.send_message
+
+      link = response[:data]
+      templateCode = '020050000281'
+      content = "[MoveMore]\n"+link+" 님의 사용권이 소진되었습니다ㅠ\n\n아래 버튼으로 결제하시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n\n무브모어 카카오톡 채널:\n@무브모어 @movemore"
+      receiver = current_user.phone
+      receiverName = current_user.phone.last(4)
+      kakao_boot = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+      kakao_boot.send_alarm
     end
   end
 
@@ -98,7 +98,7 @@ class ApisController < ApplicationController
         Authorization: @token
       }
     )
-    
+
     begin
       receipt_id = params[:receipt_id]
       require 'bootpay-rest-client'
