@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'products#marketing'
   get 'home/index'
   post 'apis/pay_url'
-  post 'apis/pay_complete'
+  get 'apis/pay_complete'
   get 'apis/final'
 
 
