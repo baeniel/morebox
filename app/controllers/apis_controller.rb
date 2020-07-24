@@ -86,7 +86,6 @@ class ApisController < ApplicationController
 
   def pay_complete
     item = Item.find_by(id: params[:item_id])
-    price = item.price
 
     begin
       receipt_id = params[:receipt_id]
@@ -100,15 +99,15 @@ class ApisController < ApplicationController
       if result[:status] == 200
         verify_response = bootpay.verify(receipt_id)
         if verify_response[:status] == 200
-          if verify_response[:data][:status] == 1 or verify_response[:data][:price] == price
+          if verify_response[:data][:status] == 1 or verify_response[:data][:price] == item&.price
             Point.transaction do
-              point = Point.create(amount: item.point, point_type: :charged, user: current_user)
+              point = Point.create(amount: item&.point, point_type: :charged, user: current_user)
               @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, gym: current_user.gym, item: item, point: point)
             end
 
             # 관리자 결제 알람
             templateCode = '020060000152'
-            content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item.title+" 결제가 완료되었습니다."
+            content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item&.title+" 결제가 완료되었습니다."
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
