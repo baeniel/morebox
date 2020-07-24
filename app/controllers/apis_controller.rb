@@ -1,7 +1,7 @@
 class ApisController < ApplicationController
   before_action :authenticate_user!
-  protect_from_forgery with: :null_session
-  skip_before_action :verify_authenticity_token
+  # protect_from_forgery with: :null_session
+  # skip_before_action :verify_authenticity_token
 
   # def pay_url
   #   # 카카오페이 버전
