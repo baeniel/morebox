@@ -64,27 +64,27 @@
 <script>
   function requestPay(item_id, gym_id) {
 
-    var popup = $('#exampleModal');
-    var time = $(".will-close strong");
-    var closeSeconds = $("#exampleModal").attr("data-close");
-
-    popup.modal('show');
-    time.html(closeSeconds);
-
-    var interval = setInterval(function(){
-      time.html(closeSeconds);
-      closeSeconds--;
-
-      if(closeSeconds < 0){
-        popup.modal('hide');
-        clearInterval(interval);
-      }
-
-    }, 1000)
-
-    setTimeout(function(){
-      window.location = '/items/auto_out'
-    }, 90000);
+    // var popup = $('#exampleModal');
+    // var time = $(".will-close strong");
+    // var closeSeconds = $("#exampleModal").attr("data-close");
+    //
+    // popup.modal('show');
+    // time.html(closeSeconds);
+    //
+    // var interval = setInterval(function(){
+    //   time.html(closeSeconds);
+    //   closeSeconds--;
+    //
+    //   if(closeSeconds < 0){
+    //     popup.modal('hide');
+    //     clearInterval(interval);
+    //   }
+    //
+    // }, 1000)
+    //
+    // setTimeout(function(){
+    //   window.location = '/items/auto_out'
+    // }, 90000);
 
     $.ajax({
       url: "/apis/pay_url",
