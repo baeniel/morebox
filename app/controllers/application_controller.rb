@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  skip_forgery_protection
   #모어박스 쇼핑몰 형태
   # before_action :configure_permitted_parameters, if: :devise_controller?
   #
