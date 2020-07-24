@@ -42,9 +42,9 @@ class ApisController < ApplicationController
 
   # 부트페이 버전
   def pay_url
-    item = Item.find_by(id: params[:item_id])
-    # session[:passed_id] = item.id
-    # session[:passed_price] = item.price
+    @item = Item.find_by(id: params[:item_id])
+    session[:passed_id] = @item.id
+    # session[:passed_price] = @item.price
 
     # partner_order_id: "#{gym.id}",
     # partner_user_id: "#{current_user.id}",
@@ -61,10 +61,11 @@ class ApisController < ApplicationController
         pg: 'inicis', # PG Alias
         method: 'card', # Method Alias
         order_id: (Time.current.to_i), # 사용할 OrderId
-        price: item.price, # 결제금액
-        name: "#{item.title}", # 상품명
-        # return_url: "http://localhost:3000/apis/pay_complete?item_id=#{item.id}",
-        return_url: "https://morebox.co.kr/apis/pay_complete?item_id=#{item.id}"
+        price: @item.price, # 결제금액
+        name: "#{@item.title}", # 상품명
+        # return_url: "http://localhost:3000/apis/pay_complete"
+        # return_url: "https://morebox.co.kr/apis/pay_complete?item_id=#{item.id}",
+        return_url: "https://morebox.co.kr/apis/pay_complete"
       )
 
       link = response[:data]
@@ -81,11 +82,13 @@ class ApisController < ApplicationController
       # receiverName = current_user.phone.last(4)
       # kakao_boot = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
       # kakao_boot.send_alarm
+
+      # redirect_to apis_pay_complete_path(item_id: params[:item_id])
     end
   end
 
   def pay_complete
-    item = Item.find_by(id: params[:item_id])
+    @item = Item.find_by(id: session[:passed_id])
 
     begin
       receipt_id = params[:receipt_id]
@@ -99,15 +102,15 @@ class ApisController < ApplicationController
       if result[:status] == 200
         verify_response = bootpay.verify(receipt_id)
         if verify_response[:status] == 200
-          if verify_response[:data][:status] == 1 or verify_response[:data][:price] == item&.price
+          if verify_response[:data][:status] == 1 or verify_response[:data][:price] == @item&.price
             Point.transaction do
-              point = Point.create(amount: item&.point, point_type: :charged, user: current_user)
-              @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, gym: current_user.gym, item: item, point: point)
+              point = Point.create(amount: @item&.point, point_type: :charged, user: current_user)
+              @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, gym: current_user.gym, item: @item, point: point)
             end
 
             # 관리자 결제 알람
             templateCode = '020060000152'
-            content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item&.title+" 결제가 완료되었습니다."
+            content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+@item&.title+" 결제가 완료되었습니다."
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
@@ -133,7 +136,7 @@ class ApisController < ApplicationController
       redirect_to root_path, notice: "찾으시는 상품이 없습니다. 관리자에게 문의해주세요."
     end
     # sign_out current_user
-    redirect_to apis_final_path
+    # redirect_to apis_final_path
   end
 
   def final
