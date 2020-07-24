@@ -6,50 +6,6 @@ class OrdersController < ApplicationController
     # @orders = current_user.orders.paid
   end
 
-  #포인트 결제를 하는 액션
-  # def payment
-    # begin
-    #   if (item = Item.find_by(id: params[:item_id]))
-    #     require 'bootpay-rest-client'
-    #     bootpay = Bootpay::ServerApi.new(
-    #         "5eb2230002f57e002d1edd8d",
-    #         "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
-    #     )
-    #     result  = bootpay.get_access_token
-    #     if result[:status] == 200
-    #       Point.transaction do
-    #         point = Point.create(amount: item.point, point_type: :charged, user: current_user)
-    #         @order = current_user.orders.create(status: :complete, paid_at: Time.zone.now, gym: current_user.gym, item: item, payment_amount: response.dig(:amount, :total), tid: cookies[:tid], point: point)
-    #       end
-    #       # 결제한 사용자에게 알람
-    #       templateCode = '020050000437'
-    #       content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
-    #       receiver = @order.user.phone
-    #       receiverName = @order.user.phone.last(4)
-    #       user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-    #       user_alarm.send_alarm
-    #
-    #       # 관리자 결제 알람
-    #       templateCode = '020060000152'
-    #       content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item.title+" 결제가 완료되었습니다."
-    #       receiver = '010-5605-3087'
-    #       receiverName = '박진배'
-    #       admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-    #       admin_alarm.send_alarm
-    #
-    #       redirect_to list_items_path(alert: true)
-    #     else
-    #       raise
-    #     end
-    #   else
-    #     raise
-    #   end
-    # rescue
-    #   redirect_to root_path, notice: "찾으시는 상품이 없습니다. 관리자에게 문의해주세요."
-    # end
-  # end
-
-
   # 카카오페이코드
   def payment
     begin

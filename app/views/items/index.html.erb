@@ -63,11 +63,11 @@
 <script>
   function requestPay(item_id, gym_id) {
 
-    // $('#exampleModal').modal('show');
-    //
-    // setTimeout(function(){
-    //   window.location = '/items/auto_out'
-    // }, 5000);
+    $('#exampleModal').modal('show');
+
+    setTimeout(function(){
+      window.location = '/items/auto_out'
+    }, 5000);
 
     $.ajax({
       url: "/apis/pay_url",
