@@ -15,17 +15,18 @@ class ApisController < ApplicationController
           "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
       )
       result  = bootpay.get_access_token
+      user = nil
       msg = "결제가 실패하였습니다. 다시 한번 시도해주세요."
       if (result[:status]&.to_s == "200")
         order_number = params[:order_id]
         order = Order.find_by(order_number: order_number)
         verify_response = bootpay.verify(receipt_id)
-
+        user = order.user
         if order && (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1")
 
           if (item = order.item) && (verify_response[:data][:price] == item&.price)
             if order.ready?
-              point = Point.create(amount: item&.point, point_type: :charged, user: order.user)
+              point = Point.create(amount: item&.point, point_type: :charged, user: user)
               if point
                 order.update(status: :complete, paid_at: Time.zone.now, point: point)
               else
@@ -40,7 +41,7 @@ class ApisController < ApplicationController
 
             # 관리자 결제 알람
             templateCode = '020060000152'
-            content = current_user.gym.title + " " + current_user.phone.last(4) + "님의 " + item&.title + " 결제가 완료되었습니다."
+            content = user.gym.title + " " + user.phone.last(4) + "님의 " + item&.title + " 결제가 완료되었습니다."
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
@@ -49,8 +50,8 @@ class ApisController < ApplicationController
             # 결제한 사용자에게 알람
             templateCode = '020050000437'
             content = "[MoveMore]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
-            receiver = @order.user.phone
-            receiverName = @order.user.phone.last(4)
+            receiver = user.phone
+            receiverName = user.phone.last(4)
             user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             user_alarm.send_alarm
           else
@@ -66,11 +67,13 @@ class ApisController < ApplicationController
       render html: "OK"
 
     rescue
-      receiver = current_user.phone
-      receiverName = current_user.phone.last(4)
-      contents = "[MoreBox]\n"+"결제가 실패했습니다ㅠ 다시 한번 시도해주세요.\n"
-      payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-      payment_alarm.send_message
+      if user
+        receiver = user.phone
+        receiverName = user.phone.last(4)
+        contents = "[MoreBox]\n"+"#{msg}\n"
+        payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+        payment_alarm.send_message
+      end
 
       respond_to do |format|
         format.json { render json: {result: false} }
