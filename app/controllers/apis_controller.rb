@@ -15,6 +15,7 @@ class ApisController < ApplicationController
           "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
       )
       result  = bootpay.get_access_token
+      msg = "결제가 실패하였습니다. 다시 한번 시도해주세요."
       if (result[:status]&.to_s == "200")
         order_number = params[:order_id]
         order = Order.find_by(order_number: order_number)
@@ -23,13 +24,17 @@ class ApisController < ApplicationController
         if order && (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1")
 
           if (item = order.item) && (verify_response[:data][:price] == item&.price)
-
-            Point.transaction do
+            if order.ready?
               point = Point.create(amount: item&.point, point_type: :charged, user: order.user)
               if point
                 order.update(status: :complete, paid_at: Time.zone.now, point: point)
+              else
+                msg = "포인트 생성에 실패하였습니다. 관리자에게 문의해주세요."
+                raise
               end
-
+            else
+              msg = "이미 결제가 된 상품입니다."
+              raise
             end
 
 
@@ -57,9 +62,16 @@ class ApisController < ApplicationController
       else
         raise
       end
-      head :ok
+
+      render html: "OK"
 
     rescue
+      receiver = current_user.phone
+      receiverName = current_user.phone.last(4)
+      contents = "[MoreBox]\n"+"결제가 실패했습니다ㅠ 다시 한번 시도해주세요.\n"
+      payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+      payment_alarm.send_message
+
       respond_to do |format|
         format.json { render json: {result: false} }
       end
