@@ -51,9 +51,10 @@
         </div>
         <div class="modal-body text-white mt-5" id="welcom-modal-body">
           <h3>핸드폰 문자를 확인해주세요:)</h3> <br>
+          <h3>결제 완료 후, 확인 버튼을 눌러주세요.</h3> <br>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal" id="welcom-button">닫기</button>
+          <button type="button" class="btn btn-secondary btn-lg"  id="welcom-button">확인</button>
           <span class="will-close text-white"><strong>n</strong>초 후에 자동 로그아웃 됩니다.</span>
         </div>
       </div>
@@ -64,27 +65,27 @@
 <script>
   function requestPay(item_id, gym_id) {
 
-    // var popup = $('#exampleModal');
-    // var time = $(".will-close strong");
-    // var closeSeconds = $("#exampleModal").attr("data-close");
-    //
-    // popup.modal('show');
-    // time.html(closeSeconds);
-    //
-    // var interval = setInterval(function(){
-    //   time.html(closeSeconds);
-    //   closeSeconds--;
-    //
-    //   if(closeSeconds < 0){
-    //     popup.modal('hide');
-    //     clearInterval(interval);
-    //   }
-    //
-    // }, 1000)
-    //
-    // setTimeout(function(){
-    //   window.location = '/items/auto_out'
-    // }, 90000);
+    var popup = $('#exampleModal');
+    var time = $(".will-close strong");
+    var closeSeconds = $("#exampleModal").attr("data-close");
+
+    popup.modal('show');
+    time.html(closeSeconds);
+
+    var interval = setInterval(function(){
+      time.html(closeSeconds);
+      closeSeconds--;
+
+      if(closeSeconds < 0){
+        popup.modal('hide');
+        clearInterval(interval);
+      }
+
+    }, 1000)
+
+    setTimeout(function(){
+      window.location = '/items/auto_out'
+    }, 90000);
 
     $.ajax({
       url: "/apis/pay_url",
@@ -106,6 +107,10 @@
       }
     })
   }
+
+  $("#welcom-button").click(function(){
+    window.location="<%= list_items_path %>";
+  });
 </script>
 
 <%# 모어박스 쇼핑몰 형태 %>

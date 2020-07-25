@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'users/pay_complete'
   root 'products#marketing'
   get 'home/index'
   post 'apis/pay_url'
@@ -25,6 +26,12 @@ Rails.application.routes.draw do
   resources :orders, only: [:update, :index, :show] do
     collection do
       get :payment
+    end
+  end
+
+  resources :users do
+    member do
+      get :pay_complete
     end
   end
   resources :gyms
