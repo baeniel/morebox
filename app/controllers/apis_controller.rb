@@ -15,29 +15,22 @@ class ApisController < ApplicationController
           "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
       )
       result  = bootpay.get_access_token
-      puts result
-      puts "1"
       if (result[:status]&.to_s == "200")
-        puts "2"
         order_number = params[:order_id]
         order = Order.find_by(order_number: order_number)
         verify_response = bootpay.verify(receipt_id)
-        puts verify_response
-        puts "3"
 
         if order && (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1")
-          puts "4"
 
           if (item = order.item) && (verify_response[:data][:price] == item&.price)
-            puts "5"
 
             Point.transaction do
-              point = Point.create(amount: item&.point, point_type: :charged, user: current_user)
-              order.update(status: :complete, paid_at: Time.zone.now, point: point)
-              puts "6"
+              point = Point.create(amount: item&.point, point_type: :charged, user: order.user)
+              if point
+                order.update(status: :complete, paid_at: Time.zone.now, point: point)
+              end
 
             end
-            puts "7"
 
 
             # 관리자 결제 알람

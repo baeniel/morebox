@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
   # def pay
   #   user = User.find_by(phone: params[:phone])
   #   if user
