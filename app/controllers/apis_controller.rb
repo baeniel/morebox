@@ -5,6 +5,42 @@ class ApisController < ApplicationController
   # protect_from_forgery with: :null_session
 
   def pay_complete
+
+     Parameters: {"receipt_id"=>"5f1c52f68f0751003b76aec1",
+          "pg"=>"inicis",
+          "pg_name"=>"이니>시스",
+          "method"=>"card",
+          "method_name"=>"ISP / 앱카드결제",
+          "receipt_url"=>"https://app.bootpay.co.kr/bill/cERnV3Qyb3RPZHhJTnY5V0ZmK2wxWi9jR2x5SkJsaGU4SHVadUFaWFdXRjFu%0AZz09LS1SajZrWW1TRDFEZjFBNzRsLS1yWk0xVno2NzNsanB4QzV5VmlLTTZB%0APT0%3D%0A",
+          "application_id"=>"5eb2230002f57e002d1edd8a",
+          "name"=>"2500 포인트",
+          "private_key"=>"GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg=",
+          "order_id"=>"55163a1595691766",
+          "params"=>{"user_id"=>"428"},
+          "payment_data"=>
+          {
+            "card_name"=>"삼성카드",
+            "card_no"=>"*********",
+            "card_quota"=>"00",
+            "card_code"=>"12",
+            "card_auth_no"=>"01229065",
+            "receipt_id"=>"5f1c52f68f0751003b76aec1",
+            "n"=>"2500 포인트",
+            "p"=>"2500",
+            "tid"=>"INIMX_CARDBTPboxpayc20200726004317254926",
+            "pg"=>"이니시스",
+            "pm"=>"ISP / 앱카드결제",
+            "pg_a"=>"inicis",
+            "pm_a"=>"card",
+            "o_id"=>"55163a1595691766",
+            "p_at"=>"2020-07-26 00:43:17",
+            "s"=>"1",
+            "g"=>"2"
+          },
+          "price"=>"2500",
+          "retry_count"=>"0",
+          "status"=>"1"}
+
     begin
       receipt_id = params[:receipt_id]
       require 'bootpay-rest-client'
@@ -13,22 +49,34 @@ class ApisController < ApplicationController
           "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
       )
       result  = bootpay.get_access_token
-
-      if (result[:status] == 200)
+      puts result
+      puts "1"
+      if (result[:status]&.to_s == "200")
+        puts "2"
         order_number = params[:order_id]
         order = Order.find_by(order_number: order_number)
         verify_response = bootpay.verify(receipt_id)
+        puts verify_response
+        puts "3"
 
-        if order && (verify_response[:status] == 200) && (verify_response.dig(:data, :status)&.to_s == "1")
+        if order && (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1")
+          puts "4"
+
           if (item = order.item) && (verify_response[:data][:price] == item&.price)
+            puts "5"
+
             Point.transaction do
               point = Point.create(amount: item&.point, point_type: :charged, user: current_user)
               order.update(status: :complete, paid_at: Time.zone.now, point: point)
+              puts "6"
+
             end
+            puts "7"
+
 
             # 관리자 결제 알람
             templateCode = '020060000152'
-            content = current_user.gym.title+" "+current_user.phone.last(4)+"님의 "+item&.title+" 결제가 완료되었습니다."
+            content = current_user.gym.title + " " + current_user.phone.last(4) + "님의 " + item&.title + " 결제가 완료되었습니다."
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)

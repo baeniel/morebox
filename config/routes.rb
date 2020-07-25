@@ -31,7 +31,7 @@ Rails.application.routes.draw do
 
   resources :users do
     member do
-      get :pay_complete
+      post :pay_complete
     end
   end
   resources :gyms
