@@ -1,5 +1,5 @@
 class ApisController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i(pay_url)
   skip_before_action :verify_authenticity_token
 
   # protect_from_forgery with: :null_session
