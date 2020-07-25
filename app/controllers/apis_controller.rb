@@ -1,10 +1,11 @@
 class ApisController < ApplicationController
   before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token
+
   # protect_from_forgery with: :null_session
 
   def pay_complete
     begin
-      byebug
       receipt_id = params[:receipt_id]
       require 'bootpay-rest-client'
       bootpay = Bootpay::ServerApi.new(
