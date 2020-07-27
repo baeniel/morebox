@@ -42,7 +42,7 @@ class ApisController < ApplicationController
         link = response[:data]
         receiver = current_user.phone
         receiverName = current_user.phone.last(4)
-        contents = "[MoreBox]\n"+"아래 링크로 접속하셔서 결제하세요!\n"+"#{link}"
+        contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
         payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
         payment_alarm.send_message
 

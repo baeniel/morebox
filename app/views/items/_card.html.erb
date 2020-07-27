@@ -83,6 +83,9 @@
     <div class="col-3"></div>
     <div class="col-6">
       <h3 class="text-white mb-4" id="drink-count">잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h3>
+      <%= link_to list_items_path do %>
+        <%= image_tag '/refresh.png' %>
+      <% end %>
     </div>
     <div class="col-3"></div>
   </div>
@@ -147,7 +150,7 @@
               </div>
             </div>
             <div class="modal-footer mb-3">
-              <%= link_to "선택", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
+              <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
               <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
             </div>
           </div>

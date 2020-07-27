@@ -28,7 +28,7 @@ class PointsController < ApplicationController
           unless current_user.remained_point > 2000
             receiver = current_user.phone
             receiverName = current_user.phone.last(4)
-            contents = "[MoreBox]\n"+"아래 링크로 접속하셔서\n헬스장 오기 전에 미리 결제하세요:)\n\nhttps://morebox.co.kr"
+            contents = "[MoreBox]\n"+"헬스장 오기 전에 미리 결제하세요:)\n잔여포인트: #{current_user.remained_point}p\nhttps://morebox.co.kr"
             payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
             payment_alarm.send_message
           else
