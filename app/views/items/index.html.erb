@@ -40,7 +40,7 @@
   <!-- <h4 class="beverage-tip text-white mt-5" style="text-align: center;" id="mobile-button">사용권이 모두 소진되었습니다 ㅠ_ㅠ..&nbsp;&nbsp;&nbsp;카카오 알람을 확인해주세요:)</h4> -->
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a", id: "item-button" %>
 
-  <div class="modal fade" data-close="90" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" data-close="100" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
         <div class="modal-header">
@@ -49,9 +49,10 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body text-white mt-5" id="welcom-modal-body">
-          <h3>핸드폰 문자를 확인해주세요:)</h3> <br>
-          <h3 class="text-red">결제 완료 후, 확인 버튼을 눌러주세요.</h3> <br>
+        <div class="modal-body text-white mt-3" id="welcom-modal-body">
+          <h3>소비자님의 핸드폰으로 <br> 결제 문자가 전송되었습니다:)</h3> <br>
+          <h3>아이폰 유저들은 결제 완료 후 <br> 이전 창으로 돌아가십시오.</h3> <br>
+          <h3 class="text-red">결제 완료 후에, 확인 버튼을 눌러주세요.</h3> <br>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-lg"  id="welcom-button">확인</button>
@@ -64,28 +65,27 @@
 
 <script>
   function requestPay(item_id, gym_id) {
+    var popup = $('#exampleModal');
+    var time = $(".will-close strong");
+    var closeSeconds = $("#exampleModal").attr("data-close");
 
-    // var popup = $('#exampleModal');
-    // var time = $(".will-close strong");
-    // var closeSeconds = $("#exampleModal").attr("data-close");
-    //
-    // popup.modal('show');
-    // time.html(closeSeconds);
-    //
-    // var interval = setInterval(function(){
-    //   time.html(closeSeconds);
-    //   closeSeconds--;
-    //
-    //   if(closeSeconds < 0){
-    //     popup.modal('hide');
-    //     clearInterval(interval);
-    //   }
-    //
-    // }, 1000)
-    //
-    // setTimeout(function(){
-    //   window.location = '/items/auto_out'
-    // }, 90000);
+    popup.modal('show');
+    time.html(closeSeconds);
+
+    var interval = setInterval(function(){
+      time.html(closeSeconds);
+      closeSeconds--;
+
+      if(closeSeconds < 0){
+        popup.modal('hide');
+        clearInterval(interval);
+      }
+
+    }, 1000)
+
+    setTimeout(function(){
+      window.location = '/items/auto_out'
+    }, 100000);
 
     $.ajax({
       url: "/apis/pay_url",
@@ -108,9 +108,9 @@
     })
   }
 
-  // $("#welcom-button").click(function(){
-  //   window.location="<%#= list_items_path %>";
-  // });
+  $("#welcom-button").click(function(){
+    window.location="<%= list_items_path %>";
+  });
 </script>
 
 <%# 모어박스 쇼핑몰 형태 %>
