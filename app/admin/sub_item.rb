@@ -5,12 +5,14 @@ ActiveAdmin.register SubItem do
   index do
     selectable_column
     id_column
-
     column :title
     column :image do |sub_item|
       image_tag(sub_item.image_url, class: 'admin-index-image')
     end
     column :point
+    column "category" do |c|
+      c&.category.title
+    end
     column :description
     column :created_at
     actions
