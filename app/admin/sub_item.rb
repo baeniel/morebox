@@ -1,5 +1,5 @@
 ActiveAdmin.register SubItem do
-  permit_params :title, :image, :point
+  permit_params :title, :image, :point, :category_id, :description
   filter :created_at
 
   index do
@@ -11,6 +11,7 @@ ActiveAdmin.register SubItem do
       image_tag(sub_item.image_url, class: 'admin-index-image')
     end
     column :point
+    column :description
     column :created_at
     actions
   end
@@ -20,6 +21,8 @@ ActiveAdmin.register SubItem do
       f.input :title
       f.input :image
       f.input :point
+      f.input :description
+      f.input :category_id, as: :select, collection: Category.all.map{ |c| [c.title, c.id] }
     end
     f.actions
   end

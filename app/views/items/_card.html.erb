@@ -115,45 +115,69 @@
       </div>
     </div>
   <% end %>
-  <div class="row mt-4 mb-2">
-    <% current_user.gym&.gyms_sub_items.each do |gyms_sub_item| %>
-      <% sub_item = gyms_sub_item.sub_item %>
-      <div class="col-2">
-        <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
-        <p class="text-white mt-3"><%= sub_item.point %> point</p>
-      </div>
-      <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %> (재고: <%= gyms_sub_item.quantity %>개)</h5>
-            </div>
-            <div class="modal-body row">
-              <div class="col-5">
-                <img src="<%= sub_item&.image_url %>" style="width: 100%;">
+  <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+    <% Category.all.order(:created_at).each do |category| %>
+      <li class="nav-item">
+        <% if category == Category.first %>
+          <a class="nav-link active" style="color: #efb758;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
+        <% else %>
+          <a class="nav-link" style="color: #efb758;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <% Category.all.order(:created_at).each do |category| %>
+      <% if category == Category.first %>
+        <div class="tab-pane fade show active" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
+      <% else %>
+        <div class="tab-pane fade" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
+      <% end %>
+        <div class="row mt-4 mb-2">
+          <% current_user.gym&.gyms_sub_items.each do |gyms_sub_item| %>
+            <% sub_item = gyms_sub_item.sub_item %>
+            <% if sub_item.category == category %>
+              <div class="col-2">
+                <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
+                <p class="text-white mt-3"><%= sub_item.point %> point</p>
               </div>
-              <div class="col-7 row mt-5">
-                <div class="col-4">
-                  <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
-                    <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
-                  <% end %>
-                </div>
-                <div class="col-4">
-                  <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
-                </div>
-                <div class="col-4">
-                  <%= link_to "#", class: "plus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
-                  <%# , onclick: "sound()" %>
-                    <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
-                  <% end %>
+              <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %> (재고: <%= gyms_sub_item.quantity %>개)</h5>
+                    </div>
+                    <div class="modal-body row">
+                      <div class="col-5">
+                        <img src="<%= sub_item&.image_url %>" style="width: 100%;">
+                      </div>
+                      <div class="col-7 row mt-5">
+                        <div class="col-4">
+                          <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
+                            <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
+                          <% end %>
+                        </div>
+                        <div class="col-4">
+                          <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
+                        </div>
+                        <div class="col-4">
+                          <%= link_to "#", class: "plus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
+                          <%# , onclick: "sound()" %>
+                            <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
+                          <% end %>
+                        </div>
+                        <%#= sub_item.description %>
+                      </div>
+                    </div>
+                    <div class="modal-footer mb-3">
+                      <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
+                      <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer mb-3">
-              <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
-              <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
-            </div>
-          </div>
+            <% end %>
+          <% end %>
         </div>
       </div>
     <% end %>

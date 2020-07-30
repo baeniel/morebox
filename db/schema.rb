@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_25_142146) do
+ActiveRecord::Schema.define(version: 2020_07_30_090047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,13 @@ ActiveRecord::Schema.define(version: 2020_07_25_142146) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -127,6 +134,9 @@ ActiveRecord::Schema.define(version: 2020_07_25_142146) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "point", default: 0
+    t.bigint "category_id"
+    t.text "description"
+    t.index ["category_id"], name: "index_sub_items_on_category_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -154,5 +164,6 @@ ActiveRecord::Schema.define(version: 2020_07_25_142146) do
   add_foreign_key "orders", "users"
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
+  add_foreign_key "sub_items", "categories"
   add_foreign_key "users", "gyms"
 end
