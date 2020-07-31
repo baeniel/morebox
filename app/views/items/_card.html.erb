@@ -34,6 +34,10 @@
   #welcom-button {
     margin-top: 0px;
   }
+  #product_list {
+    height: 245px;
+    overflow-y: scroll;
+  }
 
   @media (min-width: 320px) and (max-width: 480px) {
     #item-image {
@@ -133,7 +137,7 @@
       <% else %>
         <div class="tab-pane fade" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
       <% end %>
-        <div class="row mt-4 mb-2">
+        <div class="row mt-4 mb-2" id="product_list">
           <% current_user.gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
             <% sub_item = gyms_sub_item.sub_item %>
             <% if sub_item.category == category %>
@@ -184,7 +188,7 @@
   </div>
 </div>
 
-<div class="container cart text-left" style="background-color: #0f4c83">
+<div class="container cart text-left" style="background-color: #0f4c83;">
   <h4 class="mt-3" style="color: #efb758">주문할 상품</h4>
   <div class="content text-white mt-2 cart-list">
   </div>
