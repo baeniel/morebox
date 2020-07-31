@@ -134,7 +134,7 @@
         <div class="tab-pane fade" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
       <% end %>
         <div class="row mt-4 mb-2">
-          <% current_user.gym&.gyms_sub_items.each do |gyms_sub_item| %>
+          <% current_user.gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
             <% sub_item = gyms_sub_item.sub_item %>
             <% if sub_item.category == category %>
               <div class="col-2">
