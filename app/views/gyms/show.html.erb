@@ -2,31 +2,37 @@
   .health {
     padding: 0;
   }
+  #admin-logo {
+    width: 20%;
+    position: absolute;
+    left: 8%;
+    top: -4%;
+  }
+  @media (min-width: 320px) and (max-width: 480px) {
+    #admin-logo {
+      width: 30%;
+      position: absolute;
+      left: 4%;
+      top: -5%;
+    }
+  }
 </style>
 
-<div class="container mt-4">
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete %>
+<div class="container mt-5">
+  <%= image_tag '/morebox.png', id: "admin-logo" %>
+  <%#= link_to "로그아웃", destroy_user_session_path, method: :delete %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center text-white">
     <h3 class="display-5"><%= @gym&.title %></h3>
-    <p class="lead mt-4">센터 관리자 페이지입니다.</p>
+    <p class="lead mt-5">센터 관리자 페이지입니다.</p>
   </div>
 </div>
 
-<div class="container">
+<div class="container mt-2">
   <div class="card-deck mb-3 text-center">
     <div class="card mb-4 shadow-sm">
       <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">판매 추이</h4>
-      </div>
-      <div class="card-body health pb-3">
-        <ul class="list-unstyled mt-3 mb-4" style="font-size: 25px;">
-          <li><strong>판매: </strong><%= @gym_sales %>개</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">상세 추이</h4>
+        <h4 class="my-0 font-weight-normal text-white">판매 내역</h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
@@ -34,7 +40,7 @@
           <% @gym.points.where(point_type: 1).each do |point| %>
             <% if point.created_at.month == Date.today.month %>
               <% unless arr.include?(point&.sub_item&.title) %>
-                <strong><%= point&.sub_item&.title %></strong>: <%= @gym.points.where(point_type: 1, sub_item: point&.sub_item).count %>개 <br>
+                <strong><%= point&.sub_item&.title %></strong> <%= @gym.points.where(point_type: 1, sub_item: point&.sub_item).count %>개 <br>
               <% end %>
               <% arr << point&.sub_item&.title %>
             <% end %>
@@ -44,63 +50,25 @@
     </div>
     <div class="card mb-4 shadow-sm">
       <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">재고 현황</h4>
+        <h4 class="my-0 font-weight-normal text-white">현재 재고</h4>
       </div>
       <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
-          <% @gym.gyms_sub_items.order(:created_at).each do |sub_item| %>
-            <li><strong><%= sub_item.sub_item.title %> 재고: </strong><%= sub_item.quantity %>개</li>
+          <% @gym.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
+            <li><strong><%= gyms_sub_item.sub_item.title %></strong> <%= gyms_sub_item.quantity %>개</li>
           <% end %>
         </ul>
       </div>
     </div>
     <div class="card mb-4 shadow-sm">
       <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">이번 달 정산</h4>
+        <h4 class="my-0 font-weight-normal text-white">정산 예정액</h4>
       </div>
       <div class="card-body health pb-3">
         <h1 class="mt-3"><%= number_with_delimiter(@gym_profit) %> <small class="text-muted">원</small></h1>
       </div>
     </div>
   </div>
-
-  <footer class="my-md-5 pt-md-5 border-top mb-2">
-    <div class="row">
-      <div class="col-12 col-md">
-        <!-- <img class="mb-2" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24"> -->
-        <small class="d-block mb-3 text-white">© 2020 Move More</small>
-      </div>
-      <div class="col-6 col-md">
-        <h5>Features</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Cool stuff</a></li>
-          <li><a class="text-muted" href="#">Random feature</a></li>
-          <li><a class="text-muted" href="#">Team feature</a></li>
-          <li><a class="text-muted" href="#">Stuff for developers</a></li>
-          <!-- <li><a class="text-muted" href="#">Another one</a></li>
-          <li><a class="text-muted" href="#">Last time</a></li> -->
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Resource</a></li>
-          <li><a class="text-muted" href="#">Resource name</a></li>
-          <li><a class="text-muted" href="#">Another resource</a></li>
-          <li><a class="text-muted" href="#">Final resource</a></li>
-        </ul>
-      </div>
-      <!-- <div class="col-6 col-md">
-        <h5>About</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Team</a></li>
-          <li><a class="text-muted" href="#">Locations</a></li>
-          <li><a class="text-muted" href="#">Privacy</a></li>
-          <li><a class="text-muted" href="#">Terms</a></li>
-        </ul>
-      </div> -->
-    </div>
-  </footer>
 </div>
 
 
