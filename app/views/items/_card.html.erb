@@ -35,7 +35,7 @@
     margin-top: 0px;
   }
   #product_list {
-    height: 230px;
+    height: 220px;
     overflow-y: scroll;
   }
 
@@ -165,8 +165,7 @@
                           <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
                         </div>
                         <div class="col-4">
-                          <%= link_to "#", class: "plus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
-                          <%# , onclick: "sound()" %>
+                          <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
                             <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
                           <% end %>
                         </div>
@@ -200,10 +199,8 @@
   <% end %>
   <div class="row justify-content-center">
     <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-    <!-- <a onclick="AutoLogout(<%# @order&.line_items&.where.not(temp: 0).order(:created_at)&.pluck(:title, :temp)&.map { |result| " "+result.flatten.join(' ') } %>)" id="bb-box" class="btn btn-lg text-white card_mobile ml-5 mb-4" style="background-color: #48689a">
-      꺼내 먹기
-    </a> -->
-    <%= submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4" , style: "background-color: #48689a" %>
+    <%= submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4", style: "background-color: #48689a", onclick: "sound()" %>
+     <audio id="audio" src="/click.mp3"></audio>
     <%= link_to "충전", items_path, class: "btn btn-lg ml-5 mb-4", id: "point-button", style: "background-color: #efb758; color: #48689a;" %>
   </div>
 <% end %>
@@ -214,6 +211,10 @@
     $("#modal-trigger").click();
   })
 
+  function sound() {
+    var audio = document.getElementById("audio");
+    audio.play();
+  }
 
   $(".submit-btn").click(function(){
     Rails.fire($('#cart')[0], 'submit');
