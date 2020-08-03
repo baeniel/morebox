@@ -14,6 +14,8 @@ ActiveAdmin.register User do
     column "gym" do |g|
       g.gym&.title
     end
+    column :privacy
+    column :marketing
     column :fit_center
     # column :image do |user|
     #   image_tag(user.image_url, class: 'admin-index-image')

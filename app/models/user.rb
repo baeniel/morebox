@@ -37,6 +37,7 @@ class User < ApplicationRecord
   }
 
   enum gender: [:man, :woman]
+  enum marketing: [:agree, :not_agree]
 
   before_validation :assign_password, on: :create
 

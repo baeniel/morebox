@@ -2,6 +2,32 @@ class GymsController < ApplicationController
   before_action :load_object, only: [:show]
 
   def index
+    #지난 2주간 가입한 신규 유저 수
+    @date_start = DateTime.now
+    @date_end = @date_start - 14.days
+    @users = User.where(created_at: @date_end..@date_start)
+
+    #그 유저들 중에서 결제한 사람의 수
+    payment_users = []
+    @users.each do |user|
+      if user.orders.count != 0
+        payment_users << 1
+      end
+    end
+
+    #결제전환율
+    @payment_rate = (payment_users.count.to_f / @users.count.to_f) * 100
+
+    #지난 2주간 포인트가 적었던 사람 수
+    poor = []
+    User.all.each do |user|
+      if user.remained_point < 1500
+        poor << user.id
+      end
+    end
+
+    #지점 당 일평균 매출
+
   end
 
   def new
