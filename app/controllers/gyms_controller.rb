@@ -3,31 +3,44 @@ class GymsController < ApplicationController
 
   def index
     #지난 2주간 가입한 신규 유저 수
-    @date_start = DateTime.now
-    @date_end = @date_start - 14.days
-    @users = User.where(created_at: @date_end..@date_start)
+    date_start = DateTime.now
+    date_end = date_start - 14.days
+    users = User.where(created_at: date_end..date_start)
 
     #그 유저들 중에서 결제한 사람의 수
     payment_users = []
-    @users.each do |user|
+    users.each do |user|
       if user.orders.count != 0
         payment_users << 1
       end
     end
 
     #결제전환율
-    @payment_rate = (payment_users.count.to_f / @users.count.to_f) * 100
+    @payment_rate = (payment_users.count.to_f / users.count.to_f) * 100
 
-    #지난 2주간 포인트가 적었던 사람 수
-    poor = []
-    User.all.each do |user|
-      if user.remained_point < 1500
-        poor << user.id
-      end
+    #재결제율 분모 (2주간 잔여 포인트가 1500 미만이었던 건의 개수)
+    poors = Point.where(created_at: date_end..date_start, point_type: 1).where("remain_point < ?", 1500).count
+    #그 포인트의 주인
+    user_poors = []
+    Point.where(created_at: date_end..date_start, point_type: 1).where("remain_point < ?", 1500).each do |point|
+      user_poors << point.user.id
     end
+    #같은 기간동안 charged 건의 개수
+    user_charges = []
+    Point.where(created_at: date_end..date_start, point_type: 0).each do |point|
+      user_charges << point.user.id
+    end
+    #재결제율 분자 (분모와 분자 교집합)
+    repayment = (user_poors & user_charges).count
+    @repayment_rate = (repayment.to_f / poors.to_f) * 100
 
     #지점 당 일평균 매출
+    daily_profit = []
+    Gym.all.each do |gym|
+      daily_profit << (gym.orders.where(status: 1).map { |order| order.item.price }.sum / (Date.today - gym.created_at.to_date).to_i)
+    end
 
+    @gym_daily_profit = daily_profit.sum(0.0) / daily_profit.size
   end
 
   def new

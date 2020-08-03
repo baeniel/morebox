@@ -8,6 +8,10 @@
   #item-select {
     margin-top: 50px;
   }
+  .box {
+    flex-wrap: wrap;
+    align-content: space-between;
+  }
   @media (min-width: 320px) and (max-width: 480px) {
     #mobile-button {
       font-size: 15px;
@@ -36,9 +40,10 @@
     <% end %>
   </div>
   <h4 class="mt-4" style="color: #757CFF;"><%= current_user.phone.last(4) %>님의 잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %>P</h4> <br>
-  <!-- <h4 class="beverage-tip text-white mt-5" style="text-align: center;" id="mobile-button">사용권이 모두 소진되었습니다 ㅠ_ㅠ..&nbsp;&nbsp;&nbsp;카카오 알람을 확인해주세요:)</h4> -->
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile", style: "background-color: #48689a", id: "item-button" %>
-
+  <div class="box">
+    <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mr-3", style: "background-color: #48689a", id: "item-button" %>
+    <%= link_to "돌아가기", url_for(:back), class: "btn btn-lg text-white card_mobile ml-3", style: "background-color: blue;" %>
+  </div>
   <div class="modal fade" data-close="100" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
