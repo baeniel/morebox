@@ -13,6 +13,7 @@ ActiveAdmin.register Point do
     column "gym" do |u|
       u.user.gym
     end
+    column :remain_point
     column :created_at
     actions
   end

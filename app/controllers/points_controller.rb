@@ -19,7 +19,7 @@ class PointsController < ApplicationController
           Point.transaction do
             sub_items.each do |sub_item|
               sub_item_params.dig(sub_item.id.to_s).to_i.times.each do
-                Point.create(user: current_user, point_type: :used, amount: sub_item.point, sub_item: sub_item)
+                Point.create(user: current_user, point_type: :used, amount: sub_item.point, sub_item: sub_item, remain_point: current_user.remained_point)
                 arr << sub_item
               end
             end
