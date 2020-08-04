@@ -170,18 +170,6 @@
   </div>
 </div>
 
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="../../assets/js/vendor/popper.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-
-<!-- Icons -->
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-<script>
-  feather.replace()
-</script>
-
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
@@ -192,7 +180,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [15339, 0, 0, 0, 0, 0, 0, 0],
+        data: [7, 0, 0, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -221,7 +209,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [100, 0, 0, 0, 0, 0, 0, 0],
+        data: [319, 0, 0, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -250,7 +238,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [100, 0, 0, 0, 0, 0, 0, 0],
+        data: [45.3, 0, 0, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -272,14 +260,14 @@
     }
   });
 
-  // 재결제인원
+  // 재결제율
   var ctx4 = document.getElementById("repayment_canvas");
   var repayment = new Chart(ctx4, {
     type: 'line',
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [100, 0, 0, 0, 0, 0, 0, 0],
+        data: [57.5, 0, 0, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -308,7 +296,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [500, 0, 0, 0, 0, 0, 0, 0],
+        data: [4560, 0, 0, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
