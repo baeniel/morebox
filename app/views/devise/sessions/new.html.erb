@@ -56,6 +56,20 @@
     margin-top: 30px;
     width: 60%;
   }
+  .left {
+    margin-top: 45px;
+    float:left;
+    width:50%;
+    text-align:center;
+  }
+  .right {
+    float:left;
+    width:50%;
+    text-align:center;
+  }
+  #main-logo {
+    margin-bottom: 30px;
+  }
 
   /* 핸드폰일 때 */
   @media (min-width: 320px) and (max-width: 480px) {
@@ -71,17 +85,15 @@
       font-size: 17px;
       text-align: center;
     }
-    #telNumber {
-      width: 200%;
-      margin-left: 10px;
-      margin-top: 80px;
-    }
     #dial-pad {
       padding-left: 0;
       padding-right: 10px;
     }
     #regi-button {
-      margin-top: 110px;
+      width: 80%;
+    }
+    .left, .right {
+      margin-top: 0px;
       width: 100%;
     }
   }
@@ -89,13 +101,13 @@
 
 <div class="container mt-5">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="row mb-4">
-      <div class="col-6 mt-5">
-        <%= image_tag '/morebox.png', class: "mb-5", id: "main-logo" %>
+    <div class="husk">
+      <div class="left">
+        <%= image_tag '/morebox.png', id: "main-logo" %>
         <%= f.text_field :phone, id: "telNumber", class: "form-control tel", value: "010", readonly: true %>
         <%= f.hidden_field :password, value: "111111" %>
       </div>
-      <div class="col-6">
+      <div class="right">
         <% (1..9).each do |num| %>
           <div class="span4">
             <div class="num">
