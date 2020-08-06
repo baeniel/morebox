@@ -36,6 +36,7 @@ class ApisController < ApplicationController
           user_id: current_user.id
         },
         # return_url: "http://172.16.101.68:3000/users/#{current_user.id}/pay_complete"
+        # return_url: "http://localhost:3000/users/#{current_user.id}/pay_complete"
         return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
       )
       if (order = current_user.orders.create(status: :ready, gym: current_user.gym, item: @item, order_number: order_number))
@@ -79,7 +80,7 @@ class ApisController < ApplicationController
         if order && (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1")
           if (item = order.item) && (verify_response[:data][:price] == item&.price)
             if order.ready?
-              point = Point.create(amount: item&.point, point_type: :charged, user: user)
+              point = Point.create(amount: item&.point*1.1, point_type: :charged, user: user)
               if point
                 order.update(status: :complete, paid_at: Time.zone.now, point: point)
               else
