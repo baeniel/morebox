@@ -1,0 +1,22 @@
+<%= render 'shared/phone_num_dark', target_field_id: "telNumber" do %>
+  <div class="my-5">
+    <div class="row justify-content-center">
+      <h2 class="text-white">추천인 입력</h2>
+    </div>
+  </div>
+  <%= form_tag updating_referrer_user_path(current_user), id: "referrer_form" do %>
+    <%= text_field_tag :referrer,  "", class: "form-control registration_input", id: "telNumber", placeholder: "추천인 코드를 입력해주세요.", readonly: true %>
+  <% end %>
+  <div class="box">
+    <%= link_to "입력", "#", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4 ml-3 submit-button" %>
+    <%= link_to "없습니다", "#", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4 ml-3 pass-button" %>
+  </div>
+<% end %>
+<script>
+  $(".submit-button, .pass-button").click(function(){
+    if($(this).hasClass("pass-button")){
+      $("#referrer").val("");
+    }
+    $("#referrer_form").submit();
+  });
+</script>
