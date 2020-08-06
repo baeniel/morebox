@@ -70,7 +70,7 @@ class GymsController < ApplicationController
     @gym_sales = @gym.points.where(point_type: 1).map { |point| point.created_at.month == Date.today.month ? 1 : 0}.sum
 
     #정산 (매출의 20%, 매월 갱신)
-    if @gym.title == "모던복싱"
+    if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
       @gym_profit = (@gym.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum * 0.3).to_i
     else
       @gym_profit = (@gym.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum * 0.2).to_i
