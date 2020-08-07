@@ -10,6 +10,10 @@ class Point < ApplicationRecord
   def set_stock
     if self.sub_item_id.present?
       self.user.gym.gyms_sub_items.find_by(sub_item: sub_item).decrement!(:quantity)
+      #TODO
+    # elsif self.charged?
+    #   self.user.referrer != "-"
+    #   self.update(amount: self.item&.price * 1.05) if self.item&.exists?
     end
   end
 
