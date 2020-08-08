@@ -1,7 +1,9 @@
 <%= render 'shared/phone_num_dark', target_field_id: "telNumber" do %>
-  <div class="my-5">
-    <div class="row justify-content-center">
-      <h2 class="text-white">추천인 입력</h2>
+  <div class="referrer-container">
+    <div class="my-5 referrer-form">
+      <div class="row justify-content-center">
+        <h2 class="text-white ml-4">추천인 입력</h2>
+      </div>
     </div>
   </div>
   <%= form_tag updating_referrer_user_path(current_user), id: "referrer_form" do %>

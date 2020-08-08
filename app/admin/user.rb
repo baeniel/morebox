@@ -1,12 +1,13 @@
 ActiveAdmin.register User do
 
-  permit_params :password, :password_confirmation, :fit_center, :phone, :gym_id, :email, :gender
+  permit_params :password, :password_confirmation, :fit_center, :phone, :gym_id, :email, :gender, :referrer
 
   index do
     selectable_column
     id_column
     column :email
     column :phone
+    column :referrer
     column :gender
     # column "item" do |i|
     #   i.item&.title

@@ -1,7 +1,7 @@
 <%= render "devise/shared/error_messages", resource: resource %>
 <%= render 'shared/phone_num_dark', target_field_id: "telNumber" do %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <div class="form-group text-white text-left mt-5">
+    <div class="form-group text-white text-left mt-5 pt-3">
       <h5 class="form-text mobile-input">핸드폰 번호를 입력하세요</h5>
       <%= f.text_field :phone, value: @phone_num.present? ? @phone_num : "010", class: "form-control registration_input", id: "telNumber", readonly: true %>
     </div>
@@ -13,31 +13,32 @@
       <%= f.radio_button :gender, 'woman', required: true %>
     </div>
     <div class="form-group text-left">
-      <h5 class="mobile-input" style="color: #757CFF;">센터를 선택하세요</h5>
+      <h5 class="mobile-input" style="color: #757CFF;">센터</h5>
       <div class="row">
         <div class="col-md-6">
           <%= f.select :gym_id, options_for_select(Gym.all.map { |g| [g.title, g.id] }, f.object&.gym_id), { prompt: "선택해주세요." }, { class: 'form-control', id: 'select_gym_id', require: true} %>
         </div>
       </div>
     </div>
-    <div class="checkbox text-left">
+    <div class="checkbox text-left mobile-input mt-5">
       <label class="mr-2" style="color: #757CFF;">
         개인정보 수집 및 이용 동의 (필수)
       </label>
       <%= f.label :privacy, "동의", value: true, class: "text-white" %>
       <%= f.radio_button :privacy, true, required: true, class: "radio", checked: true %>
     </div>
-    <div class="checkbox text-left">
+    <div class="checkbox text-left mobile-input">
       <label class="mr-2" style="color: #757CFF;">
         마케팅 정보 수신 (선택)
       </label>
-      <%= f.label :marketing, '동의', value: "agree", class: "text-white" %>
-      <%= f.radio_button :marketing, 'agree', class: "radio" %>
+      <%= f.label :marketing, "동의", class: "text-white" %>
+      <%= f.check_box :marketing, { class: "marketing_check mt-3", checked: true } %> <br>
+      <small class="text-white">각종 포인트 충전 이벤트에 참여 가능합니다:)</small>
     </div>
     <%= f.hidden_field :email, value: SecureRandom.alphanumeric(5)+"@com" %>
     <div class="box">
-      <%= f.submit "가입하기", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4 mr-3" %>
-      <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4 ml-3" %>
+      <%= f.submit "가입하기", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-5 mr-3" %>
+      <%= link_to "뒤로가기", new_user_session_path, class: "btn btn-lg btn-outline-primary text-white card_mobile mt-5 ml-3" %>
     </div>
   <% end %>
 <% end %>
