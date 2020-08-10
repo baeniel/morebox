@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: %i(update_referrer updating_referrer)
+  before_action :authenticate_user!, only: %i(index update_referrer updating_referrer)
   skip_before_action :verify_authenticity_token
+
   # def pay
   #   user = User.find_by(phone: params[:phone])
   #   if user
@@ -9,6 +10,23 @@ class UsersController < ApplicationController
   #     redirect_to new_session_path, notice: "로그인이 필요한 서비스입니다."
   #   end
   # end
+
+  def index
+    @gym = current_user.gym
+
+    #영업 뛰어서 회원가입 시킨 사람 수
+    @member_count = User.where(referrer: current_user.phone).count
+
+    #추천인 코드로 결제된 매달 결제액 (매달 갱신)
+    arr = []
+    User.where(referrer: current_user.phone).each do |user|
+      arr << user.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum
+    end
+    @referrer_sales = arr.sum
+
+    #트레이너 등수 (기준: 회원가입 많이 시킨 순으로)
+    @managers = User.where(user_type: :manager).sort_by { |user| User.where(referrer: user.phone).count }.reverse
+  end
 
   def pay_complete
   end

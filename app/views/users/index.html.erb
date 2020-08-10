@@ -1,0 +1,67 @@
+<style>
+  .health {
+    padding: 0;
+  }
+  #admin-logo {
+    width: 20%;
+    position: absolute;
+    left: 8%;
+    top: -4%;
+  }
+  @media (min-width: 320px) and (max-width: 480px) {
+    #admin-logo {
+      width: 30%;
+      position: absolute;
+      left: 4%;
+      top: -1%;
+    }
+  }
+</style>
+
+<div class="container mt-5">
+  <%= image_tag '/morebox.png', id: "admin-logo" %>
+  <%#= link_to "로그아웃", destroy_user_session_path, method: :delete %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center text-white">
+    <h3 class="display-5"><%= @gym&.title %></h3>
+    <p class="lead mt-5">인포/트레이너 페이지입니다.</p>
+  </div>
+</div>
+
+<div class="container mt-2">
+  <div class="card-deck mb-3 text-center">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header" style="background-color: #0f4c83;">
+        <h4 class="my-0 font-weight-normal text-white">누적 회원가입</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%= @member_count %>명</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header" style="background-color: #0f4c83;">
+        <h4 class="my-0 font-weight-normal text-white">결제액(매달 갱신)</h4>
+      </div>
+      <div class="card-body health">
+        <div class="content mt-3">
+          <strong><%= number_with_delimiter(@referrer_sales) %>원</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header" style="background-color: #0f4c83;">
+        <h4 class="my-0 font-weight-normal text-white">지점 등수(트레이너)</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <ul class="list-unstyled mt-3 mb-4">
+          <% @managers.each_with_index do |value, index| %>
+            <li><strong><%= "#{index+1}등: #{value.phone}님" %></strong></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 재고현황, 판매량, 이번달정산액(헬스장이 받는 금액), 주문하기 버튼 누르면 우리한테 카톡이나 이메일, 결제는 딜앱 -->

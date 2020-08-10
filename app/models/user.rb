@@ -37,6 +37,7 @@ class User < ApplicationRecord
   }
 
   enum gender: [:man, :woman]
+  enum user_type: [:usual, :manager]
 
   before_validation :assign_password, on: :create
 
@@ -50,6 +51,7 @@ class User < ApplicationRecord
 
   def remained_point
     self.points.charged.sum(:amount) - self.points.used.sum(:amount)
+
   end
 
   def image_url
@@ -60,4 +62,7 @@ class User < ApplicationRecord
     false
   end
 
+  def self.referrer_order
+    User.where(referrer: current_user.phone).count
+  end
 end

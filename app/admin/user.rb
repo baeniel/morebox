@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
 
-  permit_params :password, :password_confirmation, :fit_center, :phone, :gym_id, :email, :gender, :referrer
+  permit_params :password, :password_confirmation, :fit_center, :phone, :gym_id, :email, :gender, :referrer, :user_type
 
   index do
     selectable_column
@@ -18,6 +18,7 @@ ActiveAdmin.register User do
     column :privacy
     column :marketing
     column :fit_center
+    column :user_type
     # column :image do |user|
     #   image_tag(user.image_url, class: 'admin-index-image')
     # end
@@ -38,6 +39,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :phone
       f.input :fit_center
+      f.input :user_type
       f.input :gym
       f.input :password
       f.input :password_confirmation
