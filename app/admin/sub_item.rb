@@ -7,12 +7,10 @@ ActiveAdmin.register SubItem do
     id_column
     column :title
     column :image do |sub_item|
-      image_tag(sub_item.image_url, class: 'admin-index-image')
+      image_tag(sub_item.image_url, class: 'admin-index-image') if sub_item.image_url
     end
     column :point
-    column "category" do |c|
-      c&.category.title
-    end
+    column :category
     column :description
     column :created_at
     actions
