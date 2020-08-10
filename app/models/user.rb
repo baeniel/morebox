@@ -61,8 +61,4 @@ class User < ApplicationRecord
   def email_required?
     false
   end
-
-  def self.referrer_order
-    User.where(referrer: current_user.phone).count
-  end
 end
