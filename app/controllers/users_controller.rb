@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     if params[:referrer].present?
       #TODO
       # 유저 타입 추가되면, 메니저 타입의 유저만 지급해야함.
-      referer = User.find_by(phone: params[:referrer])
+      referer = User.manager.find_by(phone: params[:referrer])
       if referer && (referer != current_user)
         current_user.update referrer: params[:referrer]
         redirect_to list_items_path, notice: "추천인 정보가 입력되었습니다."
