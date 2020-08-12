@@ -36,10 +36,13 @@ class GymsController < ApplicationController
 
     #지점 당 일평균 매출
     daily_profit = []
-    Gym.all.each do |gym|
-      daily_profit << (gym.orders.where(status: 1).map { |order| order.item.price }.sum / (Date.today - gym.created_at.to_date).to_i)
+    Gym.all.order(:created_at).each do |gym|
+      if (Date.today - gym.created_at.to_date).to_i >= 14
+        daily_profit << (gym.orders.where(created_at: date_end..date_start, status: 1).map { |order| order.item.price }.sum / 14)
+      else
+        daily_profit << (gym.orders.where(status: 1).map { |order| order.item.price }.sum / (Date.today - gym.created_at.to_date).to_i)
+      end
     end
-
     @gym_daily_profit = daily_profit.sum(0.0) / daily_profit.size
   end
 
