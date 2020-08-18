@@ -118,7 +118,7 @@
             </div>
           </div>
         </div>
-    
+
       </div>
       <div class="right pt-5">
         <% (1..9).each do |num| %>
@@ -236,7 +236,7 @@
   $(".submit-button").click((e)=>{
     e.preventDefault();
     let lengthOfPhone = $('#telNumber').val().length;
-    if((lengthOfPhone < 10) || (lengthOfPhone > 12)){
+    if(lengthOfPhone != 11){
       alert("전화번호를 다시 한번 확인해주세요.")
     } else if(($("#select_gym_id").val() == undefined) || ($("#select_gym_id").val() == "")){
       alert("센터를 다시 한번 확인해주세요.")
