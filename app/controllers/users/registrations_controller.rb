@@ -15,6 +15,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    email = SecureRandom.alphanumeric(5)+"@com"
+    while User.find_by(email: email)
+      email = SecureRandom.alphanumeric(5)+"@com"
+    end
+    params[:user][:email] = email
     super
   end
 

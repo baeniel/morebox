@@ -1,3 +1,5 @@
+<link type="text/css" rel="stylesheet" href="http://gregfranko.com/jquery.selectBoxIt.js/css/jquery.selectBoxIt.css" />
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <style>
   #change-color {
     background-color: #e9eef2;
@@ -99,15 +101,26 @@
   }
 </style>
 
-<div class="container mt-5 pt-5">
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <div class="container mt-5 pt-5">
     <div class="husk">
       <div class="left">
         <%= image_tag '/morebox.png', id: "main-logo" %>
         <%= f.text_field :phone, id: "telNumber", class: "form-control tel", value: "010", readonly: true %>
         <%= f.hidden_field :password, value: "111111" %>
+        <div class="form-group text-left">
+          <div class="row justify-content-center mt-4">
+            <div class="col-md-5">
+              <%= f.select :gym_id, options_for_select(Gym.all.map { |g| [g.title, g.id] }, cookies[:gym_id]), { prompt: "선택해주세요." }, { class: 'form-control', id: 'select_gym_id', require: true} %>
+            </div>
+            <div class="col-md-3">
+              <h2 class="mobile-input" style="color: #757CFF;line-height:35px;">지점</h2>
+            </div>
+          </div>
+        </div>
+    
       </div>
-      <div class="right">
+      <div class="right pt-5">
         <% (1..9).each do |num| %>
           <div class="span4">
             <div class="num">
@@ -132,33 +145,106 @@
           </div>
         </div>
         <div class="span4">
-          <div class="num" style="background-color: #757CFF;">
+          <div class="num bg-color-primary">
             <div class="txt">
-              <%= f.submit "Go!", id: "login-confirm", class: "text-white" %>
+              <%# f.submit "Go!", id: "login-confirm", class: "text-white" %>
+              <%= link_to "Go!", "#", id: "login-confirm", class: "text-white" %>
             </div>
           </div>
         </div>
-        <%= link_to "가입", new_user_registration_path(), class: "btn btn-lg text-white mb-2", style: "background-color: #757CFF;", id: "regi-button" %>
       </div>
     </div>
-  <% end %>
   <%#= render "devise/shared/links" %>
-</div>
+  </div>
+  <div class="modal" id="agreeModalCenter" tabindex="-1" role="dialog" aria-labelledby="agreeModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="agreeModalLongTitle">회원가입</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row justify-content-center pt-3 pb-2">
+            <h2 class="phone-field color-primary"></h2>
+          </div>
+          <div class="row justify-content-center pb-3">
+            <h4 class="center-field"></h4>
+          </div>
+          <div class="row justify-content-center">
+            <div class="checkbox text-left mobile-input mt-3 col-6 text-center">
+              <label class="mr-2 color-primary">
+                개인정보 수집 및 이용 동의 (필수)
+              </label>
+              <%= f.radio_button :privacy, true, required: true, class: "radio", checked: true %>
+            </div>
+            <div class="checkbox text-left mobile-input col-6 text-center">
+              <label class="mr-2 color-primary">
+                마케팅 정보 수신 (선택)
+              </label>
+              <%= f.check_box :marketing, { class: "marketing_check mt-3", checked: true } %> <br>
+              <small class="text-white">각종 포인트 충전 이벤트에 참여 가능합니다:)</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-primary bg-color-primary submit-button">동의하고 회원가입하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+<% end %>
+
+<button type="button" class="btn btn-primary modal-btn" data-toggle="modal" style="display:none;" data-target="#agreeModalCenter">
+</button>
+
+
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script>
-  $(document).ready(function () {
-    $('.num').click(function () {
-        var num = $(this);
-        var text = $.trim(num.find('.txt').clone().children().remove().end().text());
-        var telNumber = $('#telNumber');
-        $(telNumber).val(telNumber.val() + text);
-    });
-
-    $('#regi-button').click(function () {
+  $("form#new_user [name=authenticity_token]").val('<%= form_authenticity_token %>');
+  $('#select_gym_id').dropdown();
+  $('.num').click(function () {
+      var num = $(this);
+      var text = $.trim(num.find('.txt').clone().children().remove().end().text());
       var telNumber = $('#telNumber');
-      var phone = $(telNumber).val();
-      var url = $('#regi-button').attr('href') + '?phone=' + phone;
-      $('#regi-button').attr('href', url);
-    });
+      $(telNumber).val(telNumber.val() + text);
   });
+
+  $('#regi-button').click(function () {
+    var telNumber = $('#telNumber');
+    var phone = $(telNumber).val();
+    var url = $('#regi-button').attr('href') + '?phone=' + phone;
+    $('#regi-button').attr('href', url);
+  });
+
+  $("#login-confirm").click(function(e){
+    e.preventDefault();
+    let lengthOfPhone = $('#telNumber').val().length;
+    if((lengthOfPhone < 10) || (lengthOfPhone > 12)){
+      alert("전화번호를 다시 한번 확인해주세요.")
+    } else if(($("#select_gym_id").val() == undefined) || ($("#select_gym_id").val() == "")){
+      alert("센터를 다시 한번 확인해주세요.")
+    } else {
+      $.get({url: `/users/check?phone_num=${$('#telNumber').val()}`});
+    }
+    return false;
+  });
+  $("#agreeModalCenter").on("show.bs.modal", function(){
+    $(".phone-field").text($('#telNumber').val());
+    $(".center-field").text($('#select_gym_id option:selected').text() + " 지점");
+  });
+  $(".submit-button").click((e)=>{
+    e.preventDefault();
+    let lengthOfPhone = $('#telNumber').val().length;
+    if((lengthOfPhone < 10) || (lengthOfPhone > 12)){
+      alert("전화번호를 다시 한번 확인해주세요.")
+    } else if(($("#select_gym_id").val() == undefined) || ($("#select_gym_id").val() == "")){
+      alert("센터를 다시 한번 확인해주세요.")
+    } else {
+      $("form#new_user").submit();
+    }
+    return false;
+  });
+
+
 </script>

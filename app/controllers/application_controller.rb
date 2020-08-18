@@ -18,8 +18,12 @@ class ApplicationController < ActionController::Base
   #   devise_parameter_sanitizer.permit :account_update, keys: [:email, :password, :password_confirmation, :phone, :remember_me, :username, :gym_id, :item_id]
   # end
   ######################3
-
+  rescue_from ActionController::InvalidAuthenticityToken, with: :redirect_to_referer_or_path
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  def redirect_to_referer_or_path
+    redirect_to (request.referer.presence || root_path), notice: '잠시후에 다시 시도 해주세요.'
+  end
 
   protected
 

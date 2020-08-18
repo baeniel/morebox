@@ -1,0 +1,6 @@
+<% if @result %>
+  $("form#new_user").prop("action", '<%= new_user_session_path %>');
+  $("form#new_user").submit();
+<% else %>
+  $(".modal-btn").click();
+<% end %>
