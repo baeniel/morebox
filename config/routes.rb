@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations', passwords: 'users/passwords', confirmations: 'users/confirmations' }
+  resources :users do
+    collection do
+      get :check
+    end
+  end
   resources :items, only: [:index, :show] do
     collection do
       get 'auto_out'

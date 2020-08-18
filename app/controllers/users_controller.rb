@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: %i(index update_referrer updating_referrer)
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, except: %i[check]
 
   # def pay
   #   user = User.find_by(phone: params[:phone])
@@ -52,4 +52,7 @@ class UsersController < ApplicationController
     end
   end
 
+  def check
+    @result = (params[:phone_num].present? && (user = User.find_by(phone: params[:phone_num])))
+  end
 end

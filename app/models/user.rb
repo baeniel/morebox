@@ -30,7 +30,7 @@ class User < ApplicationRecord
   validates_presence_of :phone, :gym, message: "내용을 입력하셔야 합니다."
   validates_uniqueness_of :phone, message: "이미 가입된 전화번호입니다."
   validates :phone, length: {
-    minimum: 11,
+    minimum: 10,
     maximum: 11,
     too_short: "유효하지 않은 전화번호입니다.",
     too_long: "유효하지 않은 전화번호입니다."
