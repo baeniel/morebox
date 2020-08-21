@@ -1,8 +1,10 @@
 <style>
   .carousel-caption {
-    position: relative;
+    position: absolute;
+    top: 100px;
     left: 0;
     right: 0;
+    z-index: 1;
   }
   h5 {
     color: #757CFF;
@@ -37,6 +39,14 @@
     position: fixed;
     bottom: 10;
   }
+  #sdaf {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    width: 40%;
+  }
 
   @media (min-width: 320px) and (max-width: 480px) {
     #touch {
@@ -61,20 +71,12 @@
   }
 </style>
 
-<div id="carouselExampleCaptions" class="carousel slide tablet" data-ride="carousel" data-interval="3000">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
-    <li data-target="#carouselExampleCaptions" data-slide-to="4"></li>
-  </ol>
-
-  <div class="carousel-inner">
+<!-- <div id="carouselExampleCaptions" class="carousel slide tablet" data-ride="carousel">
+  <div class="carousel-inner" data-interval="3000">
     <div class="carousel-item active">
       <%= image_tag '/warning.png', class: "item-img" %>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item" >
       <%= image_tag '/main_box.png', class: "item-img" %>
     </div>
     <div class="carousel-item">
@@ -94,11 +96,48 @@
     <% end %>
   </div>
 
-  <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev" onclick="return false;">
+  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev" onclick="return false;">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next" onclick="return false;">
+  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next" onclick="return false;">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div> -->
+
+<!--Carousel Wrapper-->
+<div id="video-carousel-example" class="carousel slide carousel-fade" data-ride="carousel" style="position: relative;">
+  <!--Indicators-->
+  <ol class="carousel-indicators">
+    <li data-target="#video-carousel-example" data-slide-to="0" class="active"></li>
+    <li data-target="#video-carousel-example" data-slide-to="1"></li>
+    <li data-target="#video-carousel-example" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner" role="listbox">
+    <div class="carousel-item active">
+      <video class="video-fluid" autoplay loop muted>
+        <source src="https://mdbootstrap.com/img/video/forest.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="carousel-item">
+      <video class="video-fluid" autoplay loop muted>
+        <source src="https://mdbootstrap.com/img/video/Agua-natural.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </div>
+
+  <%= link_to home_index_path do %>
+    <%= image_tag '/touch.png', id: "touch" %>
+  <% end %>
+
+  <%= image_tag '/gorilla_2.png', id: "sdaf" %>
+
+  <a class="carousel-control-prev" href="#video-carousel-example" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#video-carousel-example" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
@@ -140,3 +179,25 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
+<!-- <script>
+  var t;
+  var start = $('#myCarousel').find('.active').attr('data-interval');
+  t = setTimeout("$('#myCarousel').carousel({interval: 700});", start);
+
+  $('#myCarousel').on('slid.bs.carousel', function () {
+    clearTimeout(t);
+    var duration = $(this).find('.active').attr('data-interval');
+    console.log(duration);
+    $('#myCarousel').carousel('pause');
+    t = setTimeout("$('#myCarousel').carousel();", duration);
+  })
+
+  $('.carousel-control.right').on('click', function(){
+      clearTimeout(t);
+  });
+
+  $('.carousel-control.left').on('click', function(){
+      clearTimeout(t);
+  });
+</script> -->

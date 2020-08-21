@@ -1,4 +1,19 @@
 <style>
+  #change-color {
+    background-color: white;
+  }
+  .header {
+    background-color: #cfd3df;
+    color: #200e57;
+    height: 15vh;
+    line-height: 15vh;
+    text-align: center;
+  }
+  input.point_check {
+    width: 100%;
+    height: 4vh;
+  }
+
   #item-mobile {
     width: 100%;
   }
@@ -31,36 +46,56 @@
   }
 </style>
 
-<div class="container">
-  <div class="row" id="item-select">
-    <% Item.order(:point).each do |item| %>
-      <div class="col-md-4">
-        <img src="<%= item.image.url %>" onclick="requestPay(<%= item.id %>, <%= current_user.gym&.id %>)" id="item-mobile" class="mt-3">
+<div class="charge" style="width: 100%;">
+  <div class="header" style="background-color: #cfd3df;">
+    <h2 style="vertical-align: middle; display: inline-block;">포인트 충전</h2>
+  </div>
+  <div class="row justify-content-center">
+    <div class="left" style="width: 70%;">
+      <div class="row justify-content-center">
+        <table class="table mt-5" style="width: 80%; height: 60vh;">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col" style="color: #200e57;">결제금액</th>
+              <th scope="col" style="color: #200e57;">충전 Point</th>
+            </tr>
+          </thead>
+          <tbody style="color: #200e57;">
+            <% Item.order(:point).each do |item| %>
+              <tr>
+                <th scope="row"><input class="point_check" type="checkbox" id="<%= item.id %>"></th>
+                <td style="padding-top: 15px;"><%= number_with_delimiter(item.price) %>원</td>
+                <td style="padding-top: 15px;"><strong><%= number_with_delimiter(item.point) %></strong> P</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
-    <% end %>
+    </div>
+    <div class="right" style="width: 30%;">
+      <div class="point-detail" style="margin-top: 50%;">
+        <%= link_to "돌아가기", url_for(:back), class: "btn btn-outline btn-lg mt-3 mb-2", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
+        <h2 style="color: #200e57; margin-top: 5px;">잔여포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h2>
+      </div>
+    </div>
   </div>
-  <h4 class="mt-4" style="color: #757CFF;"><%= current_user.phone.last(4) %>님의 잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %>P</h4> <br>
-  <div class="box">
-    <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mr-3", style: "background-color: #48689a", id: "item-button" %>
-    <%= link_to "돌아가기", url_for(:back), class: "btn btn-lg text-white card_mobile ml-3", style: "background-color: blue;" %>
-  </div>
-  <div class="modal" data-close="100" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal" data-close="120" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-white" id="exampleModalLabel">결제를 진행해주세요!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+      <div class="modal-content">
+        <div class="modal-header d-block" style="color: #200e57; background-color: #cfd3df;">
+          <h5 class="modal-title text-center" id="exampleModalLabel">결제를 진행해주세요!</h5>
         </div>
-        <div class="modal-body text-white mt-3" id="welcom-modal-body">
-          <h3>회원님의 핸드폰으로 <br> 결제 문자가 전송되었습니다:)</h3> <br>
-          <h3>아이폰 유저들은 결제 완료 후 <br> 이전 창으로 돌아가십시오.</h3> <br>
-          <h3 class="text-red">결제 완료 후에, 확인 버튼을 눌러주세요.</h3> <br>
+        <div class="modal-body" style="color: #200e57;">
+          <h3 class="mt-3">회원님의 핸드폰으로 <br> 결제 문자가 전송되었습니다:)</h3> <br>
+          <p style="font-size: 18px;">*아이폰 유저들은 결제완료 후 <br> 핸드폰에서 이전 창으로 돌아가주세요.</p>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-lg"  id="welcom-button">확인</button>
-          <span class="will-close text-white"><strong>n</strong>초 후에 자동 로그아웃 됩니다.</span>
+        <div class="modal-footer row justify-content-center new_modal_footer">
+          <button type="button" class="btn text-white" style="background-color: #200e57; width: 30%;" data-dismiss="modal" id="welcom-button">확인</button>
+        </div>
+        <div class="warning mt-3" style="font-size: 18px; color: #e2484b;">
+          <p style="margin-bottom: 0px;">결제 완료 후, <strong style="color: #200e57;">확인</strong> 버튼을 눌러주세요</p>
+          <p class="will-close mb-4"><strong>n</strong>초 후에 자동 로그아웃 됩니다.</p>
         </div>
       </div>
     </div>
@@ -68,28 +103,60 @@
 </div>
 
 <script>
-  function requestPay(item_id, gym_id) {
+  $(document).ready(function() {
+
+    $('.point_check').click('on', function() {
+      var item_id = document.querySelector('.point_check:checked').id;
+
+      swal({
+        title: "충전하시겠습니까?",
+        type: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#200e57",
+        confirmButtonText: "예",
+        cancelButtonText: "아니오"
+      },
+      function(isConfirm) {
+        if (isConfirm) {
+          requestPay(item_id)
+        } else {
+          document.querySelector(".point_check:checked").checked = false;
+        }
+      });
+    });
+  });
+
+
+
+  // $('.payment_trigger').click('on', function() {
+  //
+  //   requestPay(item_id)
+  // });
+
+  function requestPay(item_id) {
     var popup = $('#exampleModal');
     var time = $(".will-close strong");
     var closeSeconds = $("#exampleModal").attr("data-close");
 
-    popup.modal('show');
+    // popup.modal('show');
+    $(document).ready(function(){
+      popup.modal('show');
+    });
+
     time.html(closeSeconds);
 
     var interval = setInterval(function(){
       time.html(closeSeconds);
       closeSeconds--;
-
       if(closeSeconds < 0){
         popup.modal('hide');
         clearInterval(interval);
       }
-
     }, 1000)
 
     setTimeout(function(){
       window.location = '/items/auto_out'
-    }, 100000);
+    }, 120000);
 
     $.ajax({
       url: "/apis/pay_url",
@@ -99,8 +166,7 @@
         xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
       },
       data: {
-        item_id: item_id,
-        gym_id: gym_id,
+        item_id: item_id
       },
       success: function(data) {
         if(data.result == false){
@@ -116,94 +182,3 @@
     window.location="<%= list_items_path %>";
   });
 </script>
-
-<%# 모어박스 쇼핑몰 형태 %>
-<% if false %>
-  <style>
-    #drink-count {
-      margin-top: 0;
-      bottom: 0;
-    }
-    .fas {
-      color: #48689a;
-    }
-    .btn-lg {
-      margin-top: 20px;
-    }
-    #item-image {
-      width: 53%;
-    }
-    #item-count {
-      font-size: 25px;
-    }
-    .fa-minus-square {
-      font-size: 2rem;
-    }
-    .fa-plus-square {
-      font-size: 2rem;
-    }
-    @media (min-width: 320px) and (max-width: 480px) {
-      #item-image {
-        width: 100%;
-      }
-      #item-count {
-        font-size: 20px;
-      }
-      #drink-count {
-        padding-top: 30px;
-        bottom: 0;
-        margin-left: 20px;
-        font-size: 20px;
-      }
-      .fa-minus-square {
-        margin-top: 5px;
-        font-size: 1.3rem;
-      }
-      .fa-plus-square {
-        margin-top: 5px;
-        font-size: 1.3rem;
-      }
-      #cart-footer {
-        padding: 0;
-      }
-    }
-  </style>
-
-  <div class="container">
-    <div class="row mt-4">
-      <% Item.order(:created_at)&.each do |item| %>
-        <div class="col-4">
-          <%= link_to item_path(item) do %>
-            <img src="<%= item.image.url %>" id="item-image">
-          <% end %>
-          <div class="row mt-4">
-            <div class="col-12">
-              <%= form_for LineItem.new, remote: true do |f| %>
-                <%= f.hidden_field :item_id, value: item.id %>
-                <%= f.hidden_field :order_id, value: @order.id %>
-                <%= f.submit "장바구니 담기", class: "btn text-white card_mobile", style: "background-color: #48689a" %>
-              <% end %>
-            </div>
-            <button type="button" class="btn btn-primary submit-button" id="my-btn" data-toggle="modal" data-target="#exampleModal_<%= item.id %>" style="display: none;"></button>
-            <div class="modal" id="modal-show">
-              <div class="modal-fade" id="exampleModalLong_<%= item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-body">
-                      <p>상품이 장바구니에 담겼습니다.<br>장바구니로 이동하시겠습니까?</p>
-                    </div>
-                    <div class="modal-footer" id="cart-footer">
-                        <%= link_to "아니오", root_path, class: "btn btn-secondary" %>
-                        <%= link_to "예", line_items_path, class: "btn btn-info" %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mt-5", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-  </div>
-<% end %>

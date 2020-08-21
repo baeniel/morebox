@@ -14,7 +14,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-
   </head>
 
   <body id="change-color" style="text-align: center;">
@@ -29,17 +28,16 @@
         color: #757CFF;
       }
     </style>
-  <% if notice %>
+
+    <% if notice %>
       <div class="alert alert-shape alert-color mt-4">
-        <span class="badge badge-dark badge-pill">
+        <span class="badge" style="background-color: #cfd3df;">
           알림
         </span>
-        <span class="alert-content text-white"><%= notice %></span>
+        <span class="alert-content"><%= notice %></span>
       </div>
     <% end %>
-    <%#= render 'shared/header' %>
     <%= yield %>
-    <%#= render 'shared/footer' %>
   </body>
 </html>
 

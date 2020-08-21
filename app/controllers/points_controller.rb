@@ -42,8 +42,8 @@ class PointsController < ApplicationController
           end
         elsif current_user.remained_point == 0
           # 처음 회원가입하는 0포인트
-          @title = "카카오페이로 간편하게 결제하세요!"
-          @body = "노란색 충전버튼을 눌러주세요:)"
+          @title = "포인트가 부족합니다!"
+          @body = "충전버튼을 눌러주세요:)"
           raise
         else
           # 포인트가 부족할 때
