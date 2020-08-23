@@ -42,10 +42,10 @@
     <% if current_user %>
       <div class="row justify-content-end px-5">
         <h3 class="text-red p-3">
-          <a href="#" onclick="window.location.reload();">
+          <a href="#" onclick="initTimer();return false;">
             <i class="fas fa-redo" style="color:red;"></i> 
           </a>
-          <span class="left-time pl-2">5분 00초 후에 자동 로그아웃 됩니다.</span>
+          <span class="left-time pl-2"></span>
         </h3>
       </div>
     <% end %>
@@ -60,22 +60,28 @@
     var currentUser = <%= raw current_user.to_json %>;
     window.createChannel(currentUser);
     // 5분후 자동 로그아웃
-    var closeSeconds = 300;
-    clearInterval(window.intervalId);
-    window.intervalId = setInterval(function () {
-      closeSeconds--;
-      if (closeSeconds < 0) {
-        clearInterval(window.intervalId);
-      }
-      $(".left-time").text(`${parseInt(closeSeconds/60)}분 ${closeSeconds%60}초 후에 자동 로그아웃 됩니다.`);
+    function initTimer(){
+      var closeSeconds = 300;
+      $(".left-time").text(`5분 00초 후에 자동 로그아웃 됩니다.`);
+      clearInterval(window.intervalId);
+      window.intervalId = setInterval(function () {
+        closeSeconds--;
+        if (closeSeconds < 0) {
+          clearInterval(window.intervalId);
+        }
+        $(".left-time").text(`${parseInt(closeSeconds/60)}분 ${closeSeconds%60}초 후에 자동 로그아웃 됩니다.`);
 
-    }, 1000);
+      }, 1000);
 
-    console.log("count down start")
-    clearTimeout(window.timeOutId)
-    window.timeOutId = setTimeout(function () {
-                        window.location = '/items/auto_out'
-                      }, 300000);
+      console.log("count down start")
+      clearTimeout(window.timeOutId)
+      window.timeOutId = setTimeout(function () {
+                          window.location = '/items/auto_out'
+                        }, closeSeconds * 1000);
+                        
+    }
+    
+    initTimer();
   <% end %>
   $(document).ready(function() {
     $(".alert").fadeTo(2000, 2500).slideUp(1000, function() { });

@@ -26,6 +26,9 @@ window.createChannel = function (currentUser){
               window.location = "/items/list"
             }
           });
+        }else if(data.data_type == "direct_complete"){
+          $(".modal").find(".close").click();
+          $(".submit_btn").click();
         }
       }
     });

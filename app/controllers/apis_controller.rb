@@ -6,7 +6,10 @@ class ApisController < ApplicationController
   def pay_url
     # partner_order_id: "#{gym.id}",
     # partner_user_id: "#{current_user.id}",
+
     @item = Item.find_by(id: params[:item_id])
+    subitem_info = params.dig(:subitem_info)
+    @subitems = SubItem.where(id: subitem_info&.keys)
 
     #1. 토큰 발급받기
     bootpay = Bootpay::ServerApi.new(
@@ -16,36 +19,63 @@ class ApisController < ApplicationController
     result = bootpay.get_access_token
 
     #2. 결제 링크 생성하기
-    if result[:status] == 200
+    if (@subitems || @item) && (result[:status] == 200)
       require 'securerandom'
       random_string = SecureRandom.hex(3)
       order_number = "#{random_string}#{Time.current.to_i}"
+      if @subitems.present?
+        title = "#{@subitems.first.title} 포함 #{@subitems.count}개 직접구매"
+        total_price = 0
+        items = []
+        @subitems.each do |subitem|
+          quantity = subitem_info.dig(subitem.id.to_s)&.to_i
+          price = subitem.point * quantity
+          total_price = total_price + price
+          items << {
+                    item_name: subitem.title,
+                    qty: quantity,
+                    unique: subitem.id,
+                    price: price
+                  }
+        end
+      else
+        title = @item.title
+        total_price = @item.price
+        items = [{
+                  item_name: @item.title,
+                  qty: 1,
+                  unique: @item.id,
+                  price: @item.price
+                }]
+      end
+
       response = bootpay.request_payment(
         pg: 'inicis', # PG Alias
         method: 'card', # Method Alias
         order_id: order_number, # 사용할 OrderId
-        price: @item.price, # 결제금액
-        items: [{
-          item_name: @item.title,
-          qty: 1,
-          unique: @item.id,
-          price: @item.price
-          }],
-        name: "#{@item.title}", # 상품명
+        price: total_price, # 결제금액
+        items: items,
+        name: "#{title}", # 상품명
         params: {
           user_id: current_user.id
         },
         # return_url: "http://172.16.101.68:3000/users/#{current_user.id}/pay_complete"
         # return_url: "http://localhost:3000/users/#{current_user.id}/pay_complete"
+        # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
         return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
       )
+      #order 에 item 없을 수 도 있음.
       if (order = current_user.orders.create(status: :ready, gym: current_user.gym, item: @item, order_number: order_number))
+        @subitems.each do |sub_item|
+          order.order_sub_items.new(quantity: subitem_info.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+        end
+        order.save
         link = response[:data]
         receiver = current_user.phone
         receiverName = current_user.phone.last(4)
         contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
         payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-        payment_alarm.send_message
+        payment_alarm.send_message if Rails.env.production?
 
         # link = response[:data]
         # templateCode = '020050000281'
@@ -75,14 +105,33 @@ class ApisController < ApplicationController
       if (result[:status]&.to_s == "200")
         order_number = params[:order_id]
         order = Order.find_by(order_number: order_number)
-        verify_response = bootpay.verify(receipt_id)
+        verify_response = bootpay.verify(receipt_id) unless Rails.env.development?
         user = order.user
-        if order && (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1")
-          if (item = order.item) && (verify_response[:data][:price] == item&.price)
+
+        if order && (Rails.env.development? || (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1"))
+          total_price = 0
+          if order.item
+            total_price = order.item&.price
+          else 
+            total_price = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
+          end
+          if (Rails.env.development? || ((item = order.item) || order.sub_items&.exists?) && (verify_response[:data][:price] == total_price))
             if order.ready?
-              point = Point.create(amount: item&.point, point_type: :charged, user: user)
+              point = nil
+              data_type = "payment_complete"
+              amount = 0
+              if order.item
+                amount = order.item&.point
+              else 
+                data_type = "direct_complete"
+                amount = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
+              end
+              
+              point = Point.create(amount: amount, point_type: :charged, user: user)
+
               if point
                 order.update(status: :complete, paid_at: Time.zone.now, point: point)
+                ActionCable.server.broadcast("room_#{user.id}", data_type: data_type)
               else
                 # msg = "포인트 생성에 실패하였습니다. 관리자에게 문의해주세요."
                 raise
@@ -91,14 +140,15 @@ class ApisController < ApplicationController
               # msg = "이미 결제가 된 상품입니다."
               raise
             end
+            title = item&.title || "#{order.sub_items.first&.title} 포함 #{order.sub_items.count}개 상품"
 
             # 관리자 결제 알람
             templateCode = '020060000152'
-            content = user.gym.title + " " + user.phone.last(4) + "님의 " + item&.title + " 결제가 완료되었습니다."
+            content = user.gym.title + " " + user.phone.last(4) + "님의 " + title + " 결제가 완료되었습니다."
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            admin_alarm.send_alarm
+            admin_alarm.send_alarm if Rails.env.production?
 
             # 결제한 사용자에게 알람
             templateCode = '020050000437'
@@ -107,6 +157,7 @@ class ApisController < ApplicationController
             receiverName = user.phone.last(4)
             user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             user_alarm.send_alarm
+
           else
             raise
           end

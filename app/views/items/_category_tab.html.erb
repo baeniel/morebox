@@ -1,0 +1,18 @@
+<% category ||= nil%>
+<% index ||= nil%>
+
+<% if category && index %>
+  <div class="tab-pane fade <%= "show active" if index.zero? %>" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
+    <div class="row mt-4 mb-2" id="product_list">
+      <%# current_user.gym&.gyms_sub_items.joins(:sub_item).where(sub_items: {category: category}).order(:created_at).each do |gyms_sub_item| %>
+      <% current_gym&.gyms_sub_items.joins(:sub_item).where(sub_items: {category: category}).order(:created_at).each do |gyms_sub_item| %>
+        <% sub_item = gyms_sub_item.sub_item %>
+        <div class="col-2">
+          <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
+          <p class="text-white mt-3"><%= sub_item.point %> point</p>
+        </div>
+        <%= render 'subitem_modal', gyms_sub_item: gyms_sub_item, sub_item: sub_item %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

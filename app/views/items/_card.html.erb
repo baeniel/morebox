@@ -20,29 +20,9 @@
   <div class="row mt-3"></div>
   
   <% if (current_user.orders.count == 0) %>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;" id="modal-trigger">
-      Launch demo modal
-    </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-white" id="exampleModalLabel">모어박스 회원가입을 축하드립니다:)</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body text-white mt-5" id="welcom-modal-body">
-            <p>먹는 것까지 운동인 거 아시죠?</p> <br>
-            <p>간편하게 결제하고 <br> 2초 만에 영양까지 챙기세요</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal" id="welcom-button">닫기</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render 'welcome_modal' %>
   <% end %>
+
   <% categories = Category.all.order(:created_at) %>
   <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
     <% categories.each_with_index do |category, index| %>
@@ -53,52 +33,9 @@
   </ul>
   <div class="tab-content" id="myTabContent">
     <% categories.each_with_index do |category, index| %>
-      <div class="tab-pane fade <%= "show active" if index.zero? %>" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
-        <div class="row mt-4 mb-2" id="product_list">
-          <% current_user.gym&.gyms_sub_items.joins(:sub_item).where(sub_items: {category: category}).order(:created_at).each do |gyms_sub_item| %>
-            <% sub_item = gyms_sub_item.sub_item %>
-            <div class="col-2">
-              <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
-              <p class="text-white mt-3"><%= sub_item.point %> point</p>
-            </div>
-            <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %> (재고: <%= gyms_sub_item.quantity %>개)</h5>
-                  </div>
-                  <div class="modal-body row">
-                    <div class="col-5">
-                      <img src="<%= sub_item&.image_url %>" style="width: 100%;">
-                    </div>
-                    <div class="col-7 row mt-5">
-                      <div class="col-4">
-                        <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
-                          <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
-                        <% end %>
-                      </div>
-                      <div class="col-4">
-                        <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
-                      </div>
-                      <div class="col-4">
-                        <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
-                          <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
-                        <% end %>
-                      </div>
-                      <%#= sub_item.description %>
-                    </div>
-                  </div>
-                  <div class="modal-footer mb-3">
-                    <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
-                    <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
+      <%= render "category_tab", category: category, index: index %>
     <% end %>
+
   </div>
 </div>
 
@@ -109,16 +46,21 @@
 </div>
 
 <%= form_with url: points_path, id: "cart", class: "w-100", method: :post do %>
-  <% current_user.gym&.sub_items.each do |sub_item| %>
+  <%# current_user.gym&.sub_items.each do |sub_item| %>
+  <% current_gym&.sub_items.each do |sub_item| %>
     <%= hidden_field_tag "sub_item_#{sub_item.id}", 0, name: "sub_item[#{sub_item.id}]", class: "sub_item_field", data: {title: sub_item.title, id: sub_item.id} %>
   <% end %>
   <div class="row justify-content-center">
     <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-    <%= submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4", style: "background-color: #48689a", onclick: "sound()" %>
+    <%# submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4", style: "background-color: #48689a", onclick: "sound()" %>
+    <%= link_to "포인트 충전", items_path, class: "btn btn-lg ml-5 mb-4", id: "point-button", style: "background-color: #48689a; color: white;" %>
+    <%= submit_tag "구매하기", class: "btn btn-lg text-white card_mobile ml-5 mb-4 px-5 submit_btn", style: "background-color: #efb758; color: #48689a;", onclick: "sound()" %>
      <audio id="audio" src="/click.mp3"></audio>
-    <%= link_to "충전", items_path, class: "btn btn-lg ml-5 mb-4", id: "point-button", style: "background-color: #efb758; color: #48689a;" %>
   </div>
 <% end %>
+
+  <%= render 'payment_modal' %>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
@@ -169,7 +111,7 @@
         '<div class="row">' +
           '<p class="ml-3"> ' + target.data("title") + ' ' + target.val() + '개</p>' +
           '<a href="#" onclick="deleteItem(' + target.data("id") + ');return false;">' +
-            '<i class="fa fa-trash-o mt-1 ml-3" aria-hidden="true" style="color: red;"></i>' +
+            '<i class="far fa-trash-alt mt-1 ml-3" aria-hidden="true" style="color: red;"></i>' +
           '</a>' +
         '</div>'
       }
