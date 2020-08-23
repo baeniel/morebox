@@ -29,6 +29,7 @@ class UsersController < ApplicationController
   end
 
   def pay_complete
+    ActionCable.server.broadcast("room_#{params[:id]}", data_type: "payment_complete")
   end
 
   def update_referrer

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   resources :users do
     member do
       post :pay_complete
+      get :pay_complete
       get :update_referrer
       post :updating_referrer
     end

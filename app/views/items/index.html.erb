@@ -1,35 +1,4 @@
-<style>
-  #item-mobile {
-    width: 100%;
-  }
-  #item-button {
-    width: 150px;
-  }
-  #item-select {
-    margin-top: 50px;
-  }
-  .box {
-    flex-wrap: wrap;
-    align-content: space-between;
-  }
-  @media (min-width: 320px) and (max-width: 480px) {
-    #mobile-button {
-      font-size: 15px;
-      padding-bottom: 30px;
-    }
-    #item-mobile {
-      width: 75%;
-    }
-    #item-select {
-      margin-top: 20px;
-    }
-    #item-button {
-      margin-top: 10px;
-      margin-bottom: 20px;
-      width: 100px;
-    }
-  }
-</style>
+<%= render 'index_css' %>
 
 <div class="container">
   <div class="row" id="item-select">
@@ -44,6 +13,8 @@
     <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mr-3", style: "background-color: #48689a", id: "item-button" %>
     <%= link_to "돌아가기", url_for(:back), class: "btn btn-lg text-white card_mobile ml-3", style: "background-color: blue;" %>
   </div>
+  <div class="modal-open-btn" data-target="#exampleModal" data-toggle="modal" style="display:none;"></div>
+  
   <div class="modal" data-close="100" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="background-color: #0F4C81;" id="welcom-modal-content">
@@ -53,14 +24,18 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body text-white mt-3" id="welcom-modal-body">
-          <h3>회원님의 핸드폰으로 <br> 결제 문자가 전송되었습니다:)</h3> <br>
-          <h3>아이폰 유저들은 결제 완료 후 <br> 이전 창으로 돌아가십시오.</h3> <br>
-          <h3 class="text-red">결제 완료 후에, 확인 버튼을 눌러주세요.</h3> <br>
+        <div class="modal-body text-white mt-4" id="welcom-modal-body">
+          <span class="spinner-border spinner-border-xl mt-4 mb-2" role="status" style="width: 3rem; height: 3rem;" aria-hidden="true"></span> 
+          <h1>회원님의 핸드폰으로 <br> 결제 문자가 전송되었습니다 :) <br> 결제를 진행해주세요.</h1> <br>
+
+          <h4 class="mt-2">아이폰 유저들은 결제 완료 후 <br> 이전 창으로 돌아가십시오.</h4> <br>
+          <h3 class="mt-3 text-red">결제가 완료되면 이 창은 자동으로 꺼집니다.</h3> <br>
+             
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-lg"  id="welcom-button">확인</button>
-          <span class="will-close text-white"><strong>n</strong>초 후에 자동 로그아웃 됩니다.</span>
+          <button type="button" class="btn btn-secondary" id="welcom-button" data-dismiss="modal"  aria-label="Close">결제 취소</button>
+          <!-- <span class="will-close text-white"><strong>n</strong>초 후에 자동 로그아웃 됩니다.</span>-->
         </div>
       </div>
     </div>
@@ -69,52 +44,35 @@
 
 <script>
   function requestPay(item_id, gym_id) {
-    var popup = $('#exampleModal');
-    var time = $(".will-close strong");
-    var closeSeconds = $("#exampleModal").attr("data-close");
+    let popup = $('#exampleModal');
+    let time = $(".will-close strong");
+    let closeSeconds = $("#exampleModal").attr("data-close");
 
-    popup.modal('show');
-    time.html(closeSeconds);
+    $(".modal-open-btn").click();
 
-    var interval = setInterval(function(){
-      time.html(closeSeconds);
-      closeSeconds--;
-
-      if(closeSeconds < 0){
-        popup.modal('hide');
-        clearInterval(interval);
-      }
-
-    }, 1000)
-
-    setTimeout(function(){
-      window.location = '/items/auto_out'
-    }, 100000);
-
-    $.ajax({
-      url: "/apis/pay_url",
-      type: "POST",
-      dataType: "json",
-      beforeSend: function ( xhr ) {
-        xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
-      },
-      data: {
-        item_id: item_id,
-        gym_id: gym_id,
-      },
-      success: function(data) {
-        if(data.result == false){
-          alert("정상적인 결제 요청이 아닙니다. 다시 시도해주세요.");
-        } else {
-          location.href = data.next_redirect_pc_url
+    <% if Rails.env.production? %>
+      $.ajax({
+        url: "/apis/pay_url",
+        type: "POST",
+        dataType: "json",
+        beforeSend: function ( xhr ) {
+          xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
+        },
+        data: {
+          item_id: item_id,
+          gym_id: gym_id,
+        },
+        success: function(data) {
+          if(data.result == false){
+            alert("정상적인 결제 요청이 아닙니다. 다시 시도해주세요.");
+          } else {
+            location.href = data.next_redirect_pc_url
+          }
         }
-      }
-    })
+      })
+    <% end %>
   }
 
-  $("#welcom-button").click(function(){
-    window.location="<%= list_items_path %>";
-  });
 </script>
 
 <%# 모어박스 쇼핑몰 형태 %>

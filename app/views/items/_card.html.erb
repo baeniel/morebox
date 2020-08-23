@@ -1,78 +1,4 @@
-<style>
-  #drink-count {
-    margin-top: 0;
-    bottom: 0;
-  }
-  .fas {
-    color: #48689a;
-  }
-  .btn-lg {
-    margin-top: 26px;
-  }
-  #item-image {
-    width: 50%;
-  }
-  #item-count {
-    font-size: 25px;
-  }
-  .fa-minus-square {
-    font-size: 2.6rem;
-  }
-  .fa-plus-square {
-    font-size: 2.6rem;
-  }
-  #point-button {
-    width: 140px;
-  }
-  #welcom-modal-body {
-    min-height: 40vh;
-  }
-  #welcom-modal-content {
-    width: 120%;
-    font-size: 2rem;
-  }
-  #welcom-button {
-    margin-top: 0px;
-  }
-  #product_list {
-    height: 220px;
-    overflow-y: scroll;
-  }
-
-  @media (min-width: 320px) and (max-width: 480px) {
-    #item-image {
-      width: 100%;
-    }
-    #item-count {
-      font-size: 20px;
-    }
-    #drink-count {
-      padding-top: 30px;
-      bottom: 0;
-      margin-left: 20px;
-      font-size: 20px;
-    }
-    .fa-minus-square {
-      margin-top: 5px;
-      font-size: 1.3rem;
-    }
-    .fa-plus-square {
-      margin-top: 5px;
-      font-size: 1.3rem;
-    }
-    #point-button {
-      width: 75px;
-    }
-    #welcom-modal-body {
-      min-height: 20vh;
-    }
-    #welcom-modal-content {
-      width: 100%;
-      font-size: 1.5rem;
-    }
-  }
-</style>
-
+<%= render 'card_css' %>
 <div class="container" style="overflow: auto">
   <% if params[:alert].present? %>
     <div class="alert alert-shape alert-color mt-4">
@@ -83,19 +9,17 @@
     </div>
   <% end %>
   <%#= render 'shared/mypage', order: @order %>
-  <div class="row">
-    <div class="col-3"></div>
+  <div class="row justify-content-center">
     <div class="col-6">
       <h3 class="text-white mb-4" id="drink-count">잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h3>
       <%= link_to list_items_path do %>
         <%= image_tag '/refresh.png' %>
       <% end %>
     </div>
-    <div class="col-3"></div>
   </div>
-  <div class="row mt-3">
-  </div>
-  <% if current_user.orders.count == 0 %>
+  <div class="row mt-3"></div>
+  
+  <% if (current_user.orders.count == 0) %>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;" id="modal-trigger">
       Launch demo modal
     </button>
@@ -119,67 +43,58 @@
       </div>
     </div>
   <% end %>
+  <% categories = Category.all.order(:created_at) %>
   <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
-    <% Category.all.order(:created_at).each do |category| %>
+    <% categories.each_with_index do |category, index| %>
       <li class="nav-item">
-        <% if category == Category.first %>
-          <a class="nav-link active" style="color: #efb758;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
-        <% else %>
-          <a class="nav-link" style="color: #efb758;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
-        <% end %>
+        <a class="nav-link <%= 'active' if index.to_i.zero? %>" style="color: #efb758;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
       </li>
     <% end %>
   </ul>
   <div class="tab-content" id="myTabContent">
-    <% Category.all.order(:created_at).each do |category| %>
-      <% if category == Category.first %>
-        <div class="tab-pane fade show active" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
-      <% else %>
-        <div class="tab-pane fade" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
-      <% end %>
+    <% categories.each_with_index do |category, index| %>
+      <div class="tab-pane fade <%= "show active" if index.zero? %>" id="<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
         <div class="row mt-4 mb-2" id="product_list">
-          <% current_user.gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
+          <% current_user.gym&.gyms_sub_items.joins(:sub_item).where(sub_items: {category: category}).order(:created_at).each do |gyms_sub_item| %>
             <% sub_item = gyms_sub_item.sub_item %>
-            <% if sub_item.category == category %>
-              <div class="col-2">
-                <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
-                <p class="text-white mt-3"><%= sub_item.point %> point</p>
-              </div>
-              <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %> (재고: <%= gyms_sub_item.quantity %>개)</h5>
+            <div class="col-2">
+              <img src="<%= sub_item.image_url %>" id="item-image" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal">
+              <p class="text-white mt-3"><%= sub_item.point %> point</p>
+            </div>
+            <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %> (재고: <%= gyms_sub_item.quantity %>개)</h5>
+                  </div>
+                  <div class="modal-body row">
+                    <div class="col-5">
+                      <img src="<%= sub_item&.image_url %>" style="width: 100%;">
                     </div>
-                    <div class="modal-body row">
-                      <div class="col-5">
-                        <img src="<%= sub_item&.image_url %>" style="width: 100%;">
+                    <div class="col-7 row mt-5">
+                      <div class="col-4">
+                        <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
+                          <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
+                        <% end %>
                       </div>
-                      <div class="col-7 row mt-5">
-                        <div class="col-4">
-                          <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
-                            <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
-                          <% end %>
-                        </div>
-                        <div class="col-4">
-                          <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
-                        </div>
-                        <div class="col-4">
-                          <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
-                            <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
-                          <% end %>
-                        </div>
-                        <%#= sub_item.description %>
+                      <div class="col-4">
+                        <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
                       </div>
+                      <div class="col-4">
+                        <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
+                          <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
+                        <% end %>
+                      </div>
+                      <%#= sub_item.description %>
                     </div>
-                    <div class="modal-footer mb-3">
-                      <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
-                      <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
-                    </div>
+                  </div>
+                  <div class="modal-footer mb-3">
+                    <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
+                    <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
                   </div>
                 </div>
               </div>
-            <% end %>
+            </div>
           <% end %>
         </div>
       </div>
@@ -216,11 +131,6 @@
     audio.play();
   }
 
-  $(".submit-btn").click(function(){
-    Rails.fire($('#cart')[0], 'submit');
-    return false;
-  })
-
   $(".plus-btn, .minus-btn").click(function(e){
     e.preventDefault();
     let limitQty = parseInt($(this).data("limit"));
@@ -244,6 +154,11 @@
     $("#sub_item_" + targetId).val($("#item-count-" + targetId).text());
     $(".sub_item_field").change();
   });
+  
+  function deleteItem(subitemId){
+    $("#sub_item_"+subitemId).val(0);
+    $(".sub_item_field").change();
+  }
 
   $(".sub_item_field").change(function(){
     var html = ""
@@ -262,8 +177,5 @@
     $(".cart-list").html(html);
   });
 
-  function deleteItem(subitemId){
-    $("#sub_item_"+subitemId).val(0);
-    $(".sub_item_field").change();
-  }
+
 </script>
