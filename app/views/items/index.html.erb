@@ -40,7 +40,6 @@
 <script>
   $('.point_check').click('on', function() {
     var item_id = document.querySelector('.point_check:checked').id;
-
     Swal.fire({
       title: "충전하시겠습니까?",
       icon: "info",
@@ -48,14 +47,13 @@
       confirmButtonColor: "#200e57",
       confirmButtonText: "예",
       cancelButtonText: "아니오"
-    },
-    function(isConfirm) {
-      if (isConfirm) {
+    }).then((result) => {
+      if (result.value) {
         requestPay(item_id)
       } else {
         document.querySelector(".point_check:checked").checked = false;
       }
-    });
+    });;
   });
 
   $("#welcom-button").click(function(){

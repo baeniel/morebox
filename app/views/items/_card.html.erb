@@ -66,7 +66,6 @@
   <%= render 'payment_modal' %>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
   $(document).ready(function() {
     $("#modal-trigger").click();
@@ -100,7 +99,7 @@
     $("#sub_item_" + targetId).val($("#item-count-" + targetId).text());
     $(".sub_item_field").change();
   });
-  
+
   function deleteItem(subitemId){
     $("#sub_item_"+subitemId).val(0);
     $(".sub_item_field").change();

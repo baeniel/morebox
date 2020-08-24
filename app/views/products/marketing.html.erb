@@ -71,8 +71,8 @@
   }
 </style>
 
-<!-- <div id="carouselExampleCaptions" class="carousel slide tablet" data-ride="carousel">
-  <div class="carousel-inner" data-interval="3000">
+<div id="myCarousel" class="carousel slide tablet" data-ride="carousel" data-interval="3000">
+  <div class="carousel-inner">
     <div class="carousel-item active">
       <%= image_tag '/warning.png', class: "item-img" %>
     </div>
@@ -104,8 +104,9 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
-</div> -->
+</div>
 
+<% if false %>
 <!--Carousel Wrapper-->
 <div id="video-carousel-example" class="carousel slide carousel-fade" data-ride="carousel" style="position: relative;">
   <!--Indicators-->
@@ -142,6 +143,7 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+<% end %>
 
 <div id="carouselExampleCaptions_mobile" class="carousel slide mobile" data-ride="carousel" data-interval="3000">
   <ol class="carousel-indicators">

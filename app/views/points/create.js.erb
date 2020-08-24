@@ -17,7 +17,7 @@
       }
     })
   <% else %>
-    swal({
+    Swal.fire({
       title: "<%= @title %>",
       button: false,
       text: "<%= @body %>"
@@ -27,10 +27,10 @@
     }, 5000);
   <% end %>
 <% else %>
-  swal({
+  Swal.fire({
     title: "<%= @title %>",
     text: "<%= @body %>",
-    type: "error",
+    icon: "error",
     confirmButtonText: '확인',
     confirmButtonColor: "#200e57"
   });

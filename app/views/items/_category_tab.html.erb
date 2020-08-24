@@ -30,7 +30,7 @@
                     <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
                       <i class="fa fa-minus fa-2x mt-3 mr-4" style="color: #200e57;" aria-hidden="true"></i>
                     <% end %>
-                    <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
+                    <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>"><%= (gyms_sub_item.quantity) > 0 ? 1 : 0 %></p>
                     <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
                       <i class="fa fa-plus fa-2x mt-3 ml-4" style="color: #200e57;" aria-hidden="true"></i>
                     <% end %>
@@ -55,4 +55,3 @@
     </div>
   </div>
 <% end %>
-

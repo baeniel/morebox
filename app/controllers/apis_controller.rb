@@ -4,9 +4,6 @@ class ApisController < ApplicationController
 
   # 부트페이 버전
   def pay_url
-    # partner_order_id: "#{gym.id}",
-    # partner_user_id: "#{current_user.id}",
-
     @item = Item.find_by(id: params[:item_id])
     subitem_info = params.dig(:subitem_info)
     @subitems = SubItem.where(id: subitem_info&.keys)
@@ -23,6 +20,7 @@ class ApisController < ApplicationController
       require 'securerandom'
       random_string = SecureRandom.hex(3)
       order_number = "#{random_string}#{Time.current.to_i}"
+
       if @subitems.present?
         title = "#{@subitems.first.title} 포함 #{@subitems.count}개 직접구매"
         total_price = 0
@@ -64,8 +62,8 @@ class ApisController < ApplicationController
         # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
         return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
       )
-      #order 에 item 없을 수 도 있음.
-      if (order = current_user.orders.create(status: :ready, gym: current_user.gym, item: @item, order_number: order_number))
+
+      if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number))
         @subitems.each do |sub_item|
           order.order_sub_items.new(quantity: subitem_info.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
         end
@@ -77,13 +75,6 @@ class ApisController < ApplicationController
         payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
         payment_alarm.send_message if Rails.env.production?
 
-        # link = response[:data]
-        # templateCode = '020050000281'
-        # content = "[MoveMore]\n"+link+" 님의 사용권이 소진되었습니다ㅠ\n\n아래 버튼으로 결제하시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n\n무브모어 카카오톡 채널:\n@무브모어 @movemore"
-        # receiver = current_user.phone
-        # receiverName = current_user.phone.last(4)
-        # kakao_boot = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-        # kakao_boot.send_alarm
       else
         redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."
       end
@@ -112,7 +103,7 @@ class ApisController < ApplicationController
           total_price = 0
           if order.item
             total_price = order.item&.price
-          else 
+          else
             total_price = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
           end
           if (Rails.env.development? || ((item = order.item) || order.sub_items&.exists?) && (verify_response[:data][:price] == total_price))
@@ -120,14 +111,14 @@ class ApisController < ApplicationController
               point = nil
               data_type = "payment_complete"
               amount = 0
-              
+
               if order.item
                 amount = order.item&.point
-              else 
+              else
                 data_type = "direct_complete"
                 amount = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
               end
-              
+
               point = Point.create(amount: amount, point_type: :charged, user: user)
 
               if point

@@ -2,7 +2,7 @@
   <div class="row justify-content-end px-5">
     <h3 class="text-red p-3">
       <a href="#" onclick="initTimer();return false;">
-        <i class="fas fa-redo" style="color:red;"></i> 
+        <i class="fas fa-redo" style="color:red;"></i>
       </a>
       <span class="left-time pl-2"></span>
     </h3>
@@ -30,9 +30,10 @@
       window.timeOutId = setTimeout(function () {
                           window.location = '/items/auto_out'
                         }, closeSeconds * 1000);
-                        
+
     }
-    
-    initTimer();
+    $(function(){
+      initTimer();
+    })
   </script>
 <% end %>
