@@ -10,12 +10,25 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 
 before "deploy:assets:precompile", "deploy:yarn_install"
 
+after "deploy:log_revision", "deploy:webpacker_compile"
+
 namespace :deploy do
   desc 'Run rake yarn:install'
   task :yarn_install do
     on roles(:web) do
       within release_path do
         execute("cd #{release_path} && yarn install")
+      end
+    end
+  end
+end
+
+namespace :deploy do
+  desc 'Run webpacker:compile'
+  task :webpacker_compile do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path} && webpacker:compile")
       end
     end
   end
