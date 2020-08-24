@@ -51,7 +51,6 @@ class User < ApplicationRecord
 
   def remained_point
     self.points.charged.sum(:amount) - self.points.used.sum(:amount)
-
   end
 
   def image_url

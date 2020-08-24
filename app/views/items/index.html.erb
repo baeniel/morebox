@@ -1,18 +1,64 @@
 <%= render 'index_css' %>
 
-<div class="container">
-  <div class="row" id="item-select">
-    <% Item.order(:point).each do |item| %>
-      <div class="col-md-4">
-        <!-- <img src="<%# item.image.url %>" onclick="requestPay(<%# item.id %>, <%# current_user.gym&.id %>)" id="item-mobile" class="mt-3"> -->
-        <img src="<%= item.image.url %>" onclick="requestPay(<%= item.id %>, <%= current_gym&.id %>)" id="item-mobile" class="mt-3">
-      </div>
-    <% end %>
+<div class="charge" style="width: 100%;">
+  <div class="header" style="background-color: #cfd3df;">
+    <h2 style="vertical-align: middle; display: inline-block;">포인트 충전</h2>
   </div>
-  <h4 class="mt-4" style="color: #757CFF;"><%= current_user.phone.last(4) %>님의 잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %>P</h4> <br>
-  <div class="box">
-    <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mr-3", style: "background-color: #48689a", id: "item-button" %>
-    <%= link_to "돌아가기", url_for(:back), class: "btn btn-lg text-white card_mobile ml-3", style: "background-color: blue;" %>
+  <div class="row justify-content-center">
+    <div class="left" style="width: 70%;">
+      <div class="row justify-content-center">
+        <table class="table mt-5" style="width: 80%; height: 60vh;">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col" style="color: #200e57;">결제금액</th>
+              <th scope="col" style="color: #200e57;">충전 Point</th>
+            </tr>
+          </thead>
+          <tbody style="color: #200e57;">
+            <% Item.order(:point).each do |item| %>
+              <tr>
+                <th scope="row"><input class="point_check" type="checkbox" id="<%= item.id %>"></th>
+                <td style="padding-top: 15px;"><%= number_with_delimiter(item.price) %>원</td>
+                <td style="padding-top: 15px;"><strong><%= number_with_delimiter(item.point) %></strong> P</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="right" style="width: 30%;">
+      <%= render 'shared/timer' %>
+      <div class="point-detail" style="margin-top: 50%;">
+        <%= link_to "돌아가기", list_items_path, class: "btn btn-outline btn-lg mt-3 mb-2", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
+        <h2 style="color: #200e57; margin-top: 5px;">잔여포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h2>
+      </div>
+    </div>
   </div>
   <%= render 'payment_modal' %>
 </div>
+<script>
+  $('.point_check').click('on', function() {
+    var item_id = document.querySelector('.point_check:checked').id;
+
+    Swal.fire({
+      title: "충전하시겠습니까?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#200e57",
+      confirmButtonText: "예",
+      cancelButtonText: "아니오"
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        requestPay(item_id)
+      } else {
+        document.querySelector(".point_check:checked").checked = false;
+      }
+    });
+  });
+
+  $("#welcom-button").click(function(){
+    window.location="<%= list_items_path %>";
+  });
+</script>

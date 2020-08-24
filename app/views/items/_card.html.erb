@@ -1,63 +1,67 @@
 <%= render 'card_css' %>
-<div class="container" style="overflow: auto">
-  <% if params[:alert].present? %>
-    <div class="alert alert-shape alert-color mt-4">
-      <span class="badge badge-dark badge-pill">
-        알림
-      </span>
-      <span class="alert-content text-white">충전이 완료되었습니다:)</span>
-    </div>
-  <% end %>
-  <%#= render 'shared/mypage', order: @order %>
-  <div class="row justify-content-center">
-    <div class="col-6">
-      <h3 class="text-white mb-4" id="drink-count">잔여 포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h3>
-      <%= link_to list_items_path do %>
-        <%= image_tag '/refresh.png' %>
-      <% end %>
-    </div>
-  </div>
-  <div class="row mt-3"></div>
-  
-  <% if (current_user.orders.count == 0) %>
-    <%= render 'welcome_modal' %>
-  <% end %>
 
-  <% categories = Category.all.order(:created_at) %>
-  <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
-    <% categories.each_with_index do |category, index| %>
-      <li class="nav-item">
-        <a class="nav-link <%= 'active' if index.to_i.zero? %>" style="color: #efb758;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
-      </li>
-    <% end %>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <% categories.each_with_index do |category, index| %>
-      <%= render "category_tab", category: category, index: index %>
-    <% end %>
-
-  </div>
-</div>
-
-<div class="container cart text-left" style="background-color: #0f4c83;">
-  <h4 class="mt-3" style="color: #efb758;">주문할 상품</h4>
-  <div class="content text-white mt-2 cart-list">
-  </div>
-</div>
-
-<%= form_with url: points_path, id: "cart", class: "w-100", method: :post do %>
-  <%# current_user.gym&.sub_items.each do |sub_item| %>
-  <% current_gym&.sub_items.each do |sub_item| %>
-    <%= hidden_field_tag "sub_item_#{sub_item.id}", 0, name: "sub_item[#{sub_item.id}]", class: "sub_item_field", data: {title: sub_item.title, id: sub_item.id} %>
-  <% end %>
-  <div class="row justify-content-center">
-    <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-lg text-white card_mobile mb-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-    <%# submit_tag "꺼내 먹기", class: "btn btn-lg text-white card_mobile ml-5 mb-4", style: "background-color: #48689a", onclick: "sound()" %>
-    <%= link_to "포인트 충전", items_path, class: "btn btn-lg ml-5 mb-4", id: "point-button", style: "background-color: #48689a; color: white;" %>
-    <%= submit_tag "구매하기", class: "btn btn-lg text-white card_mobile ml-5 mb-4 px-5 submit_btn", style: "background-color: #efb758; color: #48689a;", onclick: "sound()" %>
-     <audio id="audio" src="/click.mp3"></audio>
+<% if params[:alert].present? %>
+  <div class="alert alert-shape alert-color mt-4">
+    <span class="badge badge-dark badge-pill">
+      알림
+    </span>
+    <span class="alert-content text-white">충전이 완료되었습니다:)</span>
   </div>
 <% end %>
+<div class="row justify-content-center">
+  <!-- 좌측면 -->
+  <div class="left mt-5" style="width: 70%;">
+    <div class="row justify-content-center">
+      <div class="col-50 mr-5">
+        <%= image_tag '/list_logo.png' %>
+      </div>
+      <div class="col-50 ml-5" style="font-size: 20px;">
+        <span style="color: #200e57;"><%= current_user.phone %>님</span>
+        <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2", style: "width: 50%;" %>
+      </div>
+    </div>
+    <% if current_user.orders.count == 0 %>
+      <%= render 'welcome_modal' %>
+    <% end %>
+    <% categories = Category.all.order(:created_at) %>
+    <div class="row justify-content-center">
+      <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+        <% categories.each_with_index do |category, index| %>
+          <li class="nav-item mr-4 font-weight-bold">
+            <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
+          </li>
+        <% end %>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <% categories.each_with_index do |category, index| %>
+          <%= render "category_tab", category: category, index: index %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- 우측면 -->
+  <div class="right" style="width: 30%; background-color: white; height: 100vh;">
+    <div class="header">
+      <h2 style="vertical-align: middle; display: inline-block;">주문할 상품</h2>
+    </div>
+    <div class="cart-list" style="text-align: center;" id="cart-container">
+    </div>
+    <hr style="background-color: #200e57;" />
+    <%= form_with url: points_path, id: "cart", method: :post do %>
+      <%# current_user.gym&.sub_items.each do |sub_item| %>
+      <% current_gym&.sub_items.each do |sub_item| %>
+        <%= hidden_field_tag "sub_item_#{sub_item.id}", 0, name: "sub_item[#{sub_item.id}]", class: "sub_item_field", data: { title: sub_item.title, id: sub_item.id, point: sub_item.point } %>
+      <% end %>
+      <%= submit_tag "구매하기", class: "btn btn-outline btn-lg text-white mb-2 submit_btn", style: "background-color: #200e57; border-color: #200e57; width: 60%;", onclick: "sound()" %> <br>
+      <%= link_to "포인트 충전", items_path, class: "btn btn-outline btn-lg", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
+      <h2 style="color: #200e57;">잔여포인트: <%= current_user.remained_point %>포인트</h2>
+      <audio id="audio" src="/click.mp3"></audio>
+    <% end %>
+  </div>
+</div>
+
+<!-- 연보라 컬러코드 #cfd3df
+글자 찐보라 #200e57 -->
 
   <%= render 'payment_modal' %>
 
@@ -106,13 +110,28 @@
     var html = ""
     $(".sub_item_field").each(function(){
       let target = $(this)
+      var point = target.data("point")
       if(parseInt(target.val()) > 0){
         html = html +
-        '<div class="row">' +
-          '<p class="ml-3"> ' + target.data("title") + ' ' + target.val() + '개</p>' +
-          '<a href="#" onclick="deleteItem(' + target.data("id") + ');return false;">' +
-            '<i class="far fa-trash-alt mt-1 ml-3" aria-hidden="true" style="color: red;"></i>' +
-          '</a>' +
+        '<div class="container mt-4 mb-5">' +
+          '<div class="row justify-content-center mt-3">' +
+            '<div class="col-70">' +
+              '<h2 style="color: #200e57;">' + target.data("title") + ' ' + target.val() + '개</h2>' +
+            '</div>' +
+            '<div class="col-30">' +
+              '<a href="#" onclick="deleteItem(' + target.data("id") + ');return false;">' +
+                '<i class="far fa-2x fa-trash-alt mt-1 ml-3" aria-hidden="true" style="color: red;"></i>' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+          '<div class="row justify-content-center mt-3">' +
+            '<div class="col-50 mr-4">' +
+            '<h3 style="color: #200e57;">가격</h3>' +
+            '</div>' +
+            '<div class="col-50 ml-4">' +
+            '<h3 style="color: #200e57;">' + point + 'Point</h3>' +
+            '</div>' +
+          '</div>' +
         '</div>'
       }
     });

@@ -1,6 +1,0 @@
-$("#drink_quantity").html("<%= j(render("items/card", order: @order)) %>")
-
-<%# if (@order.before_point > 0 && (@order.before_point - @order.line_items.sum(:point)) == 0) %>
-<% if (@order.before_point > 0 && (current_user.orders.sum(:before_point) - current_user.line_items.sum(:point) < current_user.gym.sub_items.order('point asc').first.point)) %>
-  <% current_user.update_attributes(payment: false) %>
-<% end %>

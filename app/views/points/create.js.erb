@@ -27,5 +27,11 @@
     }, 5000);
   <% end %>
 <% else %>
-  swal("<%= @title %>", "<%= @body %>", "error");
+  swal({
+    title: "<%= @title %>",
+    text: "<%= @body %>",
+    type: "error",
+    confirmButtonText: '확인',
+    confirmButtonColor: "#200e57"
+  });
 <% end %>

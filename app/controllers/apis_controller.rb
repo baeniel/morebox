@@ -120,6 +120,7 @@ class ApisController < ApplicationController
               point = nil
               data_type = "payment_complete"
               amount = 0
+              
               if order.item
                 amount = order.item&.point
               else 

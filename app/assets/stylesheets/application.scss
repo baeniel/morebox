@@ -31,6 +31,10 @@
     position: relative;
   }
 
+  .new_modal_footer {
+    border-top: none;
+  }
+
   .wrapper {
     margin: 0 auto;
     width: 90%;
@@ -43,17 +47,17 @@
   }
 
   .alert-shape {
-    border-radius: 50px 20px;
     position: fixed;
     z-index: 700;
     top: 1rem;
     left: 1rem;
+    border: 1px;
   }
 
   .alert-color {
-    color: #8A2BE2;
-    background-color: #48689a;
-    border-color: black;
+    color: #200e57;
+    background-color: white;
+    border-color: #200e57;
   }
 
   #change-color {
@@ -71,37 +75,5 @@
     }
     #main-logo {
       margin-top: 0px;
-    }
-  }
-
-  .bar {
-    position: relative;
-    width: 100%;
-    height: 48px;
-    background: rgba(255,255,255,0.1);
-    margin-bottom: 1.5rem;
-    border-radius: 30px;
-    .bar-info {
-      border-radius: 20px;
-      padding: 0.75rem;
-      background: $red;
-      color: white;
-      width: 0%;
-      position: absolute;
-      z-index: -1;
-      height: 100%;
-      transition: width 3.3s ease-in-out;
-      .percent{
-        float: right;
-      }
-      &.goal-kcal{
-       background-color: #9370DB
-      }
-      &.kcal{
-        background-color: #8A2BE2
-      }
-      &.plumpynut-gauge{
-        background-image: linear-gradient(to right, white, #0088db);
-      }
     }
   }
