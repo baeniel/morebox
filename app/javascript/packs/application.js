@@ -6,8 +6,9 @@
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
 require("channels")
-import Swal from "sweetalert2/dist/sweetalert2.js";
-import "sweetalert2/src/sweetalert2.scss";
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+// import "sweetalert2/src/sweetalert2.scss";
+import 'sweetalert2/dist/sweetalert2.min.css';
 window.Swal = Swal;
 
 
