@@ -10,6 +10,8 @@ class Order < ApplicationRecord
   belongs_to :item, optional: true
   belongs_to :gym, optional: true
   belongs_to :point, optional: true
+  has_many :order_sub_items, dependent: :destroy
+  has_many :sub_items, through: :order_sub_items
 
   enum status: %i(ready complete fail)
   # has_many :line_items, dependent: :destroy

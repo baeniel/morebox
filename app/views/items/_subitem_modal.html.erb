@@ -1,0 +1,39 @@
+<% gyms_sub_item ||= nil %>
+<% sub_item ||= nil %>
+
+<% if gyms_sub_item && sub_item %>
+  <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"><%= sub_item.title %> (재고: <%= gyms_sub_item.quantity %>개)</h5>
+        </div>
+        <div class="modal-body row">
+          <div class="col-5">
+            <img src="<%= sub_item&.image_url %>" style="width: 100%;">
+          </div>
+          <div class="col-7 row mt-5">
+            <div class="col-4">
+              <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
+                <i class="fa fa-minus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
+              <% end %>
+            </div>
+            <div class="col-4">
+              <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>"><%= (gyms_sub_item.quantity > 0) ? 1 : 0 %></p>
+            </div>
+            <div class="col-4">
+              <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
+                <i class="fa fa-plus fa-2x mt-2" style="color: #0F4C81;" aria-hidden="true"></i>
+              <% end %>
+            </div>
+            <%#= sub_item.description %>
+          </div>
+        </div>
+        <div class="modal-footer mb-3">
+          <%= link_to "완료", "#", class: "btn btn-lg select-btn text-white", style: "background-color: #0F4C81;", data: {dismiss: "modal", target: sub_item.id} %>
+          <%= link_to "취소", "#", class: "btn btn-lg btn-danger text-white", data: {dismiss: "modal"} %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

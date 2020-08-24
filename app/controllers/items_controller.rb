@@ -26,7 +26,8 @@ class ItemsController < ApplicationController
   end
 
   def list
-    cookies[:gym_id] = current_user&.gym_id if cookies[:gym_id] != current_user&.gym_id
+    #TODO
+    # cookies[:gym_id] = current_user&.gym_id if cookies[:gym_id] != current_user&.gym_id
   end
 
   def auto_out

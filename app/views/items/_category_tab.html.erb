@@ -1,0 +1,58 @@
+<% category ||= nil%>
+<% index ||= nil%>
+
+<% if category && index %>
+  <div class="tab-pane fade <%= "show active" if index.zero? %>" id="category_<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
+    <div class="row mt-5" id="product_list">
+      <%# current_user.gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
+      <% current_gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
+        <% sub_item = gyms_sub_item.sub_item %>
+        <% if sub_item.category == category %>
+          <div class="col-2 mb-4">
+            <img src="<%= sub_item.image_url %>" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal" style="width: 100%;">
+            <p class="mt-1" style="color: #200e57;"><%= sub_item.point %> point</p>
+          </div>
+          <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header d-block" style="background-color: #cfd3df;">
+                  <h3 class="modal-title text-center" id="exampleModalLabel" style="color: #200e57;">선택 상품 (재고: <%= gyms_sub_item.quantity %>개)</h3>
+                </div>
+                <div class="modal-body row justify-content-center">
+                  <h3 style="color: #200e57;"><%= sub_item.description %></h3>
+                  <div class="col-12 mt-3">
+                    <img src="<%= sub_item&.image_url %>" style="width: 25%;">
+                  </div>
+                  <div class="row justify-content-center mt-3">
+                    <div class="col-12 mb-2">
+                      <h3 class="ui-button font-weight-bold"><%= sub_item.title %></h3>
+                    </div>
+                    <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
+                      <i class="fa fa-minus fa-2x mt-3 mr-4" style="color: #200e57;" aria-hidden="true"></i>
+                    <% end %>
+                    <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>">0</p>
+                    <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
+                      <i class="fa fa-plus fa-2x mt-3 ml-4" style="color: #200e57;" aria-hidden="true"></i>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="modal-footer row justify-content-center mb-3 new_modal_footer">
+                  <div class="col-40 mr-5">
+                    <h2 class="select-btn ui-button" data-dismiss="modal" data-target="<%= sub_item.id %>">선 택</h2>
+                  </div>
+                  <div class="col-20 ml-5 mr-5">
+                    <h2>|</h2>
+                  </div>
+                  <div class="col-40 ml-5">
+                    <h2 data-dismiss="modal" style="color: gray;">취 소</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+

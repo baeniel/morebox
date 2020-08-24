@@ -1,162 +1,151 @@
-<div class="container mt-3">
-  <div class="row" id="drink_quantity">
-    <%= render 'items/card' %>
+<%= render 'card_css' %>
+
+<% if params[:alert].present? %>
+  <div class="alert alert-shape alert-color mt-4">
+    <span class="badge badge-dark badge-pill">
+      알림
+    </span>
+    <span class="alert-content text-white">충전이 완료되었습니다:)</span>
+  </div>
+<% end %>
+<div class="row justify-content-center">
+  <!-- 좌측면 -->
+  <div class="left" style="width: 70%;">
+    <div class="mb-3">
+      <%= render 'shared/timer' %>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <%= image_tag '/list_logo.png', class: "px-5 py-2" %>
+      </div>
+      <div class="col-6" style="font-size: 20px;">
+        <div class="row">
+          <div class="offset-2 col-5 text-right">
+            <span style="color: #200e57;line-height:45px;"><%= current_user.phone %>님</span>
+          </div>
+          <div class="col-5 text-left">
+            <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2", style: "width: 50%;" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% if current_user.orders.count == 0 %>
+      <%= render 'welcome_modal' %>
+    <% end %>
+    <% categories = Category.all.order(:created_at) %>
+    <div class="row justify-content-center">
+      <ul class="nav nav-tabs mt-5 px-5" id="myTab" role="tablist">
+        <% categories.each_with_index do |category, index| %>
+          <li class="nav-item mr-4 font-weight-bold">
+            <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#category_<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
+          </li>
+        <% end %>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <% categories.each_with_index do |category, index| %>
+          <%= render "category_tab", category: category, index: index %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <!-- 우측면 -->
+  <div class="right" style="width: 30%; background-color: white; height: 100vh;">
+    <div class="header">
+      <h2 style="vertical-align: middle; display: inline-block;">주문할 상품</h2>
+    </div>
+    <div class="cart-list" style="text-align: center;" id="cart-container">
+    </div>
+    <hr class="mt-0 mb-5" style="background-color: #200e57;" />
+    <%= form_with url: points_path, id: "cart", method: :post do %>
+      <%# current_user.gym&.sub_items.each do |sub_item| %>
+      <% current_gym&.sub_items.each do |sub_item| %>
+        <%= hidden_field_tag "sub_item_#{sub_item.id}", 0, name: "sub_item[#{sub_item.id}]", class: "sub_item_field", data: { title: sub_item.title, id: sub_item.id, point: sub_item.point } %>
+      <% end %>
+      <%= submit_tag "구매하기", class: "btn btn-outline btn-lg text-white mb-2 submit_btn", style: "background-color: #200e57; border-color: #200e57; width: 60%;", onclick: "sound()" %> <br>
+      <%= link_to "포인트 충전", items_path, class: "btn btn-outline btn-lg", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
+      <h2 style="color: #200e57;">잔여포인트: <%= current_user.remained_point %>포인트</h2>
+      <audio id="audio" src="/click.mp3"></audio>
+    <% end %>
   </div>
 </div>
 
+<!-- 연보라 컬러코드 #cfd3df
+글자 찐보라 #200e57 -->
 
-<% #모어박스 쇼핑몰 형태 %>
-<% if false %>
-  <style>
-    .style-one {
-      margin-top: 0.15rem;
-      margin-bottom: 0.6rem;
-      background-color: white;
-      border: 1px solid;
+  <%= render 'payment_modal' %>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#modal-trigger").click();
+  })
+
+  function sound() {
+    var audio = document.getElementById("audio");
+    audio.play();
+  }
+
+  $(".plus-btn, .minus-btn").click(function(e){
+    e.preventDefault();
+    let limitQty = parseInt($(this).data("limit"));
+    let subitemId = $(this).data("target");
+    let targetQtyEl = $("#item-count-" + subitemId);
+    let targetQty = parseInt(targetQtyEl.text());
+    let val = ($(this).hasClass("plus-btn") ? 1 : -1);
+    targetQty = targetQty + val
+    if (targetQty > limitQty){
+      alert("해당 상품의 재고가 부족합니다.")
+    }else{
+      if(targetQty >= 0){
+        targetQtyEl.text(targetQty);
+      }
     }
-  </style>
-  <div class="container">
-    <!-- <img src="/protein_detail.jpeg" alt=""> -->
-    <div class="row mb-5">
-      <div class="col-6">
-        <img src="<%= @item.image %>" style="width: 30%;">
-      </div>
-      <div class="col-4 mt-5">
-        <p class="text-white"><%= @item.title %></p>
-        <hr class="style-one">
-        <p class="text-white"><%= number_with_delimiter(@item.price) %>원</p>
-        <hr class="style-one">
-        <p class="text-white">무료배송</p>
-        <hr class="style-one">
-        <p class="text-white">한진택배</p>
-        <hr class="style-one">
-      </div>
-    </div>
+    return false;
+  });
 
-    <h4 class="text-white mt-5 pt-4 mb-4">제품 상세설명</h4>
-    <img src="<%= @item.image2 %>">
+  $(".select-btn").click(function(){
+    let targetId = $(this).data("target");
+    $("#sub_item_" + targetId).val($("#item-count-" + targetId).text());
+    $(".sub_item_field").change();
+  });
+  
+  function deleteItem(subitemId){
+    $("#sub_item_"+subitemId).val(0);
+    $(".sub_item_field").change();
+  }
 
-    <h4 class="text-white mt-5 pt-5 text-left">배송정보</h4>
-    <table class="table table-bordered text-white mt-3">
-      <tbody>
-        <tr>
-          <th>배송방법</th>
-          <td>순차배송</td>
-          <th rowspan="2">배송비</th>
-          <td rowspan="2">
-            무료배송<br>- 도서 산간 지역 추가비용 3,000원
-          </td>
-        </tr>
-        <tr>
-          <th>묶음배송 여부</th>
-          <td>가능</td>
-        </tr>
-        <tr>
-          <th>배송기간</th>
-          <td colspan="3" class="text-left">
-            <ul>
-              <li class="prod-delivery-period-contents etc-pdd-info">
-                <span>일반 배송 지역 : 주문 및 결제 완료 후, 1-2일 이내 도착</span>
-              </li>
-              <li class="prod-delivery-period-contents">
-                도서 산간 지역 : 주문 및 결제 완료 후, 3-4일 이내 도착
-              </li>
-              <li class="prod-delivery-period-contents">천재지변, 물량 수급 변동 등 예외적인 사유 발생 시, 다소 지연될 수 있는 점 양해 부탁드립니다.</li>
-            </ul>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  $(".sub_item_field").change(function(){
+    var html = ""
+    $(".sub_item_field").each(function(){
+      let target = $(this)
+      var point = target.data("point")
+      if(parseInt(target.val()) > 0){
+        html = html +
+        '<div class="container mt-4 mb-5">' +
+          '<div class="row justify-content-center mt-3">' +
+            '<div class="col-70">' +
+              '<h2 style="color: #200e57;">' + target.data("title") + ' ' + target.val() + '개</h2>' +
+            '</div>' +
+            '<div class="col-30">' +
+              '<a href="#" onclick="deleteItem(' + target.data("id") + ');return false;">' +
+                '<i class="far fa-2x fa-trash-alt mt-1 ml-3" aria-hidden="true" style="color: red;"></i>' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+          '<div class="row justify-content-center mt-3">' +
+            '<div class="col-50 mr-4">' +
+            '<h3 style="color: #200e57;">가격</h3>' +
+            '</div>' +
+            '<div class="col-50 ml-4">' +
+            '<h3 style="color: #200e57;">' + point + 'Point</h3>' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      }
+    });
+    $(".cart-list").html(html);
+  });
 
-    <h4 class="text-white mt-5 pt-5 text-left">교환/반품 안내</h4>
-    <table class="table table-bordered text-white mt-3">
-      <tbody>
-      <tr>
-        <th>교환/반품 비용</th>
-        <td class="text-left">
-          5,000원<br>- 단, 고객 변심의 경우에만 발생
-        </td>
-      </tr>
-      <tr>
-        <th>교환/반품 신청 기준일</th>
-        <td class="text-left">
-          <p>상품을 공급 받으신 날로부터 7일이내 (교환/반품비용 고객부담)</p>
-          <p>공급받으신 상품 및 용역의 내용이 표시, 광고 내용과 다르거나 다르게 이행된 경우에는 공급받은 날로부터 3월이내, <br> 그사실을 알게 된 날로부터 30일이내
-            <span class="prod-delivery-return-policy__limit-list__indent">청약철회 가능</span>
-          </p>
-        </td>
-      </tr>
-      </tbody>
-    </table>
 
-    <h4 class="text-white mt-5 pt-5 text-left text-white">교환/반품 제한사항</h4><br>
-    <p class="text-white text-left">
-      - 고객님의 책임 있는 사유로 상품등이 멸실 또는 훼손된 경우. 단, 상품의 내용을 확인하기 위하여
-        포장 등을 훼손한 경우는 제외 <br> <br>
-      - 포장을 개봉하였거나 포장이 훼손되어 상품가치가 상실된 경우
-        (예 : 가전제품, 식품, 음반 등, 단 액정화면이 부착된 노트북, LCD모니터, 디지털 카메라 등의 불량화소에
-        따른 반품/교환은 제조사 기준에 따릅니다.) <br> <br>
-      - 고객님의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우 단, 화장품등의 경우 시용제품을
-        제공한 경우에 한 합니다. <br><br>
-      - 시간의 경과에 의하여 재판매가 곤란할 정도로 상품등의 가치가 현저히 감소한 경우 <br><br>
-      - 복제가 가능한 상품등의 포장을 훼손한 경우
-        (자세한 내용은 고객만족센터 1:1 E-MAIL상담을 이용해 주시기 바랍니다.) <br><br>
-      ※ 고객님의 마음이 바뀌어 교환, 반품을 하실 경우 상품반송 비용은 고객님께서 부담하셔야 합니다.
-        (색상 교환, 사이즈 교환 등 포함)
-    </p>
-
-    <h4 class="text-white mt-5 pt-5 text-left text-white">판매자 정보</h4>
-
-    <table class="table table-bordered text-white mt-3">
-      <tbody>
-        <tr>
-          <th>
-            <div>상호/대표자</div>
-          </th>
-          <td>주식회사 고릴라밤 / 박영록</td>
-          <th>
-            <div>사업장 소재지</div>
-          </th>
-          <td>서울특별시 관악구 남부순환로 1830, 2층</td>
-        </tr>
-        <tr>
-          <th>
-            <div>이메일</div>
-          </th>
-          <td>gorillabombb@gmail.com</td>
-          <th>
-            <div>연락처</div>
-          </th>
-          <td>050713293087</td>
-        </tr>
-        <tr>
-          <th>
-            <div>통신판매업 신고번호</div>
-          </th>
-          <td>2020-서울관악-0709호</td>
-          <th>
-            <div>사업자번호</div>
-          </th>
-          <td>746-87-01862</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h4 class="text-white mt-5 mb-3 pt-5 text-left text-white">상품문의</h4>
-    <div class="content-box mt-2" id="comment" style="background-color: white;">
-      <%= render 'comments/comment', item: @item %>
-    </div>
-
-    <h4 class="text-white mt-5 pt-5 text-left text-white">문의하기</h4>
-    <div class="container text-left">
-      <%= form_for Comment.new, remote: true do |f| %>
-        <%= f.hidden_field :item_id, value: @item.id %>
-        <div class="row mt-3">
-          <%= f.text_area :body, placeholder: " 문의 내용", required: true, id: "comment_input", cols: 80, rows: 2 %>
-          <button class="button text-left" type="submit">확인</button>
-        </div>
-      <% end %>
-    </div>
-
-  </div>
-<% end %>
+</script>

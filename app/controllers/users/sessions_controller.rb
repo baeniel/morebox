@@ -19,9 +19,10 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+     cookies[:gym_id] = params.dig(:user, :gym_id)
+    super
+  end
 
   # DELETE /resource/sign_out
   # def destroy

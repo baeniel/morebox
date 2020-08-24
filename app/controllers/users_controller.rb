@@ -12,7 +12,8 @@ class UsersController < ApplicationController
   # end
 
   def index
-    @gym = current_user.gym
+    # @gym = current_user.gym
+    @gym = current_gym
 
     #영업 뛰어서 회원가입 시킨 사람 수
     @member_count = User.where(referrer: current_user.phone).count
@@ -29,6 +30,7 @@ class UsersController < ApplicationController
   end
 
   def pay_complete
+    ActionCable.server.broadcast("room_#{params[:id]}", data_type: "payment_complete") if Rails.env.development?
   end
 
   def update_referrer
