@@ -62,9 +62,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up.
   def after_sign_up_path_for(resource)
     # super(resource)
-    update_referrer_user_path(resource)
+    if current_user&.gym&.title == "포이나짐"
+      update_referrer_user_path(resource)
+    else
+      list_items_path
+    end
   end
-
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
