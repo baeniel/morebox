@@ -40,9 +40,9 @@ class GymsController < ApplicationController
       if (Date.today - gym.created_at.to_date).to_i >= 14
         daily_profit << (gym.orders.where(created_at: date_end..date_start, status: 1).map { |order| order.item.price }.sum / 14)
       elsif (Date.today - gym.created_at.to_date).to_i == 0
-        daily_profit << (gym.orders.where(status: 1).map { |order| order.item.price }.sum / 1)
+        daily_profit << (gym.orders.where(status: 1).map { |order| order&.item&.price }.sum / 1)
       else
-        daily_profit << (gym.orders.where(status: 1).map { |order| order.item.price }.sum / (Date.today - gym.created_at.to_date).to_i)
+        daily_profit << (gym.orders.where(status: 1).map { |order| order&.item&.price }.sum / (Date.today - gym.created_at.to_date).to_i)
       end
     end
     @gym_daily_profit = daily_profit.sum(0.0) / daily_profit.size
