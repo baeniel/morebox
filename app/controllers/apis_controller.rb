@@ -5,7 +5,7 @@ class ApisController < ApplicationController
   # 부트페이 버전
   def pay_url
     @item = Item.find_by(id: params[:item_id])
-    subitem_info = params[:subitem_info]&.reject{|_, v| v == "0"}
+    subitem_info = params[:subitem_info].present? ? params[:subitem_info]&.reject{|_, v| v == "0"} : nil
     @subitems = SubItem.where(id: subitem_info&.keys)
 
     #1. 토큰 발급받기
@@ -16,7 +16,7 @@ class ApisController < ApplicationController
     result = bootpay.get_access_token
 
     #2. 결제 링크 생성하기
-    if (@subitems || @item) && (result[:status] == 200)
+    if (@subitems.presence || @item) && (result[:status] == 200)
       require 'securerandom'
       random_string = SecureRandom.hex(3)
       order_number = "#{random_string}#{Time.current.to_i}"
