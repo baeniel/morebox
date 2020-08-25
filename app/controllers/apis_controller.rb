@@ -5,9 +5,9 @@ class ApisController < ApplicationController
   # 부트페이 버전
   def pay_url
     @item = Item.find_by(id: params[:item_id])
-    subitem_info = params[:subitem_info]&.reject{|_, v| v == "0"}
-    @subitems = SubItem.where(id: subitem_info&.keys)
+    subitem_info = params[:subitem_info].present? ? params[:subitem_info]&.reject{|_, v| v == "0"} : nil
 
+    @subitems = SubItem.where(id: subitem_info&.keys)
     #1. 토큰 발급받기
     bootpay = Bootpay::ServerApi.new(
         "5eb2230002f57e002d1edd8d",
@@ -26,7 +26,7 @@ class ApisController < ApplicationController
         total_price = 0
         items = []
         @subitems.each do |subitem|
-          quantity = subitem_info.dig(subitem.id.to_s)&.to_i
+          quantity = subitem_info&.dig(subitem.id.to_s)&.to_i
           price = subitem.point * quantity
           total_price = total_price + price
           items << {
@@ -65,7 +65,7 @@ class ApisController < ApplicationController
 
       if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number))
         @subitems.each do |sub_item|
-          order.order_sub_items.new(quantity: subitem_info.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+          order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
         end
         order.save
         link = response[:data]

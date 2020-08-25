@@ -49,7 +49,7 @@
       cancelButtonText: "아니오"
     }).then((result) => {
       if (result.value) {
-        requestPay(item_id, null, null);
+        requestPay(item_id);
       } else {
         document.querySelector(".point_check:checked").checked = false;
       }
