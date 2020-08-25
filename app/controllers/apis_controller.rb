@@ -5,7 +5,7 @@ class ApisController < ApplicationController
   # 부트페이 버전
   def pay_url
     @item = Item.find_by(id: params[:item_id])
-    subitem_info = params[:subitem_info].reject{|_, v| v == "0"}
+    subitem_info = params[:subitem_info]&.reject{|_, v| v == "0"}
     @subitems = SubItem.where(id: subitem_info&.keys)
 
     #1. 토큰 발급받기
