@@ -16,7 +16,7 @@ class ApisController < ApplicationController
     result = bootpay.get_access_token
 
     #2. 결제 링크 생성하기
-    if (@subitems || @item) && (result[:status] == 200)
+    if (@subitems.presence || @item) && (result[:status] == 200)
       require 'securerandom'
       random_string = SecureRandom.hex(3)
       order_number = "#{random_string}#{Time.current.to_i}"
