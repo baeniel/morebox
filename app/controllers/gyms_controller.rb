@@ -38,7 +38,7 @@ class GymsController < ApplicationController
     daily_profit = []
     Gym.all.order(:created_at).each do |gym|
       if (Date.today - gym.created_at.to_date).to_i >= 14
-        daily_profit << (gym.orders.where(created_at: date_end..date_start, status: 1).map { |order| order.item.price }.sum / 14)
+        daily_profit << (gym.orders.where(created_at: date_end..date_start, status: 1).map { |order| order&.item&.price }.sum / 14)
       elsif (Date.today - gym.created_at.to_date).to_i == 0
         daily_profit << (gym.orders.where(status: 1).map { |order| order&.item&.price }.sum / 1)
       else
@@ -76,7 +76,7 @@ class GymsController < ApplicationController
 
     #정산 (매출의 20%, 매월 갱신)
     if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
-      @gym_profit = (@gym.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum * 0.3).to_i
+      @gym_profit = (@gym.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order&.item&.price : 0 }.sum * 0.3).to_i
     else
       @gym_profit = (@gym.orders.where(status: 1).map { |order| order&.created_at&.month == Date.today.month ? order&.item&.price : 0 }.sum * 0.2).to_i
     end
