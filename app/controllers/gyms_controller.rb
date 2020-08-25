@@ -78,7 +78,7 @@ class GymsController < ApplicationController
     if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
       @gym_profit = (@gym.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum * 0.3).to_i
     else
-      @gym_profit = (@gym.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum * 0.2).to_i
+      @gym_profit = (@gym.orders.where(status: 1).map { |order| order&.created_at&.month == Date.today.month ? order&.item&.price : 0 }.sum * 0.2).to_i
     end
   end
 
