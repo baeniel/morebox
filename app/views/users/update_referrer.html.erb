@@ -1,20 +1,81 @@
-<%= render 'shared/phone_num_dark', target_field_id: "telNumber" do %>
-  <div class="referrer-container">
-    <div class="my-5 referrer-form">
-      <div class="row justify-content-center">
-        <h2 class="text-white ml-4">추천인 입력</h2>
+<% if false %>
+  <%= render 'shared/phone_num_dark', target_field_id: "telNumber" do %>
+    <div class="referrer-container">
+      <div class="my-5 referrer-form">
+        <div class="row justify-content-center">
+          <h2 class="text-white ml-4">추천인 입력</h2>
+        </div>
       </div>
     </div>
-  </div>
-  <%= form_tag updating_referrer_user_path(current_user), id: "referrer_form" do %>
-    <%= text_field_tag :referrer,  "", class: "form-control registration_input", id: "telNumber", placeholder: "추천인 코드를 입력해주세요.", readonly: true %>
+    <%= form_tag updating_referrer_user_path(current_user), id: "referrer_form" do %>
+      <%= text_field_tag :referrer,  "", class: "form-control registration_input", id: "telNumber", value: "000", readonly: true %>
+    <% end %>
   <% end %>
-  <div class="box">
-    <%= link_to "입력", "#", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4 ml-3 submit-button" %>
-    <%= link_to "없습니다", "#", class: "btn btn-lg btn-outline-primary text-white card_mobile mt-4 ml-3 pass-button" %>
-  </div>
 <% end %>
+
+<%= render 'shared/login' %>
+<div class="container" style="background-color: white;">
+  <div class="husk">
+    <div class="left mr-5">
+      <div class="form-group text-left">
+        <div class="row justify-content-center mt-4">
+          <div class="col-md-6 mt-5 pt-3">
+            <p style="color: #200e57; line-height: 35px; font-size: 20px;"><strong>추천인 입력</strong></p>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+      </div>
+      <%= form_tag updating_referrer_user_path(current_user), id: "referrer_form" do %>
+        <%= text_field_tag :referrer,  "", class: "form-control registration_input", id: "telNumber", value: "000", readonly: true %>
+      <% end %>
+      <div class="box">
+        <%= link_to "입력", "#", class: "btn btn-lg text-white card_mobile mt-4 ml-3 submit-button", style: "background-color: #200e57;" %>
+        <%= link_to "없습니다", "#", class: "btn btn-lg text-white card_mobile mt-4 ml-3 pass-button", style: "background-color: #200e57;" %>
+      </div>
+    </div>
+    <div class="right">
+      <% (1..9).each do |num| %>
+        <div class="span4">
+          <div class="num">
+            <div class="txt">
+              <%= num %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="span4">
+        <div class="num" style="background-color: #cfd3df">
+          <div class="txt">
+            <%= link_to "←", "#", class: "back-btn", onclick: "$('#telNumber').val($('#telNumber').val().slice(0,-1));return false;", style: "border: none; background: none; color: #200e57;" %>
+          </div>
+        </div>
+      </div>
+      <div class="span4">
+        <div class="num">
+          <div class="txt">
+            0
+          </div>
+        </div>
+      </div>
+      <!-- <div class="span4">
+        <div class="num" style="background-color: #cfd3df">
+          <div class="txt">
+            <%#= link_to "Go", "#", id: "login-confirm", style: "color: #200e57;" %>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script>
+  $('.num').on('click', function () {
+      var num = $(this);
+      var text = $.trim(num.find('.txt').clone().children().remove().end().text());
+      var telNumber = $('#telNumber');
+      $(telNumber).val(telNumber.val() + text);
+  });
   $(".submit-button, .pass-button").click(function(){
     if($(this).hasClass("pass-button")){
       $("#referrer").val("");
