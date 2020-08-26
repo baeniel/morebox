@@ -65,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if current_user&.gym&.title == "포이나짐"
       update_referrer_user_path(resource)
     else
-      list_items_path
+      list_items_path(gym: current_user.gym.id)
     end
   end
   # The path used after sign up for inactive accounts.

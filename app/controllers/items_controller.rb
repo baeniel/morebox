@@ -26,8 +26,12 @@ class ItemsController < ApplicationController
   end
 
   def list
-    #TODO
-    # cookies[:gym_id] = current_user&.gym_id if cookies[:gym_id] != current_user&.gym_id
+    if params[:gym].present?
+      gym = Gym.find(params[:gym])
+      if gym&.title == ("예스휘트니스" || "포이나짐")
+        Point.create(amount: 2500, point_type: :charged, user: current_user)
+      end
+    end
   end
 
   def auto_out

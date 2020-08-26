@@ -50,7 +50,7 @@ class UsersController < ApplicationController
       end
     else
       current_user.update referrer: "-"
-      redirect_to list_items_path
+      redirect_to list_items_path(gym: current_user.gym.id)
     end
   end
 
