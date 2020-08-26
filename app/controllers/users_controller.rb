@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       referer = User.manager.find_by(phone: params[:referrer])
       if referer && (referer != current_user)
         current_user.update referrer: params[:referrer]
-        redirect_to list_items_path, notice: "추천인 정보가 입력되었습니다."
+        redirect_to list_items_path(gym: current_user.gym.id), notice: "추천인 정보가 입력되었습니다."
       else
         redirect_to update_referrer_user_path(current_user), notice: "추천인 코드가 잘못되었습니다. 확인 후 시도해주세요."
       end

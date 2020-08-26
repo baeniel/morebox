@@ -28,7 +28,7 @@ class ItemsController < ApplicationController
   def list
     if params[:gym].present?
       gym = Gym.find(params[:gym])
-      if gym&.title == ("예스휘트니스" || "포이나짐")
+      if gym.title == "예스휘트니스" or gym.title == "포이나짐"
         Point.create(amount: 2500, point_type: :charged, user: current_user)
       end
     end
