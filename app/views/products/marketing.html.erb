@@ -9,19 +9,16 @@
   h5 {
     color: #757CFF;
   }
-  .carousel-inner {
-    position: relative;
-  }
   .item-img {
     position: relative;
     width: 100%;
     height: 100vh;
   }
   #touch {
-    width: 15%;
-    right: 30px;
+    width: 100%;
+    left: 2%;
     z-index: 999;
-    bottom: 30px;
+    bottom: 0%;
     position: fixed;
   }
   .mobile {
@@ -71,13 +68,14 @@
   }
 </style>
 
-<div id="video-carousel-example" class="carousel slide carousel-fade" data-ride="carousel" style="position: relative;">
-  <div class="carousel-inner" role="listbox">
+<div id="video-carousel-example" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
     <div class="carousel-item active">
       <%= link_to home_index_path do %>
-        <video class="video-fluid" style="width: 85%;" autoplay loop muted>
+        <video class="video-fluid d-block w-100" autoplay loop muted>
           <source src="/main_movie.mp4" type="video/mp4" />
         </video>
+        <%= image_tag '/touch.png', id: "touch" %>
       <% end %>
     </div>
   </div>

@@ -36,9 +36,11 @@
     <div class="row justify-content-center">
       <ul class="nav nav-tabs mt-5 px-5" id="myTab" role="tablist">
         <% categories.each_with_index do |category, index| %>
-          <li class="nav-item mr-4 font-weight-bold">
-            <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#category_<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
-          </li>
+          <% if category.sub_items.present? %>
+            <li class="nav-item mr-4 font-weight-bold">
+              <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#category_<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
+            </li>
+          <% end %>
         <% end %>
       </ul>
       <div class="tab-content" id="myTabContent">

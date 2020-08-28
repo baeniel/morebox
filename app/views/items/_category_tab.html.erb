@@ -8,10 +8,17 @@
       <% current_gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
         <% sub_item = gyms_sub_item.sub_item %>
         <% if sub_item.category == category %>
-          <div class="col-2 mb-4">
-            <img src="<%= sub_item.image_url %>" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal" style="width: 100%;">
-            <p class="mt-1" style="color: #200e57;"><%= sub_item.point %> point</p>
-          </div>
+          <% if category.sub_items.count == 1 %>
+            <div class="col-4 mb-4">
+              <%= render 'shared/sub_item_list', sub_item: sub_item %>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4"></div>
+          <% else %>
+            <div class="col-3 mb-4">
+              <%= render 'shared/sub_item_list', sub_item: sub_item %>
+            </div>
+          <% end %>
           <div class="modal fade" id="exampleModal_<%= sub_item.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
