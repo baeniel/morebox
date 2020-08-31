@@ -38,7 +38,7 @@ class UsersController < ApplicationController
   end
 
   def updating_referrer
-    if params[:referrer].present?
+    if params[:referrer].present? && params[:referrer]!="000"
       referer = User.manager.find_by(phone: params[:referrer])
       if referer && (referer != current_user)
         current_user.update referrer: params[:referrer]

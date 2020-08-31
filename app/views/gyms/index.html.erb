@@ -91,37 +91,33 @@
           <tbody>
             <tr>
               <td>1주차</td>
-              <!-- 지점수 -->
-              <td><%= Gym.all.count %></td>
-
-              <!-- 가입자수(누적) -->
-              <td><%= User.all.count - Gym.all.count %></td>
-
-              <!-- 결제전환율(신규가입자대비) -->
-              <!-- 7월 29일부터 8월 11일까지 가입한 사람들 중에 결제한 사람 -->
-              <td><%= @payment_rate %>%</td>
-
-              <!-- 재결제율 -->
-              <td><%= @repayment_rate %>%</td>
-
-              <!-- 지점 당 일평균 매출 -->
-              <td><%= @gym_daily_profit %>원</td>
+              <td>8</td>
+              <td>344</td>
+              <td>40.4</td>
+              <td>57.9</td>
+              <td>6095</td>
             </tr>
             <tr>
               <td>2주차</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>10</td>
+              <td>407</td>
+              <td>58.4</td>
+              <td>63</td>
+              <td>4071</td>
             </tr>
             <tr>
               <td>3주차</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <!-- 지점수 -->
+              <td><%= Gym.all.count %></td>
+              <!-- 가입자수(누적) -->
+              <td><%= User.all.count - Gym.all.count %></td>
+              <!-- 결제전환율(신규가입자대비) -->
+              <!-- 7월 29일부터 8월 11일까지 가입한 사람들 중에 결제한 사람 -->
+              <td><%= @payment_rate %>%</td>
+              <!-- 재결제율 -->
+              <td><%= @repayment_rate %>%</td>
+              <!-- 지점 당 일평균 매출 -->
+              <td><%= @gym_daily_profit %>원</td>
             </tr>
             <tr>
               <td>4주차</td>
