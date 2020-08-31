@@ -38,7 +38,6 @@
         <% categories.each_with_index do |category, index| %>
           <%# 아무것도 없는 제품 안 띄우게 하려고 %>
           <% if current_user.gym.sub_items.any? { |sub_item| sub_item.category == category } %>
-            <% byebug %>
             <li class="nav-item mr-4 font-weight-bold">
               <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#category_<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
             </li>
