@@ -41,7 +41,11 @@ Rails.application.routes.draw do
       post :updating_referrer
     end
   end
-  resources :gyms
+  resources :gyms do
+    collection do
+      get :total_dashboard
+    end
+  end
   resources :points
 
 

@@ -3,9 +3,7 @@ class HomeController < ApplicationController
 
   def index
     if current_user.fit_center? == true
-      redirect_to gym_path(current_user&.gym)
-    elsif (current_user.phone == "01077777777")
-      redirect_to gyms_path
+      redirect_to gym_path(current_user.gym)
     elsif current_user.manager?
       redirect_to users_path
     else

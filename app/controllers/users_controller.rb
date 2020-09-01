@@ -2,15 +2,6 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: %i(index update_referrer updating_referrer)
   skip_before_action :verify_authenticity_token, except: %i[check]
 
-  # def pay
-  #   user = User.find_by(phone: params[:phone])
-  #   if user
-  #     sign_in(user)
-  #   else
-  #     redirect_to new_session_path, notice: "로그인이 필요한 서비스입니다."
-  #   end
-  # end
-
   def index
     # @gym = current_user.gym
     @gym = current_gym
