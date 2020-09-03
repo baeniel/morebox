@@ -9,12 +9,17 @@ class UsersController < ApplicationController
     #영업 뛰어서 회원가입 시킨 사람 수
     @member_count = User.where(referrer: current_user.phone).count
 
-    #추천인 코드로 결제된 매달 결제액 (매달 갱신)
+
     arr = []
+    arr2 = []
     User.where(referrer: current_user.phone).each do |user|
       arr << user.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum
+      arr2 << user.orders.where(status: 1).map { |order| order.item.price }.sum
     end
-    @referrer_sales = arr.sum
+    #추천인 코드로 결제된 매달 결제액 (매달 갱신)
+    @referrer_month_sale = arr.sum
+    #그 트레이너를 통해 발생한 총 결제액 (트레이너들이 궁금할 수 있으니..)
+    @referrer_total_sale = arr2.sum
 
     #트레이너 등수 (기준: 회원가입 많이 시킨 순으로)
     @managers = User.where(user_type: :manager).sort_by { |user| User.where(referrer: user.phone).count }.reverse

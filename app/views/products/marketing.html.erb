@@ -1,14 +1,4 @@
 <style>
-  .carousel-caption {
-    position: absolute;
-    top: 100px;
-    left: 0;
-    right: 0;
-    z-index: 1;
-  }
-  h5 {
-    color: #757CFF;
-  }
   .item-img {
     position: relative;
     width: 100%;
@@ -20,9 +10,6 @@
     z-index: 999;
     bottom: 10%;
     position: fixed;
-  }
-  .mobile {
-    display: none;
   }
   .carousel-control-next-icon {
     top: 50%;
@@ -36,84 +23,47 @@
     position: fixed;
     bottom: 10;
   }
-  #sdaf {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    width: 40%;
-  }
-
-  @media (min-width: 320px) and (max-width: 480px) {
-    #touch {
-      width: 25%;
-      right: 10px;
-      z-index: 999;
-      bottom: 10;
-      right: 0;
-      position: fixed;
-    }
-    .item-img {
-      z-index: -1;
-      width: 100%;
-      height: 100vh;
-    }
-    .tablet {
-      display: none;
-    }
-    .mobile {
-      display: block;
-    }
-  }
 </style>
 
-<div id="video-carousel-example" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <%= link_to home_index_path do %>
-        <video class="video-fluid d-block w-100" autoplay loop muted>
-          <source src="/main_movie.mp4" type="video/mp4" />
-        </video>
-        <%= image_tag '/touch.png', id: "touch" %>
-      <% end %>
+<% unless @browser.device.tablet? %>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="display: none;" id="modal-trigger"></button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header d-block" style="color: #200e57; background-color: #cfd3df;">
+          <h5 class="modal-title text-center" id="exampleModalLabel">잠시만요!</h5>
+        </div>
+        <div class="modal-body" style="color: #200e57;">
+          <p class="mt-3" style="font-size: 18px;">모어박스 가맹점의 대표님 / 트레이너이신가요?</p>
+          <h3 class="mt-5" style="text-decoration: underline; text-decoration-color: red;">일반 유저는 여기로 접속할 수 없습니다ㅠ</h3> <br>
+          <p style="font-size: 18px;">대표님 / 트레이너분만 <br> 클릭하세요</p>
+        </div>
+        <div class="modal-footer row justify-content-center new_modal_footer">
+          <%= link_to "클릭", home_index_path, class: "btn text-white", style: "background-color: #200e57; width: 30%;" %>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<div id="carouselExampleCaptions_mobile" class="carousel slide mobile" data-ride="carousel" data-interval="3000">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleCaptions_mobile" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleCaptions_mobile" data-slide-to="1"></li>
-    <li data-target="#carouselExampleCaptions_mobile" data-slide-to="2"></li>
-    <li data-target="#carouselExampleCaptions_mobile" data-slide-to="3"></li>
-    <li data-target="#carouselExampleCaptions_mobile" data-slide-to="4"></li>
-  </ol>
-
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <%= link_to(image_tag('/movemore_insta_mobile.png'), "https://www.instagram.com/movemore_mvmr", target: "_blank") %>
-    </div>
-    <div class="carousel-item">
-      <%= image_tag '/gorilla_mobile.png', class: "item-img" %>
-    </div>
-    <div class="carousel-item">
-      <%= image_tag '/gorilla2_mobile.png', class: "item-img" %>
-    </div>
-    <div class="carousel-item">
-      <%= image_tag '/proteinade_mobile.png', class: "item-img" %>
+<% else %>
+  <div id="video-carousel-example" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <%= link_to home_index_path do %>
+          <video class="video-fluid d-block w-100" autoplay loop muted>
+            <source src="/main_movie.mp4" type="video/mp4" />
+          </video>
+          <%= image_tag '/touch.png', id: "touch" %>
+        <% end %>
+      </div>
     </div>
   </div>
+<% end %>
 
-  <a class="carousel-control-prev" href="#carouselExampleCaptions_mobile" role="button" data-slide="prev" onclick="return false;">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleCaptions_mobile" role="button" data-slide="next" onclick="return false;">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
+<script>
+  $(document).ready(function() {
+    $("#modal-trigger").click();
+  })
+</script>
 
 <% if false %>
   <div id="myCarousel" class="carousel slide tablet" data-ride="carousel" data-interval="3000">
@@ -151,25 +101,3 @@
     </a>
   </div>
 <% end %>
-
-<!-- <script>
-  var t;
-  var start = $('#myCarousel').find('.active').attr('data-interval');
-  t = setTimeout("$('#myCarousel').carousel({interval: 700});", start);
-
-  $('#myCarousel').on('slid.bs.carousel', function () {
-    clearTimeout(t);
-    var duration = $(this).find('.active').attr('data-interval');
-    console.log(duration);
-    $('#myCarousel').carousel('pause');
-    t = setTimeout("$('#myCarousel').carousel();", duration);
-  })
-
-  $('.carousel-control.right').on('click', function(){
-      clearTimeout(t);
-  });
-
-  $('.carousel-control.left').on('click', function(){
-      clearTimeout(t);
-  });
-</script> -->

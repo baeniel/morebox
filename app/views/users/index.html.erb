@@ -8,6 +8,13 @@
     left: 8%;
     top: -4%;
   }
+  .card-header {
+    color: #200e57;
+    background-color: #cfd3df;
+  }
+  #change-color {
+    background-color: #e9eef2;
+  }
   @media (min-width: 320px) and (max-width: 480px) {
     #admin-logo {
       width: 30%;
@@ -19,20 +26,55 @@
 </style>
 
 <div class="container mt-5">
-  <%= image_tag '/morebox.png', id: "admin-logo" %>
-  <%#= link_to "로그아웃", destroy_user_session_path, method: :delete %>
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center text-white">
+  <%= image_tag '/list_logo.png', id: "admin-logo" %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #200e57;", data: {confirm: "로그아웃하시겠습니까?"} %>
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="color: #200e57;">
     <h3 class="display-5"><%= @gym&.title %></h3>
-    <p class="lead mt-5">인포/트레이너 페이지입니다.</p>
+    <p class="lead mt-3">인포/트레이너 페이지입니다.</p>
   </div>
 </div>
 
-<div class="container mt-2">
-  <div class="card-deck mb-3 text-center">
+<div class="container mt-2 mb-5">
+  <div class="card-deck text-center">
+
+    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
+    <!-- <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 정산액</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%#= number_with_delimiter((@referrer_sales*0.1).to_i) %>원</strong>
+        </div>
+      </div>
+    </div> -->
+    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
+
     <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">누적 회원가입</h4>
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 결제액</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%= number_with_delimiter(@referrer_month_sale) %>원</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">총 결제액</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%= number_with_delimiter(@referrer_total_sale) %>원</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">누적 회원가입</h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
@@ -40,28 +82,54 @@
         </div>
       </div>
     </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">결제액(매달 갱신)</h4>
-      </div>
-      <div class="card-body health">
-        <div class="content mt-3">
-          <strong><%= number_with_delimiter(@referrer_sales) %>원</strong>
-        </div>
-      </div>
-    </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">지점 등수(트레이너)</h4>
+
+    <!-- A/B테스트 해서 기프트팩 주는 지점의 경우 -->
+    <!-- <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 수령하실 기프트팩</h4>
       </div>
       <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <!-- 리팩토링 할 수 있을 것 같은데ㅠㅠ -->
+          <!-- <strong>
+            <%# case @referrer_month_sale %>
+            <%# when 0..100000 %>
+              1단계 기프트팩 수령까지 <%#= number_with_delimiter(100000 - @referrer_month_sale) %>원 남았습니다!
+            <%# when 100001..200000 %>
+              1단계 기프트팩을 수령하셨습니다:) <br>
+              2단계 기프트팩 수령까지 <%#= number_with_delimiter(200000 - @referrer_month_sale) %>원 남았습니다!
+            <%# when 200001..300000 %>
+              2단계 기프트팩을 수령하셨습니다:) <br>
+              3단계 기프트팩 수령까지 <%#= number_with_delimiter(300000 - @referrer_month_sale) %>원 남았습니다!
+            <%# when 300001..400000 %>
+              3단계 기프트팩을 수령하셨습니다:) <br>
+              4단계 기프트팩 수령까지 <%#= number_with_delimiter(400000 - @referrer_month_sale) %>원 남았습니다!
+            <%# when 400001..500000 %>
+              4단계 기프트팩을 수령하셨습니다:) <br>
+              5단계 기프트팩 수령까지 <%#= number_with_delimiter(500000 - @referrer_month_sale) %>원 남았습니다!
+            <%# else %>
+              축하합니다:) 5단계 기프트팩을 수령하셨습니다!
+            <%# end %>
+          </strong> -->
+        <!-- </div>
+      </div>
+    </div> -->
+    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
+
+
+    <!-- <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">지점 등수(트레이너)</h4>
+      </div>
+      <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
-          <% @managers.each_with_index do |value, index| %>
-            <li><strong><%= "#{index+1}등: #{value.phone}님" %></strong></li>
-          <% end %>
+          <%# @managers.each_with_index do |value, index| %>
+            <li><strong><%#= "#{index+1}등: #{value.phone}님" %></strong></li>
+          <%# end %>
         </ul>
       </div>
-    </div>
+    </div> -->
+
   </div>
 </div>
 <!-- 재고현황, 판매량, 이번달정산액(헬스장이 받는 금액), 주문하기 버튼 누르면 우리한테 카톡이나 이메일, 결제는 딜앱 -->
