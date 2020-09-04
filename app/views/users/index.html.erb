@@ -37,22 +37,22 @@
 <div class="container mt-2 mb-5">
   <div class="card-deck text-center">
 
-    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
-    <!-- <div class="card mb-4 shadow-sm">
+    <!-- 모어박스 + 모어마켓 총 매출의 10%를 인센티브로 -->
+    <div class="card mb-4 shadow-sm">
       <div class="card-header">
         <h4 class="my-0 font-weight-normal">이번 달 정산액</h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
-          <strong><%#= number_with_delimiter((@referrer_sales*0.1).to_i) %>원</strong>
+          <strong><%= number_with_delimiter((@referrer_month_sale*0.1).to_i) %>원</strong>
         </div>
       </div>
-    </div> -->
-    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
+    </div>
+    <!-- 모어박스 + 모어마켓 총 매출의 10%를 인센티브로 -->
 
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">이번 달 결제액</h4>
+        <h4 class="my-0 font-weight-normal">이번 달 결제액<small>&nbsp;&nbsp;(<%= current_user.phone.last(4) %>님을 통해 일어난)</small></h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
@@ -63,7 +63,7 @@
 
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">총 결제액</h4>
+        <h4 class="my-0 font-weight-normal">누적 총 결제액<small>&nbsp;&nbsp;(<%= current_user.phone.last(4) %>님을 통해 일어난)</small></h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
@@ -83,39 +83,16 @@
       </div>
     </div>
 
-    <!-- A/B테스트 해서 기프트팩 주는 지점의 경우 -->
-    <!-- <div class="card mb-4 shadow-sm">
+    <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">이번 달 수령하실 기프트팩</h4>
+        <h4 class="my-0 font-weight-normal">이번 달 센터매출</h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
-          <!-- 리팩토링 할 수 있을 것 같은데ㅠㅠ -->
-          <!-- <strong>
-            <%# case @referrer_month_sale %>
-            <%# when 0..100000 %>
-              1단계 기프트팩 수령까지 <%#= number_with_delimiter(100000 - @referrer_month_sale) %>원 남았습니다!
-            <%# when 100001..200000 %>
-              1단계 기프트팩을 수령하셨습니다:) <br>
-              2단계 기프트팩 수령까지 <%#= number_with_delimiter(200000 - @referrer_month_sale) %>원 남았습니다!
-            <%# when 200001..300000 %>
-              2단계 기프트팩을 수령하셨습니다:) <br>
-              3단계 기프트팩 수령까지 <%#= number_with_delimiter(300000 - @referrer_month_sale) %>원 남았습니다!
-            <%# when 300001..400000 %>
-              3단계 기프트팩을 수령하셨습니다:) <br>
-              4단계 기프트팩 수령까지 <%#= number_with_delimiter(400000 - @referrer_month_sale) %>원 남았습니다!
-            <%# when 400001..500000 %>
-              4단계 기프트팩을 수령하셨습니다:) <br>
-              5단계 기프트팩 수령까지 <%#= number_with_delimiter(500000 - @referrer_month_sale) %>원 남았습니다!
-            <%# else %>
-              축하합니다:) 5단계 기프트팩을 수령하셨습니다!
-            <%# end %>
-          </strong> -->
-        <!-- </div>
+          <strong><%= number_with_delimiter(@gym.month_gym_profit) %>원</strong>
+        </div>
       </div>
-    </div> -->
-    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
-
+    </div>
 
     <!-- <div class="card mb-4 shadow-sm">
       <div class="card-header">

@@ -47,6 +47,34 @@
         </h1>
       </div>
     </div>
+    <!-- A/B테스트 해서 센터 인센티브 주는 지점의 경우 -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 수령하실 센터 인센티브</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong>
+            <% case @gym.month_gym_profit %>
+            <% when 1000000..1500000 %>
+              50,000원
+            <% when 1500001..2000000 %>
+              100,000원
+            <% when 2000001..2500000 %>
+              150,000원
+            <% else %>
+              <% if @gym.month_gym_profit >= 2500001 %>
+                200,000원
+              <% elsif @gym.month_gym_profit < 1000000 %>
+                1번째 센터 인센티브 수령까지 <br>
+                <%= number_with_delimiter(1000000-@gym.month_gym_profit) %>원 남았습니다:)
+              <% end %>
+            <% end %>
+          </strong>
+        </div>
+      </div>
+    </div>
+    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
         <h4 class="my-0 font-weight-normal">판매 내역</h4>

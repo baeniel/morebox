@@ -3,12 +3,11 @@ class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token, except: %i[check]
 
   def index
-    # @gym = current_user.gym
-    @gym = current_gym
+    @gym = current_user.gym
+    # @gym = current_gym
 
     #영업 뛰어서 회원가입 시킨 사람 수
     @member_count = User.where(referrer: current_user.phone).count
-
 
     arr = []
     arr2 = []
