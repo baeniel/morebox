@@ -11,10 +11,11 @@ class Gym < ApplicationRecord
   accepts_nested_attributes_for :sub_items
 
   def gym_profit
-    self.orders&.where(status: 1)&.map { |order| order&.item&.price.to_i }&.sum
+    self.orders.complete.includes(:item).map{|order| order.item&.price.to_i }&.sum
   end
 
   def month_gym_profit
-    self.orders&.where(status: 1)&.map { |order| order&.created_at&.month == Date.today.month ? order&.item&.price.to_i : 0 }&.sum
+    this_month = Date.today.month
+    self.orders.complete.includes(:item).map{|order| order.created_at.month.eql?(this_month) ? order&.item&.price.to_i : 0 }&.sum
   end
 end

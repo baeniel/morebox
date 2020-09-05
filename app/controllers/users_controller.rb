@@ -11,9 +11,11 @@ class UsersController < ApplicationController
 
     arr = []
     arr2 = []
+    this_month = Date.today.month
     User.where(referrer: current_user.phone).each do |user|
-      arr << user.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum
-      arr2 << user.orders.where(status: 1).map { |order| order.item.price }.sum
+      complete_orders = user.orders.complete.includes(:item)
+      arr << complete_orders.map{|order| order.created_at.month.eql?(this_month) ? order.item&.price : 0 }&.sum
+      arr2 << complete_orders.map{|order| order.item&.price }&.sum
     end
     #추천인 코드로 결제된 매달 결제액 (매달 갱신)
     @referrer_month_sale = arr.sum
@@ -21,7 +23,7 @@ class UsersController < ApplicationController
     @referrer_total_sale = arr2.sum
 
     #트레이너 등수 (기준: 회원가입 많이 시킨 순으로)
-    @managers = User.where(user_type: :manager).sort_by { |user| User.where(referrer: user.phone).count }.reverse
+    @managers = User.manager.sort_by{|user| User.where(referrer: user.phone).count }.reverse
   end
 
   def pay_complete

@@ -1,5 +1,8 @@
 class GymsController < ApplicationController
+  before_action :authenticate_user!, only: [:show]
   before_action :load_object, only: [:show]
+  before_action :check_auth, only: [:show]
+  before_action :check_admin_user, only: [:index, :total_dashboard]
 
   def index
     #지난 2주간 가입한 신규 유저 수
@@ -82,8 +85,7 @@ class GymsController < ApplicationController
     end
   end
 
-  def total_dashboard
-  end
+  def total_dashboard; end
 
   private
 
@@ -94,4 +96,13 @@ class GymsController < ApplicationController
   def load_object
     @gym = Gym.find params[:id]
   end
+
+  def check_auth
+    redirect_to root_path, notice: "접근권한이 없습니다." unless current_user.fit_center && (current_user.gym == @gym)
+  end
+
+  def check_admin_user
+    redirect_to root_path unless current_admin_user
+  end
+  
 end
