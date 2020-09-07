@@ -8,6 +8,13 @@
     left: 8%;
     top: -4%;
   }
+  .card-header {
+    color: #200e57;
+    background-color: #cfd3df;
+  }
+  #change-color {
+    background-color: #e9eef2;
+  }
   @media (min-width: 320px) and (max-width: 480px) {
     #admin-logo {
       width: 30%;
@@ -19,20 +26,55 @@
 </style>
 
 <div class="container mt-5">
-  <%= image_tag '/morebox.png', id: "admin-logo" %>
-  <%#= link_to "로그아웃", destroy_user_session_path, method: :delete %>
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center text-white">
+  <%= image_tag '/list_logo.png', id: "admin-logo" %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #200e57;", data: {confirm: "로그아웃하시겠습니까?"} %>
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="color: #200e57;">
     <h3 class="display-5"><%= @gym&.title %></h3>
-    <p class="lead mt-5">인포/트레이너 페이지입니다.</p>
+    <p class="lead mt-3">인포/트레이너 페이지입니다.</p>
   </div>
 </div>
 
-<div class="container mt-2">
-  <div class="card-deck mb-3 text-center">
+<div class="container mt-2 mb-5">
+  <div class="card-deck text-center">
+
+    <!-- 모어박스 + 모어마켓 총 매출의 10%를 인센티브로 -->
     <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">누적 회원가입</h4>
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 정산액</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%= number_with_delimiter((@referrer_month_sale*0.1).to_i) %>원</strong>
+        </div>
+      </div>
+    </div>
+    <!-- 모어박스 + 모어마켓 총 매출의 10%를 인센티브로 -->
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 결제액<small>&nbsp;&nbsp;(<%= current_user.phone.last(4) %>님을 통해 일어난)</small></h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%= number_with_delimiter(@referrer_month_sale) %>원</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">누적 총 결제액<small>&nbsp;&nbsp;(<%= current_user.phone.last(4) %>님을 통해 일어난)</small></h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong><%= number_with_delimiter(@referrer_total_sale) %>원</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">누적 회원가입</h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
@@ -40,28 +82,31 @@
         </div>
       </div>
     </div>
+
     <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">결제액(매달 갱신)</h4>
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 센터매출</h4>
       </div>
-      <div class="card-body health">
+      <div class="card-body health pb-3">
         <div class="content mt-3">
-          <strong><%= number_with_delimiter(@referrer_sales) %>원</strong>
+          <strong><%= number_with_delimiter(@gym.month_gym_profit) %>원</strong>
         </div>
       </div>
     </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">지점 등수(트레이너)</h4>
+
+    <!-- <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">지점 등수(트레이너)</h4>
       </div>
-      <div class="card-body health pb-3">
+      <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
-          <% @managers.each_with_index do |value, index| %>
-            <li><strong><%= "#{index+1}등: #{value.phone}님" %></strong></li>
-          <% end %>
+          <%# @managers.each_with_index do |value, index| %>
+            <li><strong><%#= "#{index+1}등: #{value.phone}님" %></strong></li>
+          <%# end %>
         </ul>
       </div>
-    </div>
+    </div> -->
+
   </div>
 </div>
 <!-- 재고현황, 판매량, 이번달정산액(헬스장이 받는 금액), 주문하기 버튼 누르면 우리한테 카톡이나 이메일, 결제는 딜앱 -->

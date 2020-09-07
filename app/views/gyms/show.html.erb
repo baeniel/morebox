@@ -8,6 +8,13 @@
     left: 8%;
     top: -4%;
   }
+  .card-header {
+    color: #200e57;
+    background-color: #cfd3df;
+  }
+  #change-color {
+    background-color: #e9eef2;
+  }
   @media (min-width: 320px) and (max-width: 480px) {
     #admin-logo {
       width: 30%;
@@ -19,20 +26,58 @@
 </style>
 
 <div class="container mt-5">
-  <%= image_tag '/morebox.png', id: "admin-logo" %>
-  <%#= link_to "로그아웃", destroy_user_session_path, method: :delete %>
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #48689a", data: {confirm: "로그아웃하시겠습니까?"} %>
-  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center text-white">
+  <%= image_tag '/list_logo.png', id: "admin-logo" %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #200e57;", data: {confirm: "로그아웃하시겠습니까?"} %>
+  <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="color: #200e57;">
     <h3 class="display-5"><%= @gym&.title %></h3>
-    <p class="lead mt-5">센터 관리자 페이지입니다.</p>
+    <p class="lead mt-3">센터 대표님 페이지입니다.</p>
   </div>
 </div>
 
-<div class="container mt-2">
-  <div class="card-deck mb-3 text-center">
+<div class="container mt-2 mb-5">
+  <div class="card-deck text-center">
     <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">판매 내역</h4>
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">정산 예정액</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <h1 class="mt-3">
+          <%= number_with_delimiter(@gym_profit) %>
+          <small class="text-muted">원</small>
+        </h1>
+      </div>
+    </div>
+    <!-- A/B테스트 해서 센터 인센티브 주는 지점의 경우 -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 수령하실 센터 인센티브</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <div class="content mt-3">
+          <strong>
+            <% case @gym.month_gym_profit %>
+            <% when 1000000..1500000 %>
+              50,000원
+            <% when 1500001..2000000 %>
+              100,000원
+            <% when 2000001..2500000 %>
+              150,000원
+            <% else %>
+              <% if @gym.month_gym_profit >= 2500001 %>
+                200,000원
+              <% elsif @gym.month_gym_profit < 1000000 %>
+                1번째 센터 인센티브 수령까지 <br>
+                <%= number_with_delimiter(1000000-@gym.month_gym_profit) %>원 남았습니다:)
+              <% end %>
+            <% end %>
+          </strong>
+        </div>
+      </div>
+    </div>
+    <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">판매 내역</h4>
       </div>
       <div class="card-body health pb-3">
         <div class="content mt-3">
@@ -49,8 +94,8 @@
       </div>
     </div>
     <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">현재 재고</h4>
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">현재 재고</h4>
       </div>
       <div class="card-body health">
         <ul class="list-unstyled mt-3 mb-4">
@@ -60,14 +105,7 @@
         </ul>
       </div>
     </div>
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header" style="background-color: #0f4c83;">
-        <h4 class="my-0 font-weight-normal text-white">정산 예정액</h4>
-      </div>
-      <div class="card-body health pb-3">
-        <h1 class="mt-3"><%= number_with_delimiter(@gym_profit) %> <small class="text-muted">원</small></h1>
-      </div>
-    </div>
+    <div class="card mt-5"></div>
   </div>
 </div>
 

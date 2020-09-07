@@ -93,6 +93,7 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
+    browser (4.2.0)
     builder (3.2.4)
     byebug (11.1.1)
     capistrano (3.11.2)
@@ -353,6 +354,7 @@ DEPENDENCIES
   bootpay-rest-client!
   bootsnap (>= 1.4.2)
   bootstrap (~> 4.4.1)
+  browser
   byebug
   capistrano (~> 3.7, >= 3.7.1)
   capistrano-passenger (~> 0.2.0)
