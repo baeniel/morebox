@@ -10,12 +10,21 @@ class Gym < ApplicationRecord
   # has_and_belongs_to_many :sub_items, join_table: :gyms_sub_items
   accepts_nested_attributes_for :sub_items
 
-  def gym_profit
+  def box_sale
     self.orders.complete.includes(:item).map{|order| order.item&.price.to_i }&.sum
   end
 
-  def month_gym_profit
+  #이번 달 모어박스 매출
+  def month_box_sale
     this_month = Date.today.month
     self.orders.complete.includes(:item).map{|order| order.created_at.month.eql?(this_month) ? order&.item&.price.to_i : 0 }&.sum
   end
+
+  #이번 달 그 센터의 총 매출
+  def month_center_sale
+    this_month = Date.today.month
+    self.users.map{|user| user.referrer&.length == 11 ? user.orders.complete.includes(:item).map{|order| order.created_at.month.eql?(this_month) ? order.item&.price : 0 }&.sum : 0}.sum
+  end
+
+
 end

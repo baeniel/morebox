@@ -43,9 +43,9 @@ class GymsController < ApplicationController
       if (Date.today - gym.created_at.to_date).to_i >= 14
         daily_profit << (gym.orders.where(created_at: date_end..date_start, status: 1).map { |order| order&.item&.price.to_i }.sum / 14)
       elsif (Date.today - gym.created_at.to_date).to_i == 0
-        daily_profit << (gym.gym_profit / 1)
+        daily_profit << (gym.box_sale / 1)
       else
-        daily_profit << (gym.gym_profit / (Date.today - gym.created_at.to_date).to_i)
+        daily_profit << (gym.box_sale / (Date.today - gym.created_at.to_date).to_i)
       end
     end
     @gym_daily_profit = daily_profit.sum(0.0) / daily_profit.size
@@ -63,25 +63,14 @@ class GymsController < ApplicationController
   def show
     @fit_center = @gym.users.find_by(fit_center: true)
 
-    #헬스장 무료 체험
-    # arr = []
-    # @gym.orders.where(item: Item.first, number: 1).each do |order|
-    #   if order.created_at.month == Date.today.month
-    #     arr << order
-    #   end
-    # end
-    #
-    # @gym_free_month = arr.group_by { |arr| arr[:user_id] }.count
-    # @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
+    #관장님이 트레이너도 하는 경우
+    calculating_trainer_sale
 
-    #헬스장 판매 갯수 (매월 갱신)
-    @gym_sales = @gym.points.where(point_type: 1).map { |point| point.created_at.month == Date.today.month ? 1 : 0}.sum
-
-    #정산 (매출의 20%, 매월 갱신)
+    #정산 (모어박스 매출의 20%, 매월 갱신)
     if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
-      @gym_profit = (@gym.month_gym_profit * 0.3).to_i
+      @founder_commission = (@gym.month_box_sale * 0.3).to_i
     else
-      @gym_profit = (@gym.month_gym_profit * 0.2).to_i
+      @founder_commission = (@gym.month_box_sale * 0.2).to_i
     end
   end
 
@@ -104,5 +93,5 @@ class GymsController < ApplicationController
   def check_admin_user
     redirect_to root_path unless current_admin_user
   end
-  
+
 end
