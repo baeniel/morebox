@@ -26,11 +26,23 @@ class ApplicationController < ActionController::Base
     redirect_to (request.referer.presence || root_path), notice: '잠시후에 다시 시도 해주세요.'
   end
 
+  def calculating_trainer_sale
+    @arr = []
+    @arr2 = []
+    this_month = Date.today.month
+    User.where(referrer: current_user.phone).each do |user|
+      complete_orders = user.orders.complete.includes(:item)
+      @arr << complete_orders.map{|order| order.created_at.month.eql?(this_month) ? order.item&.price : 0 }&.sum
+      @arr2 << complete_orders.map{|order| order.item&.price }&.sum
+    end
+    @month_trainer_sale = @arr.sum.to_i
+    @trainer_commission = (@month_trainer_sale * 0.1).to_i
+  end
 
   def current_gym
     Gym.find(cookies[:gym_id]) rescue current_user&.gym || Gym.first
   end
-  
+
 
   protected
 

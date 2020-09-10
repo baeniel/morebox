@@ -21,21 +21,24 @@ class GymsController < ApplicationController
     #결제전환율
     @payment_rate = (payment_users.count.to_f / users.count.to_f) * 100
 
-    #재결제율 분모 (2주간 잔여 포인트가 1500 미만이었던 건의 개수)
-    poors = Point.where(created_at: date_end..date_start, point_type: 1).where("remain_point < ?", 1500).count
-    #그 포인트의 주인
-    user_poors = []
+    #재결제율 분모 (2주간 잔여 포인트가 1500 미만 && 최초 결제 건 이후의 사건이어야 함)
+    poors = []
     Point.where(created_at: date_end..date_start, point_type: 1).where("remain_point < ?", 1500).each do |point|
-      user_poors << point.user.id
+      complete_order = point.user.orders.complete.first
+      if complete_order.present? && (complete_order.created_at < point.created_at)
+        poors << point.user.id
+      end
     end
-    #같은 기간동안 charged 건의 개수
-    user_charges = []
-    Point.where(created_at: date_end..date_start, point_type: 0).each do |point|
-      user_charges << point.user.id
+
+    #같은 기간동안 실제 결제 건의 개수
+    repayment = []
+    Order.complete.where(created_at: date_end..date_start).each do |order|
+      if poors.include?(order.user.id)
+        repayment << order.user.id
+      end
     end
     #재결제율 분자 (분모와 분자 교집합)
-    repayment = (user_poors & user_charges).count
-    @repayment_rate = (repayment.to_f / poors.to_f) * 100
+    @repayment_rate = (repayment.uniq.count.to_f / poors.count.to_f) * 100
 
     #지점 당 일평균 매출
     daily_profit = []
@@ -43,9 +46,9 @@ class GymsController < ApplicationController
       if (Date.today - gym.created_at.to_date).to_i >= 14
         daily_profit << (gym.orders.where(created_at: date_end..date_start, status: 1).map { |order| order&.item&.price.to_i }.sum / 14)
       elsif (Date.today - gym.created_at.to_date).to_i == 0
-        daily_profit << (gym.gym_profit / 1)
+        daily_profit << (gym.box_sale / 1)
       else
-        daily_profit << (gym.gym_profit / (Date.today - gym.created_at.to_date).to_i)
+        daily_profit << (gym.box_sale / (Date.today - gym.created_at.to_date).to_i)
       end
     end
     @gym_daily_profit = daily_profit.sum(0.0) / daily_profit.size
@@ -63,25 +66,14 @@ class GymsController < ApplicationController
   def show
     @fit_center = @gym.users.find_by(fit_center: true)
 
-    #헬스장 무료 체험
-    # arr = []
-    # @gym.orders.where(item: Item.first, number: 1).each do |order|
-    #   if order.created_at.month == Date.today.month
-    #     arr << order
-    #   end
-    # end
-    #
-    # @gym_free_month = arr.group_by { |arr| arr[:user_id] }.count
-    # @gym_free = @gym.orders.where(item: Item.first, number: 1).group(:item_id, :user_id).size.count
+    #관장님이 트레이너도 하는 경우
+    calculating_trainer_sale
 
-    #헬스장 판매 갯수 (매월 갱신)
-    @gym_sales = @gym.points.where(point_type: 1).map { |point| point.created_at.month == Date.today.month ? 1 : 0}.sum
-
-    #정산 (매출의 20%, 매월 갱신)
+    #정산 (모어박스 매출의 20%, 매월 갱신)
     if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
-      @gym_profit = (@gym.month_gym_profit * 0.3).to_i
+      @founder_commission = (@gym.month_box_sale * 0.3).to_i
     else
-      @gym_profit = (@gym.month_gym_profit * 0.2).to_i
+      @founder_commission = (@gym.month_box_sale * 0.2).to_i
     end
   end
 
@@ -104,5 +96,5 @@ class GymsController < ApplicationController
   def check_admin_user
     redirect_to root_path unless current_admin_user
   end
-  
+
 end

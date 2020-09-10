@@ -25,6 +25,9 @@
   }
 </style>
 
+<% center_incentive ||= 0 %>
+<% trainer_incentive ||= 0 %>
+
 <div class="container mt-5">
   <%= image_tag '/list_logo.png', id: "admin-logo" %>
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #200e57;", data: {confirm: "로그아웃하시겠습니까?"} %>
@@ -38,36 +41,53 @@
   <div class="card-deck text-center">
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">정산 예정액</h4>
+        <h4 class="my-0 font-weight-normal">이번 달 총 정산액</h4>
       </div>
       <div class="card-body health pb-3">
         <h1 class="mt-3">
-          <%= number_with_delimiter(@gym_profit) %>
+          <%= number_with_delimiter(@founder_commission + center_incentive + @trainer_commission + trainer_incentive) %>
           <small class="text-muted">원</small>
         </h1>
+      </div>
+    </div>
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">이번 달 모어박스 커미션</h4>
+      </div>
+      <div class="card-body health pb-3">
+        <h1 class="mt-3">
+          <%= number_with_delimiter(@founder_commission) %>
+          <small class="text-muted">원</small>
+        </h1>
+        <small>이번 달 모어박스 매출: <%= number_with_delimiter(@gym.month_box_sale) %>원</small>
       </div>
     </div>
     <!-- A/B테스트 해서 센터 인센티브 주는 지점의 경우 -->
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">이번 달 수령하실 센터 인센티브</h4>
+        <h4 class="my-0 font-weight-normal">이번 달 센터 인센티브</h4>
       </div>
       <div class="card-body health pb-3">
-        <div class="content mt-3">
+        <div class="mt-3">
           <strong>
-            <% case @gym.month_gym_profit %>
+            <% case @gym.month_center_sale %>
             <% when 1000000..1500000 %>
-              50,000원
+              <% center_incentive = 50000 %>
+              <h1><%= center_incentive %>원</h1>
             <% when 1500001..2000000 %>
-              100,000원
+              <% center_incentive = 100000 %>
+              <h1><%= center_incentive %>원</h1>
             <% when 2000001..2500000 %>
-              150,000원
+              <% center_incentive = 150000 %>
+              <h1><%= center_incentive %>원</h1>
             <% else %>
-              <% if @gym.month_gym_profit >= 2500001 %>
-                200,000원
-              <% elsif @gym.month_gym_profit < 1000000 %>
-                1번째 센터 인센티브 수령까지 <br>
-                <%= number_with_delimiter(1000000-@gym.month_gym_profit) %>원 남았습니다:)
+              <% if @gym.month_center_sale >= 2500001 %>
+                <% center_incentive = 200000 %>
+                <h1><%= center_incentive %>원</h1>
+              <% elsif @gym.month_center_sale < 1000000 %>
+                <% center_incentive = 0 %>
+                <h1><%= center_incentive %>원</h1>
+                <small>1번째 센터 인센티브 수령까지 <br> <%= number_with_delimiter(1000000-@gym.month_center_sale) %>원 남았습니다:)</small>
               <% end %>
             <% end %>
           </strong>
@@ -75,40 +95,91 @@
       </div>
     </div>
     <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
-    <div class="card mb-4 shadow-sm">
-      <div class="card-header">
-        <h4 class="my-0 font-weight-normal">판매 내역</h4>
-      </div>
-      <div class="card-body health pb-3">
-        <div class="content mt-3">
-          <% arr = [] %>
-          <% @gym.points.where(point_type: 1).each do |point| %>
-            <% if point.created_at.month == Date.today.month %>
-              <% unless arr.include?(point&.sub_item&.title) %>
-                <strong><%= point&.sub_item&.title %></strong> <%= @gym.points.where(point_type: 1, sub_item: point&.sub_item).count %>개 <br>
-              <% end %>
-              <% arr << point&.sub_item&.title %>
-            <% end %>
-          <% end %>
+
+    <!-- 관장님이 트레이너도 하는 경우 -->
+    <% if current_user.fit_center && current_user.manager? %>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">이번 달 트레이너로서의 커미션</h4>
+        </div>
+        <div class="card-body health pb-3">
+          <h1 class="mt-3">
+            <%= number_with_delimiter(@trainer_commission) %>
+            <small class="text-muted">원</small>
+          </h1>
+          <small>이번 달 매출: <%= number_with_delimiter(@month_trainer_sale) %>원</small>
         </div>
       </div>
-    </div>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h4 class="my-0 font-weight-normal">이번 달 트레이너로서의 상여금</h4>
+        </div>
+        <div class="card-body health pb-3">
+          <h1 class="mt-3">
+            <%= number_with_delimiter(trainer_incentive) %>
+            <small class="text-muted">원</small>
+          </h1>
+        </div>
+        <% case @month_trainer_sale %>
+        <% when 300000..500000 %>
+          <% trainer_incentive = 30000 %>
+        <% when 500001..1000000 %>
+          <% trainer_incentive = 50000 %>
+        <% else %>
+          <% if @month_trainer_sale >= 1000001 %>
+            <% trainer_incentive = 100000 %>
+          <% elsif @month_trainer_sale < 300000 %>
+            <% trainer_incentive = 0 %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <!-- 관장님이 트레이너도 하는 경우 -->
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 font-weight-normal">현재 재고</h4>
+        <h4 class="my-0 font-weight-normal">이번 달 센터 매출</h4>
       </div>
-      <div class="card-body health">
-        <ul class="list-unstyled mt-3 mb-4">
-          <% @gym.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
-            <li><strong><%= gyms_sub_item.sub_item.title %></strong> <%= gyms_sub_item.quantity %>개</li>
-          <% end %>
-        </ul>
+      <div class="card-body health pb-3">
+        <h1 class="mt-3">
+          <%= number_with_delimiter(@gym.month_center_sale) %>
+          <small class="text-muted">원</small>
+        </h1>
       </div>
     </div>
-    <div class="card mt-5"></div>
+    <div class="mt-5"></div>
   </div>
 </div>
 
-
-
+<% if false %>
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header">
+      <h4 class="my-0 font-weight-normal">판매 내역</h4>
+    </div>
+    <div class="card-body health pb-3">
+      <div class="content mt-3">
+        <% arr = [] %>
+        <% @gym.points.where(point_type: 1).each do |point| %>
+          <% if point.created_at.month == Date.today.month %>
+            <% unless arr.include?(point&.sub_item&.title) %>
+              <strong><%= point&.sub_item&.title %></strong> <%= @gym.points.where(point_type: 1, sub_item: point&.sub_item).count %>개 <br>
+            <% end %>
+            <% arr << point&.sub_item&.title %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header">
+      <h4 class="my-0 font-weight-normal">현재 재고</h4>
+    </div>
+    <div class="card-body health">
+      <ul class="list-unstyled mt-3 mb-4">
+        <% @gym.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
+          <li><strong><%= gyms_sub_item.sub_item.title %></strong> <%= gyms_sub_item.quantity %>개</li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
 <!-- 재고현황, 판매량, 이번달정산액(헬스장이 받는 금액), 주문하기 버튼 누르면 우리한테 카톡이나 이메일, 결제는 딜앱 -->

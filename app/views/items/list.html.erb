@@ -32,10 +32,10 @@
     <% if current_user.orders.count == 0 %>
       <%= render 'welcome_modal' %>
     <% end %>
-    <% categories = Category.all.order(:created_at) %>
+    <% categories = current_user.gym.sub_items.map {|sub_item| sub_item.category } %>
     <div class="row justify-content-center">
       <ul class="nav nav-tabs mt-5 px-5" id="myTab" role="tablist">
-        <% categories.each_with_index do |category, index| %>
+        <% categories.uniq.each_with_index do |category, index| %>
           <%# 아무것도 없는 제품 안 띄우게 하려고 %>
           <% if current_user.gym.sub_items.any? { |sub_item| sub_item.category == category } %>
             <li class="nav-item mr-4 font-weight-bold">

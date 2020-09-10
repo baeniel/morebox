@@ -62,7 +62,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up.
   def after_sign_up_path_for(resource)
     # super(resource)
-    if current_user&.gym&.title == "예스휘트니스" or current_user&.gym&.title == "포이나짐" or current_user&.gym&.title == "플레이핏엔필라테스"
+    if current_user&.gym&.title == "예스휘트니스" or current_user&.gym&.title == "포이나짐" or current_user&.gym&.title == "플레이핏엔필라테스" or current_user&.gym&.title == "HN휘트니스"
       update_referrer_user_path(resource)
     else
       list_items_path(gym: current_user.gym.id)

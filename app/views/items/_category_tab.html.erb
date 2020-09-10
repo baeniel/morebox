@@ -4,11 +4,11 @@
 <% if category && index %>
   <div class="tab-pane fade <%= "show active" if index.zero? %>" id="category_<%= category.title %>" role="tabpanel" aria-labelledby="<%= category.id %>">
     <div class="row mt-5" id="product_list">
-      <%# current_user.gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
+      <% categories = current_gym&.gyms_sub_items&.map {|gyms_sub_item| gyms_sub_item&.sub_item&.category } %>
       <% current_gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
         <% sub_item = gyms_sub_item.sub_item %>
         <% if sub_item.category == category %>
-          <% if category.sub_items.count == 1 %>
+          <% if categories.one?(category) %>
             <div class="col-4 mb-4">
               <%= render 'shared/sub_item_list', sub_item: sub_item %>
             </div>

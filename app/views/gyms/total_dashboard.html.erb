@@ -13,12 +13,12 @@
           <div class="card-body">
             <h5 class="card-title"><%= gym.title %></h5>
             <p class="card-title">총 매출: <%= number_with_delimiter(gym.orders&.where(status: 1)&.map { |order| order&.item&.price.to_i }&.sum) %>원</p>
-            <p class="card-title">이번달 매출: <%= number_with_delimiter(gym.month_gym_profit.to_i) %>원</p>
+            <p class="card-title">이번달 매출: <%= number_with_delimiter(gym.month_box_sale.to_i) %>원</p>
             <p class="card-title">
               <% if gym.title == "모던복싱" or gym.title == "에이짐휘트니스" %>
-                이번달 정산: <%= number_with_delimiter((gym.month_gym_profit * 0.3).to_i) %>원
+                이번달 정산: <%= number_with_delimiter((gym.month_box_sale * 0.3).to_i) %>원
               <% else %>
-                이번달 정산: <%= number_with_delimiter((gym.month_gym_profit * 0.2).to_i) %>원
+                이번달 정산: <%= number_with_delimiter((gym.month_box_sale * 0.2).to_i) %>원
               <% end %>
             </p>
             <a href="#" class="btn btn" style="color: #200e57; background-color: #cfd3df;" data-toggle="modal" data-target="#trainerModal_<%= gym.id %>">트레이너 현황보기</a>
@@ -39,9 +39,9 @@
                     <%= trainer.phone %>님&nbsp;&nbsp;&nbsp;<%= User.where(referrer: trainer.phone).count %>명 /
                     <% arr = [] %>
                     <% User.where(referrer: trainer.phone).each do |user| %>
-                      <% arr << user.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order.item.price : 0 }.sum %>
+                      <% arr << user.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order&.item&.price : 0 }&.sum %>
                     <% end %>
-                    <%= number_with_delimiter(arr.sum) %>원 <br>
+                    <%= number_with_delimiter(arr.sum.to_i) %>원 <br>
                   <% end %>
                 <% else %>
                   <p style="font-size: 18px;">현황 없음</p>
