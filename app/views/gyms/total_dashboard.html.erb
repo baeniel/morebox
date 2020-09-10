@@ -41,7 +41,7 @@
                     <% User.where(referrer: trainer.phone).each do |user| %>
                       <% arr << user.orders.where(status: 1).map { |order| order.created_at.month == Date.today.month ? order&.item&.price : 0 }&.sum %>
                     <% end %>
-                    <%= number_with_delimiter(arr.sum) %>원 <br>
+                    <%= number_with_delimiter(arr.sum.to_i) %>원 <br>
                   <% end %>
                 <% else %>
                   <p style="font-size: 18px;">현황 없음</p>

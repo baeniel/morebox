@@ -20,11 +20,10 @@ class Gym < ApplicationRecord
     self.orders.complete.includes(:item).map{|order| order.created_at.month.eql?(this_month) ? order&.item&.price.to_i : 0 }&.sum
   end
 
-  #이번 달 그 센터의 총 매출
+  #이번 달 그 센터의 총 매출 => 추후 모어마켓에서 트레이너 코드 쓴 매출 포함시켜야 함.
   def month_center_sale
     this_month = Date.today.month
-    self.users.map{|user| user.referrer&.length == 11 ? user.orders.complete.includes(:item).map{|order| order.created_at.month.eql?(this_month) ? order.item&.price : 0 }&.sum : 0}.sum
+    month_market_sale = 0
+    self.orders.complete.includes(:item).map{|order| order.created_at.month.eql?(this_month) ? order&.item&.price.to_i : 0 }&.sum + month_market_sale
   end
-
-
 end
