@@ -10,9 +10,10 @@ class ItemsController < ApplicationController
 
   def list
     if params[:gym].present?
-      gym = Gym.find(params[:gym])
+      gym = Gym.find_by(id: params[:gym])
       #이 두 지점 회원들은 회원가입하면 2500원 무료 충전
-      if gym.title == "예스휘트니스" or gym.title == "포이나짐" or gym.title == "플레이핏엔필라테스"
+      # if gym.title == "예스휘트니스" or gym.title == "포이나짐" or gym.title == "플레이핏엔필라테스"
+      if ["예스휘트니스", "포이나짐", "플레이핏엔필라테스"].include? gym&.title
         Point.create(amount: 2500, point_type: :charged, user: current_user)
       end
     end
