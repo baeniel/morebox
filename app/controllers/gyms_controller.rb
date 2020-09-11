@@ -77,7 +77,9 @@ class GymsController < ApplicationController
     end
   end
 
-  def total_dashboard; end
+  def total_dashboard
+    calculating_trainer_sale
+  end
 
   private
 
