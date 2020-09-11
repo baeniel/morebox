@@ -4,6 +4,7 @@ class ApisController < ApplicationController
 
   # 부트페이 버전
   def pay_url
+    @result = false
     @item = Item.find_by(id: params[:item_id])
     subitem_info = params[:subitem_info].present? ? params[:subitem_info]&.reject{|_, v| v == "0"} : nil
 
@@ -46,40 +47,41 @@ class ApisController < ApplicationController
                   price: @item.price
                 }]
       end
+      if (params[:trainer_code].blank? || (trainer = User.where(phone: params[:trainer_code], user_type: :manager).where.not(id: current_user&.id).first))
 
-      response = bootpay.request_payment(
-        pg: 'inicis', # PG Alias
-        method: 'card', # Method Alias
-        order_id: order_number, # 사용할 OrderId
-        price: total_price, # 결제금액
-        items: items,
-        name: "#{title}", # 상품명
-        params: {
-          user_id: current_user.id
-        },
-        # return_url: "http://172.16.101.68:3000/users/#{current_user.id}/pay_complete"
-        # return_url: "http://localhost:3000/users/#{current_user.id}/pay_complete"
-        # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
-        return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
-      )
-
-      if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number))
-        @subitems.each do |sub_item|
-          order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+        response = bootpay.request_payment(
+          pg: 'inicis', # PG Alias
+          method: 'card', # Method Alias
+          order_id: order_number, # 사용할 OrderId
+          price: total_price, # 결제금액
+          items: items,
+          name: "#{title}", # 상품명
+          params: {
+            user_id: current_user.id
+          },
+          # return_url: "http://172.16.101.68:3000/users/#{current_user.id}/pay_complete"
+          # return_url: "http://localhost:3000/users/#{current_user.id}/pay_complete"
+          # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
+          return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
+        )
+        if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: trainer))
+          @subitems.each do |sub_item|
+            order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+          end
+          order.save
+          link = response[:data]
+          receiver = current_user.phone
+          receiverName = current_user.phone.last(4)
+          contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
+          payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+          payment_alarm.send_message if Rails.env.production?
+          @result = true
+          # redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."
         end
-        order.save
-        link = response[:data]
-        receiver = current_user.phone
-        receiverName = current_user.phone.last(4)
-        contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
-        payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-        payment_alarm.send_message if Rails.env.production?
-
       else
-        redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."
+        @result = "no_trainer"
       end
     end
-    head :ok
   end
 
   def pay_complete
@@ -113,7 +115,7 @@ class ApisController < ApplicationController
               amount = 0
 
               if order.item
-                amount = order.item&.point
+                amount = order.trainer ? (order.item&.point + (total_price.to_f * 0.05)) : order.item&.point
               else
                 data_type = "direct_complete"
                 amount = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
@@ -122,7 +124,7 @@ class ApisController < ApplicationController
               point = Point.create(amount: amount, point_type: :charged, user: user)
 
               if point
-                order.update(status: :complete, paid_at: Time.zone.now, point: point)
+                order.update(status: :complete, paid_at: Time.zone.now, point: point, payment_amount: total_price)
                 ActionCable.server.broadcast("room_#{user.id}", data_type: data_type)
               else
                 # msg = "포인트 생성에 실패하였습니다. 관리자에게 문의해주세요."
