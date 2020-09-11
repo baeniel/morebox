@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :users do
     collection do
       get :check
+      get :market
     end
   end
   resources :items, only: [:index, :show] do

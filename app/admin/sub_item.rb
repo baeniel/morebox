@@ -1,5 +1,5 @@
 ActiveAdmin.register SubItem do
-  permit_params :title, :image, :point, :category_id, :description
+  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat
   filter :created_at
 
   index do
@@ -23,6 +23,10 @@ ActiveAdmin.register SubItem do
       f.input :point
       f.input :description
       f.input :category_id, as: :select, collection: Category.all.map{ |c| [c.title, c.id] }
+      f.input :calorie
+      f.input :carbo
+      f.input :protein
+      f.input :fat
     end
     f.actions
   end

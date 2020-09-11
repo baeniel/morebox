@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_084711) do
+ActiveRecord::Schema.define(version: 2020_09_11_104820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,9 +121,11 @@ ActiveRecord::Schema.define(version: 2020_08_23_084711) do
     t.integer "payment_amount"
     t.string "tid"
     t.string "order_number"
+    t.bigint "trainer_id"
     t.index ["gym_id"], name: "index_orders_on_gym_id"
     t.index ["item_id"], name: "index_orders_on_item_id"
     t.index ["point_id"], name: "index_orders_on_point_id"
+    t.index ["trainer_id"], name: "index_orders_on_trainer_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -147,6 +149,10 @@ ActiveRecord::Schema.define(version: 2020_08_23_084711) do
     t.integer "point", default: 0
     t.bigint "category_id"
     t.text "description"
+    t.integer "calorie"
+    t.integer "carbo"
+    t.integer "protein"
+    t.integer "fat"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
   end
 
@@ -179,6 +185,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_084711) do
   add_foreign_key "orders", "items"
   add_foreign_key "orders", "points"
   add_foreign_key "orders", "users"
+  add_foreign_key "orders", "users", column: "trainer_id"
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
   add_foreign_key "sub_items", "categories"
