@@ -20,7 +20,8 @@ class HomeController < ApplicationController
         end
       else
         # redirect_to list_items_path
-        redirect_to root_path, notice: "접근 권한이 없습니다."
+        # redirect_to root_path, notice: "접근 권한이 없습니다."
+        redirect_to market_users_path
       end
     end
   end

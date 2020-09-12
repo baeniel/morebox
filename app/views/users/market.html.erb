@@ -4,14 +4,53 @@
   }
   #tool-bar {
     width: 100%;
-    height: 15%;
+    height: 18%;
     background-color: #cfd3df;
     position: fixed;
     bottom: 0%;
   }
+  input:checked + label {
+    color: red;
+  }
+  label {
+    background-color: #cfd3df;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+  .visually-hidden {
+    position: absolute;
+    left: -100vw;
+  }
 </style>
 
 <div class="container">
+  <div class="user-info mt-3">
+    <h3>간단한 사용자 정보를 입력해주세요:)</h3>
+    <div class="row justify-content-center">
+      <%= label_tag  "age", style: "width: 27%; margin-right: 5%;" do %>
+        나이(만) <%= number_field_tag "age", (params[:age] or 24), class: "form-control mb-2" %>
+      <% end %>
+      <%= label_tag  "height", style: "width: 27%; margin-right: 5%;" do %>
+        키 <%= number_field_tag "height", (params[:height] or 170), class: "form-control mb-2" %>
+      <% end %>
+      <%= label_tag  "weight", style: "width: 27%;" do %>
+        몸무게 <%= number_field_tag "weight", (params[:weight] or 70), class: "form-control mb-2" %>
+      <% end %>
+    </div>
+    <div class="row justify-content-center">
+      <%= label_tag  "gender", style: "width: 40%; margin-right: 5%;" do %>
+        성별 <%= select_tag "gender", raw("<option>남</option><option>여</option>"), class: "form-control mb-2" %>
+      <% end %>
+      <%= label_tag  "activity", style: "width: 40%;" do %>
+        활동강도 <%= select_tag "activity", raw("<option>전혀없음</option><option>조금</option><option>보통</option><option>많이</option><option>엄청</option>"), class: "form-control mb-2" %>
+      <% end %>
+    </div>
+    <a href="#" class="btn mt-3 text-white" style="background-color: #200e57;" onclick="calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;">계산하기</a>
+  </div>
+
+
+  <p id="output" style="color: #200e57;" class="mt-4"></p>
+
   <div class="row">
     <% SubItem.order(:created_at).each do |sub_item| %>
       <div class="col-sm-6" style="width: 50%;">
@@ -19,7 +58,10 @@
         <div class="card-body">
           <h5 class="card-title"><%= sub_item.title %></h5>
           <p class="card-text"><%= sub_item.description %></p>
-          <a href="#" class="btn btn-primary">Check</a>
+
+          <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>">
+          <label for="toggle_<%= sub_item.id %>" id="calorie-check">체크</label>
+
         </div>
       </div>
     <% end %>
@@ -27,5 +69,97 @@
 </div>
 
 <div id="tool-bar">
-  <p class="mt-3" style="color: #200e57;">칼로리 계산기</p>
+  <div class="row justify-content-center">
+    <p class="mt-3 mr-5" style="color: #200e57;">칼로리 계산기</p>
+    <button id="reset" class="btn btn text-white mt-2 mb-3" style="background-color: #200e57;">리셋</button>
+  </div>
+  <div class="calorie-content"></div>
 </div>
+
+<script>
+  var total_calorie = total_carbo = total_protein = total_fat = 0;
+
+  function caloriePlus(calorie, carbo, protein, fat) {
+    total_calorie += calorie
+    total_carbo += carbo
+    total_protein += protein
+    total_fat += fat
+    html_write()
+  };
+
+  function calorieMinus(calorie, carbo, protein, fat) {
+    total_calorie -= calorie
+    total_carbo -= carbo
+    total_protein -= protein
+    total_fat -= fat
+    html_write()
+  };
+
+  function html_write() {
+
+    var html = ""
+
+    if (typeof total_calorie_rate == 'undefined') {
+      html = html +
+      '<p style="color: #200e57;">' + "칼로리: " + total_calorie + "kcal, " + "&nbsp;" + "&nbsp;" + "탄수화물: " + total_carbo + "g" + "<br>" +
+      "단백질: " + total_protein + "g, " + "&nbsp;" + "&nbsp;" + "지방: " + total_fat + "g" + '</p>'
+    } else {
+      html = html +
+      '<p style="color: #200e57;">' + "칼로리: " + total_calorie + "kcal / " + total_calorie_rate + "kcal, " + "&nbsp;" + "&nbsp;" + "탄수화물: " + total_carbo + "g / " + ideal_carbo + "g" + "<br>" +
+      "단백질: " + total_protein + "g / " + ideal_protein + "g, " + "&nbsp;" + "&nbsp;" + "지방: " + total_fat + "g / " + ideal_fat + "g" + '</p>'
+    }
+
+    $(".calorie-content").html(html);
+  }
+
+  $('input[type="checkbox"]').click(function(){
+    calorie = parseFloat(this.dataset.calorie)
+    carbo = parseFloat(this.dataset.carbo)
+    protein = parseFloat(this.dataset.protein)
+    fat = parseFloat(this.dataset.fat)
+
+    if($(this).prop("checked") == true){
+      caloriePlus(calorie, carbo, protein, fat)
+    }
+    else if($(this).prop("checked") == false){
+      calorieMinus(calorie, carbo, protein, fat)
+    }
+  });
+
+  function calculateCalorie(age, height, weight, gender, activity){
+    age = parseFloat(age)
+    height = parseFloat(height)
+    weight = parseFloat(weight)
+
+    if(gender == "남") {
+      base_calorie_rate = Math.round(10*weight + 6.25*height - 5*age + 5)
+    } else {
+      base_calorie_rate = Math.round(10*weight + 6.25*height - 5*age - 161)
+    }
+
+    if(activity == "전혀없음") {
+      total_calorie_rate = 1.2*base_calorie_rate
+    } else if(activity == "조금") {
+      total_calorie_rate = 1.375*base_calorie_rate
+    } else if(activity == "보통") {
+      total_calorie_rate = 1.555*base_calorie_rate
+    } else if(activity == "많이") {
+      total_calorie_rate = 1.725*base_calorie_rate
+    } else {
+      total_calorie_rate = 1.9*base_calorie_rate
+    }
+
+    total_calorie_rate = Math.round(total_calorie_rate)
+    ideal_protein = Math.round(weight*1.5)
+    ideal_fat = Math.round(weight*1.1)
+    ideal_carbo = Math.round((total_calorie_rate-(ideal_protein*4)-(ideal_fat*9))/4)
+
+    document.getElementById('output').innerHTML = "총대사량: " + total_calorie_rate + "kcal"
+    + ", " + "&nbsp;" + "탄수화물(권장): " + ideal_carbo + "g" + "<br>" + " 단백질(권장): " + ideal_protein + "g, " + "&nbsp;" + "지방(권장): " + ideal_fat + "g";
+  }
+
+  $('#reset').click(function() {
+    var html = ""
+    $(".calorie-content").html(html);
+  });
+</script>
