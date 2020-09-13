@@ -24,7 +24,7 @@
             <span style="color: #200e57;line-height:45px;"><%= current_user.phone %>님</span>
           </div>
           <div class="col-5 text-left">
-            <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2", style: "width: 50%;" %>
+            <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2", style: "width: 50%;", data: {confirm: "로그아웃하시겠습니까?"} %>
           </div>
         </div>
       </div>

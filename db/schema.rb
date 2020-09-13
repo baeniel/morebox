@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_155127) do
+ActiveRecord::Schema.define(version: 2020_09_11_131551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,10 @@ ActiveRecord::Schema.define(version: 2020_09_10_155127) do
     t.integer "point", default: 0
     t.bigint "category_id"
     t.text "description"
+    t.float "calorie"
+    t.float "carbo"
+    t.float "protein"
+    t.float "fat"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
   end
 

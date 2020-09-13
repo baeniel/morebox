@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: %i(index update_referrer updating_referrer)
+  before_action :authenticate_user!, only: %i(index update_referrer updating_referrer market)
   skip_before_action :verify_authenticity_token, except: %i[check]
 
   def index
@@ -10,12 +10,11 @@ class UsersController < ApplicationController
     @member_count = User.where(referrer: current_user.phone).count
 
     calculating_trainer_sale
-
-    #트레이너 총 매출
-    # @trainer_sale = @arr2.sum
-
     #트레이너 등수 (기준: 회원가입 많이 시킨 순으로)
     # @managers = User.manager.sort_by{|user| User.where(referrer: user.phone).count }.reverse
+  end
+
+  def market
   end
 
   def pay_complete
