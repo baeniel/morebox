@@ -36,27 +36,33 @@
 
 <script>
   function requestPay(item_id, gym_id, subitem_info) {
-    $(".modal-open-btn").click();
-
+    let trainer_code = $("#trainer_code").val();
     $.ajax({
       url: "/apis/pay_url",
       type: "POST",
-      dataType: "json",
-      beforeSend: function ( xhr ) {
-        xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
-      },
       data: {
         item_id: item_id,
         gym_id: gym_id,
         subitem_info: subitem_info,
+        trainer_code: trainer_code
       },
-      success: function(data) {
-        if(data.result == false){
-          alert("정상적인 결제 요청이 아닙니다. 다시 시도해주세요.");
-        } else {
-          location.href = data.next_redirect_pc_url
-        }
+      beforeSend: function ( xhr ) {
+        xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
       }
+      
+      // ,
+      // success: function(data) {
+      //   console.log(data.result)
+      //   if(data.result == false){
+      //     alert("정상적인 결제 요청이 아닙니다. 다시 시도해주세요.");
+      //   } else {
+      //     location.href = data.next_redirect_pc_url
+      //   }
+      // }
     })
   }
+  $('#paymentModal').on('hidden.bs.modal', function (e) {
+    document.querySelector(".point_check:checked").checked = false;
+  })
+
 </script>

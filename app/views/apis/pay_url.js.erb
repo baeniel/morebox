@@ -1,0 +1,16 @@
+<% if @result == true %>
+  $(".modal-open-btn").click();
+<% else %>
+  var msg = "결제 생성에 실패하였습니다. 다시 한번 시도해주세요."
+  <% if @result == "no_trainer" %>
+    msg = "트레이너 코드가 잘못되었습니다. 다시 한번 확인해주세요."
+  <% end %>
+  document.querySelector(".point_check:checked").checked = false;
+  Swal.fire({
+            icon: "error",
+            title: "결제 실패",
+            text: msg,
+            showConfirmButton: true,
+            confirmButtonText: '확인'
+          });
+<% end %>
