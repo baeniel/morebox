@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "browser"
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
@@ -62,11 +63,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up.
   def after_sign_up_path_for(resource)
     # super(resource)
-    if current_user&.gym&.title == "예스휘트니스" or current_user&.gym&.title == "포이나짐" or current_user&.gym&.title == "플레이핏엔필라테스" or current_user&.gym&.title == "HN휘트니스"
-      update_referrer_user_path(resource)
-    else
-      list_items_path(gym: current_user.gym.id)
-    end
+    Point.create(amount: 2500, point_type: :charged, user: current_user)
+
+    browser = Browser.new(request.env["HTTP_USER_AGENT"])
+    browser.device.tablet? ? list_items_path : market_users_path
   end
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
