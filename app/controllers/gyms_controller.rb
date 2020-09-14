@@ -72,6 +72,8 @@ class GymsController < ApplicationController
     #정산 (모어박스 매출의 20%, 매월 갱신)
     if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
       @founder_commission = (@gym.month_box_sale * 0.3).to_i
+    elsif @gym.title == "퀸즈바디야탑" or @gym.title == "요가룩스강동역점"
+      @founder_commission = (@gym.month_box_sale * 0.25).to_i
     else
       @founder_commission = (@gym.month_box_sale * 0.2).to_i
     end
