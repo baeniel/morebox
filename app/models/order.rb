@@ -8,6 +8,7 @@ class Order < ApplicationRecord
 
   belongs_to :user
   belongs_to :item, optional: true
+  belongs_to :trainer, optional: true, class_name: "User"
   belongs_to :gym, optional: true
   belongs_to :point, optional: true
   has_many :order_sub_items, dependent: :destroy

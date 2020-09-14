@@ -1,11 +1,12 @@
 <%= render 'index_css' %>
+<%= render 'shared/trainer_code' %>
 
 <div class="charge" style="width: 100%;">
   <div class="header" style="background-color: #cfd3df;">
     <h2 style="vertical-align: middle; display: inline-block;">포인트 충전</h2>
   </div>
   <div class="row justify-content-center">
-    <div class="left" style="width: 70%;">
+    <div class="left mt-4" style="width: 60%;">
       <div class="row justify-content-center">
         <table class="table mt-5" style="width: 80%; height: 60vh;">
           <thead>
@@ -31,11 +32,40 @@
         </table>
       </div>
     </div>
-    <div class="right" style="width: 30%;">
+    <div class="right" style="width: 40%;">
       <%= render 'shared/timer' %>
-      <div class="point-detail" style="margin-top: 50%;">
-        <%= link_to "돌아가기", list_items_path, class: "btn btn-outline btn-lg mt-3 mb-2", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
+      <div class="point-detail mt-3">
         <h2 style="color: #200e57; margin-top: 5px;">잔여포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h2>
+        <div class="row justify-content-center mb-3">
+          <%# label_tag :trainer_code, "트레이너 코드", class: "col-3" %>
+          <%= text_field_tag "trainer_code", "", class: "form-control col-8 tel mt-3", id: "trainer_code", placeholder: "트레이너 코드를 입력하세요", readonly: true %>
+        </div>
+        <div id="dial" style="display: none;">
+          <% (1..9).each do |num| %>
+            <div class="span4">
+              <div class="num">
+                <div class="txt">
+                  <%= num %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <div class="span4">
+            <div class="num">
+              <div class="txt">
+                0
+              </div>
+            </div>
+          </div>
+          <div class="span4">
+            <div class="num" style="background-color: #cfd3df">
+              <div class="txt">
+                <%= link_to "←", "#", class: "back-btn", onclick: "$('#trainer_code').val($('#trainer_code').val().slice(0,-1));return false;", style: "border: none; background: none; color: #200e57;" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= link_to "돌아가기", list_items_path, class: "btn btn-outline btn-lg mt-4 mb-2", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
       </div>
     </div>
   </div>
@@ -43,7 +73,9 @@
 </div>
 <script>
   $('.point_check').click('on', function() {
-    var item_id = document.querySelector('.point_check:checked').id;
+    let checkedPoint = document.querySelector('.point_check:checked');
+    if(checkedPoint){
+      var item_id = checkedPoint.id;
     Swal.fire({
       title: "충전하시겠습니까?",
       icon: "info",
@@ -58,9 +90,22 @@
         document.querySelector(".point_check:checked").checked = false;
       }
     });;
+    }
   });
 
   $("#welcom-button").click(function(){
     window.location="<%= list_items_path %>";
+  });
+
+  $('.num').click(function () {
+      var num = $(this);
+      var text = $.trim(num.find('.txt').clone().children().remove().end().text());
+      var trainer_code = $('#trainer_code');
+      $(trainer_code).val(trainer_code.val() + text);
+  });
+
+  $('#trainer_code').click(function () {
+    var dial = document.getElementById("dial")
+    dial.style.display = 'block'
   });
 </script>
