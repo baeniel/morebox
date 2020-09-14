@@ -65,7 +65,7 @@ class ApisController < ApplicationController
           # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
           return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
         )
-        if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: trainer)
+        if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: trainer))
           @subitems.each do |sub_item|
             order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
           end
