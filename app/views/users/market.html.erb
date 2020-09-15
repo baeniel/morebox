@@ -19,7 +19,8 @@
     height: 240px;
     position: fixed;
     bottom: 0%;
-    background-color:#19244f !important;
+    /* background-color:#19244f !important; */
+    background-color:#200e57 !important;
   }
   input:checked + label {
     color: red;
@@ -88,7 +89,7 @@
         <div class="card-body">
           <h5 class="card-title"><%= sub_item.title %></h5>
           <p class="card-text"><%= sub_item.description %></p>
-          <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>">
+          <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
           <label for="toggle_<%= sub_item.id %>" id="calorie-check">체크</label>
         </div>
       </div>
@@ -111,7 +112,7 @@
     
     <div class="calorie-content">
     </div>
-    <button id="reset" class="btn btn-block text-white mt-4 change-color mr-2" style="color:#200e57 !important">공유하기</button>
+    <button id="share" class="btn btn-block text-white mt-4 change-color mr-2" style="color:#200e57 !important" onclick="sendMessage();return false;">공유하기</button>
   </div>
 </div>
 
@@ -138,23 +139,20 @@
   function html_write() {
     
     var html = ""
-    $("#calorie-amount").text(` : ${total_calorie} g  /  ${total_calorie_rate} g`);
-    $("#carbo-amount").text(` : ${total_carbo} g  /  ${ideal_carbo} g`);
-    $("#protein-amount").text(` : ${total_protein} g  /  ${ideal_protein} g`);
-    $("#fat-amount").text(` : ${total_fat} g  /  ${ideal_fat} g`);
-    // if (typeof total_calorie_rate == 'undefined') {
-    //   html = html +
-    //   '<p style="color: #200e57;">' + "칼로리: " + total_calorie + "kcal" + "<br>" + "탄수화물: " + total_carbo + "g" + "&nbsp;" + "&nbsp;" +
-    //   "단백질: " + total_protein + "g, " + "&nbsp;" + "&nbsp;" + "지방: " + total_fat + "g" + '</p>'
-    // } else {
-    //   html = html +
-    //   '<p style="color: #200e57;">' + "칼로리: " + total_calorie + "kcal / " + total_calorie_rate + "kcal, " + "&nbsp;" + "&nbsp;" + "탄수화물: " + total_carbo + "g / " + ideal_carbo + "g" + "<br>" +
-    //   "단백질: " + total_protein + "g / " + ideal_protein + "g, " + "&nbsp;" + "&nbsp;" + "지방: " + total_fat + "g / " + ideal_fat + "g" + '</p>'
-    // }
-    $("#calorie-bar").width(`${(total_calorie / total_calorie_rate) *100}%`);
-    $("#carbo-bar").width(`${(total_carbo / ideal_carbo) *100}%`);
-    $("#protein-bar").width(`${(total_protein / ideal_protein) *100}%`);
-    $("#fat-bar").width(`${(total_fat / ideal_fat) *100}%`);
+    let total_calorie_percentage = parseFloat(((total_calorie / total_calorie_rate) * 100).toFixed(2))
+    let total_carbo_percentage = parseFloat(((total_carbo / ideal_carbo) * 100).toFixed(2))
+    let total_protein_percentage = parseFloat(((total_protein / ideal_protein) * 100).toFixed(2))
+    let total_fat_percentage = parseFloat(((total_fat / ideal_fat) * 100).toFixed(2))
+
+    $("#calorie-amount").text(` : ${isFinite(total_calorie_percentage) ? total_calorie_percentage : '-'} % (${total_calorie} g  /  ${total_calorie_rate} g)`);
+    $("#carbo-amount").text(` : ${isFinite(total_carbo_percentage) ? total_carbo_percentage : '-'} % (${total_carbo} g  /  ${ideal_carbo} g)`);
+    $("#protein-amount").text(` : ${isFinite(total_protein_percentage) ? total_protein_percentage : '-'} % (${total_protein} g  /  ${ideal_protein} g)`);
+    $("#fat-amount").text(` : ${isFinite(total_fat_percentage) ? total_fat_percentage : '-'} % (${total_fat} g  /  ${ideal_fat} g)`);
+
+    $("#calorie-bar").width(`${total_calorie_percentage}%`);
+    $("#carbo-bar").width(`${total_carbo_percentage}%`);
+    $("#protein-bar").width(`${total_protein_percentage}%`);
+    $("#fat-bar").width(`${total_fat_percentage}%`);
 
     $(".calorie-content").html(html);
   }
@@ -178,27 +176,27 @@
     weight = parseFloat(weight)
 
     if(gender == "남") {
-      base_calorie_rate = Math.round(10*weight + 6.25*height - 5*age + 5)
+      base_calorie_rate = Math.round(10*weight + 6.25 * height - 5 * age + 5)
     } else {
-      base_calorie_rate = Math.round(10*weight + 6.25*height - 5*age - 161)
+      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
     }
 
     if(activity == "전혀없음") {
-      total_calorie_rate = 1.2*base_calorie_rate
+      total_calorie_rate = 1.2 * base_calorie_rate
     } else if(activity == "조금") {
-      total_calorie_rate = 1.375*base_calorie_rate
+      total_calorie_rate = 1.375 * base_calorie_rate
     } else if(activity == "보통") {
-      total_calorie_rate = 1.555*base_calorie_rate
+      total_calorie_rate = 1.555 * base_calorie_rate
     } else if(activity == "많이") {
-      total_calorie_rate = 1.725*base_calorie_rate
+      total_calorie_rate = 1.725 * base_calorie_rate
     } else {
-      total_calorie_rate = 1.9*base_calorie_rate
+      total_calorie_rate = 1.9 * base_calorie_rate
     }
 
     total_calorie_rate = Math.round(total_calorie_rate)
-    ideal_protein = Math.round(weight*1.5)
-    ideal_fat = Math.round(weight*1.1)
-    ideal_carbo = Math.round((total_calorie_rate-(ideal_protein*4)-(ideal_fat*9))/4)
+    ideal_protein = Math.round(weight * 1.5)
+    ideal_fat = Math.round(weight * 1.1)
+    ideal_carbo = Math.round((total_calorie_rate - (ideal_protein * 4) - (ideal_fat * 9)) / 4)
 
     document.getElementById('output').innerHTML = "총대사량: " + total_calorie_rate + "kcal"
     + "<br>" + "<span id='calorie-info'>탄수화물(권장): " + ideal_carbo + "g, &nbsp" + " 단백질(권장): " + ideal_protein + "g, " + "&nbsp;" + "지방(권장): " + ideal_fat + "g</span>";
@@ -206,7 +204,43 @@
   }
 
   $('#reset').click(function() {
-    var html = ""
-    $(".calorie-content").html(html);
+    // var html = ""
+    // $(".calorie-content").html(html);
+    $('input[type="checkbox"]:checked').click();
   });
+  function sendMessage(){
+    Swal.fire({
+    title: '공유하실 휴대폰 번호를<br>입력해주세요 :)',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: '공유하기',
+    showLoaderOnConfirm: false,
+    preConfirm: (phone_num) => {
+      return fetch(`/users/check_and_send_message?phone_num=${phone_num}&checked_items=${$('input[type="checkbox"]:checked').map(function(i, e){return $(e).data("title")}).get().join(", ")}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `요청에 실패하였습니다: ${error}`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    console.log(result)
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `${result.value.message}`
+      })
+    }
+  })
+  }
+    
 </script>
