@@ -73,8 +73,9 @@ class ApisController < ApplicationController
           link = response[:data]
           receiver = current_user.phone
           receiverName = current_user.phone.last(4)
+          subject = "모어박스 결제"
           contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
-          payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+          payment_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
           payment_alarm.send_message if Rails.env.production?
           @result = true
           # redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."

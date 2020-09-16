@@ -50,28 +50,30 @@ class UsersController < ApplicationController
     result = {}
     if params[:phone_num].present? && params[:checked_items].present?
       begin
-        link = "https://moremarket.kr"
+        link = "http://moremarket.kr"
         receiver = params[:phone_num]
         receiverName = params[:phone_num].last(4)
-        contents = <<-TEXT 
+        subject = receiverName + "님의 식단 가이드"
+        contents = <<-TEXT
 [MoreBox]
-선택하신 상품 목록입니다. 
-#{params[:checked_item]}
-트레이너 코드 입력시 할인된 가격에 구매 가능하십니다 :)
+선택하신 상품 목록입니다.
+#{params[:checked_items]}
+
+아래 링크에서 트레이너 코드 입력시 할인된 가격에 구매 가능하십니다 :)
 구매링크 : #{link}
 TEXT
-        payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-        payment_alarm.send_message if true || Rails.env.production?
+        calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+        calorie_alarm.send_message if true || Rails.env.production?
         result[:message] = "문자메세지를<br>전송하였습니다."
-      rescue 
+      rescue
         result[:message] = "다시 한번<br>시도해주세요."
       end
     else
       result[:message] = "다시 한번<br>시도해주세요."
     end
-      
+
     render json: result
-    
+
   end
-  
+
 end
