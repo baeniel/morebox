@@ -1,8 +1,49 @@
 <style>
+  body {
+    background: white !important;
+  }
+  .main-text-color {
+    color: #200e57;
+  }
+  .secondary-text-color {
+    color: #8a8a8a;
+  }
+  .line-height-25 {
+    line-height: 25px;
+  }
+  .bg-custom-grey {
+    background: #cfd3df;
+  }
+  .btn-custom-grey {
+    border: 1px solid #202649;
+    background: #cfd3df;
+  }
+  .btn {
+    border-radius: 0px;
+  }
   .progress {
     position:relative;
     margin: 10px 0;
     height: 1.3rem;
+  }
+  label {
+    background: unset !important;
+    color: #200e57;
+    font-size: 13px;
+    white-space: pre;
+  }
+  input, select {
+    font-size: 13px;
+    color: #8a8a8a !important;
+    border-radius: 0px !important;
+  }
+  .user-info p.info{
+    color: #8a8a8a;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .user-info p.info.small{
+    font-size: 9px;
   }
   .calorie-amount {
     position:absolute;
@@ -35,7 +76,7 @@
     left: -100vw;
   }
   .user-info{
-    background-color: #cfd3df;
+    background-color: #e9edf1;
   }
   .btn-morebox {
     background-color: #200e57;
@@ -46,39 +87,101 @@
   }
   #output {
     color: #200e57;
-    font-weight:bold;
+    background: white;
+    height: 55%;
   }
   #output #calorie-info{
+    /* font-size:12px; */
+  }
+  #output .calorie-title {
+    font-weight:bold;
     font-size:12px;
   }
 </style>
 
-<div class="user-info py-4 px-3 mb-5">
-  <h3>간단한 사용자 정보를 입력해주세요:)</h3>
-  <div class="row justify-content-center">
-    <%= label_tag  "age", style: "width: 27%; margin-right: 5%;", class: "mb-0" do %>
-      나이(만) <%= number_field_tag "age", (params[:age] or 24), class: "form-control mb-2" %>
-    <% end %>
-    <%= label_tag  "height", style: "width: 27%; margin-right: 5%;", class: "mb-0" do %>
-      키 <%= number_field_tag "height", (params[:height] or 170), class: "form-control mb-2" %>
-    <% end %>
-    <%= label_tag  "weight", style: "width: 27%;", class: "mb-0" do %>
-      몸무게 <%= number_field_tag "weight", (params[:weight] or 70), class: "form-control mb-2" %>
-    <% end %>
-  </div>
-  <div class="row justify-content-center">
-    <%= label_tag  "gender", style: "width: 27%; margin-right: 5%;", class: "mb-0" do %>
-      성별 <%= select_tag "gender", raw("<option>남</option><option>여</option>"), class: "form-control mb-2" %>
-    <% end %>
-    <%= label_tag  "activity", style: "width: 60%;", class: "mb-0" do %>
-      활동강도 <%= select_tag "activity", raw("<option>전혀없음(사무직)</option><option>조금(5천보)</option><option>보통(만보)</option><option>많이(2만보)</option><option>엄청(3만보)</option>"), class: "form-control mb-2" %>
-    <% end %>
-  </div>
-  <p id="output" class="mt-4 p-3 border">회원 정보를 입력 후, 계산하기를 눌러주세요 :)</p>
-  <small id="output">다양한 논문들을 참고했으나 상황에 따라 유연하게 적용하셔도 됩니다.</small> <br>
-  <a href="#" class="btn mt-3 btn-morebox mr-3" onclick="calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;">계산하기</a>
-  <%= link_to "뒤로가기", users_path, class: "btn btn-morebox mt-3" %>
+<div class="">
 </div>
+<div class="user-info py-4 px-4 mb-5">
+  <h4 class="bg-custom-grey main-text-color py-2 line-height-25">칼로리 계산기</h4>
+  <p class="info text-left mb-2">간단하게 사용자 정보를 입력해주세요.</p>
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+      <%= label_tag  "age", "나이(만/세)", style: "", class: "col-5 pr-1 text-left" %>
+      <%= number_field_tag "age", (params[:age] or 24), class: "form-control mb-3 col-7" %>
+      </div>
+      <div class="row">
+        <%= label_tag  "height", "키(cm)", style: "", class: "col-5 pr-1 text-left" %>
+        <%= number_field_tag "height", (params[:height] or 170), class: "form-control mb-3 col-7" %>
+      </div>
+      <div class="row">
+        <%= label_tag  "weight", "몸무게(kg)", class: "col-5 pr-1 text-left" %>
+        <%= number_field_tag "weight", (params[:weight] or 70), class: "form-control mb-3 col-7" %>
+      </div>
+
+      <div class="row">
+        <%= label_tag  "gender", "성별", style: "", class: "col-5 pr-1 text-left"  %>
+        <%= select_tag "gender", options_for_select(%w(남 여)), class: "form-control mb-3 col-7 px-1" %>
+      </div>
+      <div class="row">
+        <%= label_tag  "activity", "활동강도", class: "col-5 pr-1 text-left" %>
+        <%= select_tag "activity", options_for_select(["전혀없음(사무직)", "조금(5천보)", "보통(만보)", "많이(2만보)", "엄청(3만보)"]), class: "form-control mb-3 col-7 px-1" %>
+      </div>
+    </div>
+    <div class="col-6 px-2">
+      <div class="row justify-content-center mb-2">
+        <%= link_to "계산하기", "#", class: "btn btn-morebox px-4", onclick: "calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;" %>
+      </div>
+      <div class="row justify-content-center mb-4">
+        <%= link_to "뒤로가기", users_path, class: "btn btn-custom-grey px-4" %>
+      </div>
+      <div id="output" class="mt-4 border">
+        <div class="py-2 px-3">
+        <div class="calorie-title"> 총 대사량 </div>
+          <span id="top-calorie">0000</span> &nbsp; <span class="secondary-text-color">Kcal</span> 
+        </div>
+        <hr class="my-0">
+        <div class="py-2 px-4 row">
+        <div class="col-4">
+          <div class="row justify-content-center">
+            <div class="px-1 calorie-title col-12">탄수화물</div>
+            <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
+            <br>
+            <div class="col-12 px-1" style="line-height:15px;">
+              <span id="top-carbo">000</span><span class="secondary-text-color">g</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row justify-content-center">
+            <div class="px-1 calorie-title col-12">지방</div>
+            <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
+            <br>
+            <div class="col-12 px-1" style="line-height:15px;">
+              <span id="top-protein">000</span><span class="secondary-text-color">g</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row justify-content-center">
+            <div class="px-1 calorie-title col-12">단백질</div>
+            <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
+            <br>
+            <div class="col-12 px-1" style="line-height:15px;">
+              <span id="top-fat">000</span><span class="secondary-text-color">g</span>
+            </div>
+          </div>
+        </div>
+            
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <p class="info text-left small">* 본 칼로리 계산값은 000000000를 토대로 제작되었습니다.<br>유연하게 적용하셔도 무방합니다.</p>
+</div>
+
 <div class="container" style="padding-bottom: 250px;">
   <div class="row">
     <% SubItem.order(:created_at).each do |sub_item| %>
@@ -210,8 +313,12 @@
     ideal_fat = Math.round(weight * 1.1)
     ideal_carbo = Math.round((total_calorie_rate - (ideal_protein * 4) - (ideal_fat * 9)) / 4)
 
-    document.getElementById('output').innerHTML = "총대사량: " + total_calorie_rate + "kcal"
-    + "<br>" + "<span id='calorie-info'>탄수화물(권장): " + ideal_carbo + "g, &nbsp" + " 단백질(권장): " + ideal_protein + "g, " + "&nbsp;" + "지방(권장): " + ideal_fat + "g</span>";
+    // document.getElementById('output').innerHTML = "총대사량: " + total_calorie_rate + "kcal"
+    // + "<br>" + "<span id='calorie-info'>탄수화물(권장): " + ideal_carbo + "g, &nbsp" + " 단백질(권장): " + ideal_protein + "g, " + "&nbsp;" + "지방(권장): " + ideal_fat + "g</span>";
+    $("#output #top-calorie").text(total_calorie_rate);
+    $("#output #top-carbo").text(ideal_carbo);
+    $("#output #top-protein").text(ideal_protein);
+    $("#output #top-fat").text(ideal_fat);
     html_write();
   }
 
