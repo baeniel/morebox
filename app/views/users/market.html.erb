@@ -67,39 +67,41 @@
     <% end %>
   </div>
   <div class="row justify-content-center">
-    <%= label_tag  "gender", style: "width: 40%; margin-right: 5%;", class: "mb-0" do %>
+    <%= label_tag  "gender", style: "width: 27%; margin-right: 5%;", class: "mb-0" do %>
       성별 <%= select_tag "gender", raw("<option>남</option><option>여</option>"), class: "form-control mb-2" %>
     <% end %>
-    <%= label_tag  "activity", style: "width: 40%;", class: "mb-0" do %>
-      활동강도 <%= select_tag "activity", raw("<option>전혀없음</option><option>조금</option><option>보통</option><option>많이</option><option>엄청</option>"), class: "form-control mb-2" %>
+    <%= label_tag  "activity", style: "width: 60%;", class: "mb-0" do %>
+      활동강도 <%= select_tag "activity", raw("<option>전혀없음(사무직)</option><option>조금(5천보)</option><option>보통(만보)</option><option>많이(2만보)</option><option>엄청(3만보)</option>"), class: "form-control mb-2" %>
     <% end %>
   </div>
   <p id="output" class="mt-4 p-3 border">회원 정보를 입력 후, 계산하기를 눌러주세요 :)</p>
-  <a href="#" class="btn mt-3 btn-morebox" onclick="calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;">계산하기</a>
+  <small id="output">다양한 논문들을 참고했으나 상황에 따라 유연하게 적용하셔도 됩니다.</small> <br>
+  <a href="#" class="btn mt-3 btn-morebox mr-3" onclick="calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;">계산하기</a>
   <%= link_to "뒤로가기", users_path, class: "btn btn-morebox mt-3" %>
-
 </div>
 <div class="container" style="padding-bottom: 250px;">
   <div class="row">
     <% SubItem.order(:created_at).each do |sub_item| %>
-      <div class="col-sm-6" style="width: 50%;">
-        <%= link_to "#", onclick: "$(this).next().find('#toggle_#{sub_item.id}').click();return false;" do %>
-          <img class="card-img-top" src="<%= sub_item.image %>"/>
-        <% end %>
-        <div class="card-body">
-          <h5 class="card-title"><%= sub_item.title %></h5>
-          <p class="card-text"><%= sub_item.description %></p>
-          <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
-          <label for="toggle_<%= sub_item.id %>" id="calorie-check">체크</label>
+      <% if sub_item.calorie.present? %>
+        <div class="col-sm-6" style="width: 50%;">
+          <%= link_to "#", onclick: "$(this).next().find('#toggle_#{sub_item.id}').click();return false;" do %>
+            <img class="card-img-top" src="<%= sub_item.image %>"/>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= sub_item.title %></h5>
+            <p class="card-text"><%= sub_item.description %></p>
+            <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
+            <label for="toggle_<%= sub_item.id %>" id="calorie-check">체크</label>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>
 
 <div id="tool-bar">
   <div class="row justify-content-center mb-3">
-    <h3 class="mt-3 mr-3 ml-5 mb-1 text-white">칼로리 계산기</h3> 
+    <h3 class="mt-3 mr-3 ml-5 mb-1 text-white">칼로리 장바구니</h3>
     <button id="reset" class="btn btn-sm text-white mt-2 change-color" style="color:#200e57 !important">리셋</button>
   </div>
   <div class="container">
@@ -109,7 +111,6 @@
         <span class="calorie-amount"><%= element_kr %> <span id="<%= element %>-amount"></span></span>
       </div>
     <% end %>
-    
     <div class="calorie-content">
     </div>
     <button id="share" class="btn btn-block text-white mt-4 change-color mr-2" style="color:#200e57 !important" onclick="sendMessage();return false;">공유하기</button>
@@ -137,7 +138,7 @@
   };
 
   function html_write() {
-    
+
     var html = ""
     let total_calorie_percentage = parseFloat(((total_calorie / total_calorie_rate) * 100).toFixed(2))
     let total_carbo_percentage = parseFloat(((total_carbo / ideal_carbo) * 100).toFixed(2))
@@ -158,16 +159,27 @@
   }
 
   $('input[type="checkbox"]').click(function(){
+
     calorie = parseFloat(this.dataset.calorie)
     carbo = parseFloat(this.dataset.carbo)
     protein = parseFloat(this.dataset.protein)
     fat = parseFloat(this.dataset.fat)
 
-    if($(this).prop("checked")){
-      caloriePlus(calorie, carbo, protein, fat)
+    if(total_calorie_rate == 0) {
+      Swal.fire({
+      title: '칼로리 계산을 먼저하세요!',
+      showCancelButton: false,
+      confirmButtonText: '확인',
+      })
+      $(this). prop("checked", false);
     } else {
-      calorieMinus(calorie, carbo, protein, fat)
+      if($(this).prop("checked")){
+        caloriePlus(calorie, carbo, protein, fat)
+      } else {
+        calorieMinus(calorie, carbo, protein, fat)
+      }
     }
+
   });
 
   function calculateCalorie(age, height, weight, gender, activity){
@@ -181,13 +193,13 @@
       base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
     }
 
-    if(activity == "전혀없음") {
+    if(activity == "전혀없음(사무직)") {
       total_calorie_rate = 1.2 * base_calorie_rate
-    } else if(activity == "조금") {
+    } else if(activity == "조금(5천보)") {
       total_calorie_rate = 1.375 * base_calorie_rate
-    } else if(activity == "보통") {
+    } else if(activity == "보통(만보)") {
       total_calorie_rate = 1.555 * base_calorie_rate
-    } else if(activity == "많이") {
+    } else if(activity == "많이(2만보)") {
       total_calorie_rate = 1.725 * base_calorie_rate
     } else {
       total_calorie_rate = 1.9 * base_calorie_rate
@@ -212,11 +224,13 @@
     Swal.fire({
     title: '공유하실 휴대폰 번호를<br>입력해주세요 :)',
     input: 'text',
+    inputPlaceholder: '숫자만 입력',
     inputAttributes: {
       autocapitalize: 'off'
     },
     showCancelButton: true,
     confirmButtonText: '공유하기',
+    cancelButtonText: '취소',
     showLoaderOnConfirm: false,
     preConfirm: (phone_num) => {
       return fetch(`/users/check_and_send_message?phone_num=${phone_num}&checked_items=${$('input[type="checkbox"]:checked').map(function(i, e){return $(e).data("title")}).get().join(", ")}`)
@@ -242,5 +256,5 @@
     }
   })
   }
-    
+
 </script>
