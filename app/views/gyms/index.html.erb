@@ -107,25 +107,19 @@
             </tr>
             <tr>
               <td>3주차</td>
-              <!-- 지점수 -->
-              <td><%= Gym.all.count %></td>
-              <!-- 가입자수(누적) -->
-              <td><%= User.all.count - Gym.all.count %></td>
-              <!-- 결제전환율(신규가입자대비) -->
-              <!-- 7월 29일부터 8월 11일까지 가입한 사람들 중에 결제한 사람 -->
-              <td><%= @payment_rate %>%</td>
-              <!-- 재결제율 -->
-              <td><%= @repayment_rate %>%</td>
-              <!-- 지점 당 일평균 매출 -->
-              <td><%= @gym_daily_profit %>원</td>
+              <td>12</td>
+              <td>456</td>
+              <td>37.8</td>
+              <td>70</td>
+              <td>1466</td>
             </tr>
             <tr>
               <td>4주차</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><%= Gym.all.count %></td>
+              <td><%= User.all.count %></td>
+              <td><%= @payment_rate %></td>
+              <td><%= @repayment_rate %></td>
+              <td><%= @gym_daily_profit %></td>
             </tr>
             <tr>
               <td>5주차</td>
@@ -176,7 +170,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [8, 10, 14, 0, 0, 0, 0, 0],
+        data: [8, 10, 12, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -234,7 +228,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [40.4, 58.4, 37,8, 0, 0, 0, 0, 0],
+        data: [40.4, 58.4, 37.8, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -263,7 +257,7 @@
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
       datasets: [{
-        data: [57.9, 63, 71.4, 0, 0, 0, 0, 0],
+        data: [57.9, 63, 70, 0, 0, 0, 0, 0],
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
