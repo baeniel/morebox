@@ -64,7 +64,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     # super(resource)
     unless ["스프링타운2층", "짐박스3호점", "얼티밋크로스핏", "테라피티(언주)", "에이짐휘트니스", "모던복싱", "FM피트니스", "짐박스난곡점"].include? current_user.gym.title
-      Point.create(amount: 2500, point_type: :charged, user: current_user)
+      Point.create(amount: 1000, point_type: :charged, user: current_user)
     end
 
     browser = Browser.new(request.env["HTTP_USER_AGENT"])
