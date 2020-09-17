@@ -485,14 +485,14 @@
   });
   function sendMessage(){
     Swal.fire({
-    title: '공유하실 휴대폰 번호를<br>입력해주세요 :)',
+    title: '<h3>전달하실 분의<br>휴대폰 번호를 입력해주세요.</h3>',
     input: 'text',
     inputPlaceholder: '숫자만 입력',
     inputAttributes: {
       autocapitalize: 'off'
     },
     showCancelButton: true,
-    confirmButtonText: '공유하기',
+    confirmButtonText: '결과전송',
     cancelButtonText: '취소',
     showLoaderOnConfirm: false,
     preConfirm: (phone_num) => {
