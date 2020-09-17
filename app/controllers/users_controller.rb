@@ -5,10 +5,6 @@ class UsersController < ApplicationController
   def index
     @gym = current_user.gym
     # @gym = current_gym
-
-    #영업 뛰어서 회원가입 시킨 사람 수
-    @member_count = User.where(referrer: current_user.phone).count
-
     calculating_trainer_sale
     #트레이너 등수 (기준: 회원가입 많이 시킨 순으로)
     # @managers = User.manager.sort_by{|user| User.where(referrer: user.phone).count }.reverse
