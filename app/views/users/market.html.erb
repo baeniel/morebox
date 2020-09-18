@@ -231,7 +231,7 @@
           </div>
           <div class="col-4">
             <div class="row justify-content-center">
-              <div class="px-1 calorie-title col-12">지방</div>
+              <div class="px-1 calorie-title col-12">단백질</div>
               <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
               <br>
               <div class="col-12 px-1" style="line-height:15px;">
@@ -241,7 +241,7 @@
           </div>
           <div class="col-4">
             <div class="row justify-content-center">
-              <div class="px-1 calorie-title col-12">단백질</div>
+              <div class="px-1 calorie-title col-12">지방</div>
               <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
               <br>
               <div class="col-12 px-1" style="line-height:15px;">
@@ -453,7 +453,7 @@
     weight = parseFloat(weight)
 
     if(gender == "남") {
-      base_calorie_rate = Math.round(10*weight + 6.25 * height - 5 * age + 5)
+      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age + 5)
     } else {
       base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
     }
