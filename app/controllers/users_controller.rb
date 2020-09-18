@@ -65,11 +65,9 @@ TEXT
         result[:message] = "다시 한번<br>시도해주세요."
       end
     else
-      result[:message] = "다시 한번<br>시도해주세요."
+      result[:message] = "휴대폰 번호를 확인하세요!<br>제품은 선택하셨나요?"
     end
 
     render json: result
-
   end
-
 end
