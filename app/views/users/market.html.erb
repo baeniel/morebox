@@ -378,9 +378,9 @@
     let total_fat_percentage = parseFloat(((total_fat / ideal_fat) * 100).toFixed(2))
 
     $("#calorie-amount").text(`${total_calorie}Kcal`);
-    $("#carbo-amount").text(`${total_carbo}g`);
-    $("#protein-amount").text(`${total_protein}g`);
-    $("#fat-amount").text(`${total_fat}g`);
+    $("#carbo-amount").text(`${total_carbo.toFixed(2)}g`);
+    $("#protein-amount").text(`${total_protein.toFixed(2)}g`);
+    $("#fat-amount").text(`${total_fat.toFixed(2)}g`);
 
     $("#total-calorie-amount").text(`${isFinite(total_calorie_percentage) ? total_calorie_percentage : '-'}%`);
     $("#total-calorie-rate").text(`(${total_calorie_rate}Kcal)`);

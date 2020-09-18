@@ -66,9 +66,6 @@ class GymsController < ApplicationController
   def show
     @fit_center = @gym.users.find_by(fit_center: true)
 
-    #관장님이 트레이너도 하는 경우
-    calculating_trainer_sale
-
     #정산 (모어박스 매출의 20%, 매월 갱신)
     if @gym.title == "모던복싱" or @gym.title == "에이짐휘트니스"
       @founder_commission = (@gym.month_box_sale * 0.3).to_i

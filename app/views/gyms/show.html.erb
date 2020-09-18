@@ -26,11 +26,11 @@
 </style>
 
 <% center_incentive ||= 0 %>
-<% trainer_incentive ||= 0 %>
 
 <div class="container mt-5">
   <%= image_tag '/list_logo.png', id: "admin-logo" %>
-  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn text-white mt-4", style: "background-color: #200e57;", data: {confirm: "로그아웃하시겠습니까?"} %>
+  <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn mt-4 mr-2", style: "background-color: #cfd3df;", data: {confirm: "로그아웃하시겠습니까?"} %>
+  <%= link_to "칼로리계산기", market_users_path, class: "btn btn mt-4 text-white", style: "background-color: #200e57;" %>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="color: #200e57;">
     <h3 class="display-5"><%= @gym&.title %></h3>
     <p class="lead mt-3">센터 대표님 페이지입니다.</p>
@@ -45,7 +45,7 @@
       </div>
       <div class="card-body health pb-3">
         <h1 class="mt-3">
-          <%= number_with_delimiter(@founder_commission + center_incentive + @trainer_commission + trainer_incentive) %>
+          <%= number_with_delimiter(@founder_commission + center_incentive) %>
           <small class="text-muted">원</small>
         </h1>
       </div>
@@ -64,7 +64,7 @@
     </div>
 
     <!-- A/B테스트 해서 센터 인센티브 주는 지점의 경우 -->
-    <% if ["테라피티(언주)", "플레이핏엔필라테스", "프레토피트니스", "요가룩스강동역점", "퀸즈바디야탑"].include? current_user.gym.title %>
+    <% if ["테라피티(언주)", "플레이핏엔필라테스", "프레토피트니스", "요가룩스강동역점", "퀸즈바디야탑", "공감휘트니스"].include? current_user.gym.title %>
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
           <h4 class="my-0 font-weight-normal">이번 달 센터 인센티브</h4>
@@ -99,45 +99,6 @@
     <% end %>
     <!-- A/B테스트 해서 현물 대신 총 매출의 10%를 인센티브로 주는 지점의 경우 -->
 
-    <!-- 관장님이 트레이너도 하는 경우 -->
-    <% if current_user.fit_center && current_user.manager? %>
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header">
-          <h4 class="my-0 font-weight-normal">이번 달 트레이너로서의 커미션</h4>
-        </div>
-        <div class="card-body health pb-3">
-          <h1 class="mt-3">
-            <%= number_with_delimiter(@trainer_commission) %>
-            <small class="text-muted">원</small>
-          </h1>
-          <small>이번 달 매출: <%= number_with_delimiter(@month_trainer_sale) %>원</small>
-        </div>
-      </div>
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header">
-          <h4 class="my-0 font-weight-normal">이번 달 트레이너로서의 상여금</h4>
-        </div>
-        <div class="card-body health pb-3">
-          <h1 class="mt-3">
-            <%= number_with_delimiter(trainer_incentive) %>
-            <small class="text-muted">원</small>
-          </h1>
-        </div>
-        <% case @month_trainer_sale %>
-        <% when 300000..500000 %>
-          <% trainer_incentive = 30000 %>
-        <% when 500001..1000000 %>
-          <% trainer_incentive = 50000 %>
-        <% else %>
-          <% if @month_trainer_sale >= 1000001 %>
-            <% trainer_incentive = 100000 %>
-          <% elsif @month_trainer_sale < 300000 %>
-            <% trainer_incentive = 0 %>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-    <!-- 관장님이 트레이너도 하는 경우 -->
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
         <h4 class="my-0 font-weight-normal">이번 달 센터 매출</h4>
