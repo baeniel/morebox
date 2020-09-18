@@ -41,4 +41,33 @@ class UsersController < ApplicationController
   def check
     @result = (params[:phone_num].present? && (user = User.find_by(phone: params[:phone_num])))
   end
+
+  def check_and_send_message
+    result = {}
+    if params[:phone_num].present? && params[:checked_items].present?
+      begin
+        link = "http://moremarket.kr"
+        receiver = params[:phone_num]
+        receiverName = params[:phone_num].last(4)
+        subject = receiverName + "님의 식단 가이드"
+        contents = <<-TEXT
+[MoreBox]
+선택하신 상품 목록입니다.
+#{params[:checked_items]}
+
+아래 링크에서 트레이너 코드 입력시 할인된 가격에 구매 가능하십니다 :)
+구매링크 : #{link}
+TEXT
+        calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+        calorie_alarm.send_message if true || Rails.env.production?
+        result[:message] = "문자메세지를<br>전송하였습니다."
+      rescue
+        result[:message] = "다시 한번<br>시도해주세요."
+      end
+    else
+      result[:message] = "휴대폰 번호를 확인하세요!<br>제품은 선택하셨나요?"
+    end
+
+    render json: result
+  end
 end

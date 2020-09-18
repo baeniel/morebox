@@ -16,27 +16,29 @@ class MessageAlarmService
   # 인증토큰 IP제한기능 사용여부, true-권장
   MSGService.setIpRestrictOnOff(true)
 
-  def initialize(receiver, receiverName, contents)
+  def initialize(receiver, receiverName, subject, contents)
     @corpNum = "7468701862"
-    @userID = "jb1014"
     @sender = "01056053087"
     @senderName = "주식회사 고릴라밤"
     @receiver = receiver
     @receiverName = receiverName
+    @subject = subject
     @contents = contents
     @reserveDT = ""
     @adsYN = false
+    @userID = "jb1014"
     @requestNum = ''
   end
 
   def send_message
     begin
-      @value = MessageAlarmService::MSGService.sendSMS(
+      @value = MessageAlarmService::MSGService.sendXMS(
         @corpNum,
         @sender,
         @senderName,
         @receiver,
         @receiverName,
+        @subject,
         @contents,
         @reserveDT,
         @adsYN,
