@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token, except: %i[check]
 
   def index
+    redirect_to root_path if current_user.usual?
     @gym = current_user.gym
     # @gym = current_gym
     calculating_trainer_sale
