@@ -173,6 +173,16 @@
     color: #200e57 !important;
     border: 1px solid #202649 !important;
   }
+  select {
+    /* -webkit-appearance: none; */
+    /* appearance: menuarrow; */
+  }
+  /* select option {
+    margin: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  } */
 </style>
 
 <div class="user-info p-4">
@@ -195,7 +205,6 @@
         <%= label_tag  "weight", "몸무게(kg)", class: "col-5 pr-1 text-left" %>
         <%= number_field_tag "weight", (params[:weight] or 70), class: "form-control mb-3 col-7" %>
       </div>
-
       <div class="row">
         <%= label_tag  "gender", "성별", style: "", class: "col-5 pr-1 text-left"  %>
         <%= select_tag "gender", options_for_select(%w(남 여)), class: "form-control mb-3 col-7 px-1" %>
@@ -214,7 +223,7 @@
       </div>
       <div id="output" class="mt-4 border">
         <div class="py-2 px-3">
-        <div class="calorie-title"> 총 대사량 </div>
+        <div class="calorie-title">현 체중 유지 칼로리</div>
           <span id="top-calorie">0000</span> &nbsp; <span class="secondary-text-color">Kcal</span>
         </div>
         <hr class="my-0">
