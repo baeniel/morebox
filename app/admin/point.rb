@@ -10,9 +10,7 @@ ActiveAdmin.register Point do
     column "user" do |u|
       u.user.phone
     end
-    column "gym" do |u|
-      u.user.gym
-    end
+    column :gym
     column :remain_point
     column :created_at
     actions

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_131551) do
+ActiveRecord::Schema.define(version: 2020_09_22_033634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,8 @@ ActiveRecord::Schema.define(version: 2020_09_11_131551) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "sub_item_id"
     t.integer "remain_point"
+    t.bigint "gym_id"
+    t.index ["gym_id"], name: "index_points_on_gym_id"
     t.index ["sub_item_id"], name: "index_points_on_sub_item_id"
     t.index ["user_id"], name: "index_points_on_user_id"
   end
@@ -157,7 +159,6 @@ ActiveRecord::Schema.define(version: 2020_09_11_131551) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -167,13 +168,13 @@ ActiveRecord::Schema.define(version: 2020_09_11_131551) do
     t.string "phone"
     t.string "username"
     t.boolean "fit_center"
+    t.string "email", default: "", null: false
     t.bigint "gym_id", null: false
     t.integer "gender"
     t.boolean "privacy", default: true
     t.string "referrer"
     t.boolean "marketing", default: true
     t.integer "user_type", default: 0
-    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gym_id"], name: "index_users_on_gym_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -187,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_131551) do
   add_foreign_key "orders", "points"
   add_foreign_key "orders", "users"
   add_foreign_key "orders", "users", column: "trainer_id"
+  add_foreign_key "points", "gyms"
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
   add_foreign_key "sub_items", "categories"
