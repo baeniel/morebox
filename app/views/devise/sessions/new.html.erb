@@ -11,7 +11,7 @@
               <p style="color: #200e57; line-height: 35px; font-size: 20px;">지점을 선택해주세요</p>
             </div>
             <div class="col-md-6">
-              <%= f.select :gym_id, options_for_select(Gym.all.map { |g| [g.title, g.id] }, cookies[:gym_id]), { prompt: "선택해주세요." }, { class: 'form-control', id: 'select_gym_id', require: true} %>
+              <%= f.select :gym_id, options_for_select(Gym.all.map { |g| [g.title, g.id] }, cookies[:gym_id]), { prompt: "선택해주세요." }, { class: 'form-control', id: 'select_gym_id', require: true } %>
             </div>
           </div>
         </div>

@@ -25,21 +25,12 @@ class PointsController < ApplicationController
               end
             end
           end
-
-          # unless current_user.remained_point > 2000
-          #   receiver = current_user.phone
-          #   receiverName = current_user.phone.last(4)
-          #   contents = "[MoreBox]\n"+"헬스장 오기 전에 미리 결제하세요:)\n잔여포인트: #{current_user.remained_point}p\nhttps://morebox.co.kr"
-          #   payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-          #   payment_alarm.send_message
-          # else
-            templateCode = '020070000275'
-            content = "[MoveMore]\n"+current_user.phone.last(4)+"님의 "+arr.map { |arr| arr.title }.flatten.uniq.join(', ')+" 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+current_user.remained_point.to_s+"P\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
-            receiver = current_user.phone
-            receiverName = current_user.phone.last(4)
-            point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            point_use_alarm.send_alarm
-          # end
+          templateCode = '020070000275'
+          content = "[MoveMore]\n"+current_user.phone.last(4)+"님의 "+arr.map { |arr| arr.title }.flatten.uniq.join(', ')+" 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+current_user.remained_point.to_s+"P\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
+          receiver = current_user.phone
+          receiverName = current_user.phone.last(4)
+          point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+          point_use_alarm.send_alarm
         else
           subitem_info = {}
           sub_item_params.each do |key, value|

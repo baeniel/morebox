@@ -173,16 +173,10 @@
     color: #200e57 !important;
     border: 1px solid #202649 !important;
   }
-  select {
-    /* -webkit-appearance: none; */
-    /* appearance: menuarrow; */
+
+  .ui.selection.dropdown {
+    min-width: 0;
   }
-  /* select option {
-    margin: 40px;
-    background: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-  } */
 </style>
 
 <div class="user-info p-4">
@@ -207,11 +201,11 @@
       </div>
       <div class="row">
         <%= label_tag  "gender", "성별", style: "", class: "col-5 pr-1 text-left"  %>
-        <%= select_tag "gender", options_for_select(%w(남 여)), class: "form-control mb-3 col-7 px-1" %>
+        <%= select_tag "gender", options_for_select(%w(남 여)), class: "form-control mb-3 col-7 px-1 custom_option" %>
       </div>
       <div class="row">
         <%= label_tag  "activity", "활동강도", class: "col-5 pr-1 text-left" %>
-        <%= select_tag "activity", options_for_select(["전혀없음(사무직)", "조금(5천보)", "보통(만보)", "많이(2만보)", "엄청(3만보)"]), class: "form-control mb-3 col-7 px-1" %>
+        <%= select_tag "activity", options_for_select(["전혀없음", "조금(5천보)", "보통(만보)", "많이(2만보)", "엄청(3만보)"]), class: "form-control mb-3 col-7 px-1 custom_option" %>
       </div>
     </div>
     <div class="col-6 px-2">
@@ -359,6 +353,8 @@
 </div>
 
 <script>
+  $('.custom_option').dropdown();
+
   var total_calorie = total_carbo = total_protein = total_fat = 0;
   var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
 
@@ -467,7 +463,7 @@
       base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
     }
 
-    if(activity == "전혀없음(사무직)") {
+    if(activity == "전혀없음") {
       total_calorie_rate = 1.2 * base_calorie_rate
     } else if(activity == "조금(5천보)") {
       total_calorie_rate = 1.375 * base_calorie_rate
