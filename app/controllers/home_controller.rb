@@ -11,14 +11,12 @@ class HomeController < ApplicationController
     #핸드폰이나 데스크탑 접속할 때
     else
       if current_user.fit_center || current_user.manager?
-        if current_user.manager?
-          redirect_to users_path
-        else
+        if current_user.fit_center
           redirect_to gym_path(current_user.gym)
+        else
+          redirect_to users_path
         end
       else
-        # redirect_to list_items_path
-        # redirect_to root_path, notice: "접근 권한이 없습니다."
         redirect_to market_users_path
       end
     end

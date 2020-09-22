@@ -130,7 +130,6 @@
   .card-title {
     font-size: 12px;
   }
-
   #tool-bar .hat-outer { background: transparent;}
   #tool-bar .hat { background:#200e57; border: 1px #200e57 solid;}
   #tool-bar .inner {
@@ -139,7 +138,6 @@
     position: relative;
     height: 100%;
   }
-
   .progress-bar-vertical {
     width: 100%;
     height: 120px;
@@ -152,7 +150,6 @@
     align-items: flex-end;
     -webkit-align-items: flex-end; /* Safari 7.0+ */
   }
-
   .progress-bar-vertical .progress-bar {
     width: 100%;
     height: 0;
@@ -173,9 +170,22 @@
     color: #200e57 !important;
     border: 1px solid #202649 !important;
   }
-
   .ui.selection.dropdown {
     min-width: 0;
+  }
+  #calcul_button {
+    transition: color 200ms ease;
+    background: #200e57;
+  }
+  #calcul_button.blink {
+    color: transparent;
+  }
+  .cal_result {
+    transition: color 200ms ease;
+    background: white;
+  }
+  .cal_result.blink {
+    border-color: #200e57 !important;
   }
 </style>
 
@@ -210,14 +220,15 @@
     </div>
     <div class="col-6 px-2">
       <div class="row justify-content-center mb-2 w-100 mx-0">
-        <%= link_to "계산하기", "#", class: "btn btn-morebox px-4", onclick: "calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;" %>
+        <%#= link_to "계산하기", "#", class: "btn btn-morebox px-4", id: "calcul_button", onclick: "calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;" %>
+        <a href="#" class="btn btn-morebox px-4" id="calcul_button" onclick="calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;">계산하기</a>
       </div>
-      <div class="row justify-content-center mb-4 w-100 mx-0">
+      <div class="row justify-content-center mb-2 w-100 mx-0">
         <%= link_to "뒤로가기", users_path, class: "btn btn-custom-grey px-4" %>
       </div>
-      <div id="output" class="mt-4 border">
+      <div id="output" class="mt-4 border cal_result">
         <div class="py-2 px-3">
-        <div class="calorie-title">현 체중 유지 칼로리</div>
+          <div class="calorie-title">현 체중 유지 칼로리</div>
           <span id="top-calorie">0000</span> &nbsp; <span class="secondary-text-color">Kcal</span>
         </div>
         <hr class="my-0">
@@ -278,7 +289,6 @@
           <% end %>
           <div class="card-body px-0 py-3">
             <!--<p class="card-text"><%# sub_item.description %></p>-->
-
             <div class="row justify-content-center w-100 mx-0">
               <a class="minus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
                 <i class="fa fa-minus mr-3 main-text-color" aria-hidden="true"></i>
@@ -313,7 +323,6 @@
         <button id="reset" class="btn btn-sm btn-custom-grey px-2">다시 담기</button>
         <button id="share" class="btn btn-sm btn-custom-grey px-2" onclick="sendMessage();return false;">전달하기</button>
       </div>
-
     </div>
     <div class="container pt-1">
       <div class="row w-100 mx-0">
@@ -343,39 +352,42 @@
         <% end %>
         </div>
       </div>
-
       <div class="calorie-content">
       </div>
-
     </div>
-
   </div>
 </div>
 
 <script>
   $('.custom_option').dropdown();
+  var timer = setInterval(function(){
+    $('#calcul_button').toggleClass('blink');
+  }, 500);
+  $('#calcul_button').click(function() {
+    clearTimeout(timer);
+    document.getElementById("calcul_button").innerHTML = '계산완료:)';
+    $("#calcul_button").addClass(function() {
+      $(this).css('color','white');
+    })
+    var timer2 = setInterval(function(){
+      $('.cal_result').toggleClass('blink');
+    }, 500);
+    setTimeout(function(){
+      Swal.fire({
+        title: '<h3 style="color: #200e57;">키와 몸무게 등의 정보가 정확한가요?</h3>',
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        confirmButtonColor: "#200e57",
+        cancelButtonText: '<a href="<%= market_users_path %>">아니오(다시 계산)</a>',
+      })
+    }, 2000);
+    return false;
+  });
 
   var total_calorie = total_carbo = total_protein = total_fat = 0;
   var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
 
-  // function caloriePlus(calorie, carbo, protein, fat) {
-  //   total_calorie += calorie;
-  //   total_carbo += carbo;
-  //   total_protein += protein;
-  //   total_fat += fat;
-  //   html_write();
-  // };
-
-  // function calorieMinus(calorie, carbo, protein, fat) {
-  //   total_calorie -= calorie;
-  //   total_carbo -= carbo;
-  //   total_protein -= protein;
-  //   total_fat -= fat;
-  //   html_write();
-  // };
-
   function html_write() {
-
     var html = ""
     let total_calorie_percentage = parseFloat(((total_calorie / total_calorie_rate) * 100).toFixed(2))
     let total_carbo_percentage = parseFloat(((total_carbo / ideal_carbo) * 100).toFixed(2))
@@ -449,8 +461,6 @@
     }
     return false;
   });
-
-
 
   function calculateCalorie(age, height, weight, gender, activity){
     age = parseFloat(age)

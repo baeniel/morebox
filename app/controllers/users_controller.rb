@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: %i(index update_referrer updating_referrer market)
+  before_action :authenticate_user!, only: %i(index update_referrer updating_referrer)
   skip_before_action :verify_authenticity_token, except: %i[check]
 
   def index
