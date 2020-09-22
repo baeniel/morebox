@@ -26,6 +26,8 @@ class User < ApplicationRecord
   belongs_to :gym, optional: true
   has_many :orders, dependent: :destroy
   has_many :points, dependent: :destroy
+  has_many :assisted_orders, foreign_key: "trainer_id", class_name: "Order", dependent: :nullify
+
 
   validates_presence_of :phone, :gym, message: "내용을 입력하셔야 합니다."
   validates_uniqueness_of :phone, message: "이미 가입된 전화번호입니다."
