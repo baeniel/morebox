@@ -18,7 +18,7 @@ class MessageAlarmService
 
   def initialize(receiver, receiverName, subject, contents)
     @corpNum = "7468701862"
-    @sender = "01056053087"
+    @sender = "028783087"
     @senderName = "주식회사 고릴라밤"
     @receiver = receiver
     @receiverName = receiverName

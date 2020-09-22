@@ -123,7 +123,7 @@ class ApisController < ApplicationController
                 amount = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
               end
 
-              if (point = Point.create(amount: amount, point_type: :charged, user: user))
+              if (point = Point.create(amount: amount, point_type: :charged, user: user, gym: current_gym))
                 order.update(status: :complete, paid_at: Time.zone.now, point: point, payment_amount: total_price)
                 ActionCable.server.broadcast("room_#{user.id}", data_type: data_type)
               else
