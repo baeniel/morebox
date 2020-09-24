@@ -30,6 +30,11 @@ class ApplicationController < ActionController::Base
     @arr = []
     @arr2 = []
     this_month = Date.today.month
+
+    # 이거 새롭게 변경되어야 할 것 같음 / 그리고 application controller말고 그냥 액션으로 빼는쪽으로
+    # this_month_completed_orders = current_user.assisted_orders.complete.where(paid_at: Date.today.beginning_of_month..Date.today)
+    # @month_trainer_sale = this_month_completed_orders.sum(:payment_amount)
+    # @trainer_commission = (@month_trainer_sale * 0.1).to_i
     User.where(referrer: current_user.phone).each do |user|
       complete_orders = user.orders.complete.includes(:item)
       @arr << complete_orders.map{|order| order.created_at.month.eql?(this_month) ? order.item&.price : 0 }&.sum
