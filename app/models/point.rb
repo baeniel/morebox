@@ -5,7 +5,7 @@ class Point < ApplicationRecord
   has_one :order, dependent: :nullify
   enum point_type: %i(charged used)
 
-  after_create :set_stock
+  # after_create :set_stock
 
   def set_stock
     if self.sub_item_id.present?

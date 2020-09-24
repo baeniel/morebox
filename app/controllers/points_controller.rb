@@ -21,6 +21,7 @@ class PointsController < ApplicationController
               sub_item_params.dig(sub_item.id.to_s).to_i.times.each do
                 point = Point.create(user: current_user, point_type: :used, amount: sub_item.point, sub_item: sub_item, remain_point: 0, gym: current_gym)
                 point.update(remain_point: current_user.remained_point)
+                current_gym.gyms_sub_items.find_by(sub_item: sub_item).decrement!(:quantity)
                 arr << sub_item
               end
             end
