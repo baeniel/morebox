@@ -32,13 +32,13 @@
     <% if current_user.orders.count == 0 %>
       <%= render 'welcome_modal' %>
     <% end %>
-    <% categories = current_user.gym.sub_items.map {|sub_item| sub_item.category } %>
+    <% categories = current_gym&.sub_items&.map {|sub_item| sub_item&.category } %>
     <h2><%= current_gym&.title %> 지점</h2>
     <div class="row justify-content-center">
       <ul class="nav nav-tabs mt-5 px-5" id="myTab" role="tablist">
         <% categories.uniq.each_with_index do |category, index| %>
           <%# 아무것도 없는 제품 안 띄우게 하려고 %>
-          <% if current_user.gym.sub_items.any? { |sub_item| sub_item.category == category } %>
+          <% if current_gym.sub_items.any? { |sub_item| sub_item.category == category } %>
             <li class="nav-item mr-4 font-weight-bold">
               <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#category_<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
             </li>
