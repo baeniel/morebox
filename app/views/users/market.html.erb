@@ -361,17 +361,20 @@
 <script>
   $('.custom_option').dropdown();
   var timer = setInterval(function(){
-    $('#calcul_button').toggleClass('blink');
-  }, 500);
+                $('#calcul_button').toggleClass('blink');
+              }, 500);
+  var timer2;
+  
   $('#calcul_button').click(function() {
     clearTimeout(timer);
+    clearTimeout(timer2);
+    timer2 = setInterval(function(){
+                  $('.cal_result').toggleClass('blink');
+                }, 500);
     document.getElementById("calcul_button").innerHTML = '계산완료:)';
     $("#calcul_button").addClass(function() {
       $(this).css('color','white');
     })
-    var timer2 = setInterval(function(){
-      $('.cal_result').toggleClass('blink');
-    }, 500);
     setTimeout(function(){
       Swal.fire({
         title: '<h3 style="color: #200e57;">키와 몸무게 등의 정보가 정확한가요?</h3>',
@@ -380,7 +383,7 @@
         confirmButtonColor: "#200e57",
         cancelButtonText: '<a href="<%= market_users_path %>">아니오(다시 계산)</a>',
       })
-    }, 2000);
+    }, 1500);
     return false;
   });
 
