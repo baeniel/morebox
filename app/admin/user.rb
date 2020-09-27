@@ -41,8 +41,8 @@ ActiveAdmin.register User do
       f.input :fit_center
       f.input :user_type
       f.input :gym
-      f.input :password
-      f.input :password_confirmation
+      # f.input :password
+      # f.input :password_confirmation
     end
     f.actions
   end

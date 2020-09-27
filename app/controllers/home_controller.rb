@@ -1,7 +1,7 @@
 require "browser"
 
 class HomeController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i(survey)
 
   def index
     browser = Browser.new(request.env["HTTP_USER_AGENT"])
@@ -24,4 +24,7 @@ class HomeController < ApplicationController
 
   def policy
   end
+
+  def survey; end
+  
 end

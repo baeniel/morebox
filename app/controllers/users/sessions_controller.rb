@@ -19,8 +19,15 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-     cookies[:gym_id] = params.dig(:user, :gym_id)
-    super
+    cookies[:gym_id] = params.dig(:user, :gym_id)
+    if (user = User.find_by phone: params.dig(:user, :phone))
+      sign_in user
+      redirect_to after_sign_in_path_for(user)
+    else
+      super
+    end
+    
+    
   end
 
   # DELETE /resource/sign_out

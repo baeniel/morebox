@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post 'apis/pay_complete'
   get 'apis/pay_complete'
 
+  get '/survey' => "home#survey"
+  
   get 'home/exception'
   get 'home/policy'
   devise_for :admin_users, ActiveAdmin::Devise.config
