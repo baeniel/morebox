@@ -20,10 +20,18 @@
             <% Item.order(:point).each do |item| %>
               <tr>
                 <th scope="row"><input class="point_check" type="checkbox" id="<%= item.id %>"></th>
-                <td style="padding-top: 15px;"><%= number_with_delimiter(item.price) %>원</td>
-                <td style="padding-top: 15px;"><strong><%= number_with_delimiter(item.point) %></strong> P
-                  <% unless item.price == item.point %>
-                    <small style="color: red; font-size: 0.7em;">&nbsp&nbsp&nbsp+<%= number_with_delimiter(item.point - item.price) %></small>
+                <td style="padding-top: 15px;">
+                  <%= label_tag item.id do %>
+                    <%= number_with_delimiter(item.price) %>원
+                  <% end %>
+                </td>
+                <td style="padding-top: 15px;">
+                  <%= label_tag item.id do %>
+                    <strong><%= number_with_delimiter(item.point) %></strong> P
+                    
+                    <% unless item.price == item.point %>
+                      <small style="color: red; font-size: 0.7em;">&nbsp&nbsp&nbsp+<%= number_with_delimiter(item.point - item.price) %></small>
+                    <% end %>
                   <% end %>
                 </td>
               </tr>
