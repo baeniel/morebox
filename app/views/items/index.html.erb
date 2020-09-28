@@ -38,7 +38,7 @@
         <h2 style="color: #200e57; margin-top: 5px;">잔여포인트: <%= number_with_delimiter(current_user.remained_point) %> P</h2>
         <div class="row justify-content-center mb-3">
           <%# label_tag :trainer_code, "트레이너 코드", class: "col-3" %>
-          <%= text_field_tag "trainer_code", "", class: "form-control col-8 tel mt-3", id: "trainer_code", placeholder: "트레이너 코드를 입력하세요", readonly: true %>
+          <%= text_field_tag "trainer_code", "", class: "form-control col-8 tel mt-3", id: "trainer_code", placeholder: "트레이너 번호 뒷4자리", readonly: true %>
         </div>
         <div id="dial" style="display: none;">
           <% (1..9).each do |num| %>
