@@ -9,16 +9,16 @@
   <div class="row mx-0">
     <% if prev_tab %>
       <div class="col-4">
-        <a class="btn btn-block btn-custom-grey nav-btn" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab">이전</a>
+        <a class="btn btn-block btn-custom-grey nav-btn" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= (prev_tab.to_i + 1) * 25 %>%')">이전</a>
       </div>
     <% end %>
     <% if next_tab %>
       <div class="offset-<%= prev_tab ? 4 : 8 %> col-4">
-        <a class="btn btn-block  <%= (next_tab < 0) ? 'calculate-btn btn-morebox' : 'btn-custom-grey' %> nav-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab"><%= (next_tab > 0) ? '다음' : '계산하기' %></a>
+        <a class="btn btn-block  <%= (next_tab < 0) ? 'calculate-btn btn-morebox' : 'btn-custom-grey' %> nav-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 4).to_i + 1) * 25 %>%')"><%= (next_tab > 0) ? '다음' : '계산하기' %></a>
       </div>
     <% else %>
       <div class="offset-3 col-5">
-        <a class="btn btn-block btn-morebox nav-btn" href="<%= market_users_path %>">식단 추천받기</a>
+        <a class="btn btn-block btn-morebox nav-btn" href="#" onclick="$(this).closest('form').submit();">식단 추천받기</a>
       </div>
     <% end %>
   </div>
