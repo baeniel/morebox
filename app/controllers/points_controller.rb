@@ -1,6 +1,7 @@
 class PointsController < ApplicationController
   before_action :authenticate_user!
-
+  before_action :check_own_tablet
+  
   def create
     @title = "결제에 실패하였습니다."
     @body = "다시 선택하시거나 결제해주세요!"
@@ -53,6 +54,11 @@ class PointsController < ApplicationController
     respond_to do |format|
       format.js { render 'create' }
     end
+  end
+
+  private
+  def check_own_tablet
+    redirect_to root_path unless cookies[:secret] == "gorilla"
   end
 
 end
