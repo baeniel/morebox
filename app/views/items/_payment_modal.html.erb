@@ -62,7 +62,7 @@
     })
   }
   $('#paymentModal').on('hidden.bs.modal', function (e) {
-    document.querySelector(".point_check:checked").checked = false;
+    if(document.querySelector(".point_check:checked")) document.querySelector(".point_check:checked").checked = false;
   })
 
 </script>
