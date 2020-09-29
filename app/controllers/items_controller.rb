@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_own_tablet
   before_action :load_object, only: [:show]
 
   def index
@@ -19,5 +20,8 @@ class ItemsController < ApplicationController
 
   def load_object
     @item = Item.find params[:id]
+  end
+  def check_own_tablet
+    redirect_to root_path unless (cookies[:secret] == "gorilla")
   end
 end

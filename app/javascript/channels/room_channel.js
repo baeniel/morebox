@@ -28,7 +28,10 @@ window.createChannel = function (currentUser){
           });
         }else if(data.data_type == "direct_complete"){
           $(".modal").find(".close").click();
-          $(".submit_btn").click();
+          // Rails.fire($("#cart")[0], "submit");
+          setTimeout(function(){
+            $("form").find(".submit_btn").click();
+          }, 500);
         }
       }
     });

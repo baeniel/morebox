@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   def index
     browser = Browser.new(request.env["HTTP_USER_AGENT"])
     #태블릿일 때 (추후 시크릿 코드 분기 필요)
-    if browser.device.tablet? # && params[:secret_code] == "gorillabom"
+    if browser.device.tablet? && (cookies[:secret] == "gorilla")
       redirect_to list_items_path
     #핸드폰이나 데스크탑 접속할 때
     else
