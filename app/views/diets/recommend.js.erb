@@ -1,0 +1,9 @@
+<% if @diet&.present? %>
+  $("#difference").html('<%= sanitize @diet.body, tags: %w(br) %>')
+  $("#sub_items").html('<%= j(render @diet.sub_items) %>')
+  $("[type=checkbox]:checked").click();
+
+  <% @diet.sub_items.pluck(:id).each do |id| %>
+    $("#toggle_<%= id %>").click();
+  <% end %>
+<% end %>

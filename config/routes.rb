@@ -50,6 +50,12 @@ Rails.application.routes.draw do
       get :total_dashboard
     end
   end
+
+  resources :diets do
+    collection do
+      get :recommend
+    end
+  end
   resources :points
 
 
