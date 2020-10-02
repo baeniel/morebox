@@ -195,7 +195,7 @@
   </div>
   <h4 class="bg-custom-grey mt-3 main-text-color py-2 line-height-25">칼로리 계산기</h4>
   <a id="kakao-link-btn" href="javascript:sendLink()">
-    <img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+    <img src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
   </a>
 
   <p class="info text-left mb-2">간단하게 사용자 정보를 입력해주세요.</p>
@@ -363,42 +363,17 @@
 </div>
 
 <script>
+  Kakao.init("133df07a3fe58af0562b2d69e66fee94");
   function sendLink() {
-    Kakao.init('133df07a3fe58af0562b2d69e66fee94');
-    Kakao.Link.createDefaultButton({
-        container: '#kakao-link-btn',
-        objectType: 'feed',
-        content: {
-          title: '딸기 치즈 케익',
-          description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
-          imageUrl: 'http://mud-kage.kakao.co.kr/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
-          link: {
-            mobileWebUrl: 'https://developers.kakao.com',
-            webUrl: 'https://developers.kakao.com'
-          }
-        },
-        social: {
-          likeCount: 286,
-          commentCount: 45,
-          sharedCount: 845
-        },
-        buttons: [
-          {
-            title: '웹으로 보기',
-            link: {
-              mobileWebUrl: 'https://developers.kakao.com',
-              webUrl: 'https://developers.kakao.com'
-            }
-          },
-          {
-            title: '앱으로 보기',
-            link: {
-              mobileWebUrl: 'https://developers.kakao.com',
-              webUrl: 'https://developers.kakao.com'
-            }
-          }
-        ]
-      });
+    Kakao.Link.sendCustom({
+      templateId: 37742,
+      // templateArgs: {
+      //   title:
+      //     '판교 맛집에 들르다. 다양하고 풍부한 퓨전 한정식. 깔끔한 내부 인테리어 라이언',
+      //   description:
+      //     '부담없는 가격에 푸짐하게 즐기는 점심메뉴 런치한정식, 불고기정식, 돼지 김치찌개 등',
+      // },
+    })
   }
 
 
