@@ -22,11 +22,11 @@ class Diet < ApplicationRecord
 
     #   2) 간식을 먹지않는 유저의 경우
     # 일반식사 대신에 이런 건강식은 어때요? (식단 추천)
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>이런 간식은 어때요?", snack: true
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>일반식사 대신에 이런 건강식은 어때요?", snack: false
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>이런 간식은 어때요?", snack: true
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>일반식사 대신에 이런 건강식은 어때요?", snack: false
 
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>이런 간식은 어때요?", snack: true, protein: :high
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>일반식사 대신에 이런 건강식은 어때요?", snack: false, protein: :high
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>이런 간식은 어때요?", snack: true, protein: :high
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :bulk_up, body: "100일 뒤엔 목표 체중보다<br>2.2kg가 더 증가합니다.<br>생각했던 것보다 더 벌크업이 될 수 있으니<br>일반식사 대신에 이런 건강식은 어때요?", snack: false, protein: :high
 
   #   -	300 ~ 500칼로리: 100일 뒤엔 목표 체중보다 4.4kg가 더 증가합니다. 생각했던 것보다 더 벌크업이 될 수 있으니
 
@@ -70,11 +70,11 @@ class Diet < ApplicationRecord
     # 	2) 간식을 먹지않는 유저의 경우
     # 일반식사 대신에 이런 건강식은 어때요? (식단 추천)
 
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반 간식보다 이런 간식은 어때요?", snack: true
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반식사 대신에 이런 건강식은 어때요?", snack: false
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반 간식보다 이런 간식은 어때요?", snack: true
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반식사 대신에 이런 건강식은 어때요?", snack: false
 
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반 간식보다 이런 간식은 어때요?", snack: true, protein: :high
-    Diet.create start_calorie: 200, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반식사 대신에 이런 건강식은 어때요?", snack: false, protein: :high
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반 간식보다 이런 간식은 어때요?", snack: true, protein: :high
+    Diet.create start_calorie: 100, end_calorie: 300, purpose: :slim, body: "너무 잘하고 있지만,<br>연말에 아직 빼지 못한<br>2.2kg가 그대로 남아 있어요ㅠ<br>일반식사 대신에 이런 건강식은 어때요?", snack: false, protein: :high
 
 
   # -	300 ~ 500칼로리: 이대로 연말이 되면 아직 빼지 못한 4.4kg가 그대로 남아 있어요ㅠ
@@ -113,9 +113,9 @@ class Diet < ApplicationRecord
 #   칼로리 언더 (운동 목적이 벌크업일 경우)
 
 # -	200 ~ 300칼로리: 먹는 것까지가 운동인 것 아시죠? 열심히 운동하셨는데 너무 아깝잖아요ㅠ 이런 간식들로 운동을 마무리하시는 건 어때요? (식단추천)
-    Diet.create start_calorie: -300, end_calorie: -200, purpose: :bulk_up, body: "먹는 것까지가 운동인 것 아시죠?<br>열심히 운동하셨는데 너무 아깝잖아요ㅠ<br>이런 간식들로 운동을 마무리하시는 건 어때요?"
+    Diet.create start_calorie: -300, end_calorie: -100, purpose: :bulk_up, body: "먹는 것까지가 운동인 것 아시죠?<br>열심히 운동하셨는데 너무 아깝잖아요ㅠ<br>이런 간식들로 운동을 마무리하시는 건 어때요?"
     
-    Diet.create start_calorie: -300, end_calorie: -200, purpose: :bulk_up, body: "먹는 것까지가 운동인 것 아시죠?<br>열심히 운동하셨는데 너무 아깝잖아요ㅠ<br>이런 간식들로 운동을 마무리하시는 건 어때요?", protein: :high
+    Diet.create start_calorie: -300, end_calorie: -100, purpose: :bulk_up, body: "먹는 것까지가 운동인 것 아시죠?<br>열심히 운동하셨는데 너무 아깝잖아요ㅠ<br>이런 간식들로 운동을 마무리하시는 건 어때요?", protein: :high
 
 # -	300 ~ 500칼로리: 먹는 것까지가 운동인 것 아시죠? 열심히 운동하셨는데 너무 아깝잖아요ㅠ 이런 식단으로 건강하게 영양보충하시는 건 어때요? (식단추천)
     Diet.create start_calorie: -500, end_calorie: -300, purpose: :bulk_up, body: "먹는 것까지가 운동인 것 아시죠?<br>열심히 운동하셨는데 너무 아깝잖아요ㅠ<br>이런 식단으로 건강하게 영양보충하시는 건 어때요?"
@@ -136,9 +136,9 @@ class Diet < ApplicationRecord
   #   칼로리 언더 (운동 목적이 다이어트인 경우)
 
   # -	200 ~ 300칼로리: 100일 뒤엔 원하는 몸무게보다도 2.2kg가 더 빠지겠군요!  잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면 이 정도는 먹어도 돼요:) (식단 추천)
-    Diet.create start_calorie: -300, end_calorie: -200, purpose: :slim, body: "100일 뒤엔 원하는 몸무게보다도<br>2.2kg가 더 빠지겠군요!<br> 잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면<br>이 정도는 먹어도 돼요:)"
+    Diet.create start_calorie: -300, end_calorie: -100, purpose: :slim, body: "100일 뒤엔 원하는 몸무게보다도<br>2.2kg가 더 빠지겠군요!<br> 잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면<br>이 정도는 먹어도 돼요:)"
     
-    Diet.create start_calorie: -300, end_calorie: -200, purpose: :slim, body: "100일 뒤엔 원하는 몸무게보다도<br>2.2kg가 더 빠지겠군요!<br> 잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면<br>이 정도는 먹어도 돼요:)", protein: :high
+    Diet.create start_calorie: -300, end_calorie: -100, purpose: :slim, body: "100일 뒤엔 원하는 몸무게보다도<br>2.2kg가 더 빠지겠군요!<br> 잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면<br>이 정도는 먹어도 돼요:)", protein: :high
   # -	300 ~ 500칼로리: 100일 뒤엔 원하는 몸무게보다도 4.4kg가 더 빠지겠군요! 잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면 이 정도는 먹어도 돼요:) (식단 추천)
     Diet.create start_calorie: -500, end_calorie: -300, purpose: :slim, body: "100일 뒤엔 원하는 몸무게보다도<br>4.4kg가 더 빠지겠군요!<br>잘하고 계시지만 혹시 현재의 식단을 유지하기 힘드시다면<br>이 정도는 먹어도 돼요:)"
     

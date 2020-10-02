@@ -12,7 +12,7 @@ class DietsController < ApplicationController
               diets.where(end_calorie: -600).where(protein: params[:protein]).where(purpose: params[:purpose]).first
             else
               diets = diets.where("start_calorie <= :calorie and end_calorie > :calorie", calorie: difference).where(protein: params[:protein]).where(purpose: params[:purpose])
-              if difference < 0
+              if difference > 0
                 diets = diets.where(snack: params[:snack].to_i > 0)
               end
               diets.first
