@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post 'apis/pay_complete'
   get 'apis/pay_complete'
 
+  get '/survey' => "home#survey"
+  
   get 'home/exception'
   get 'home/policy'
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -46,6 +48,12 @@ Rails.application.routes.draw do
   resources :gyms do
     collection do
       get :total_dashboard
+    end
+  end
+
+  resources :diets do
+    collection do
+      get :recommend
     end
   end
   resources :points

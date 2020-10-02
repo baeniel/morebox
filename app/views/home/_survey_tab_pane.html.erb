@@ -1,0 +1,23 @@
+<% index ||= 0 %>
+<% prev_tab ||= nil %>
+<% next_tab ||= nil %>
+
+<div class="tab-pane fade <%= "show active" if index.zero? %>" id="tab-<%= index %>" role="tabpanel" aria-labelledby="tab-button-<%= index %>">
+
+  <div class="<%= 'container text-white py-4' if next_tab %>">
+    <%= yield %>
+  </div>
+  <div class="row mx-0">
+    <% if next_tab %>
+      <% if prev_tab %>
+        <div class="col-4">
+          <a class="btn btn-block btn-custom-grey nav-btn" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= (prev_tab.to_i + 1) * 25 %>%')">이전</a>
+        </div>
+      <% end %>
+      <div class="offset-<%= prev_tab ? 4 : 8 %> col-4">
+        <a class="btn btn-block  <%= (next_tab < 0) ? 'calculate-btn btn-morebox' : 'btn-custom-grey' %> nav-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 4).to_i + 1) * 25 %>%')"><%= (next_tab > 0) ? '다음' : '계산하기' %></a>
+      </div>
+    <% end %>
+  </div>
+
+</div>

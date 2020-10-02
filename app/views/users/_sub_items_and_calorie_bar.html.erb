@@ -1,0 +1,250 @@
+<div class="hat-outer">
+  <div class="row mx-0">
+    <div class="hat left col-2"></div>
+    <div class="hat col-8 pt-4">
+      <h4 class="mt-2 main-text-color">모어마켓 제품 담기</h4>
+    </div>
+    <div class="hat right col-2"></div>
+  </div>
+</div>
+<div class="container wear-hat">
+  <div class="row">
+    <% SubItem.order(:created_at).each do |sub_item| %>
+      <% if sub_item.calorie.present? %>
+        <div class="col-4">
+          <h5 class="card-title main-text-color mb-1"><%= sub_item.title %></h5>
+          <%= link_to "#", onclick: "$(this).next().find('#toggle_#{sub_item.id}').click();return false;" do %>
+            <img class="card-img-top" src="<%= sub_item.image %>"/>
+          <% end %>
+          <div class="card-body px-0 py-3">
+            <!--<p class="card-text"><%# sub_item.description %></p>-->
+            <div class="row justify-content-center w-100 mx-0">
+              <a class="minus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
+                <i class="fa fa-minus mr-3 main-text-color" aria-hidden="true"></i>
+              </a>
+              <p style="font-size: 15px;" id="qty-<%= sub_item.id %>" data-id="<%= sub_item.id%>" class="mb-3">1</p>개
+              <a class="plus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
+                <i class="fa fa-plus ml-3 main-text-color" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-qty="1" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
+            <label for="toggle_<%= sub_item.id %>" class="btn btn-block w-100 btn-custom-lightgrey py-1">담기</label>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div id="tool-bar">
+  <div class="hat-outer">
+    <div class="row mx-0">
+      <div class="hat left col-2"></div>
+      <div class="hat col-8"></div>
+      <div class="hat right col-2"></div>
+    </div>
+  </div>
+  <div class="inner">
+    <div class="row w-100 px-4 mx-0 justify-content-between mb-4">
+      <h4 class="my-0 text-white line-height-25 ml-2">칼로리 장바구니</h4>
+      <div class="mr-2">
+        <button id="reset" class="btn btn-sm btn-custom-grey px-2">다시 담기</button>
+        <button id="share" class="btn btn-sm btn-custom-grey px-2" onclick="sendMessage();return false;">전달하기</button>
+      </div>
+    </div>
+    <div class="container pt-1">
+      <div class="row w-100 mx-0">
+        <div class="col-4">
+        <h5 class="text-white mb-0">총 칼로리</h5>
+          <div class="progress progress-bar-vertical">
+            <div class="progress-bar" id="calorie-bar" role="progressbar" style="height:15%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="calorie-amount justify-item-center justify-content-between" style="flex-direction: column;">
+              <div class="text-white">
+                <div id="total-calorie-amount"></div>
+                <div id="total-calorie-rate" style="line-height:5px;"></div>
+              </div>
+              <div id="calorie-amount">0 Kcal</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-8 pt-2">
+          <% [["carbo", "탄수화물"], ["protein", "단백질"], ["fat", "지방"]].each do |element, element_kr| %>
+            <div class="text-white mb-1 text-left" style="font-size:11px;"><%= element_kr %></div>
+            <div class="progress mt-0">
+              <div class="progress-bar" id="<%= element %>-bar" role="progressbar" style="width:15%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="calorie-amount justify-content-between">
+                <div id="<%= element %>-amount" class="ml-2" style="line-height:17px;">0g</div>
+                <div id="total-<%= element %>-amount" class="mr-2 text-white" style="line-height:17px;"></div>
+              </div>
+            </div>
+        <% end %>
+        </div>
+      </div>
+      <div class="calorie-content">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  var total_calorie = total_carbo = total_protein = total_fat = 0;
+  var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
+
+  function html_write() {
+    var html = ""
+    let total_calorie_percentage = parseFloat(((total_calorie / total_calorie_rate) * 100).toFixed(2))
+    let total_carbo_percentage = parseFloat(((total_carbo / ideal_carbo) * 100).toFixed(2))
+    let total_protein_percentage = parseFloat(((total_protein / ideal_protein) * 100).toFixed(2))
+    let total_fat_percentage = parseFloat(((total_fat / ideal_fat) * 100).toFixed(2))
+
+    $("#calorie-amount").text(`${total_calorie}Kcal`);
+    $("#carbo-amount").text(`${total_carbo.toFixed(2)}g`);
+    $("#protein-amount").text(`${total_protein.toFixed(2)}g`);
+    $("#fat-amount").text(`${total_fat.toFixed(2)}g`);
+
+    $("#total-calorie-amount").text(`${isFinite(total_calorie_percentage) ? total_calorie_percentage : '-'}%`);
+    $("#total-calorie-rate").text(`(${total_calorie_rate}Kcal)`);
+    $("#total-carbo-amount").text(`${isFinite(total_carbo_percentage) ? total_carbo_percentage : '-'}% (${ideal_carbo}g)`);
+    $("#total-protein-amount").text(`${isFinite(total_protein_percentage) ? total_protein_percentage : '-'}% (${ideal_protein}g)`);
+    $("#total-fat-amount").text(`${isFinite(total_fat_percentage) ? total_fat_percentage : '-'}% (${ideal_fat}g)`);
+
+    $("#calorie-bar").height(`${total_calorie_percentage}%`);
+    $("#carbo-bar").width(`${total_carbo_percentage}%`);
+    $("#protein-bar").width(`${total_protein_percentage}%`);
+    $("#fat-bar").width(`${total_fat_percentage}%`);
+
+    $(".calorie-content").html(html);
+  }
+  function calculateAndWrite(){
+    total_calorie = total_carbo = total_protein = total_fat = 0;
+    $.each($('input[type=checkbox]:checked'), function(){
+      let qty = parseFloat(this.dataset.qty)
+      total_calorie += (parseFloat(this.dataset.calorie) * qty);
+      total_carbo += (parseFloat(this.dataset.carbo) * qty);
+      total_protein += (parseFloat(this.dataset.protein) * qty);
+      total_fat += (parseFloat(this.dataset.fat) * qty);
+    });
+    html_write();
+  }
+
+  $('input[type="checkbox"]').click(function(){
+    if(total_calorie_rate == 0) {
+      Swal.fire({
+        title: '<h3 style="color: #200e57;">칼로리 계산을 먼저하세요!</h3>',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+        confirmButtonColor: "#200e57",
+      })
+      $(this). prop("checked", false);
+    } else {
+      calculateAndWrite();
+    }
+  });
+  $('.plus-btn, .minus-btn').click(function(){
+    if(total_calorie_rate == 0) {
+      Swal.fire({
+        title: '<h3 style="color: #200e57;">칼로리 계산을 먼저하세요!</h3>',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+        confirmButtonColor: "#200e57",
+      })
+      $(this). prop("checked", false);
+    } else {
+      let target = $(`#${$(this).data("target")}`)
+      let qty = parseInt(target.text());
+      if($(this).hasClass("plus-btn")){
+        qty += 1
+      } else {
+        if(qty > 1) qty -= 1
+      }
+      target.text(qty);
+      $(`#toggle_${target.data("id")}`).data("qty", qty);
+      $(`#toggle_${target.data("id")}`).attr("data-qty", qty);
+      calculateAndWrite();
+    }
+    return false;
+  });
+
+  function calculateCalorie(age, height, weight, gender, activity){
+    age = parseFloat(age)
+    height = parseFloat(height)
+    weight = parseFloat(weight)
+
+    if(gender == "남") {
+      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age + 5)
+    } else {
+      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
+    }
+
+    if(activity == "전혀없음") {
+      total_calorie_rate = 1.2 * base_calorie_rate
+    } else if(activity == "조금(5천보)") {
+      total_calorie_rate = 1.375 * base_calorie_rate
+    } else if(activity == "보통(만보)") {
+      total_calorie_rate = 1.555 * base_calorie_rate
+    } else if(activity == "많이(2만보)") {
+      total_calorie_rate = 1.725 * base_calorie_rate
+    } else {
+      total_calorie_rate = 1.9 * base_calorie_rate
+    }
+
+    total_calorie_rate = Math.round(total_calorie_rate)
+    ideal_protein = Math.round(weight * 1.5)
+    ideal_fat = Math.round(weight * 1.1)
+    ideal_carbo = Math.round((total_calorie_rate - (ideal_protein * 4) - (ideal_fat * 9)) / 4)
+
+    // document.getElementById('output').innerHTML = "총대사량: " + total_calorie_rate + "kcal"
+    // + "<br>" + "<span id='calorie-info'>탄수화물(권장): " + ideal_carbo + "g, &nbsp" + " 단백질(권장): " + ideal_protein + "g, " + "&nbsp;" + "지방(권장): " + ideal_fat + "g</span>";
+    $("#output #top-calorie").text(total_calorie_rate);
+    $("#output #top-carbo").text(ideal_carbo);
+    $("#output #top-protein").text(ideal_protein);
+    $("#output #top-fat").text(ideal_fat);
+    html_write();
+  }
+
+  $('#reset').click(function() {
+    // var html = ""
+    // $(".calorie-content").html(html);
+    $('input[type="checkbox"]:checked').click();
+    return false;
+  });
+  function sendMessage(){
+    Swal.fire({
+    title: '<h3 style="color: #200e57;">전달하실 분의<br>휴대폰 번호를 입력해주세요</h3>',
+    input: 'text',
+    inputPlaceholder: '숫자만 입력',
+    inputAttributes: {
+      autocapitalize: 'off'
+    },
+    showCancelButton: true,
+    confirmButtonText: '결과전송',
+    confirmButtonColor: "#200e57",
+    cancelButtonText: '취소',
+    showLoaderOnConfirm: false,
+    preConfirm: (phone_num) => {
+      return fetch(`/users/check_and_send_message?phone_num=${phone_num}&checked_items=${$('input[type="checkbox"]:checked').map(function(i, e){return `${$(e).data("title")}(${$(e).data("qty")}개)`}).get().join(", ")}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `요청에 실패하였습니다: ${error}`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    console.log(result)
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `${result.value.message}`
+      })
+    }
+  })
+  }
+</script>

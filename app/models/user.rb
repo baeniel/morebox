@@ -43,12 +43,19 @@ class User < ApplicationRecord
 
   before_validation :assign_password, on: :create
 
+  def self.set_new_user_password
+    User.all.each do |user|
+      user.update password: SecureRandom.base64(6)
+    end
+  end
+  
   def assign_password
     # @rand_password = ('0'..'z').to_a.shuffle.first(8).join
     # self.password = @rand_password
     # self.password_confirmation = @rand_password
-    self.password = "111111"
-    self.password_confirmation = "111111"
+    random_pw = SecureRandom.base64(6)
+    self.password = random_pw
+    self.password_confirmation = random_pw
   end
 
   def remained_point

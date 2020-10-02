@@ -3,11 +3,14 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require("@rails/ujs").start()
+// require("@rails/ujs").start()
+const Rails = require('@rails/ujs');
+Rails.start();
+window.Rails = Rails
+
 require("@rails/activestorage").start()
 require("channels")
 import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
-// import "sweetalert2/src/sweetalert2.scss";
 import 'sweetalert2/dist/sweetalert2.min.css';
 window.Swal = Swal;
 

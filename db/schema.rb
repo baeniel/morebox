@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_22_033634) do
+ActiveRecord::Schema.define(version: 2020_10_01_040955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,26 @@ ActiveRecord::Schema.define(version: 2020_09_22_033634) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["item_id"], name: "index_comments_on_item_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "diet_sub_items", force: :cascade do |t|
+    t.bigint "diet_id"
+    t.bigint "sub_item_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["diet_id"], name: "index_diet_sub_items_on_diet_id"
+    t.index ["sub_item_id"], name: "index_diet_sub_items_on_sub_item_id"
+  end
+
+  create_table "diets", force: :cascade do |t|
+    t.integer "start_calorie"
+    t.integer "end_calorie"
+    t.integer "purpose"
+    t.text "body"
+    t.boolean "snack"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "protein", default: 0
   end
 
   create_table "gyms", force: :cascade do |t|
@@ -182,6 +202,8 @@ ActiveRecord::Schema.define(version: 2020_09_22_033634) do
 
   add_foreign_key "comments", "items"
   add_foreign_key "comments", "users"
+  add_foreign_key "diet_sub_items", "diets"
+  add_foreign_key "diet_sub_items", "sub_items"
   add_foreign_key "order_sub_items", "orders"
   add_foreign_key "order_sub_items", "sub_items"
   add_foreign_key "orders", "gyms"
