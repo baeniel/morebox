@@ -25,21 +25,21 @@
       <div class="row">
         <div class="col-6 row pb-2 mx-0">
           <%= label_tag "age", "나이  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= text_field_tag "age", "#{30 if Rails.env.development?}", class: "form-control col-6 text-right", required: true %>
+          <%= text_field_tag "age", "#{30 if Rails.env.development?}", class: "form-control col-6 text-right", placeholder: "ex) 24", required: true %>
         </div>
         <div class="col-6 row pb-2 mx-0">
           <%= label_tag "weight", "체중  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= number_field_tag "weight", "#{70 if Rails.env.development?}", class: "form-control col-6 text-right", required: true %>
+          <%= number_field_tag "weight", "#{70 if Rails.env.development?}", class: "form-control col-6 text-right", placeholder: "ex) 70", required: true %>
           <div class="col-2 p-0 line-height-30 main-text-color">kg</div>
         </div>
         <div class="col-12 row pb-2 mx-0">
           <%= label_tag "target_weight", "목표 체중  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= number_field_tag "target_weight", "#{80 if Rails.env.development?}" , class: "form-control col-6 text-right", required: true %>
+          <%= number_field_tag "target_weight", "#{80 if Rails.env.development?}" , class: "form-control col-6 text-right", placeholder: "ex) 65", required: true %>
           <div class="col-2 p-0 line-height-30 main-text-color">kg</div>
         </div>
         <div class="col-12 row pb-2 mx-0">
           <%= label_tag "target_date", "목표 날짜  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= text_field_tag "target_date", "#{'2020-12-31' if Rails.env.development?}" , class: "form-control col-8 text-right", readonly: true, required: true %>
+          <%= text_field_tag "target_date", "#{'2020-12-31' if Rails.env.development?}" , class: "form-control col-8 text-right", placeholder: "ex) #{Date.current}", readonly: true, required: true %>
         </div>
 
       </div>
@@ -50,13 +50,13 @@
 
       <h4 class="main-text-color text-left">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h4>
       <div class="row mx-0 main-text-color">
-        <%= number_field_tag "work_time",  "#{1.5 if Rails.env.development?}" ,class: "form-control col-10 text-right", required: true %>
-        <span class="line-height-30 pl-3 main-text-color">시간</span>
+        <%= number_field_tag "work_time",  "#{90 if Rails.env.development?}" ,class: "form-control col-10 text-right", placeholder: "ex) 90", required: true %>
+        <span class="line-height-30 pl-3 main-text-color">분</span>
       </div>
 
       <h4 class="main-text-color text-left">당신은 그 운동을 주 몇 회 이상 하실 계획입니까?</h4>
       <div class="row mx-0 main-text-color">
-        <%= number_field_tag "work_count", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", required: true %>
+        <%= number_field_tag "work_count", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", placeholder: "ex) 3", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -87,7 +87,7 @@
 
       <h4 class="main-text-color mt-2 text-left">한국인 평균 한 끼 식사 칼로리는 약 700 kal입니다 - 이런 식사를 당신은 하루에 몇 끼 정도 드시나요? </h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "kcal", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", required: true %>
+        <%= number_field_tag "kcal", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", placeholder: "ex) 3", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -101,13 +101,13 @@
 
       <h4 class="main-text-color mt-2 text-left">당신은 하루에 간식을 몇번 드시나요? (바닐라라떼, 케이크, 빵)</h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "snack", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", required: true %>
+        <%= number_field_tag "snack", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", placeholder: "ex) 2", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
       <h4 class="main-text-color mt-2 text-left">당신은 일주일에 야식, 외식, 또는 술자리를 몇 번 가지시나요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "drink", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", required: true %>
+        <%= number_field_tag "drink", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", placeholder: "ex) 1", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -119,7 +119,7 @@
 
       <h4 class="main-text-color mt-2 text-left">당신이 지금 떠오르는 제일 먹고 싶은 음식 한 가지를 써주세요 </h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= text_field_tag "dummy5", "", class: "form-control col-12" %>
+        <%= text_field_tag "dummy5", "", class: "form-control col-12", placeholder: "ex) 라면, 햄버거" %>
       </div>
     <% end %>
 

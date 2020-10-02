@@ -3,7 +3,7 @@
 <% if sub_item %>
   <div class="col-4">
     <h5 class="card-title main-text-color mb-1"><%= sub_item.title %></h5>
-    <%= link_to "#", onclick: "$(this).next().find('#toggle_#{sub_item.id}').click();return false;" do %>
+    <%= link_to (sub_item.link.present? ? sub_item.link : "#") do %>
       <img class="card-img-top" src="<%= sub_item.image %>"/>
     <% end %>
   </div>
