@@ -50,7 +50,8 @@
       <h4 class="my-0 text-white line-height-25 ml-2">칼로리 장바구니</h4>
       <div class="mr-2">
         <button id="reset" class="btn btn-sm btn-custom-grey px-2">다시 담기</button>
-        <button id="share" class="btn btn-sm btn-custom-grey px-2" onclick="sendMessage();return false;">전달하기</button>
+        <!-- <button id="share" class="btn btn-sm btn-custom-grey px-2" onclick="sendMessage();return false;">전달하기</button> -->
+        <a id="kakao-link-btn" class="btn btn-sm btn-custom-grey px-2" href="javascript:sendLink()">친구조르기</a>
       </div>
     </div>
     <div class="container pt-1">
@@ -89,6 +90,13 @@
 
 
 <script>
+  Kakao.init("133df07a3fe58af0562b2d69e66fee94");
+  function sendLink() {
+    Kakao.Link.sendCustom({
+      templateId: 37742,
+    })
+  }
+
   var total_calorie = total_carbo = total_protein = total_fat = 0;
   var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
 
@@ -210,41 +218,44 @@
     $('input[type="checkbox"]:checked').click();
     return false;
   });
-  function sendMessage(){
-    Swal.fire({
-    title: '<h3 style="color: #200e57;">전달하실 분의<br>휴대폰 번호를 입력해주세요</h3>',
-    input: 'text',
-    inputPlaceholder: '숫자만 입력',
-    inputAttributes: {
-      autocapitalize: 'off'
-    },
-    showCancelButton: true,
-    confirmButtonText: '결과전송',
-    confirmButtonColor: "#200e57",
-    cancelButtonText: '취소',
-    showLoaderOnConfirm: false,
-    preConfirm: (phone_num) => {
-      return fetch(`/users/check_and_send_message?phone_num=${phone_num}&checked_items=${$('input[type="checkbox"]:checked').map(function(i, e){return `${$(e).data("title")}(${$(e).data("qty")}개)`}).get().join(", ")}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(response.statusText)
-          }
-          return response.json()
-        })
-        .catch(error => {
-          Swal.showValidationMessage(
-            `요청에 실패하였습니다: ${error}`
-          )
-        })
-    },
-    allowOutsideClick: () => !Swal.isLoading()
-  }).then((result) => {
-    console.log(result)
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: `${result.value.message}`
-      })
-    }
-  })
-  }
+
+
+
+  // function sendMessage(){
+  //   Swal.fire({
+  //   title: '<h3 style="color: #200e57;">전달하실 분의<br>휴대폰 번호를 입력해주세요</h3>',
+  //   input: 'text',
+  //   inputPlaceholder: '숫자만 입력',
+  //   inputAttributes: {
+  //     autocapitalize: 'off'
+  //   },
+  //   showCancelButton: true,
+  //   confirmButtonText: '결과전송',
+  //   confirmButtonColor: "#200e57",
+  //   cancelButtonText: '취소',
+  //   showLoaderOnConfirm: false,
+  //   preConfirm: (phone_num) => {
+  //     return fetch(`/users/check_and_send_message?phone_num=${phone_num}&checked_items=${$('input[type="checkbox"]:checked').map(function(i, e){return `${$(e).data("title")}(${$(e).data("qty")}개)`}).get().join(", ")}`)
+  //       .then(response => {
+  //         if (!response.ok) {
+  //           throw new Error(response.statusText)
+  //         }
+  //         return response.json()
+  //       })
+  //       .catch(error => {
+  //         Swal.showValidationMessage(
+  //           `요청에 실패하였습니다: ${error}`
+  //         )
+  //       })
+  //   },
+  //   allowOutsideClick: () => !Swal.isLoading()
+  // }).then((result) => {
+  //   console.log(result)
+  //   if (result.isConfirmed) {
+  //     Swal.fire({
+  //       title: `${result.value.message}`
+  //     })
+  //   }
+  // })
+  // }
 </script>

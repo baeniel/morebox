@@ -50,16 +50,16 @@
 
       <h4 class="main-text-color text-left">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h4>
       <div class="row mx-0 main-text-color">
-        <%= number_field_tag "work_time",  "#{1.5 if Rails.env.development?}" ,class: "form-control col-10 text-right", required: true %> 
+        <%= number_field_tag "work_time",  "#{1.5 if Rails.env.development?}" ,class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">시간</span>
       </div>
 
       <h4 class="main-text-color text-left">당신은 그 운동을 주 몇 회 이상 하실 계획입니까?</h4>
       <div class="row mx-0 main-text-color">
-        <%= number_field_tag "work_count", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", required: true %> 
+        <%= number_field_tag "work_count", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
-        
+
     <% end %>
 
     <%= render 'survey_tab_pane', index: 1, prev_tab: 0, next_tab: 2 do %>
@@ -87,7 +87,7 @@
 
       <h4 class="main-text-color mt-2 text-left">한국인 평균 한 끼 식사 칼로리는 약 700 kal입니다 - 이런 식사를 당신은 하루에 몇 끼 정도 드시나요? </h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "kcal", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", required: true %> 
+        <%= number_field_tag "kcal", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -101,13 +101,13 @@
 
       <h4 class="main-text-color mt-2 text-left">당신은 하루에 간식을 몇번 드시나요? (바닐라라떼, 케이크, 빵)</h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "snack", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", required: true %> 
+        <%= number_field_tag "snack", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
-      
+
       <h4 class="main-text-color mt-2 text-left">당신은 일주일에 야식, 외식, 또는 술자리를 몇 번 가지시나요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "drink", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", required: true %> 
+        <%= number_field_tag "drink", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -119,14 +119,14 @@
 
       <h4 class="main-text-color mt-2 text-left">당신이 지금 떠오르는 제일 먹고 싶은 음식 한 가지를 써주세요 </h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= text_field_tag "dummy5", "", class: "form-control col-12" %> 
+        <%= text_field_tag "dummy5", "", class: "form-control col-12" %>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: -1, prev_tab: 2 do %>
       <!-- <h2 class="mb-5 main-text-color">계산결과</h2>-->
       <div class="container text-white py-4">
-      
+
         <h4 class="bg-custom-grey main-text-color py-2 line-height-25" style="margin-top:-15px;">계산 결과</h4>
         <div class="row mx-0 pt-3 main-text-color">
           <div class="col-12">
@@ -179,17 +179,17 @@
                 ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
                 ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
                 ,changeYear: true //콤보박스에서 년 선택 가능
-                ,changeMonth: true //콤보박스에서 월 선택 가능                
+                ,changeMonth: true //콤보박스에서 월 선택 가능
                 ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-                ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+                ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
                 ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
                 ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
                 ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
                 ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
                 ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
                 ,minDate: "+D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-                ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
-            }); 
+                ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+            });
 
   $(".calculate-btn").click(function(){
     let weight = parseFloat($("#weight").val());
@@ -200,14 +200,14 @@
     target_date = new Date(target_date);
     let today = new Date();
     let diffTime = Math.abs(target_date - today);
-    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     let purpose = $("#purpose").val();
     let work_time = parseFloat($("#work_time").val());
     let work_count = parseInt($("#work_count").val());
     let kcal = (parseInt($("#kcal").val()) * 700);
     let snack = (parseInt($("#snack").val()) * 200) / 7;
     let drink = (parseInt($("#drink").val()) * 700) / 7;
-    
+
     let present_result = kcal + snack + drink
     let target_result = present_result + ((standard_kcal * difference) / diffDays) + ((work_count * work_time * 330) / 7);
     if (isNaN(present_result) || isNaN(target_result)){
@@ -227,7 +227,7 @@
       ideal_protein = Math.round(target_weight * 1.5)
       ideal_fat = Math.round(target_weight * 1.1)
       ideal_carbo = Math.round((total_calorie_rate - (ideal_protein * 4) - (ideal_fat * 9)) / 4)
-      
+
       $("#current-calorie-bar").height(`${present_result.toFixed(2)/60}%`);
       $("#target-calorie-bar").height(`${target_result.toFixed(2)/60}%`);
 //       $("#difference").text(`하루에 ${(target_result - present_result).toFixed(2)} Kcal 만큼 ${(difference < 0) ? '덜' : '더'} 드셔야 합니다.`);

@@ -17,7 +17,7 @@ class DietsController < ApplicationController
               end
               diets.first
             end
-    
+
   end
-  
+
 end
