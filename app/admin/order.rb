@@ -7,6 +7,7 @@ ActiveAdmin.register Order do
     column "user" do |u|
       u&.user&.phone
     end
+    column :trainer_id
     column "point" do |p|
       p&.point&.amount
     end
