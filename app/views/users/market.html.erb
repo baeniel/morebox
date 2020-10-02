@@ -194,6 +194,10 @@
     <%= image_tag "/list_logo.png", class: "w-50" %>
   </div>
   <h4 class="bg-custom-grey mt-3 main-text-color py-2 line-height-25">칼로리 계산기</h4>
+  <a id="kakao-link-btn" href="javascript:sendLink()">
+    <img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"/>
+  </a>
+
   <p class="info text-left mb-2">간단하게 사용자 정보를 입력해주세요.</p>
   <div class="row">
     <div class="col-6">
@@ -359,12 +363,52 @@
 </div>
 
 <script>
+  function sendLink() {
+    Kakao.init('133df07a3fe58af0562b2d69e66fee94');
+    Kakao.Link.createDefaultButton({
+        container: '#kakao-link-btn',
+        objectType: 'feed',
+        content: {
+          title: '딸기 치즈 케익',
+          description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
+          imageUrl: 'http://mud-kage.kakao.co.kr/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+          link: {
+            mobileWebUrl: 'https://developers.kakao.com',
+            webUrl: 'https://developers.kakao.com'
+          }
+        },
+        social: {
+          likeCount: 286,
+          commentCount: 45,
+          sharedCount: 845
+        },
+        buttons: [
+          {
+            title: '웹으로 보기',
+            link: {
+              mobileWebUrl: 'https://developers.kakao.com',
+              webUrl: 'https://developers.kakao.com'
+            }
+          },
+          {
+            title: '앱으로 보기',
+            link: {
+              mobileWebUrl: 'https://developers.kakao.com',
+              webUrl: 'https://developers.kakao.com'
+            }
+          }
+        ]
+      });
+  }
+
+
+
   $('.custom_option').dropdown();
   var timer = setInterval(function(){
                 $('#calcul_button').toggleClass('blink');
               }, 500);
   var timer2;
-  
+
   $('#calcul_button').click(function() {
     clearTimeout(timer);
     clearTimeout(timer2);
