@@ -202,7 +202,7 @@
     let diffTime = Math.abs(target_date - today);
     let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     let purpose = $("#purpose").val();
-    let work_time = parseFloat($("#work_time").val());
+    let work_time = parseFloat($("#work_time").val()) / 60;
     let work_count = parseInt($("#work_count").val());
     let kcal = (parseInt($("#kcal").val()) * 700);
     let snack = (parseInt($("#snack").val()) * 200) / 7;
