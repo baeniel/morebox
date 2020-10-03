@@ -11,7 +11,9 @@
   }
 </style>
 <div class="text-left px-4 py-3 bg-white">
-  <%= image_tag "/list_logo.png", class: "w-50" %>
+  <%= link_to survey_path do %>
+    <%= image_tag "/list_logo.png", class: "w-50" %>
+  <% end %>
 </div>
 <div class="progress mt-0 mb-3" style="height:10px;">
   <div class="progress-bar" id="top-progress-bar" role="progressbar" style="width:25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -20,46 +22,54 @@
   <div class="tab-content" id="myTabContent">
     <%= render 'survey_tab_pane', index: 0, next_tab: 1 do %>
       <!-- <h2 class="mb-5 main-text-color">필요한 칼로리를 구하기 위한<br>알고리즘</h2>-->
-
       <h4 class="main-text-color text-left">신체정보와 목표를 입력해주세요.</h4>
       <div class="row">
-        <div class="col-6 row pb-2 mx-0">
-          <%= label_tag "age", "나이  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= text_field_tag "age", "#{30 if Rails.env.development?}", class: "form-control col-6 text-right", placeholder: "ex) 24", required: true %>
+        <div class="col-6">
+          <div class="row">
+            <%= label_tag "age", "나이(만)", class: "col-5 text-left line-height-30 font-weight-bold" %>
+            <%= text_field_tag "age", (params[:age] or 24), class: "form-control mb-3 col-6", required: true %>
+          </div>
+          <div class="row">
+            <%= label_tag  "height", "키(cm)", style: "", class: "col-5 pr-1 text-left font-weight-bold" %>
+            <%= number_field_tag "height", (params[:height] or 163), class: "form-control mb-3 col-6", required: true %>
+          </div>
+          <div class="row">
+            <%= label_tag "weight", "체중(kg)", class: "col-5 text-left line-height-30 font-weight-bold" %>
+            <%= number_field_tag "weight", (params[:weight] or 55), class: "form-control mb-3 col-6", required: true %>
+          </div>
+          <div class="row">
+            <%= label_tag  "gender", "성별", style: "", class: "col-5 pr-1 text-left font-weight-bold"  %>
+            <%= select_tag "gender", options_for_select(%w(여 남)), class: "form-control mb-3 col-6 px-1 custom_option", required: true %>
+          </div>
         </div>
-        <div class="col-6 row pb-2 mx-0">
-          <%= label_tag "weight", "체중  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= number_field_tag "weight", "#{70 if Rails.env.development?}", class: "form-control col-6 text-right", placeholder: "ex) 70", required: true %>
-          <div class="col-2 p-0 line-height-30 main-text-color">kg</div>
+        <div class="col-6">
+          <div class="row">
+            <%= label_tag "target_weight", "목표 체중", class: "col-4 pl-1 text-left line-height-30 font-weight-bold" %>
+            <%= number_field_tag "target_weight", (params[:target_weight] or 50), class: "form-control mb-3 col-5", required: true %>
+            <div class="col-2 p-0 line-height-30 main-text-color">kg</div>
+          </div>
+          <div class="row">
+            <%= label_tag "target_date", "목표 날짜", class: "col-4 pl-1 text-left line-height-30 font-weight-bold" %>
+            <%= text_field_tag "target_date", (params[:target_date] or "2020-12-31") , class: "form-control col-6", readonly: true, required: true %>
+          </div>
         </div>
-        <div class="col-12 row pb-2 mx-0">
-          <%= label_tag "target_weight", "목표 체중  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= number_field_tag "target_weight", "#{80 if Rails.env.development?}" , class: "form-control col-6 text-right", placeholder: "ex) 65", required: true %>
-          <div class="col-2 p-0 line-height-30 main-text-color">kg</div>
-        </div>
-        <div class="col-12 row pb-2 mx-0">
-          <%= label_tag "target_date", "목표 날짜  : ", class: "col-4 pl-0 text-left line-height-30 font-weight-bold" %>
-          <%= text_field_tag "target_date", "#{'2020-12-31' if Rails.env.development?}" , class: "form-control col-8 text-right", placeholder: "ex) #{Date.current}", readonly: true, required: true %>
-        </div>
-
       </div>
 
       <h4 class="main-text-color text-left">당신의 활동량은 어떻게 되시나요?</h4>
-      <% options = ["대부분 앉아있는다. ex) 사무직", "걷는걸 좋아하고 돌아다닐일이 많다.", "많이 활동 하는 생활을 한다. ex) 영업직", "매우 매우 활동적이다. ex) 영업직, 서비스직"]%>
+      <% options = ["대부분 앉아있는다. ex) 사무직", "조금 활동적인 편이다.", "걷는걸 좋아하고 돌아다닐일이 많다.", "많이 활동 하는 생활을 한다. ex) 영업직", "매우 매우 활동적이다. ex) 영업직, 서비스직"]%>
       <%= select_tag "activity", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option", required: true %>
 
       <h4 class="main-text-color text-left">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h4>
       <div class="row mx-0 main-text-color">
-        <%= number_field_tag "work_time",  "#{90 if Rails.env.development?}" ,class: "form-control col-10 text-right", placeholder: "ex) 90", required: true %>
+        <%= number_field_tag "work_time", (params[:work_time] or 60), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">분</span>
       </div>
 
       <h4 class="main-text-color text-left">당신은 그 운동을 주 몇 회 이상 하실 계획입니까?</h4>
       <div class="row mx-0 main-text-color">
-        <%= number_field_tag "work_count", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", placeholder: "ex) 3", required: true %>
+        <%= number_field_tag "work_count", (params[:work_count] or 3), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
-
     <% end %>
 
     <%= render 'survey_tab_pane', index: 1, prev_tab: 0, next_tab: 2 do %>
@@ -87,7 +97,7 @@
 
       <h4 class="main-text-color mt-2 text-left">한국인 평균 한 끼 식사 칼로리는 약 700 kal입니다 - 이런 식사를 당신은 하루에 몇 끼 정도 드시나요? </h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "kcal", "#{3 if Rails.env.development?}" , class: "form-control col-10 text-right", placeholder: "ex) 3", required: true %>
+        <%= number_field_tag "kcal", (params[:kcal] or 2), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -101,13 +111,13 @@
 
       <h4 class="main-text-color mt-2 text-left">당신은 하루에 간식을 몇번 드시나요? (바닐라라떼, 케이크, 빵)</h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "snack", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", placeholder: "ex) 2", required: true %>
+        <%= number_field_tag "snack", (params[:snack] or 1), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
       <h4 class="main-text-color mt-2 text-left">당신은 일주일에 야식, 외식, 또는 술자리를 몇 번 가지시나요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "drink", "#{1 if Rails.env.development?}", class: "form-control col-10 text-right", placeholder: "ex) 1", required: true %>
+        <%= number_field_tag "drink", (params[:drink] or 1), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
@@ -169,8 +179,9 @@
 <% end %>
 
 <script>
-  var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
+  $('.custom_option').dropdown();
 
+  var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
   $(".nav-btn").click(function(){
     $(this).removeClass("active");
   });
@@ -192,7 +203,31 @@
             });
 
   $(".calculate-btn").click(function(){
+    // 1. 기초대사량
+    let age = parseFloat($("#age").val());
+    let height = parseFloat($("#height").val());
     let weight = parseFloat($("#weight").val());
+    let gender = $("#gender").val();
+    if(gender == "남") {
+      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age + 5)
+    } else {
+      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
+    }
+
+    // 2. 활동대사량
+    let activity = $("#activity").val();
+    if(activity == "대부분 앉아있는다. ex) 사무직") {
+      total_calorie_rate = 1.2 * base_calorie_rate
+    } else if(activity == "조금 활동적인 편이다.") {
+      total_calorie_rate = 1.375 * base_calorie_rate
+    } else if(activity == "걷는걸 좋아하고 돌아다닐일이 많다.") {
+      total_calorie_rate = 1.555 * base_calorie_rate
+    } else if(activity == "많이 활동 하는 생활을 한다. ex) 영업직") {
+      total_calorie_rate = 1.725 * base_calorie_rate
+    } else {
+      total_calorie_rate = 1.9 * base_calorie_rate
+    }
+
     let target_weight = parseFloat($("#target_weight").val());
     let target_date = $("#target_date").val();
     let difference = (target_weight - weight);
@@ -205,11 +240,15 @@
     let work_time = parseFloat($("#work_time").val()) / 60;
     let work_count = parseInt($("#work_count").val());
     let kcal = (parseInt($("#kcal").val()) * 700);
-    let snack = (parseInt($("#snack").val()) * 200) / 7;
+    let snack = (parseInt($("#snack").val()) * 200);
     let drink = (parseInt($("#drink").val()) * 700) / 7;
 
+    //3. 현재 섭취 칼로리
     let present_result = kcal + snack + drink
-    let target_result = present_result + ((standard_kcal * difference) / diffDays) + ((work_count * work_time * 330) / 7);
+
+    //4. 기초대사량과 활동 대사량을 합한 총 대사량으로 목표 칼로리 계산
+    let target_result = total_calorie_rate + ((standard_kcal * difference) / diffDays) + ((work_count * work_time * 330) / 7);
+
     if (isNaN(present_result) || isNaN(target_result)){
       Swal.fire({
         title: "계산실패",

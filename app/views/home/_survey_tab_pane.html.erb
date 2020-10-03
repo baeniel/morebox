@@ -15,9 +15,8 @@
         </div>
       <% end %>
       <div class="offset-<%= prev_tab ? 4 : 8 %> col-4">
-        <a class="btn btn-block  <%= (next_tab < 0) ? 'calculate-btn btn-morebox' : 'btn-custom-grey' %> nav-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 4).to_i + 1) * 25 %>%')"><%= (next_tab > 0) ? '다음' : '계산하기' %></a>
+        <a class="btn btn-block  <%= (next_tab < 0) ? 'calculate-btn btn-morebox' : 'btn-custom-grey' %> nav-btn mb-4" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 4).to_i + 1) * 25 %>%')"><%= (next_tab > 0) ? '다음' : '계산하기' %></a>
       </div>
     <% end %>
   </div>
-
 </div>
