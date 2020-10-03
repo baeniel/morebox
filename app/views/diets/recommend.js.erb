@@ -1,3 +1,5 @@
+
+ga('send', 'pageview', '<%= recommend_diets_path %>');
 <% if @diet&.present? %>
   $("#difference").html('<%= sanitize @diet.body, tags: %w(br) %>')
   $("#sub_items").html('<%= j(render @diet.sub_items) %>')
