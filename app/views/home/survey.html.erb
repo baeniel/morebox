@@ -270,6 +270,7 @@
       $("#current-calorie-bar").height(`${present_result.toFixed(2)/60}%`);
       $("#target-calorie-bar").height(`${target_result.toFixed(2)/60}%`);
 //       $("#difference").text(`하루에 ${(target_result - present_result).toFixed(2)} Kcal 만큼 ${(difference < 0) ? '덜' : '더'} 드셔야 합니다.`);
+      ga('send', 'pageview', '<%= recommend_diets_path %>');
       Rails.fire($('#recommend')[0], 'submit');
     }
   });
