@@ -93,7 +93,7 @@
         <%= select_tag "dinner", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
-      <h4 class="main-text-color mt-2 text-left">간식을 몇번 먹나요?</h4>
+      <h4 class="main-text-color mt-2 text-left">간식을 하루에 몇 번 먹나요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
         <%= number_field_tag "snack", (params[:snack] or 1), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
@@ -243,7 +243,7 @@
     let work_count = parseInt($("#work_count").val());
     // let kcal = (parseInt($("#kcal").val()) * 700);
 
-    let kcal = (parseInt($("#morning").val()) + parseInt($("#lunch").val()) + parseInt($("#dinner").val())) * (man ? 1 : 0.7) ;
+    let kcal = (parseInt($("#morning").val()) + parseInt($("#lunch").val()) + parseInt($("#dinner").val())) * (man ? 1 : 0.9) ;
     let snack = (parseInt($("#snack").val()) * 250);
     let drink = (parseInt($("#drink").val()) * 700) / 7;
 
