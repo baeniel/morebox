@@ -39,7 +39,7 @@
           </div>
           <div class="row">
             <%= label_tag  "gender", "성별", style: "", class: "col-5 pr-1 text-left font-weight-bold"  %>
-            <%= select_tag "gender", options_for_select(%w(여 남)), class: "form-control mb-3 col-6 px-1 custom_option", required: true %>
+            <%= select_tag "gender", options_for_select(%w(여 남)), class: "form-control mb-3 col-6 px-1 custom_option pl-3", required: true %>
           </div>
         </div>
         <div class="col-6">
@@ -57,7 +57,7 @@
 
       <h4 class="main-text-color text-left">당신의 활동량은 어떻게 되시나요?</h4>
       <% options = ["대부분 앉아있는다. ex) 사무직", "조금 활동적인 편이다.", "걷는걸 좋아하고 돌아다닐일이 많다.", "많이 활동 하는 생활을 한다. ex) 영업직", "매우 매우 활동적이다. ex) 영업직, 서비스직"]%>
-      <%= select_tag "activity", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option", required: true %>
+      <%= select_tag "activity", options_for_select(options), class: "form-control mb-1 col-12 pl-3 custom_option", required: true %>
 
       <h4 class="main-text-color text-left">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h4>
       <div class="row mx-0 main-text-color">
@@ -70,61 +70,60 @@
         <%= number_field_tag "work_count", (params[:work_count] or 3), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
+
     <% end %>
 
     <%= render 'survey_tab_pane', index: 1, prev_tab: 0, next_tab: 2 do %>
-      <!-- <h2 class="mb-5 main-text-color">소비자가 먹고있는 칼로리를<br>구하기 위한 알고리즘 질문</h2>-->
-      <h4 class="main-text-color mt-2 text-left">이번엔 정말로 마음 먹으셨습니까?</h4>
-      <div class="row pb-3 mx-0 main-text-color">
-        <%= radio_button_tag :dummy1, 'yes', true, class: "mr-2 ", style: "display:none;" %>
-        <%= label_tag "dummy1_yes", '네', class: "main-text-color mr-3 font-weight-bold btn" %>
-        <%= radio_button_tag :dummy1, 'no', false, class: "mr-2", style: "display:none;" %>
-        <%= label_tag "dummy1_no", '아니오', class: "main-text-color font-weight-bold btn" %>
+
+      <h4 class="main-text-color mt-2 text-left">아침을 간단하게 먹는 편인가요?</h4>
+      <div class="row pb-1 mx-0 main-text-color">
+        <% options = [["평균적으로", 500], ["간단하게", 400], ["푸짐하게", 600], ["안먹는다", 0]] %>
+        <%= select_tag "morning", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
-      <h4 class="main-text-color mt-2 text-left">식단관리를 통해 어떤 목표를 이루고 싶나요?</h4>
-      <div class="row pb-3 mx-0 main-text-color">
-        <%# options = ["옷을 입었을 때 적당히 티가나는 마르고 탄탄한 몸", "나는 이번에 물놀이를 할거야! 누가봐도 몸짱! ", "많은 근육을 키우고 싶어!", "몸짱보단 더 나은 활력, 기능적인 증가"] %>
-        <% options = [["다이어트", :slim], ["벌크업", :bulk_up]] %>
-        <%= select_tag "purpose", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option" %>
+      <h4 class="main-text-color mt-2 text-left">점심은 어느정도로 먹나요?</h4>
+      <div class="row pb-1 mx-0 main-text-color">
+        <% options = [["평균적으로", 700], ["간단하게", 600], ["푸짐하게", 800], ["안먹는다", 0]] %>
+        <%= select_tag "lunch", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
-      <h4 class="main-text-color mt-2 text-left">당신의 의지력은 어떻게 되십니까?</h4>
-      <div class="row pb-3 mx-0 main-text-color">
-        <% options = ["내가 마음을 먹었다면 무조건 이루어 내야한다.", "보통 만큼의 의지력을 소유하고 있다.", "난 의지력이 존재하긴 할까?..."] %>
-        <%= select_tag "dummy3", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option" %>
+      <h4 class="main-text-color mt-2 text-left">저녁을 푸짐하게 먹는 편인가요?</h4>
+      <div class="row pb-1 mx-0 main-text-color">
+        <% options = [["평균적으로", 800], ["간단하게", 700], ["푸짐하게", 900], ["안먹는다", 0]] %>
+        <%= select_tag "dinner", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
-      <h4 class="main-text-color mt-2 text-left">한국인 평균 한 끼 식사 칼로리는 약 700 kal입니다 - 이런 식사를 당신은 하루에 몇 끼 정도 드시나요? </h4>
-      <div class="row pb-3 mx-0 main-text-color">
-        <%= number_field_tag "kcal", (params[:kcal] or 2), class: "form-control col-10 text-right", required: true %>
-        <span class="line-height-30 pl-3 main-text-color">회</span>
-      </div>
-
-    <% end %>
-    <%= render 'survey_tab_pane', index: 2, prev_tab: 1, next_tab: -1 do %>
-      <h4 class="main-text-color mt-2 text-left">평소에 단백질을 많이 섭취하십니까?</h4>
-      <div class="row pb-3 mx-0 main-text-color">
-        <% options = [["아니오", :low], ["네", :high]] %>
-        <%= select_tag "protein", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option" %>
-      </div>
-
-      <h4 class="main-text-color mt-2 text-left">당신은 하루에 간식을 몇번 드시나요? (바닐라라떼, 케이크, 빵)</h4>
+      <h4 class="main-text-color mt-2 text-left">간식을 몇번 먹나요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
         <%= number_field_tag "snack", (params[:snack] or 1), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
 
-      <h4 class="main-text-color mt-2 text-left">당신은 일주일에 야식, 외식, 또는 술자리를 몇 번 가지시나요?</h4>
+      <h4 class="main-text-color mt-2 text-left">야식, 회식은 일주일에 몇번 인가요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
         <%= number_field_tag "drink", (params[:drink] or 1), class: "form-control col-10 text-right", required: true %>
         <span class="line-height-30 pl-3 main-text-color">회</span>
       </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 2, prev_tab: 1, next_tab: -1 do %>
+      <h4 class="main-text-color mt-2 text-left">식단관리를 통해 어떤 목표를 이루고 싶나요?</h4>
+      <div class="row pb-3 mx-0 main-text-color">
+        <% options = [["다이어트", :slim], ["벌크업", :bulk_up]] %>
+        <%= select_tag "purpose", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
+      </div>
+
+      <h4 class="main-text-color mt-2 text-left">평소에 단백질을 많이 섭취하십니까?</h4>
+      <div class="row pb-3 mx-0 main-text-color">
+        <% options = [["아니오", :low], ["네", :high]] %>
+        <%= select_tag "protein", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
+      </div>
+
 
       <h4 class="main-text-color mt-2 text-left">당신은 일주일 동안 한 종류의 음식만 먹는다면 어떤걸 드실건가요?</h4>
       <div class="row pb-3 mx-0 main-text-color">
         <% options = ["고기 류", "빵, 밥, 면"] %>
-        <%= select_tag "dummy4", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option" %>
+        <%= select_tag "dummy4", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
       <h4 class="main-text-color mt-2 text-left">당신이 지금 떠오르는 제일 먹고 싶은 음식 한 가지를 써주세요 </h4>
@@ -182,6 +181,7 @@
   $('.custom_option').dropdown();
 
   var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
+
   $(".nav-btn").click(function(){
     $(this).removeClass("active");
   });
@@ -207,12 +207,8 @@
     let age = parseFloat($("#age").val());
     let height = parseFloat($("#height").val());
     let weight = parseFloat($("#weight").val());
-    let gender = $("#gender").val();
-    if(gender == "남") {
-      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age + 5)
-    } else {
-      base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age - 161)
-    }
+    let gender_c = ($("#gender").val() == "남") ? 5 : -161;
+    let base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age + gender_c)
 
     // 2. 활동대사량
     let activity = $("#activity").val();
@@ -227,7 +223,6 @@
     } else {
       total_calorie_rate = 1.9 * base_calorie_rate
     }
-
     let target_weight = parseFloat($("#target_weight").val());
     let target_date = $("#target_date").val();
     let difference = (target_weight - weight);
@@ -239,8 +234,10 @@
     let purpose = $("#purpose").val();
     let work_time = parseFloat($("#work_time").val()) / 60;
     let work_count = parseInt($("#work_count").val());
-    let kcal = (parseInt($("#kcal").val()) * 700);
-    let snack = (parseInt($("#snack").val()) * 200);
+    // let kcal = (parseInt($("#kcal").val()) * 700);
+
+    let kcal = parseInt($("#morning").val()) + parseInt($("#lunch").val()) + parseInt($("#dinner").val());
+    let snack = (parseInt($("#snack").val()) * 250);
     let drink = (parseInt($("#drink").val()) * 700) / 7;
 
     //3. 현재 섭취 칼로리
@@ -269,9 +266,7 @@
 
       $("#current-calorie-bar").height(`${present_result.toFixed(2)/60}%`);
       $("#target-calorie-bar").height(`${target_result.toFixed(2)/60}%`);
-//       $("#difference").text(`하루에 ${(target_result - present_result).toFixed(2)} Kcal 만큼 ${(difference < 0) ? '덜' : '더'} 드셔야 합니다.`);
       ga('send', 'pageview', '<%= recommend_diets_path %>');
-
       gtag('config', 'UA-158638310-3', {
           page_title: '<%= "#{controller_name} #{action_name}" %>',
           page_location: '<%= recommend_diets_path %>',

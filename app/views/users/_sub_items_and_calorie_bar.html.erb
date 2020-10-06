@@ -51,7 +51,7 @@
       <div class="mr-2">
         <button id="reset" class="btn btn-sm btn-custom-grey px-2">다시 담기</button>
         <!-- <button id="share" class="btn btn-sm btn-custom-grey px-2" onclick="sendMessage();return false;">전달하기</button> -->
-        <a id="kakao-link-btn" class="btn btn-sm btn-custom-grey px-2" href="javascript:sendLink()">친구조르기</a>
+        <a id="kakao-link-btn" class="btn btn-sm btn-custom-grey px-2" href="javascript:sendLink()">카카오톡 공유하기</a>
       </div>
     </div>
     <div class="container pt-1">
@@ -95,6 +95,11 @@
     Kakao.Link.sendCustom({
       templateId: 37963,
     })
+    gtag('config', 'UA-158638310-3', {
+        page_title: '<%= "#{controller_name} #{action_name}" %>',
+        page_location: '/send_kakao',
+        page_path: '/send_kakao'
+      });
   }
 
   var total_calorie = total_carbo = total_protein = total_fat = 0;
