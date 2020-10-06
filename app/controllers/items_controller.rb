@@ -22,6 +22,6 @@ class ItemsController < ApplicationController
     @item = Item.find params[:id]
   end
   def check_own_tablet
-    redirect_to root_path unless (cookies[:secret] == "gorilla")
+    redirect_to root_path unless check_gym_tablet
   end
 end
