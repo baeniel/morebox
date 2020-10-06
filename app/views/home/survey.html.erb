@@ -9,6 +9,9 @@
   input {
     border: 1px solid #202649 !important;
   }
+  .ui.selection.dropdown .menu {
+    max-height: 11.014286rem;
+  }
 </style>
 <div class="text-left px-4 py-3 bg-white">
   <%= link_to survey_path do %>
@@ -57,7 +60,7 @@
 
       <h4 class="main-text-color text-left">당신의 활동량은 어떻게 되시나요?</h4>
       <% options = ["대부분 앉아있는다. ex) 사무직", "조금 활동적인 편이다.", "걷는걸 좋아하고 돌아다닐일이 많다.", "많이 활동 하는 생활을 한다. ex) 영업직", "매우 매우 활동적이다. ex) 영업직, 서비스직"]%>
-      <%= select_tag "activity", options_for_select(options), class: "form-control mb-1 col-12 pl-3 custom_option", required: true %>
+      <%= select_tag "activity", options_for_select(options, "조금 활동적인 편이다."), class: "form-control mb-1 col-12 pl-3 custom_option", required: true %>
 
       <h4 class="main-text-color text-left">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h4>
       <div class="row mx-0 main-text-color">
