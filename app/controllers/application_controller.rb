@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     User.where(referrer: current_user.phone).each do |user|
       complete_orders = user.orders.complete
       @arr << complete_orders.map{|order| order&.created_at.month.eql?(this_month) ? order&.payment_amount.to_i : 0 }&.sum
-      @arr2 << complete_orders.map{|order| order&.payment_amount.to_i : 0 }&.sum
+      @arr2 << complete_orders.map{|order| order&.payment_amount.to_i}&.sum
     end
     @month_trainer_sale = @arr.sum.to_i
     @trainer_commission = (@month_trainer_sale * 0.1).to_i
