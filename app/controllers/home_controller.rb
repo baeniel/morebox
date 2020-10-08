@@ -27,5 +27,4 @@ class HomeController < ApplicationController
   end
 
   def survey; end
-  
 end

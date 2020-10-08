@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   def check_params
     cookies[:secret] = params[:secret] if params[:secret].present?
   end
-  
+
 
   def calculating_trainer_sale
     @arr = []
@@ -23,9 +23,9 @@ class ApplicationController < ActionController::Base
     # @month_trainer_sale = this_month_completed_orders.sum(:payment_amount)
     # @trainer_commission = (@month_trainer_sale * 0.1).to_i
     User.where(referrer: current_user.phone).each do |user|
-      complete_orders = user.orders.complete.includes(:item)
-      @arr << complete_orders.map{|order| order.created_at.month.eql?(this_month) ? order.item&.price : 0 }&.sum
-      @arr2 << complete_orders.map{|order| order.item&.price }&.sum
+      complete_orders = user.orders.complete
+      @arr << complete_orders.map{|order| order&.created_at.month.eql?(this_month) ? order&.payment_amount.to_i : 0 }&.sum
+      @arr2 << complete_orders.map{|order| order&.payment_amount.to_i : 0 }&.sum
     end
     @month_trainer_sale = @arr.sum.to_i
     @trainer_commission = (@month_trainer_sale * 0.1).to_i

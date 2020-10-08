@@ -47,15 +47,8 @@ class ApisController < ApplicationController
                   price: @item.price
                 }]
       end
-      # trainer = User.where(phone: params[:trainer_code], user_type: :manager).where.not(id: current_user&.id).first
-      # trainers = User.manager.where(gym: current_gym).where.not(id: current_user&.id).where("phone like '%?'", params[:trainer_code]).first
-      @trainer = User.manager.where(gym: current_gym).where.not(id: current_user&.id).where("phone like ?", "%#{params[:trainer_code]}").first
-      # trainers.each do |trainer|
-      #   if (trainer.phone.last(4) == params[:trainer_code])
-      #     @trainer = User.find(trainer.id)
-      #   end
-      # end
 
+      @trainer = User.manager.where(gym: current_gym).where.not(id: current_user&.id).where("phone like ?", "%#{params[:trainer_code]}").first
       if (params[:trainer_code].blank? || @trainer)
         response = bootpay.request_payment(
           pg: 'inicis', # PG Alias

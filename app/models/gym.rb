@@ -10,8 +10,9 @@ class Gym < ApplicationRecord
   # has_and_belongs_to_many :sub_items, join_table: :gyms_sub_items
   accepts_nested_attributes_for :sub_items
 
+  #지금까지 모어박스 총 매출
   def box_sale
-    self.orders.complete.includes(:item).map{|order| order.item&.price.to_i }&.sum
+    self.orders.complete.map{|order| order.payment_amount.to_i }&.sum
   end
 
   #이번 달 모어박스 매출
