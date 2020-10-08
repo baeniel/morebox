@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_params
   helper_method :current_gym
+  helper_method :check_gym_tablet
 
   def redirect_to_referer_or_path
     redirect_to (request.referer.presence || root_path), notice: '잠시후에 다시 시도 해주세요.'
@@ -10,6 +11,10 @@ class ApplicationController < ActionController::Base
 
   def check_params
     cookies[:secret] = params[:secret] if params[:secret].present?
+  end
+
+  def check_gym_tablet
+    (cookies[:secret] == "gorilla")
   end
 
 

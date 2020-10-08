@@ -4,7 +4,6 @@
     <div class="husk">
       <div class="left mr-5">
         <%= image_tag '/new_main_logo.png', id: "main-logo" %>
-        <%# f.hidden_field :password, value: "111111" %>
         <div class="form-group text-left">
           <div class="row justify-content-center mt-4">
             <div class="col-md-6">
@@ -77,31 +76,39 @@
           <h5 class="modal-title text-center" id="agreeModalLongTitle">회원가입</h5>
         </div>
         <div class="modal-body">
-          <div class="row justify-content-center pt-3 pb-2">
-            <h2 class="phone-field color-primary"></h2>
-          </div>
-          <div class="row justify-content-center pb-3">
-            <h4 class="center-field"></h4>
-          </div>
-          <div class="row justify-content-center">
-            <div class="checkbox text-left mobile-input mt-3 col-6 text-center">
-              <label class="mr-2 color-primary">
-                개인정보 수집 및 이용 동의 (필수)
-              </label>
-              <%= f.radio_button :privacy, true, required: true, class: "radio", checked: true %>
+          <% if check_gym_tablet %>
+            <div class="row justify-content-center pt-3 pb-2">
+              <h2 class="phone-field color-primary"></h2>
             </div>
-            <div class="checkbox text-left mobile-input col-6 text-center">
-              <label class="mr-2 color-primary">
-                마케팅 정보 수신 (선택)
-              </label>
-              <%= f.check_box :marketing, { class: "marketing_check mt-3", checked: true } %> <br>
-              <small class="text-white">각종 포인트 충전 이벤트에 참여 가능합니다:)</small>
+            <div class="row justify-content-center pb-3">
+              <h4 class="center-field"></h4>
             </div>
+            <div class="row justify-content-center">
+              <div class="checkbox text-left mobile-input mt-3 col-6 text-center">
+                <label class="mr-2 color-primary">
+                  개인정보 수집 및 이용 동의 (필수)
+                </label>
+                <%= f.radio_button :privacy, true, required: true, class: "radio", checked: true %>
+              </div>
+              <div class="checkbox text-left mobile-input col-6 text-center">
+                <label class="mr-2 color-primary">
+                  마케팅 정보 수신 (선택)
+                </label>
+                <%= f.check_box :marketing, { class: "marketing_check mt-3", checked: true } %> <br>
+                <small class="text-white">각종 포인트 충전 이벤트에 참여 가능합니다:)</small>
+              </div>
+            </div>
+          <% else %>
+          <div class="m-auto">
+            <h3>현재 휴대폰에서는 회원가입이 불가능합니다.<br>가맹지점의 태블릿에서 회원가입해주세요. </h3>
           </div>
+          <% end %>
         </div>
         <div class="modal-footer row justify-content-center new_modal_footer">
           <button type="button" class="btn" data-dismiss="modal" style="color: #200e57; background-color:#cfd3df;">닫기</button>
-          <button type="button" class="btn submit-button text-white" style="background-color: #200e57;">동의하고 회원가입하기</button>
+          <% if check_gym_tablet %>
+            <button type="button" class="btn submit-button text-white" style="background-color: #200e57;">동의하고 회원가입하기</button>
+          <% end %>
         </div>
       </div>
     </div>

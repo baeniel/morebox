@@ -60,8 +60,6 @@ class ApisController < ApplicationController
           params: {
             user_id: current_user.id
           },
-          # return_url: "http://172.16.101.68:3000/users/#{current_user.id}/pay_complete"
-          # return_url: "http://localhost:3000/users/#{current_user.id}/pay_complete"
           # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
           return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
         )
@@ -87,6 +85,9 @@ class ApisController < ApplicationController
   end
 
   def pay_complete
+    user = nil
+    order = nil
+
     begin
       receipt_id = params[:receipt_id]
       require 'bootpay-rest-client'
@@ -95,7 +96,6 @@ class ApisController < ApplicationController
           "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
       )
       result  = bootpay.get_access_token
-      user = nil
       # msg = "결제가 실패하였습니다. 다시 한번 시도해주세요."
       if (result[:status]&.to_s == "200")
         order_number = params[:order_id]
@@ -163,13 +163,16 @@ class ApisController < ApplicationController
       end
       render html: "OK"
     rescue
-      # if user
-      #   receiver = user.phone
-      #   receiverName = user.phone.last(4)
-      #   contents = "[MoreBox]\n"+"#{msg}\n"
-      #   payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
-      #   payment_alarm.send_message
-      # end
+      if order && order.user && order.ready? && false
+        order.incomplete!
+        receiver = user.phone
+        receiverName = user.phone.last(4)
+        contents = "[MoreBox]\n"+"#{msg}\n"
+        payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+        payment_alarm.send_mms
+      end
+      ActionCable.server.broadcast("room_#{user.id}", data_type: "cancel") if user
+
       respond_to do |format|
         format.json { render json: {result: false} }
       end

@@ -29,6 +29,27 @@ class MessageAlarmService
     @userID = "jb1014"
     @requestNum = ''
   end
+  
+  def send_mms
+    begin
+      @value = MessageAlarmService::MSGService.sendXMS(
+        @corpNum,
+        @sender,
+        @senderName,
+        @receiver,
+        @receiverName,
+        @subject,
+        @contents,
+        @reserveDT,
+        @adsYN,
+        @userID,
+        @requestNum,
+      )['receiptNum']
+      @name = "receiptNum(접수번호)"
+    rescue PopbillException => pe
+      @Response = pe
+    end
+  end
 
   def send_message
     begin
