@@ -53,7 +53,7 @@
     </div>
   </div>
   <!-- 우측면 -->
-  <div class="right" style="width: 30%; background-color: white; height: 100vh;">
+  <div class="right" style="width: 30%; background-color: white;">
     <div class="header">
       <h2 style="vertical-align: middle; display: inline-block;">주문할 상품</h2>
     </div>
@@ -67,17 +67,31 @@
       <% end %>
       <%= submit_tag "구매하기", class: "btn btn-outline btn-lg text-white mb-2 submit_btn", style: "background-color: #200e57; border-color: #200e57; width: 60%;", onclick: "sound()" %> <br>
       <%= link_to "포인트 충전", items_path, class: "btn btn-outline btn-lg", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
-      <h2 style="color: #200e57;">잔여포인트: <%= current_user.remained_point %>포인트</h2>
+      <h2 class="mb-5" style="color: #200e57;">잔여포인트: <%= current_user.remained_point %>포인트</h2>
       <audio id="audio" src="/click.mp3"></audio>
+      <%= image_tag '/sos.png', id: "sos-button" %>
     <% end %>
   </div>
 </div>
 <%= render 'payment_modal' %>
+<%= render 'sos_modal' %>
 
 <script>
   $(document).ready(function() {
     $("#modal-trigger").click();
   })
+
+  $('#sos-button').click(function(e) {
+    e.preventDefault();
+    $("#sos-modal").click();
+    $.ajax({
+      url: "/items/send_survey",
+      type: "GET",
+      beforeSend: function ( xhr ) {
+        xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
+      }
+    })
+  });
 
   function sound() {
     var audio = document.getElementById("audio");

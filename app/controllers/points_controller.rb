@@ -1,7 +1,7 @@
 class PointsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_own_tablet
-  
+
   def create
     @title = "결제에 실패하였습니다."
     @body = "다시 선택하시거나 결제해주세요!"
@@ -26,8 +26,8 @@ class PointsController < ApplicationController
               end
             end
           end
-          templateCode = '020070000275'
-          content = "[MoveMore]\n"+current_user.phone.last(4)+"님의 "+arr.map { |arr| arr.title }.flatten.uniq.join(', ')+" 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+current_user.remained_point.to_s+"P\n\n문의사항 있으시면 무브모어 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n무브모어 카카오톡 채널: @무브모어 @movemore"
+          templateCode = '020100000009'
+          content = "[MoreMarket]\n"+current_user.phone.last(4)+"님의 "+arr.map { |arr| arr.title }.flatten.uniq.join(', ')+" 꺼내기가 완료되었습니다.\n\n현재 잔여 포인트: "+current_user.remained_point.to_s+"P\n\n문의사항 있으시면 모어마켓 카카오톡 채널로 편하게 연락주시기 바랍니다.\n\n모어마켓 카카오톡 채널: @모어마켓"
           receiver = current_user.phone
           receiverName = current_user.phone.last(4)
           point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)

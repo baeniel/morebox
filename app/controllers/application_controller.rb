@@ -27,12 +27,16 @@ class ApplicationController < ActionController::Base
     # this_month_completed_orders = current_user.assisted_orders.complete.where(paid_at: Date.today.beginning_of_month..Date.today)
     # @month_trainer_sale = this_month_completed_orders.sum(:payment_amount)
     # @trainer_commission = (@month_trainer_sale * 0.1).to_i
-    User.where(referrer: current_user.phone).each do |user|
-      complete_orders = user.orders.complete
-      @arr << complete_orders.map{|order| order&.created_at.month.eql?(this_month) ? order&.payment_amount.to_i : 0 }&.sum
-      @arr2 << complete_orders.map{|order| order&.payment_amount.to_i}&.sum
+
+    Order.where(trainer: User.find_by(phone: current_user.phone)).each do |order|
+      if order.complete?
+        @arr << order.payment_amount.to_i if order&.created_at.month.eql?(this_month)
+        @arr2 << order.payment_amount.to_i
+      end
     end
+
     @month_trainer_sale = @arr.sum.to_i
+    @total_trainer_sale = @arr2.sum.to_i
     @trainer_commission = (@month_trainer_sale * 0.1).to_i
   end
 

@@ -39,8 +39,10 @@
                 <% if gym.users.manager.present? %>
                   <% gym.users.manager.each do |trainer| %>
                     <% arr = [] %>
-                    <% User.where(referrer: trainer.phone).each do |user| %>
-                      <% arr << user&.orders&.complete&.map { |order| order.created_at.month == Date.today.month ? order&.payment_amount.to_i : 0 }&.sum %>
+                    <% Order.where(trainer: trainer).each do |order| %>
+                      <% if order.complete? %>
+                        <% arr << order.payment_amount.to_i if order&.created_at.month.eql?(Date.today.month) %>
+                      <% end %>
                     <% end %>
                     <%= trainer.phone %>님&nbsp;&nbsp;&nbsp;<%= number_with_delimiter(arr.sum.to_i) %>원<br>
                   <% end %>

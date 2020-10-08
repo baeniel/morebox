@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   # get 'apis/pay_complete'
 
   get '/survey' => "home#survey"
-  
+
   get 'home/exception'
   get 'home/policy'
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     collection do
       get 'auto_out'
       get :list
+      get :send_survey
     end
   end
   resources :line_items, only: [:update, :create, :destroy] do
