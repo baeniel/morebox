@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_02_073718) do
+ActiveRecord::Schema.define(version: 2020_10_10_165005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,17 @@ ActiveRecord::Schema.define(version: 2020_10_02_073718) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "protein", default: 0
+  end
+
+  create_table "foods", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.string "image"
+    t.float "kcal"
+    t.integer "food_type", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.float "target_calorie"
   end
 
   create_table "gyms", force: :cascade do |t|
@@ -176,7 +187,10 @@ ActiveRecord::Schema.define(version: 2020_10_02_073718) do
     t.float "protein"
     t.float "fat"
     t.string "link"
+    t.bigint "food_id"
+    t.integer "sub_item_type", default: 0
     t.index ["category_id"], name: "index_sub_items_on_category_id"
+    t.index ["food_id"], name: "index_sub_items_on_food_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -216,5 +230,6 @@ ActiveRecord::Schema.define(version: 2020_10_02_073718) do
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
   add_foreign_key "sub_items", "categories"
+  add_foreign_key "sub_items", "foods"
   add_foreign_key "users", "gyms"
 end

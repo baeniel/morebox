@@ -1,3 +1,4 @@
+<% reset  = true if reset.nil? %>
 <div class="hat-outer">
   <div class="row mx-0">
     <div class="hat left col-2"></div>
@@ -11,7 +12,7 @@
   <div class="row">
     <% SubItem.order(:created_at).each do |sub_item| %>
       <% if sub_item.calorie.present? %>
-        <div class="col-4">
+        <div class="col-4" style="<%= 'display:none;' unless sub_item.normal? %>">
           <h5 class="card-title main-text-color mb-1"><%= sub_item.title %></h5>
           <%= link_to "#", onclick: "$(this).next().find('#toggle_#{sub_item.id}').click();return false;" do %>
             <img class="card-img-top" src="<%= sub_item.image %>"/>
@@ -49,7 +50,9 @@
     <div class="row w-100 px-4 mx-0 justify-content-between mb-4">
       <h4 class="my-0 text-white line-height-25 ml-2">칼로리 장바구니</h4>
       <div class="mr-2">
-        <button id="reset" class="btn btn-sm btn-custom-grey px-2">다시 담기</button>
+        <% if reset %>
+          <button id="reset" class="btn btn-sm btn-custom-grey px-2">다시 담기</button>
+        <% end %>
         <!-- <button id="share" class="btn btn-sm btn-custom-grey px-2" onclick="sendMessage();return false;">전달하기</button> -->
         <a id="kakao-link-btn" class="btn btn-sm btn-custom-grey px-2 font-weight-bold" style="background:rgb(244,224,76) !important;" href="javascript:sendLink()">
           <i class="fas fa-comment mr-2"></i>카카오톡 공유하기
@@ -218,13 +221,14 @@
     $("#output #top-fat").text(ideal_fat);
     html_write();
   }
-
-  $('#reset').click(function() {
-    // var html = ""
-    // $(".calorie-content").html(html);
-    $('input[type="checkbox"]:checked').click();
-    return false;
-  });
+  <% if reset %>
+    $('#reset').click(function() {
+      // var html = ""
+      // $(".calorie-content").html(html);
+      $('input[type="checkbox"]:checked').click();
+      return false;
+    });
+  <% end %>
 
 
 
