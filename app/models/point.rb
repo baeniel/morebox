@@ -22,7 +22,7 @@ class Point < ApplicationRecord
         receiver = '010-5605-3087'
         receiverName = '박진배'
         subject = "재고 주문 알람"
-        contents = "#{gym.title}의 #{self.sub_item.title} 재고가 #{target_gym_sub_item.quantity}개 남았습니다. 주문해주세요"
+        contents = "#{gym.title}의 #{self.sub_item.title} 재고가 #{target_gym_sub_item.quantity}개 남았습니다. #{average_daily_consumption_speed * 7}개 주문해주세요"
         stock_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
         stock_alarm.send_message
       end
