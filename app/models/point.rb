@@ -12,11 +12,11 @@ class Point < ApplicationRecord
       gym = self.gym
       target_gym_sub_item = gym.gyms_sub_items.find_by(sub_item: self.sub_item)
       target_gym_sub_item.decrement!(:quantity)
-      
+
       today = Date.current
       date_start = today - 7.days
       average_daily_consumption_speed = gym.points.where(point_type: :used, sub_item: self.sub_item, created_at: date_start..today).count / 7.0
-      date_to_be_maintained = 3
+      date_to_be_maintained = 4
 
       if (target_gym_sub_item.quantity <= average_daily_consumption_speed * date_to_be_maintained)
         receiver = '010-5605-3087'
