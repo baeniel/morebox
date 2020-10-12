@@ -17,8 +17,8 @@ class ItemsController < ApplicationController
     receiverName = current_user.phone.last(4)
     subject = "칼로리 계산기"
     contents = "[MoreMarket]\n"+"#{link}\n"+" 대체 뭘 먹어야 할 지 모르시겠죠?\n 질문 몇 개만 답하시고 식단 받아보세요:)"
-    payment_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-    payment_alarm.send_message
+    calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+    calorie_alarm.send_message
   end
 
   def auto_out
