@@ -1,0 +1,11 @@
+<% food ||= nil %>
+<% food_type ||= nil %>
+<% if food %>
+  <div class="food-block w-100 mb-3">
+    <h3><%= "#{food_type.presence || food.food_type} - #{food.title}" %></h3>
+    <div class="row">
+      <%= render food.sub_items %>
+    </div>
+  </div>
+
+<% end %>

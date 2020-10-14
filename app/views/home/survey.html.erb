@@ -181,7 +181,7 @@
         <div>저희 칼로리 계산기를 잘 이용 해보셨나요?<br>이용하시면서 저희에게 피드백 주실 내용이 있으시다면,<br>아래 바로가기 링크를 통해 설문조사에 참여해주세요!<br>추첨을 통해 기프티콘을 드립니다.<br><br> <u class="font-weight-bold"><%= link_to "바로가기", "https://forms.gle/ZHmhoyp4pjMBWaZJ8" %></u></div>
       </div>
 
-      <%= render 'users/sub_items_and_calorie_bar' %>
+      <%= render 'users/sub_items_and_calorie_bar', reset: false %>
     <% end %>
   </div>
 <% end %>
@@ -284,5 +284,7 @@
         });
       Rails.fire($('#recommend')[0], 'submit');
     }
+    calculateAndWrite();
+
   });
 </script>
