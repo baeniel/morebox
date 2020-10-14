@@ -80,19 +80,19 @@
 
       <h4 class="main-text-color mt-2 text-left">아침을 간단하게 먹는 편인가요?</h4>
       <div class="row pb-1 mx-0 main-text-color">
-        <% options = [["평균적으로", 500], ["간단하게", 400], ["푸짐하게", 600], ["안먹는다", 0]] %>
+        <% options = [["평균적으로", 600], ["간단하게", 500], ["푸짐하게", 700], ["안먹는다", 0]] %>
         <%= select_tag "morning", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
       <h4 class="main-text-color mt-2 text-left">점심은 어느정도로 먹나요?</h4>
       <div class="row pb-1 mx-0 main-text-color">
-        <% options = [["평균적으로", 700], ["간단하게", 600], ["푸짐하게", 800], ["안먹는다", 0]] %>
+        <% options = [["평균적으로", 800], ["간단하게", 700], ["푸짐하게", 900], ["안먹는다", 0]] %>
         <%= select_tag "lunch", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
       <h4 class="main-text-color mt-2 text-left">저녁을 푸짐하게 먹는 편인가요?</h4>
       <div class="row pb-1 mx-0 main-text-color">
-        <% options = [["평균적으로", 800], ["간단하게", 700], ["푸짐하게", 900], ["안먹는다", 0]] %>
+        <% options = [["평균적으로", 850], ["간단하게", 750], ["푸짐하게", 950], ["안먹는다", 0]] %>
         <%= select_tag "dinner", options_for_select(options), class: "form-control mb-3 col-12 px-1 custom_option pl-3" %>
       </div>
 
@@ -172,7 +172,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="mt-3 mb-3 col-12">
         <a class="btn btn-block btn-custom-grey nav-btn" id="tab-button-2" data-toggle="tab" href="#tab-2" role="tab" onclick="$('#top-progress-bar').width('75%')">이전</a>
       </div>
@@ -180,7 +180,7 @@
       <div class="p-3 mb-3">
         <div>저희 칼로리 계산기를 잘 이용 해보셨나요?<br>이용하시면서 저희에게 피드백 주실 내용이 있으시다면,<br>아래 바로가기 링크를 통해 설문조사에 참여해주세요!<br>추첨을 통해 기프티콘을 드립니다.<br><br> <u class="font-weight-bold"><%= link_to "바로가기", "https://forms.gle/ZHmhoyp4pjMBWaZJ8" %></u></div>
       </div>
-      
+
       <%= render 'users/sub_items_and_calorie_bar', reset: false %>
     <% end %>
   </div>
