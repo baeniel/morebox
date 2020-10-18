@@ -9,8 +9,14 @@ ActiveAdmin.register SubItem do
     column :image do |sub_item|
       image_tag(sub_item.image_url, class: 'admin-index-image') if sub_item.image_url
     end
+    column :calorie
+    column :carbo
+    column :protein
+    column :fat
     column :point
+    column :food
     column :category
+    column :sub_item_type
     column :description
     column :created_at
     column :link

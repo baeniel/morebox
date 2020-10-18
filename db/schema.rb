@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_165005) do
+ActiveRecord::Schema.define(version: 2020_10_17_094313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,7 +86,10 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.integer "food_type", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "target_calorie"
+    t.float "carbo"
+    t.float "protein"
+    t.float "fat"
+    t.integer "price"
   end
 
   create_table "gyms", force: :cascade do |t|
@@ -125,7 +128,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.integer "number"
     t.integer "total"
     t.string "address1"
@@ -189,6 +192,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.string "link"
     t.bigint "food_id"
     t.integer "sub_item_type", default: 0
+    t.integer "price"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
     t.index ["food_id"], name: "index_sub_items_on_food_id"
   end

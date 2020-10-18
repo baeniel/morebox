@@ -1,3 +1,14 @@
+<style>
+  .bottom_progress {
+    position: fixed;
+    bottom: 7%;
+  }
+  .btn-custom-bottom {
+    color: #200e57;
+  }
+</style>
+
+
 <% index ||= 0 %>
 <% prev_tab ||= nil %>
 <% next_tab ||= nil %>
@@ -10,12 +21,16 @@
   <div class="row mx-0">
     <% if next_tab %>
       <% if prev_tab %>
-        <div class="col-4">
-          <a class="btn btn-block btn-custom-grey nav-btn" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= (prev_tab.to_i + 1) * 25 %>%')">이전</a>
+        <div class="col-6 bottom_progress">
+          <a class="btn btn-block nav-btn btn-custom-bottom" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= (prev_tab.to_i + 1) * 10 %>%')">
+            <i class="fas fa-4x fa-arrow-circle-left mb-2"></i> <br> <%= '이전' %>
+          </a>
         </div>
       <% end %>
-      <div class="offset-<%= prev_tab ? 4 : 8 %> col-4">
-        <a class="btn btn-block  <%= (next_tab < 0) ? 'calculate-btn btn-morebox' : 'btn-custom-grey' %> nav-btn mb-4" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 4).to_i + 1) * 25 %>%')"><%= (next_tab > 0) ? '다음' : '계산하기' %></a>
+      <div class="offset-<%= prev_tab ? 6 : 6 %> col-6 bottom_progress">
+        <a class="btn btn-block nav-btn btn-custom-bottom calculate-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 10).to_i + 1) * 9.2 %>%')">
+          <i class="fas fa-4x fa-arrow-circle-right mb-2"></i> <br> <%= '다음' %>
+        </a>
       </div>
     <% end %>
   </div>

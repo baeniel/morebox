@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   # scope :not_cart, -> { where.not( status: :cart ) }
   ####################
 
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :item, optional: true
   belongs_to :trainer, optional: true, class_name: "User"
   belongs_to :gym, optional: true

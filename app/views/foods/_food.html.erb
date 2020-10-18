@@ -1,11 +1,84 @@
 <% food ||= nil %>
 <% food_type ||= nil %>
+
 <% if food %>
   <div class="food-block w-100 mb-3">
-    <h3><%= "#{food_type.presence || food.food_type} - #{food.title}" %></h3>
-    <div class="row">
-      <%= render food.sub_items %>
-    </div>
-  </div>
+    <div class="row justify-content-center">
+      <% if index == 0 %>
+        <% index = "A" %>
+      <% elsif index == 1 %>
+        <% index = "B" %>
+      <% else %>
+        <% index = "C" %>
+      <% end %>
 
+      <div class="ml-3 border col-8 text-left py-2" style="background-color: white;">
+        <div class="row" id="set_<%= food.id %>">
+          <div class="col-6">
+            <span><%= index %> SET 펼쳐보기</span>
+          </div>
+          <div class="col-4"></div>
+          <div class="col-2"><i class="fa fa-arrow-down" aria-hidden="true"></i></div>
+        </div>
+        <div class="mt-3" id="package_<%= food.id %>" style="display: none;">
+          <% food.sub_items.each do |sub_item| %>
+            <div class="row">
+              <img src="<%= SubItem.find_by(sub_item_type: "normal", title: sub_item.title)&.image&.url %>" style="width: 20%;"/>
+              <p class="mt-3"><%= sub_item.title %> - <%= sub_item.price %></p>
+            </div>
+          <% end %>
+
+          <%= form_for Order.new do |f| %>
+            <%= f.hidden_field :food_id, value: food.id %>
+            <%= f.submit "장바구니 담기", class: "btn btn-block w-100 text-white py-1 mt-3", style: "background: #200e57;" %>
+          <% end %>
+
+        </div>
+      </div>
+      <div id="set_composition_<%= food.id %>"></div>
+      <div class="col-3">
+        <div class="custom-control custom-radio py-2">
+          <input type="radio" class="custom-control-input" id="food_<%= food.id %>" name="defaultExampleRadios">
+          <label class="custom-control-label" for="food_<%= food.id %>"></label>
+        </div>
+      </div>
+
+    </div>
+    <%#= render food.sub_items %>
+  </div>
 <% end %>
+
+<script>
+
+  $('#my-btn').on('click',function(e) {
+    $('#modal-show').modal('show')
+  })
+
+
+  $("#set_<%= food.id %>").on("click", function() {
+    $("#package_<%= food.id %>").slideToggle("slow");
+  });
+
+
+
+  // var html = ""
+  // $("#set_<%= food.id %>").on("click", function() {
+  //   html = html +
+  //   '<div class="container mt-3">' +
+  //     '<% food.sub_items.each do |sub_item| %>' +
+  //     '<%= sub_item.title %>' +
+  //     '<% end %>' +
+  //   '</div>'
+  //   $("#set_composition_<%= food.id %>").html(html);
+  // });
+
+
+  $("#food_<%= food.id %>").on("click", function() {
+    $("[type=checkbox]:checked").click();
+    <% sub_item_ids = [] %>
+    <% sub_item_ids = sub_item_ids + food.sub_items.ids %>
+    <% sub_item_ids.each do |id| %>
+      $("#toggle_<%= id %>").click();
+    <% end %>
+  });
+</script>
