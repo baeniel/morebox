@@ -1,4 +1,10 @@
 <% reset  = true if reset.nil? %>
+<div class="mb-5 col-12">
+  <%= form_tag new_order_path, id: "new_order", method: :get do %>
+    <%= hidden_field_tag :sub_item_info %>
+    <%= link_to "결제하기", "#", class: "btn btn-block w-100 text-white py-2 mt-3 btn-morebox order-new-btn" %>
+  <% end %>
+</div>
 <div class="hat-outer">
   <div class="row mx-0">
     <div class="hat left col-2"></div>
@@ -14,22 +20,19 @@
       <% if sub_item.calorie.present? %>
         <div class="col-4" style="<%= 'display:none;' unless sub_item.normal? %>">
           <h5 class="card-title main-text-color mb-1"><%= sub_item.title %></h5>
-          <%= link_to "#", onclick: "$(this).next().find('#toggle_#{sub_item.id}').click();return false;" do %>
-            <img class="card-img-top" src="<%= sub_item.image %>"/>
-          <% end %>
+          <img class="card-img-top" src="<%= sub_item.image %>"/>
           <div class="card-body px-0 py-3">
             <!--<p class="card-text"><%# sub_item.description %></p>-->
             <div class="row justify-content-center w-100 mx-0">
               <a class="minus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
                 <i class="fa fa-minus mr-3 main-text-color" aria-hidden="true"></i>
               </a>
-              <p style="font-size: 15px;" id="qty-<%= sub_item.id %>" data-id="<%= sub_item.id%>" class="mb-3">1</p>개
+              <p style="font-size: 15px;" id="qty-<%= sub_item.id %>" data-id="<%= sub_item.id%>" class="mb-3">0</p>개
               <a class="plus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
                 <i class="fa fa-plus ml-3 main-text-color" aria-hidden="true"></i>
               </a>
             </div>
-            <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden" data-qty="1" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
-            <label for="toggle_<%= sub_item.id %>" class="btn btn-block w-100 btn-custom-lightgrey py-1">담기</label>
+            <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden sub_item_input" data-id="<%= sub_item.id %>" data-qty="0" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
           </div>
         </div>
       <% end %>
@@ -109,6 +112,13 @@
   var total_calorie = total_carbo = total_protein = total_fat = 0;
   var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
 
+  function setSubItemQty(id, qty){
+    $(`#qty-${id}`).text(qty);
+    $(`#toggle_${id}`).data("qty", qty);
+    $(`#toggle_${id}`).attr("data-qty", qty);
+    $(".sub_item_input").change();    
+  }
+
   function html_write() {
     var html = ""
     let total_calorie_percentage = parseFloat(((total_calorie / total_calorie_rate) * 100).toFixed(2))
@@ -120,11 +130,11 @@
     let lunch = (parseInt($("#lunch").val())) * (man ? 1 : 0.9);
     let lunch_percentage = parseFloat(((lunch / total_calorie_rate) * 100).toFixed(2))
 
-    let lunch_carbo = 96
+    let lunch_carbo = Math.ceil(lunch / 8);
     let lunch_carbo_percentage = parseFloat(((lunch_carbo / ideal_carbo) * 100).toFixed(2))
-    let lunch_protein = 45
+    let lunch_protein = Math.ceil(lunch / 27);
     let lunch_protein_percentage = parseFloat(((lunch_protein / ideal_protein) * 100).toFixed(2))
-    let lunch_fat = 34
+    let lunch_fat = Math.ceil(lunch / 26);
     let lunch_fat_percentage = parseFloat(((lunch_fat / ideal_fat) * 100).toFixed(2))
 
     $("#calorie-amount").text(`${(total_calorie + lunch).toFixed(2)}Kcal`);
@@ -146,16 +156,34 @@
     $(".calorie-content").html(html);
   }
 
+  $(".order-new-btn").click(function(){
+    if($("#sub_item_info").val()){
+      $("form#new_order").submit();
+    } else {
+      Swal.fire({
+        title: '<h3 style="color: #200e57;">상품을 먼저 선택해주세요.</h3>',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+        confirmButtonColor: "#200e57",
+      })
+      return false;
+    }
+  });
+
   function calculateAndWrite(){
     total_calorie = total_carbo = total_protein = total_fat = 0;
-
-    $.each($('input[type=checkbox]:checked'), function(){
+    let result = {}
+    $.each($('.sub_item_input'), function(){
       let qty = parseFloat(this.dataset.qty)
+      $(this).prop("checked", (qty != 0));
+      if(qty == 0) return true
       total_calorie += (parseFloat(this.dataset.calorie) * qty);
       total_carbo += (parseFloat(this.dataset.carbo) * qty);
       total_protein += (parseFloat(this.dataset.protein) * qty);
       total_fat += (parseFloat(this.dataset.fat) * qty);
+      result[$(this).data("id")] = qty;
     });
+    $("#sub_item_info").val($.isEmptyObject(result) ? "" : JSON.stringify(result));
     html_write();
   }
 
@@ -173,6 +201,7 @@
     }
   });
   $('.plus-btn, .minus-btn').click(function(){
+    
     if(total_calorie_rate == 0) {
       Swal.fire({
         title: '<h3 style="color: #200e57;">칼로리 계산을 먼저하세요!</h3>',
@@ -180,21 +209,22 @@
         confirmButtonText: '확인',
         confirmButtonColor: "#200e57",
       })
-      $(this). prop("checked", false);
+      $(this).prop("checked", false);
     } else {
       let target = $(`#${$(this).data("target")}`)
       let qty = parseInt(target.text());
       if($(this).hasClass("plus-btn")){
         qty += 1
       } else {
-        if(qty > 1) qty -= 1
+        if(qty > 0) qty -= 1
       }
-      target.text(qty);
-      $(`#toggle_${target.data("id")}`).data("qty", qty);
-      $(`#toggle_${target.data("id")}`).attr("data-qty", qty);
-      calculateAndWrite();
+      setSubItemQty(target.data("id"), qty);
     }
     return false;
+  });
+  
+  $(".sub_item_input").change(function(){
+    calculateAndWrite();
   });
 
   <% if reset %>

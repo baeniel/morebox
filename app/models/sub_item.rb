@@ -29,7 +29,6 @@ class SubItem < ApplicationRecord
   end
 
   def self.generate_food_sub_items
-
     sub_item_info = [[["닭가슴살 큐브(오리지널)", 216, 3, 24, 12, 2400], ["꿀고구마(130g)", 169, 40.7, 2, 0, 1900], ["프로틴에이드", 70, 2, 15, 0, 1560]],
                       [["닭가슴살 소시지(오리지널)", 165, 9.5, 11, 9, 2400], ["꿀단호박(100g)", 57, 13.6, 1.2, 0.7, 1900], ["퍼펙트 파워쉐이크(컵)", 150, 21, 13, 1.8, 1500], ["스마트웨이퍼크런치", 198, 12, 8, 14, 1000]],
                       [["슬림시즌", 100, 27, 0, 0, 2200], ["꿀고구마(130g)", 169, 40.7, 2, 0, 1900], ["갈비맛 닭가슴살팩(100g)", 216, 3, 24, 12, 1500], ["스마트웨이퍼크런치", 198, 12, 8, 14, 1000]],
@@ -58,10 +57,10 @@ class SubItem < ApplicationRecord
       {title: "2000+(A)", food_type: :d, kcal: 1954, carbo: 206.3, protein: 120.2, fat: 70.1, price: 21700},
       {title: "2000+(B)", food_type: :d, kcal: 2169, carbo: 229.2, protein: 137, fat: 76.7, price: 25360},
       {title: "2000+(C)", food_type: :d, kcal: 2375, carbo: 253.2, protein: 152, fat: 83.5, price: 24400}].each_with_index do |food_info, index|
-        food = Food.create food_info
-        sub_item_info[index].each do |title, calorie, carbo, protein, fat, price|
-          food.sub_items << SubItem.create(title: title, calorie: calorie, sub_item_type: :food)
-        end
+      food = Food.create food_info
+      sub_item_info[index].each do |title, calorie, carbo, protein, fat, price|
+        food.sub_items << SubItem.find_or_create_by(title: title, calorie: calorie, carbo: carbo, protein: protein, fat: fat, price: price, sub_item_type: :normal)
       end
+    end
   end
 end

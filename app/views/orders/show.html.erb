@@ -1,5 +1,5 @@
 <div class="container text-white">
-  <% @order.line_items.each do |line_item| %>
-    <%= line_item.title %> <%= line_item.quantity %>
+  <% @order.order_sub_items.each do |order_sub_item| %>
+    <%= order_sub_item.sub_item.title %> <%= order_sub_item.quantity %>
   <% end %>
 </div>

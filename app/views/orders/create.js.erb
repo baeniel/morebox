@@ -1,0 +1,70 @@
+<% if @result %>
+  var values;
+  BootPay.request({
+    	price: <%= Rails.env.development? ? 200 : @order.total %>, //실제 결제되는 가격
+      application_id: "5eb2230002f57e002d1edd8a",
+    	name: 'MoreBox', //결제창에서 보여질 이름
+      pg: 'inicis',
+    	method: 'card', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
+    	show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
+      items: [
+        <% @order.order_sub_items.each do |orde_sub_item| %>
+          <% sub_item = orde_sub_item.sub_item %>
+          {
+            item_name: '<%= sub_item.title %>', //상품명
+            qty: <%= order_sub_item.quantity %>, //수량
+            unique: '<%= sub_item.id %>', //해당 상품을 구분짓는 primary key
+            price: <%= order_sub_item.amount %> //상품 단가
+          },
+        <% end %>
+      ],
+      user_info: {
+        username: "<%= @order.order_name %>",
+        addr: "<%= "#{@order.address1} #{@order.address2}" %>",
+        phone: "<%= @order.order_phone %>"
+      },
+    	order_id: '<%= @order.order_number %>', //고유 주문번호로, 생성하신 값을 보내주셔야 합니다.
+      params: {order_number: '<%= @order.order_number %>'},
+    }).error(function (data) {
+      Swal.fire({
+        title: '<h3 style="color: #200e57;">오류가 발생하였습니다. 다시 한번 시도해주세요.</h3>',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+        confirmButtonColor: "#200e57",
+      })
+    }).cancel(function (data) {
+      Swal.fire({
+        title: '<h3 style="color: #200e57;">결제를 취소 하였습니다.</h3>',
+        showCancelButton: false,
+        confirmButtonText: '확인',
+        confirmButtonColor: "#200e57",
+      })
+    }).ready(function (data) {
+    	// 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
+      console.log(data);
+    }).confirm(function (data) {
+    	//결제가 실행되기 전에 수행되며, 주로 재고를 확인하는 로직이 들어갑니다.
+    	//주의 - 카드 수기결제일 경우 이 부분이 실행되지 않습니다.
+      console.log(data);
+    	var enable = true; // 재고 수량 관리 로직 혹은 다른 처리
+      if (enable) {
+    		BootPay.transactionConfirm(data); // 조건이 맞으면 승인 처리를 한다.
+      } else {
+    		BootPay.removePaymentWindow(); // 조건이 맞지 않으면 결제 창을 닫고 결제를 승인하지 않는다.
+      }
+    }).close(function (data) {
+        // 결제창이 닫힐때 수행됩니다. (성공,실패,취소에 상관없이 모두 수행됨)
+        console.log(data);
+    }).done(function (data) {
+    	//결제가 정상적으로 완료되면 수행됩니다
+    	//비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
+      window.location = `/orders/complete?receipt_id=${data["receipt_id"]}&order_number=${data["params"]["order_number"]}`
+    });
+<% else %>
+  Swal.fire({
+    title: '<h3 style="color: #200e57;"><%= @order&.ready? ? "정보를 모두 입력해주세요." : "이미 결제된 주문건입니다." %></h3>',
+    showCancelButton: false,
+    confirmButtonText: '확인',
+    confirmButtonColor: "#200e57",
+  })
+<% end %>

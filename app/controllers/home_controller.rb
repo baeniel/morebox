@@ -22,11 +22,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def policy
-  end
+  def policy; end
 
-  def survey
-    
-    # redirect_to root_path
-  end
+  def survey; end
 end

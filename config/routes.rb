@@ -32,9 +32,10 @@ Rails.application.routes.draw do
       get 'reduce'
     end
   end
-  resources :orders, only: [:create, :update, :index, :show] do
+  resources :orders do
     collection do
       get :payment
+      get :complete
     end
   end
 
