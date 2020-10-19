@@ -1,112 +1,209 @@
-<%= render 'market_style' %>
+<%= render 'users/market_style' %>
+<style>
+  .line-height-30 {
+    line-height: 30px;
+  }
+  body {
+    background: #e9edf1 !important;
+  }
+  input {
+    border: 1px solid #202649 !important;
+  }
+  .ui.selection.dropdown .menu {
+    max-height: 11.014286rem;
+  }
+</style>
 
-<div class="user-info p-4">
-  <div class="text-left">
+<div class="text-left px-4 py-3 bg-white">
+  <%= link_to survey_path do %>
     <%= image_tag "/list_logo.png", class: "w-50" %>
-  </div>
-  <h4 class="bg-custom-grey mt-3 main-text-color py-2 line-height-25">칼로리 계산기</h4>
-  <p class="info text-left mb-2">간단하게 사용자 정보를 입력해주세요.</p>
-  <div class="row">
-    <div class="col-6">
-      <div class="row">
-        <%= label_tag  "age", "나이(만/세)", style: "", class: "col-5 pr-1 text-left" %>
-        <%= number_field_tag "age", (params[:age] or 24), class: "form-control mb-3 col-7" %>
-      </div>
-      <div class="row">
-        <%= label_tag  "height", "키(cm)", style: "", class: "col-5 pr-1 text-left" %>
-        <%= number_field_tag "height", (params[:height] or 170), class: "form-control mb-3 col-7" %>
-      </div>
-      <div class="row">
-        <%= label_tag  "weight", "몸무게(kg)", class: "col-5 pr-1 text-left" %>
-        <%= number_field_tag "weight", (params[:weight] or 70), class: "form-control mb-3 col-7" %>
-      </div>
-      <div class="row">
-        <%= label_tag  "gender", "성별", style: "", class: "col-5 pr-1 text-left"  %>
-        <%= select_tag "gender", options_for_select(%w(남 여)), class: "form-control mb-3 col-7 px-1 custom_option" %>
-      </div>
-      <div class="row">
-        <%= label_tag  "activity", "활동강도", class: "col-5 pr-1 text-left" %>
-        <%= select_tag "activity", options_for_select(["전혀없음", "조금(5천보)", "보통(만보)", "많이(2만보)", "엄청(3만보)"]), class: "form-control mb-3 col-7 px-1 custom_option" %>
-      </div>
-    </div>
-    <div class="col-6 px-2">
-      <div class="row justify-content-center mb-2 w-100 mx-0">
-        <%#= link_to "계산하기", "#", class: "btn btn-morebox px-4", id: "calcul_button", onclick: "calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;" %>
-        <a href="#" class="btn btn-morebox px-4" id="calcul_button" onclick="calculateCalorie($('#age').val(), $('#height').val(), $('#weight').val(), $('#gender').val(), $('#activity').val()); false;">계산하기</a>
-      </div>
-      <div class="row justify-content-center mb-2 w-100 mx-0">
-        <%= link_to "뒤로가기", users_path, class: "btn btn-custom-grey px-4" %>
-      </div>
-      <div id="output" class="mt-4 border cal_result">
-        <div class="py-2 px-3">
-          <div class="calorie-title">현 체중 유지 칼로리</div>
-          <span id="top-calorie">0000</span> &nbsp; <span class="secondary-text-color">Kcal</span>
-        </div>
-        <hr class="my-0">
-        <div class="py-2 px-2 row w-100 mx-0">
-          <div class="col-4">
-            <div class="row justify-content-center">
-              <div class="px-1 calorie-title col-12">탄수화물</div>
-              <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
-              <br>
-              <div class="col-12 px-1" style="line-height:15px;">
-                <span id="top-carbo">000</span><span class="secondary-text-color">g</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="row justify-content-center">
-              <div class="px-1 calorie-title col-12">단백질</div>
-              <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
-              <br>
-              <div class="col-12 px-1" style="line-height:15px;">
-                <span id="top-protein">000</span><span class="secondary-text-color">g</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="row justify-content-center">
-              <div class="px-1 calorie-title col-12">지방</div>
-              <small class="secondary-text-color" style="font-size:10px;line-height:10px;">(권장)</small>
-              <br>
-              <div class="col-12 px-1" style="line-height:15px;">
-                <span id="top-fat">000</span><span class="secondary-text-color">g</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <p class="info text-left small">* 본 칼로리 계산값은 'The short-term effect of high versus moderate protein intake on recovery after strength training in resistance-trained individuals(국제스포츠영양학회지 논문) / Justin Roberts, Anastasia Zinchenko, Craig Suckling'외 다수의 논문을 토대로 제작되었습니다. 유연하게 적용하셔도 무방합니다.</p>
+  <% end %>
 </div>
-<%= render 'sub_items_and_calorie_bar' %>
+<div class="progress mt-0 mb-3" style="height:10px;">
+  <div class="progress-bar" id="top-progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<%= form_for Post.new do |f| %>
+  <div class="tab-content" id="myTabContent">
+    <%= render 'survey_tab_pane', index: 0, next_tab: 1 do %>
+      <h2 class="text-dark text-left mt-5">당신은 몇 살인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 나이를 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.number_field :age, class: "text-center form-control mt-5 col-4", value: 24, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 1, prev_tab: 0, next_tab: 2 do %>
+      <h2 class="text-dark text-left mt-5">당신은 몇 cm인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 키를 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.number_field :height, class: "text-center form-control mt-5 col-4", value: 165, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 2, prev_tab: 1, next_tab: 3 do %>
+      <h2 class="text-dark text-left mt-5">당신은 몇 kg인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 체중을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.number_field :weight, class: "text-center form-control mt-5 col-4", value: 55, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 3, prev_tab: 2, next_tab: 4 do %>
+      <h2 class="text-dark text-left mt-5">당신의 성별은 무엇인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.select(:gender, Post.genders.keys.map {|gender| [gender.titleize, gender]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 4, prev_tab: 3, next_tab: 5 do %>
+      <h2 class="text-dark text-left mt-5">당신의 활동량은 어떻게 되시나요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-2"></div>
+            <%= f.select(:activity, Post.activities.keys.map {|activity| [activity.titleize, activity]}, {}, class: "text-center form-control custom_option mt-5 col-8") %>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 5, prev_tab: 4, next_tab: 6 do %>
+      <h2 class="text-dark text-left mt-5">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.number_field :work_time, class: "text-center form-control mt-5 col-4", value: 60, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 6, prev_tab: 5, next_tab: 7 do %>
+      <h2 class="text-dark text-left mt-5">당신은 그 운동을 주 몇 회 이상 하실 계획입니까?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.number_field :work_count, class: "text-center form-control mt-5 col-4", value: 3, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 7, prev_tab: 6, next_tab: 8 do %>
+      <h2 class="text-dark text-left mt-5">당신의 목표 체중은 몇kg인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 목표 체중을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.number_field :target_weight, class: "text-center form-control mt-5 col-4", value: 53, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 8, prev_tab: 7, next_tab: 9 do %>
+      <h2 class="text-dark text-left mt-5">당신의 목표 날짜는 며칠인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 목표 날짜를 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.text_field :target_date, start_month: Date.current + 3.months, class: "text-center form-control mt-5 col-4", id: "target_date", value: Date.current + 3.months %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 9, prev_tab: 8, next_tab: -1 do %>
+      <h2 class="text-dark text-left mt-5">점심은 어느정도로 먹나요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.select(:lunch, Post.lunches.keys.map {|lunch| [lunch.titleize, lunch]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: -1, prev_tab: 9 do %>
+      <div class="container text-center py-2" style="color: #200e57;">
+        <h3>영양상담 준비 완료</h3>
+        <a href="#" class="btn btn-sm px-2 font-weight-bold" style="background:rgb(244,224,76) !important;">
+          <i class="fas fa-comment"></i>카카오톡 상담
+        </a> <br>
+        <h3 class="mt-4">이제 거의 다 왔습니다!</h3> <br>
+        <p>밑의 입력창에 핸드폰 번호를 입력하시면 <br> 귀하의 정보가 고릴라밤에 제출됩니다. <br> <br> <br>
+            트레이너 출신들로 이루어진 <br> 고릴라밤 코치진이 곧바로 연락을 드려요:) <br> <br> <br>
+            보다 자세한 영양 상담과 맞춤 식단을 제공 받아보시겠어요?? <br> <br>
+            상담은 <strong>100%</strong> 무료이며, 당신의 건강한 여정을 함께하고 싶어요
+        </p>
+        <%= number_field_tag "phone", params[:phone], class: "text-center form-control mt-4 col-12", required: true, placeholder: "핸드폰 번호를 입력하세요:) 01012341234" %>
+        <%= f.text_field :name, class: "text-center form-control mt-2 col-12", placeholder: "상담 시 사용할 닉네임을 입력하세요:)", required: true %>
+        <%= f.submit "영양상담 받기", class: "btn btn-outline btn-lg text-white mt-5", style: "background-color: #200e57; border-color: #200e57; width: 60%;" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
 <script>
   $('.custom_option').dropdown();
-  var timer = setInterval(function(){
-                $('#calcul_button').toggleClass('blink');
-              }, 500);
-  var timer2;
-  $('#calcul_button').click(function() {
-    clearTimeout(timer);
-    clearTimeout(timer2);
-    timer2 = setInterval(function(){
-                  $('.cal_result').toggleClass('blink');
-                }, 500);
-    document.getElementById("calcul_button").innerHTML = '계산완료:)';
-    $("#calcul_button").addClass(function() {
-      $(this).css('color','white');
-    })
-    setTimeout(function(){
-      Swal.fire({
-        title: '<h3 style="color: #200e57;">키와 몸무게 등의 정보가 정확한가요?</h3>',
-        showCancelButton: true,
-        confirmButtonText: '확인',
-        confirmButtonColor: "#200e57",
-        cancelButtonText: '<a href="<%= market_users_path %>">아니오(다시 계산)</a>',
-      })
-    }, 1500);
-    return false;
+  $(".nav-btn").click(function(){
+    $(this).removeClass("active");
   });
+  $("#target_date").datepicker({
+                dateFormat: 'yy-mm-dd' //Input Display Format 변경
+                ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+                ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+                ,changeYear: true //콤보박스에서 년 선택 가능
+                ,changeMonth: true //콤보박스에서 월 선택 가능
+                ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+                ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+                ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+                ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+                ,minDate: "+90D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+                ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+            });
 </script>

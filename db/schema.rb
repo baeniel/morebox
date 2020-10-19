@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_17_094313) do
+ActiveRecord::Schema.define(version: 2020_10_19_124147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,22 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
     t.index ["gym_id"], name: "index_points_on_gym_id"
     t.index ["sub_item_id"], name: "index_points_on_sub_item_id"
     t.index ["user_id"], name: "index_points_on_user_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.integer "age"
+    t.integer "height"
+    t.integer "weight"
+    t.integer "gender"
+    t.integer "activity"
+    t.integer "work_time"
+    t.integer "work_count"
+    t.integer "target_weight"
+    t.string "target_date"
+    t.integer "lunch"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sub_items", force: :cascade do |t|

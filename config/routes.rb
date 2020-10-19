@@ -59,6 +59,12 @@ Rails.application.routes.draw do
   end
   resources :points
 
+  resources :posts, only: [:index, :create] do
+    collection do
+      get :complete
+    end
+  end
+
 
   #모어박스 쇼핑몰 구조
   # post 'apis/pay_url'
