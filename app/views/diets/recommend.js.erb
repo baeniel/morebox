@@ -1,27 +1,16 @@
+$("#sub_items").html("");
+<% spare_calorie = (params[:target_calorie].to_f - params[:lunch].to_f).ceil %>
 
-<% if false && @diet&.present? %>
-  $("#difference").html('<%= sanitize @diet.body, tags: %w(br) %>')
-  $("#sub_items").html('<%= j(render @diet.sub_items) %>')
-  $("[type=checkbox]:checked").click();
-
-  <% @diet.sub_items.pluck(:id).each do |id| %>
-    $("#toggle_<%= id %>").click();
-  <% end %>
+<% if spare_calorie < 1000 %>
+  <% food_type = "a" %>
+<% elsif spare_calorie < 1500 %>
+  <% food_type = "b" %>
+<% elsif spare_calorie < 2000 %>
+  <% food_type = "c" %>
 <% else %>
-  $("#sub_items").html("");
-  <% spare_calorie = (params[:target_calorie].to_f - params[:lunch].to_f).ceil %>
+  <% food_type = "d" %>
+<% end %>
 
-  <% if spare_calorie < 1000 %>
-    <% food_type = "a" %>
-  <% elsif spare_calorie < 1500 %>
-    <% food_type = "b" %>
-  <% elsif spare_calorie < 2000 %>
-    <% food_type = "c" %>
-  <% else %>
-    <% food_type = "d" %>
-  <% end %>
-
-  <% foods = Food.where(food_type: food_type).each_with_index do |food, index| %>
-    $("#sub_items").append("<%= j(render food, index: index) %>")
-  <% end %>
+<% foods = Food.where(food_type: food_type).each_with_index do |food, index| %>
+  $("#sub_items").append("<%= j(render food, food_type: ("A".."Z").to_a[index]) %>")
 <% end %>

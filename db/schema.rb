@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_17_094313) do
+ActiveRecord::Schema.define(version: 2020_10_19_163052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,15 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "protein", default: 0
+  end
+
+  create_table "food_sub_items", force: :cascade do |t|
+    t.bigint "food_id"
+    t.bigint "sub_item_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["food_id"], name: "index_food_sub_items_on_food_id"
+    t.index ["sub_item_id"], name: "index_food_sub_items_on_sub_item_id"
   end
 
   create_table "foods", force: :cascade do |t|
@@ -156,6 +165,7 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
     t.string "tid"
     t.string "order_number"
     t.bigint "trainer_id"
+    t.integer "order_type", default: 0
     t.index ["gym_id"], name: "index_orders_on_gym_id"
     t.index ["item_id"], name: "index_orders_on_item_id"
     t.index ["point_id"], name: "index_orders_on_point_id"
@@ -190,14 +200,13 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
     t.float "protein"
     t.float "fat"
     t.string "link"
-    t.bigint "food_id"
     t.integer "sub_item_type", default: 0
     t.integer "price"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
-    t.index ["food_id"], name: "index_sub_items_on_food_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -207,13 +216,13 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
     t.string "phone"
     t.string "username"
     t.boolean "fit_center"
-    t.string "email", default: "", null: false
     t.bigint "gym_id", null: false
     t.integer "gender"
     t.boolean "privacy", default: true
     t.string "referrer"
     t.boolean "marketing", default: true
     t.integer "user_type", default: 0
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gym_id"], name: "index_users_on_gym_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -222,6 +231,8 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
   add_foreign_key "comments", "users"
   add_foreign_key "diet_sub_items", "diets"
   add_foreign_key "diet_sub_items", "sub_items"
+  add_foreign_key "food_sub_items", "foods"
+  add_foreign_key "food_sub_items", "sub_items"
   add_foreign_key "order_sub_items", "orders"
   add_foreign_key "order_sub_items", "sub_items"
   add_foreign_key "orders", "gyms"
@@ -233,6 +244,5 @@ ActiveRecord::Schema.define(version: 2020_10_17_094313) do
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
   add_foreign_key "sub_items", "categories"
-  add_foreign_key "sub_items", "foods"
   add_foreign_key "users", "gyms"
 end
