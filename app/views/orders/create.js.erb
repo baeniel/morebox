@@ -8,13 +8,13 @@
     	method: 'card', //결제수단, 입력하지 않으면 결제수단 선택부터 화면이 시작합니다.
     	show_agree_window: 0, // 부트페이 정보 동의 창 보이기 여부
       items: [
-        <% @order.order_sub_items.each do |orde_sub_item| %>
-          <% sub_item = orde_sub_item.sub_item %>
+        <% @order.order_sub_items.each do |order_sub_item| %>
+          <% sub_item = order_sub_item.sub_item %>
           {
             item_name: '<%= sub_item.title %>', //상품명
             qty: <%= order_sub_item.quantity %>, //수량
             unique: '<%= sub_item.id %>', //해당 상품을 구분짓는 primary key
-            price: <%= order_sub_item.amount %> //상품 단가
+            price: <%= order_sub_item.order.total %> //상품 단가
           },
         <% end %>
       ],

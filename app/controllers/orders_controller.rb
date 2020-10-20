@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, except: %i(new create payment complete show)
+  before_action :authenticate_user!, except: %i(new create payment complete show send_kakao)
   before_action :load_object, only: %i(update)
 
   def index
@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
 
   def new
     unless params[:sub_item_info].present?
-      redirect_to survey_path, notice: "선택한 제품이 없습니다." 
+      redirect_to survey_path, notice: "선택한 제품이 없습니다."
     else
       sub_item_info = JSON.parse(params[:sub_item_info])
       random_string = SecureRandom.hex(3)
@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.find_by order_number: order_params[:order_number]
     @result = false
-    
+
     if @order
       if @order.ready?
         @order.update order_params
@@ -33,7 +33,6 @@ class OrdersController < ApplicationController
       @order = Order.create order_params
       @result = !@order.new_record?
     end
-    byebug
   end
 
   def complete
@@ -107,6 +106,16 @@ class OrdersController < ApplicationController
   def show
     @order = Order.where(order_phone: params[:phone], order_number: params[:order_number]).first
     redirect_to survey_path, notice: "일치하는 정보가 없습니다. 다시 한번 확인해 주세요." unless @order.present?
+  end
+
+  def send_kakao
+    link = "http://pf.kakao.com/_WlPxlK/chat"
+    receiver = params[:order_phone]
+    receiverName = "귀하"
+    subject = "문의하기"
+    contents = "[MoreMarket]\n"+"#{link}\n"+" 위 링크에서 카카오톡으로 문의해주세요:)"
+    question_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+    question_alarm.send_message
   end
 
   private

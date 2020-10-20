@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     collection do
       get :payment
       get :complete
+      get :send_kakao
     end
   end
 

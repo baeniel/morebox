@@ -25,7 +25,7 @@
       <%= f.label :order_phone, "휴대폰 번호", class: "text-left mb-0 d-block" %>
       <%= f.text_field :order_phone, value: params[:order_phone], class: "form-control" %>
     </div>
-    
+
     <h3 class="text-left">받으시는 분 정보</h3>
     <hr>
     <div class="form-group mb-1">
@@ -36,7 +36,7 @@
       <%= f.label :deliver_phone, "휴대폰 번호", class: "text-left mb-0 d-block" %>
       <%= f.text_field :deliver_phone, value: params[:deliver_phone], class: "form-control" %>
     </div>
-    
+
     <div class="form-group mb-1">
       <%= f.label :zipcode, "우편주소", class: "text-left mb-0 d-block" %>
       <div class="row">
@@ -75,7 +75,7 @@
           <h4><%= sub_item.title %></h4>
         </div>
         <div class="col-3">
-          <div class="small"><%= (price = sub_item.price * ff.object.quantity) %>원</div>
+          <div class="small"><%= (price = sub_item.price.to_i * ff.object.quantity) %>원</div>
           <div class="small text-gray"><%= ff.object.quantity %>개</div>
         </div>
       </div>
@@ -107,7 +107,7 @@
     </div>
 
     <%= f.submit "결제하기", class: "btn btn-block btn-morebox text-white mt-5 mb-5" %>
-    
+
   <% end %>
 </div>
 
@@ -124,15 +124,15 @@
     var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
     new daum.Postcode({
       oncomplete: function(data) {
-        var addr = ''; 
-        var extraAddr = ''; 
+        var addr = '';
+        var extraAddr = '';
 
-        if (data.userSelectedType === 'R') { 
+        if (data.userSelectedType === 'R') {
           addr = data.roadAddress;
-        } else { 
+        } else {
           addr = data.jibunAddress;
         }
-        
+
         if(data.userSelectedType === 'R'){
           if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
             extraAddr += data.bname;
@@ -144,16 +144,16 @@
             extraAddr = ' (' + extraAddr + ')';
           }
           addr = addr + extraAddr
-        } 
+        }
         document.getElementById('order_zipcode').value = data.zonecode;
         document.getElementById("order_address1").value = addr;
         document.getElementById("order_address2").focus();
         element_wrap.style.display = 'none';
 
-        
+
         document.body.scrollTop = currentScroll;
       },
-      
+
       onresize : function(size) {
         element_wrap.style.height = size.height+'px';
       },

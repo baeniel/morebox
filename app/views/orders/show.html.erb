@@ -1,5 +1,56 @@
-<div class="container text-white">
-  <% @order.order_sub_items.each do |order_sub_item| %>
-    <%= order_sub_item.sub_item.title %> <%= order_sub_item.quantity %>
-  <% end %>
+<style>
+  #change-color {
+    background-color: #e9eef2;
+  }
+</style>
+
+<div class="container mt-5">
+  <h3>주문 상세</h3>
+  <ul class="list-group mt-5">
+    <% @order.order_sub_items.each do |order_sub_item| %>
+      <li class="list-group-item"><%= order_sub_item.sub_item.title %> <%= order_sub_item.quantity %>개</li> <br>
+    <% end %>
+  </ul>
+  <li class="list-group-item text-white" style="background-color: #200e57;">총합: <%= @order.total %>원, 결제완료</li>
+  <div class="row mt-5">
+    <div class="col-6">
+      <button class="btn btn-lg w-100" style="background-color: #cfd3df;" id="deliver">배송조회</button>
+    </div>
+    <div class="col-6">
+      <button class="btn btn-lg w-100" style="background-color: #cfd3df;" id="question">문의하기</button>
+    </div>
+  </div>
 </div>
+
+<script>
+  $('#deliver').click(function () {
+    Swal.fire({
+      icon: "info",
+      title: "배송조회",
+      text: "출고 대기중입니다:)",
+      showConfirmButton: true,
+      confirmButtonText: '확인'
+    });
+  });
+
+  $('#question').click(function (e) {
+    e.preventDefault();
+    Swal.fire({
+      icon: "info",
+      title: "문의하기",
+      text: "귀하의 핸드폰으로 저희 카카오채널 링크가 전송되었습니다:)",
+      showConfirmButton: true,
+      confirmButtonText: '확인'
+    });
+
+    var order_phone = "<%= @order.order_phone %>"
+    $.ajax({
+      url: "/orders/send_kakao",
+      data: { order_phone: order_phone},
+      type: "GET",
+      beforeSend: function ( xhr ) {
+        xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
+      }
+    })
+  });
+</script>

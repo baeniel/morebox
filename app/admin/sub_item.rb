@@ -1,5 +1,5 @@
 ActiveAdmin.register SubItem do
-  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat, :link
+  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat, :link, :price
   filter :created_at
 
   index do
@@ -15,6 +15,7 @@ ActiveAdmin.register SubItem do
     column :fat
     column :point
     column :food
+    column :price
     column :category
     column :sub_item_type
     column :description
