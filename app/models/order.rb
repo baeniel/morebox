@@ -18,14 +18,14 @@ class Order < ApplicationRecord
   enum status: %i(ready complete incomplete)
   enum order_type: %i(morebox survey)
 
-  validates :order_name, presence: true
-  validates :order_phone, presence: true
-  validates :deliver_name, presence: true
-  validates :deliver_phone, presence: true
-  validates :zipcode, presence: true
-  validates :address1, presence: true
-  validates :address2, presence: true
-  validates :order_number, presence: true, uniqueness: true
+  # validates :order_name, presence: true
+  # validates :order_phone, presence: true
+  # validates :deliver_name, presence: true
+  # validates :deliver_phone, presence: true
+  # validates :zipcode, presence: true
+  # validates :address1, presence: true
+  # validates :address2, presence: true
+  # validates :order_number, presence: true, uniqueness: true
 
   accepts_nested_attributes_for :order_sub_items, reject_if: ->(attributes){ attributes['sub_item_id'].blank? || attributes['quantity'].blank? }, allow_destroy: true
   # has_many :line_items, dependent: :destroy

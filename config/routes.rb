@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'users/pay_complete'
   root 'products#marketing'
   get 'home/index'
+  get 'home/calorie_start'
   post 'apis/pay_url'
   post 'apis/pay_complete'
   # get 'apis/pay_complete'
