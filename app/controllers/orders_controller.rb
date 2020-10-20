@@ -116,6 +116,7 @@ class OrdersController < ApplicationController
     contents = "[MoreMarket]\n"+"#{link}\n"+" 위 링크에서 카카오톡으로 문의해주세요:)"
     question_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
     question_alarm.send_message
+    redirect_to survey_path, notice: "문자를 확인해주세요."
   end
 
   private
