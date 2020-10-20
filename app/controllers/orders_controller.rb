@@ -96,10 +96,10 @@ class OrdersController < ApplicationController
       complete_result = true
     rescue
     end
-    
+
     if complete_result
       redirect_to order_path(order, phone: order.order_phone, order_number: order.order_number)
-    else 
+    else
       redirect_to survey_path, notice: "결제를 실패하였습니다. 다시 한번 시도하거나, 관리자에게 문의해주세요."
     end
 

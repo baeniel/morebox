@@ -36,6 +36,7 @@ ActiveAdmin.register SubItem do
       f.input :protein
       f.input :fat
       f.input :link
+      f.input :price
     end
     f.actions
   end
