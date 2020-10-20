@@ -57,7 +57,7 @@ class OrdersController < ApplicationController
 
         if order && (Rails.env.development? || (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1"))
           total_price = 0
-          total_price = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.price)}
+          total_price = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.price)} + 2500
 
           if (Rails.env.development? || ((item = order.item) || order.sub_items&.exists?) && (verify_response[:data][:price] == total_price))
             if order.ready?
@@ -94,7 +94,7 @@ class OrdersController < ApplicationController
       else
         raise
       end
-      
+
     rescue
     end
 
