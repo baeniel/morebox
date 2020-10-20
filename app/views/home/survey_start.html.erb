@@ -1,0 +1,357 @@
+<%= render 'users/market_style' %>
+<style>
+  .line-height-30 {
+    line-height: 30px;
+  }
+  body {
+    background: #e9edf1 !important;
+  }
+  .ui.selection.dropdown .menu {
+    max-height: 11.014286rem;
+  }
+  .fancy-color {
+    color: #6200EE;
+  }
+  .cal_form {
+    width: 80%;
+    height: 7vh;
+  }
+  ::placeholder {
+    color: #6200EE !important;
+  }
+  .form-control {
+    border-color: #6200EE !important;
+    color: #6200EE !important;
+  }
+</style>
+<div class="text-left px-4 py-3 bg-white">
+  <%= link_to survey_path do %>
+    <%= image_tag "/list_logo.png", class: "w-50" %>
+  <% end %>
+</div>
+<div class="progress mt-0" style="height:10px; margin-bottom: 0px;">
+  <div class="progress-bar" id="top-progress-bar" role="progressbar" style="width: 10%; background-color: #6200EE;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<%= form_tag recommend_diets_path, id: :recommend, method: :get, remote: true do %>
+  <div class="tab-content" id="myTabContent">
+    <%= render 'survey_tab_pane', index: 0, next_tab: 1 do %>
+      <h2 class="fancy-color text-left mt-5">당신은 몇 살인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 나이를 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= text_field_tag "age", (params[:age] or 24), class: "text-center form-control mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 1, prev_tab: 0, next_tab: 2 do %>
+      <h2 class="fancy-color text-left mt-5">당신은 몇 cm인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 키를 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= number_field_tag "height", (params[:age] or 165), class: "text-center form-control mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 2, prev_tab: 1, next_tab: 3 do %>
+      <h2 class="fancy-color text-left mt-5">당신은 몇 kg인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 체중을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= number_field_tag "weight", (params[:weight] or 55), class: "text-center form-control mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 3, prev_tab: 2, next_tab: 4 do %>
+      <h2 class="fancy-color text-left mt-5">당신의 성별은 무엇인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= select_tag "gender", options_for_select(%w(여 남)), class: "text-center form-control custom_option mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 4, prev_tab: 3, next_tab: 5 do %>
+      <h2 class="fancy-color text-left mt-5">당신의 활동량은 어떻게 되시나요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-2"></div>
+            <% options = ["대부분 앉아있는다. ex) 사무직", "조금 활동적인 편이다.", "걷는걸 좋아하고 돌아다닐일이 많다.", "많이 활동 하는 생활을 한다. ex) 영업직", "매우 매우 활동적이다. ex) 영업직, 서비스직"] %>
+            <%= select_tag "activity", options_for_select(options, "조금 활동적인 편이다."), class: "text-center form-control custom_option mt-5 col-8", required: true %>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 5, prev_tab: 4, next_tab: 6 do %>
+      <h2 class="fancy-color text-left mt-5">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= number_field_tag "work_time", (params[:work_time] or 60), class: "text-center form-control mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 6, prev_tab: 5, next_tab: 7 do %>
+      <h2 class="fancy-color text-left mt-5">당신은 그 운동을 주 몇 회 이상 하실 계획입니까?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= number_field_tag "work_count", (params[:work_count] or 3), class: "text-center form-control mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 7, prev_tab: 6, next_tab: 8 do %>
+      <h2 class="fancy-color text-left mt-5">당신의 목표 체중은 몇kg인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 목표 체중을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= number_field_tag "target_weight", (params[:target_weight] or 53), class: "text-center form-control mt-5 col-4", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 8, prev_tab: 7, next_tab: 9 do %>
+      <h2 class="fancy-color text-left mt-5">당신의 목표 날짜는 며칠인가요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 목표 날짜를 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= text_field_tag "target_date", (params[:target_date] or (Date.current + 3.months)), class: "text-center form-control mt-5 col-4", readonly: true, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 9, prev_tab: 8, next_tab: -1 do %>
+      <h2 class="fancy-color text-left mt-5">점심은 어느정도로 먹나요?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <% options = [["평균적으로", 800], ["간단하게", 700], ["푸짐하게", 900], ["안먹는다", 0]] %>
+            <%= select_tag "lunch", options_for_select(options), class: "text-center form-control mt-5 col-4 custom_option", readonly: true, required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= render 'survey_tab_pane', index: -1, prev_tab: 9 do %>
+    <div class="container text-dark py-4">
+      <!-- section_1 -->
+      <div class="row justify-content-center mx-0">
+        <div class="border cal_result col-5 py-3 mr-1">
+          <p><i class="fa fa-user ml-2 mr-2" aria-hidden="true"></i>닉네임</p>
+          <small class="mt-2">가입하거나 로그인하세요.</small>
+        </div>
+        <div class="border cal_result col-2 py-3 mr-1">
+          <p>성별</p>
+          <strong id="gender_answer"></strong>
+        </div>
+        <div class="border cal_result col-2 py-3 mr-1">
+          <p class="text-dark">신장</p>
+          <strong id="height_answer"></strong>
+        </div>
+        <div class="border cal_result col-2 py-3">
+          <p class="text-dark">체중</p>
+          <strong class="weight_answer"></strong>
+        </div>
+      </div>
+
+      <!-- section_2 -->
+      <div class="mt-3">
+        <strong><small>YOUR PROGRESS</small></strong>
+      </div>
+      <div class="row mt-2">
+        <div class="col-3">
+          <small>현재</small>
+          <strong class="weight_answer"></strong>
+        </div>
+        <div class="col-6">
+          <small>목표까지 남은 체중</small>
+          <strong id="weight_difference"></strong>
+        </div>
+        <div class="col-3">
+          <small>목표</small>
+          <strong id="target_weight_answer"></strong>
+        </div>
+      </div>
+      <div class="progress" style="background: white;">
+        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+
+      <!-- section 3 -->
+      <h4 class="bg-custom-grey main-text-color py-2 line-height-25 mt-5" >당신을 위한 <strong>하루 통째</strong> 식단 패키지!</h4>
+      <p class="text-left mb-2" style="color: #200e57;">취향에 맞는 식단을 선택해 보세요!</p>
+      <div class="row mx-0 main-text-color">
+        <div class="col-12">
+          <div class="border cal_result row">
+            <div class="col-12">
+              <div class="py-3">
+                <div class="calorie-title mb-2">목표 하루 섭취 칼로리</div>
+                <div class="d-flex justify-content-center">
+                  <h4 class="mb-0" id="target-calorie-amount">0000</h4> &nbsp; <span class="secondary-text-color">Kcal</span>
+                  <%= hidden_field_tag :target_calorie %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 각 패키지 추천 -->
+        <div class="col-12">
+          <h3 class="main-text-color mt-2 mb-2" id="difference"></h3>
+          <div class="row" id="sub_items"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3 col-12">
+      <a class="btn btn-block btn-custom-grey nav-btn" id="tab-button-2" data-toggle="tab" href="#tab-9" role="tab" onclick="$('#top-progress-bar').width('90%')">이전</a>
+    </div>
+    <%= render 'users/sub_items_and_calorie_bar', reset: false %>
+  <% end %>
+</div>
+
+<script>
+  $('.custom_option').dropdown();
+
+  var total_calorie_rate = ideal_carbo = ideal_protein = ideal_fat = 0;
+
+  $(".nav-btn").click(function(){
+    $(this).removeClass("active");
+  });
+
+  $("#target_date").datepicker({
+                dateFormat: 'yy-mm-dd' //Input Display Format 변경
+                ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+                ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+                ,changeYear: true //콤보박스에서 년 선택 가능
+                ,changeMonth: true //콤보박스에서 월 선택 가능
+                ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+                ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+                ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+                ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+                ,minDate: "+90D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+                ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+            });
+
+  $(".calculate-btn").click(function(){
+    // 1. 기초대사량
+    let age = parseFloat($("#age").val());
+    let height = parseFloat($("#height").val());
+    let weight = parseFloat($("#weight").val());
+    let man = ($("#gender").val() == "남")
+    let gender_c = man ? 5 : -161;
+    let base_calorie_rate = Math.round(10 * weight + 6.25 * height - 5 * age + gender_c)
+
+    // 2. 활동대사량
+    let activity = $("#activity").val();
+    if(activity == "대부분 앉아있는다. ex) 사무직") {
+      total_calorie_rate = 1.2 * base_calorie_rate
+    } else if(activity == "조금 활동적인 편이다.") {
+      total_calorie_rate = 1.375 * base_calorie_rate
+    } else if(activity == "걷는걸 좋아하고 돌아다닐일이 많다.") {
+      total_calorie_rate = 1.555 * base_calorie_rate
+    } else if(activity == "많이 활동 하는 생활을 한다. ex) 영업직") {
+      total_calorie_rate = 1.725 * base_calorie_rate
+    } else {
+      total_calorie_rate = 1.9 * base_calorie_rate
+    }
+    let target_weight = parseFloat($("#target_weight").val());
+    let target_date = $("#target_date").val();
+    let difference = (target_weight - weight);
+    let difference_abs = Math.abs(target_weight - weight);
+    let standard_kcal = (difference < 0) ?  7200 : 9000;
+    target_date = new Date(target_date);
+    let today = new Date();
+    let diffTime = Math.abs(target_date - today);
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    let purpose = $("#purpose").val();
+    let work_time = parseFloat($("#work_time").val()) / 60;
+    let work_count = parseInt($("#work_count").val());
+
+    //4. 기초대사량과 활동 대사량을 합한 총 대사량으로 목표 칼로리 계산
+    let target_result = total_calorie_rate + ((standard_kcal * difference) / diffDays) + ((work_count * work_time * 330) / 7);
+
+    if (isNaN(target_result)){
+      Swal.fire({
+        title: "계산실패",
+        button: false,
+        text: "값을 모두 입력해주세요."
+      });
+      return false;
+    } else {
+      $.each($(".sub_item_input"), function(){
+        setSubItemQty($(this).data("id"), 0);
+      });
+      $("#target-calorie-amount").text(`${(target_result).toFixed(2)}`);
+      $("#target_calorie").val(`${(target_result).toFixed(2)}`);
+
+      $("#gender_answer").text(`${$("#gender").val()}`);
+      $("#height_answer").text(`${height}`);
+      $(".weight_answer").text(`${weight}` + "kg");
+      $("#target_weight_answer").text(`${target_weight}` + "kg");
+      $("#weight_difference").text(`${difference_abs}` + "kg");
+
+
+      total_calorie_rate = target_result.toFixed(2);
+      ideal_protein = Math.round(weight * 1.5)
+      ideal_fat = Math.round(target_weight * 1.1)
+      ideal_carbo = Math.round((total_calorie_rate - (ideal_protein * 4) - (ideal_fat * 9)) / 4)
+
+      ga('send', 'pageview', '<%= recommend_diets_path %>');
+      gtag('config', 'UA-158638310-3', {
+          page_title: '<%= "#{controller_name} #{action_name}" %>',
+          page_location: '<%= recommend_diets_path %>',
+          page_path: '<%= recommend_diets_path %>'
+        });
+      Rails.fire($('#recommend')[0], 'submit');
+    }
+    calculateAndWrite();
+  });
+</script>

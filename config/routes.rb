@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # get 'apis/pay_complete'
 
   get '/survey' => "home#survey"
+  get '/survey_start' => "home#survey_start"
 
   get 'home/exception'
   get 'home/policy'

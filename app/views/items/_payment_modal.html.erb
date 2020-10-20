@@ -33,10 +33,10 @@
             </div>
           </div>
           <div class="col-6">
-            <img src="/payment.jpeg" alt="" class="w-100">
+            <img src="/payment_fail.png" alt="" class="w-100">
           </div>
         </div>
-        
+
       </div>
       <div class="modal-footer py-4 row justify-content-center new_modal_footer">
         <button type="button" class="btn text-white" style="background-color: #200e57; width: 30%;" data-dismiss="modal" id="welcom-button">확인</button>
@@ -63,7 +63,7 @@
       beforeSend: function ( xhr ) {
         xhr.setRequestHeader( 'X-CSRF-Token', $( 'meta[name="csrf-token"]' ).attr( 'content' ));
       }
-      
+
       // ,
       // success: function(data) {
       //   console.log(data.result)
