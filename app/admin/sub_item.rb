@@ -1,5 +1,5 @@
 ActiveAdmin.register SubItem do
-  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat, :link
+  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat, :link, :price
   filter :created_at
 
   index do
@@ -9,8 +9,15 @@ ActiveAdmin.register SubItem do
     column :image do |sub_item|
       image_tag(sub_item.image_url, class: 'admin-index-image') if sub_item.image_url
     end
+    column :calorie
+    column :carbo
+    column :protein
+    column :fat
     column :point
+    column :food
+    column :price
     column :category
+    column :sub_item_type
     column :description
     column :created_at
     column :link

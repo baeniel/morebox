@@ -1,0 +1,166 @@
+<%= render 'users/market_style' %>
+<style>
+  body {
+    background: #e9edf1 !important;
+  }
+</style>
+<div class="text-left px-4 py-3 bg-white">
+  <%= link_to survey_path do %>
+    <%= image_tag "/list_logo.png", class: "w-50" %>
+  <% end %>
+</div>
+<div class="container my-5">
+  <hr>
+  <h2 class="my-3">결제하기</h2>
+  <hr class="mb-5">
+  <%= form_for @order, remote: true do |f| %>
+    <%= f.hidden_field :order_number, value: f.object.order_number %>
+    <h3 class="text-left">보내시는 분 정보</h3>
+    <hr>
+    <div class="form-group mb-1">
+      <%= f.label :order_name, "이름", class: "text-left mb-0 d-block" %>
+      <%= f.text_field :order_name, value: params[:order_name], class: "form-control" %>
+    </div>
+    <div class="form-group mb-1 mb-5">
+      <%= f.label :order_phone, "휴대폰 번호", class: "text-left mb-0 d-block" %>
+      <%= f.text_field :order_phone, value: params[:order_phone], class: "form-control" %>
+    </div>
+
+    <h3 class="text-left">받으시는 분 정보</h3>
+    <hr>
+    <div class="form-group mb-1">
+      <%= f.label :deliver_name, "이름", class: "text-left mb-0 d-block" %>
+      <%= f.text_field :deliver_name, value: params[:deliver_name], class: "form-control" %>
+    </div>
+    <div class="form-group mb-3">
+      <%= f.label :deliver_phone, "휴대폰 번호", class: "text-left mb-0 d-block" %>
+      <%= f.text_field :deliver_phone, value: params[:deliver_phone], class: "form-control" %>
+    </div>
+
+    <div class="form-group mb-1">
+      <%= f.label :zipcode, "우편주소", class: "text-left mb-0 d-block" %>
+      <div class="row">
+        <div class="col-7 pr-0">
+          <%= f.text_field :zipcode, value: params[:zipcode], class: "form-control", readonly: true %>
+        </div>
+        <div class="col-5">
+          <input type="button" onclick="execDaumPostcode()" class="btn btn-morebox text-white" value="우편번호 찾기"><br>
+        </div>
+      </div>
+    </div>
+
+    <div id="wrap" class="w-100" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+      <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+    </div>
+    <div class="form-group mb-1">
+      <%= f.label :address1, "주소", class: "text-left mb-0 d-block" %>
+      <%= f.text_field :address1, value: params[:address1], class: "form-control", readonly: true %>
+    </div>
+    <div class="form-group mb-1 mb-5">
+      <%= f.label :address2, "상세주소", class: "text-left mb-0 d-block" %>
+      <%= f.text_field :address2, value: params[:address2], class: "form-control" %>
+    </div>
+
+    <h3 class="text-left">주문 정보</h3>
+    <hr>
+    <% total_price = 0 %>
+
+    <%= f.fields_for :order_sub_items do |ff| %>
+      <% sub_item = ff.object&.sub_item %>
+      <div class="row p-3 mb-2">
+        <div class="col-3">
+          <img class="w-100" src="<%= sub_item&.image %>">
+        </div>
+        <div class="col-6">
+          <h4><%= sub_item.title %></h4>
+        </div>
+        <div class="col-3">
+          <div class="small"><%= (price = sub_item.price.to_i * ff.object.quantity) %>원</div>
+          <div class="small text-gray"><%= ff.object.quantity %>개</div>
+        </div>
+      </div>
+      <%= ff.hidden_field :sub_item_id, value: ff.object.sub_item_id.presence || params.dig(:order_sub_items_attributes, :sub_item_id) %>
+      <%= ff.hidden_field :quantity, value: ff.object.quantity.presence || params.dig(:order_sub_items_attributes, :quantity) %>
+      <% total_price = total_price + price %>
+
+    <% end %>
+
+    <h3 class="text-left">결제 정보</h3>
+    <hr>
+    <div class="row mx-0 px-3 justify-content-between w-100 mb-2">
+      <div>
+        배송비&nbsp;:&nbsp;
+      </div>
+      <div>
+        <h3>2500원</h3>
+      </div>
+    </div>
+    <div class="row mx-0 px-3 justify-content-between w-100">
+      <div>
+        총 결제 금액&nbsp;:&nbsp;
+      </div>
+      <div>
+        <h3><%= (total_price = total_price + 2500) %>원</h3>
+      </div>
+      <%= f.hidden_field :total, value: total_price %>
+      <%= f.hidden_field :order_type, value: :survey %>
+    </div>
+
+    <%= f.submit "결제하기", class: "btn btn-block btn-morebox text-white mt-5 mb-5" %>
+
+  <% end %>
+</div>
+
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.2.6.min.js" type="application/javascript"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+  var element_wrap = document.getElementById('wrap');
+
+  function foldDaumPostcode() {
+    element_wrap.style.display = 'none';
+  }
+
+  function execDaumPostcode() {
+    var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+    new daum.Postcode({
+      oncomplete: function(data) {
+        var addr = '';
+        var extraAddr = '';
+
+        if (data.userSelectedType === 'R') {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+
+        if(data.userSelectedType === 'R'){
+          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+            extraAddr += data.bname;
+          }
+          if(data.buildingName !== '' && data.apartment === 'Y'){
+            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          if(extraAddr !== ''){
+            extraAddr = ' (' + extraAddr + ')';
+          }
+          addr = addr + extraAddr
+        }
+        document.getElementById('order_zipcode').value = data.zonecode;
+        document.getElementById("order_address1").value = addr;
+        document.getElementById("order_address2").focus();
+        element_wrap.style.display = 'none';
+
+
+        document.body.scrollTop = currentScroll;
+      },
+
+      onresize : function(size) {
+        element_wrap.style.height = size.height+'px';
+      },
+      width : '100%',
+      height : '100%'
+    }).embed(element_wrap);
+
+    element_wrap.style.display = 'block';
+  }
+</script>

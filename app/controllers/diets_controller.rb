@@ -1,6 +1,6 @@
 class DietsController < ApplicationController
   def recommend
-    if false 
+    if false
       difference = params[:current_calorie].to_f - params[:target_calorie].to_f
       diets = Diet.all
       @diet = if difference.abs <= 100
@@ -17,7 +17,5 @@ class DietsController < ApplicationController
                 diets.first
               end
     end
-
   end
-
 end

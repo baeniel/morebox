@@ -1,55 +1,16 @@
+$("#sub_items").html("");
+<% spare_calorie = (params[:target_calorie].to_f - params[:lunch].to_f).ceil %>
 
-<% if false && @diet&.present? %>
-  $("#difference").html('<%= sanitize @diet.body, tags: %w(br) %>')
-  $("#sub_items").html('<%= j(render @diet.sub_items) %>')
-  $("[type=checkbox]:checked").click();
-  
-  <% @diet.sub_items.pluck(:id).each do |id| %>
-    $("#toggle_<%= id %>").click();
-  <% end %>
+<% if spare_calorie < 1000 %>
+  <% food_type = "a" %>
+<% elsif spare_calorie < 1500 %>
+  <% food_type = "b" %>
+<% elsif spare_calorie < 2000 %>
+  <% food_type = "c" %>
 <% else %>
-  $("#sub_items").html("");
-  <% spare_calorie = params[:target_calorie].to_f %>
-  <% sub_item_ids = [] %>
-  <% if params[:morning].to_i > 0 %>
-    <% food = Food.where(food_type: :morning).where(target_calorie: ((params[:gender] == "여") ? 500 : 600)).sample %>
-    <% sub_item_ids = sub_item_ids + food.sub_items.ids %>
-    <% spare_calorie = spare_calorie - food.kcal %>
-    $("#sub_items").append("<%= j(render food, food_type: "아침") %>")
-  <% end %>
+  <% food_type = "d" %>
+<% end %>
 
-  <% target_calories = [900, 900] %>
-  <% if spare_calorie < 1200 %>
-    <% target_calories = [500, 500] %>
-  <% elsif spare_calorie < 1400 %>
-    <% target_calories = [500, 700] %>
-  <% elsif spare_calorie < 1600 %>
-    <% target_calories = [700, 700] %>
-  <% elsif spare_calorie < 1800 %>
-    <% target_calories = [700, 900] %>
-  <% end %>
-
-  <% (foods = Food.where(food_type: :main).where(target_calorie: target_calories).sample(2)).each_with_index do |food, index| %>
-    <% spare_calorie = spare_calorie - food.kcal %>
-    <% sub_item_ids = sub_item_ids + food.sub_items.ids %>
-    $("#sub_items").append("<%= j(render food, food_type: (index.zero? ? "점심" : "저녁")) %>")
-  <% end %>
-
-  //간식 추가 / 칼로리바 계산 넣기 / 문자보낼 때 식단 보내기
-  <% if false && (snack_count = params[:snack].to_i) > 0 %>
-    $("#sub_items").append('<div class="food-block w-100 mb-3"> <h3>간식</h3> <div class="row" id="snack-list"> </div> </div>');
-
-    <% while (snack_count > 0) && (spare_calorie > 0) do %>
-      
-      <% spare_calorie %>
-      <% snack_count = snack_count - 1 %>
-      $("#snack-list").append("<%= j(render food, food_type: "간식") %>")
-    <% end %>
-  <% end %>
-
-  $("[type=checkbox]:checked").click();
-  
-  <% sub_item_ids.each do |id| %>
-    $("#toggle_<%= id %>").click();
-  <% end %>
+<% foods = Food.where(food_type: food_type).each_with_index do |food, index| %>
+  $("#sub_items").append("<%= j(render food, food_type: ("A".."Z").to_a[index]) %>")
 <% end %>

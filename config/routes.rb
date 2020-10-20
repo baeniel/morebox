@@ -32,9 +32,11 @@ Rails.application.routes.draw do
       get 'reduce'
     end
   end
-  resources :orders, only: [:update, :index, :show] do
+  resources :orders do
     collection do
       get :payment
+      get :complete
+      get :send_kakao
     end
   end
 
@@ -58,6 +60,12 @@ Rails.application.routes.draw do
     end
   end
   resources :points
+
+  resources :posts, only: [:index, :create] do
+    collection do
+      get :complete
+    end
+  end
 
 
   #모어박스 쇼핑몰 구조

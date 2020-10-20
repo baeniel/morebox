@@ -22,8 +22,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def policy
-  end
+  def policy; end
 
   def survey; end
 end

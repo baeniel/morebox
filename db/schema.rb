@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_165005) do
+ActiveRecord::Schema.define(version: 2020_10_19_163052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,15 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.integer "protein", default: 0
   end
 
+  create_table "food_sub_items", force: :cascade do |t|
+    t.bigint "food_id"
+    t.bigint "sub_item_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["food_id"], name: "index_food_sub_items_on_food_id"
+    t.index ["sub_item_id"], name: "index_food_sub_items_on_sub_item_id"
+  end
+
   create_table "foods", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -86,7 +95,10 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.integer "food_type", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "target_calorie"
+    t.float "carbo"
+    t.float "protein"
+    t.float "fat"
+    t.integer "price"
   end
 
   create_table "gyms", force: :cascade do |t|
@@ -125,7 +137,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.integer "number"
     t.integer "total"
     t.string "address1"
@@ -153,6 +165,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.string "tid"
     t.string "order_number"
     t.bigint "trainer_id"
+    t.integer "order_type", default: 0
     t.index ["gym_id"], name: "index_orders_on_gym_id"
     t.index ["item_id"], name: "index_orders_on_item_id"
     t.index ["point_id"], name: "index_orders_on_point_id"
@@ -174,6 +187,22 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.index ["user_id"], name: "index_points_on_user_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.integer "age"
+    t.integer "height"
+    t.integer "weight"
+    t.integer "gender"
+    t.integer "activity"
+    t.integer "work_time"
+    t.integer "work_count"
+    t.integer "target_weight"
+    t.string "target_date"
+    t.integer "lunch"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "sub_items", force: :cascade do |t|
     t.string "title"
     t.string "image"
@@ -189,6 +218,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
     t.string "link"
     t.bigint "food_id"
     t.integer "sub_item_type", default: 0
+    t.integer "price"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
     t.index ["food_id"], name: "index_sub_items_on_food_id"
   end
@@ -218,6 +248,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_165005) do
   add_foreign_key "comments", "users"
   add_foreign_key "diet_sub_items", "diets"
   add_foreign_key "diet_sub_items", "sub_items"
+  add_foreign_key "food_sub_items", "foods"
+  add_foreign_key "food_sub_items", "sub_items"
   add_foreign_key "order_sub_items", "orders"
   add_foreign_key "order_sub_items", "sub_items"
   add_foreign_key "orders", "gyms"
