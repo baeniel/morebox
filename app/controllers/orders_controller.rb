@@ -38,7 +38,7 @@ class OrdersController < ApplicationController
   def complete
     user = nil
     order = nil
-
+    result = false
     begin
       receipt_id = params[:receipt_id]
       require 'bootpay-rest-client'
@@ -92,11 +92,15 @@ class OrdersController < ApplicationController
       else
         raise
       end
+      result = true
     rescue
-      raise
-      # redirect_to survey_path, notice: "결제를 실패하였습니다. 다시 한번 시도하거나, 관리자에게 문의해주세요."
     end
-    redirect_to order_path(order, phone: order.order_phone, order_number: order.order_number)
+    
+    if result
+      redirect_to order_path(order, phone: order.order_phone, order_number: order.order_number)
+    else 
+      redirect_to survey_path, notice: "결제를 실패하였습니다. 다시 한번 시도하거나, 관리자에게 문의해주세요."
+    end
 
   end
 
