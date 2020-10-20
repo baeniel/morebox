@@ -36,9 +36,6 @@ class OrdersController < ApplicationController
   end
 
   def complete
-    byebug
-
-
     user = nil
     order = nil
 
