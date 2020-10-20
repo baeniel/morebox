@@ -36,6 +36,9 @@ class OrdersController < ApplicationController
   end
 
   def complete
+    byebug
+
+
     user = nil
     order = nil
 
@@ -73,7 +76,7 @@ class OrdersController < ApplicationController
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            admin_alarm.send_alarm if Rails.env.production?
+            admin_alarm.send_alarm
 
             # 결제한 사용자에게 알람
 
@@ -93,7 +96,8 @@ class OrdersController < ApplicationController
         raise
       end
     rescue
-      redirect_to survey_path, notice: "결제를 실패하였습니다. 다시 한번 시도하거나, 관리자에게 문의해주세요."
+      raise
+      # redirect_to survey_path, notice: "결제를 실패하였습니다. 다시 한번 시도하거나, 관리자에게 문의해주세요."
     end
     redirect_to order_path(order, phone: order.order_phone, order_number: order.order_number)
 
@@ -116,7 +120,6 @@ class OrdersController < ApplicationController
     contents = "[MoreMarket]\n"+"#{link}\n"+" 위 링크에서 카카오톡으로 문의해주세요:)"
     question_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
     question_alarm.send_message
-    redirect_to survey_path, notice: "문자를 확인해주세요."
   end
 
   private
