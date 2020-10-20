@@ -84,6 +84,7 @@ class OrdersController < ApplicationController
             receiverName = order.order_name
             user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             user_alarm.send_alarm
+            complete_result = true
           else
             raise
           end
@@ -93,7 +94,7 @@ class OrdersController < ApplicationController
       else
         raise
       end
-      complete_result = true
+      
     rescue
     end
     
