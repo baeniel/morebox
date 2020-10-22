@@ -29,10 +29,9 @@
     <%= image_tag "/list_logo.png", class: "w-50" %>
   <% end %>
 </div>
-<div class="progress mt-0" style="height:10px; margin-bottom: 0px;">
+<div class="progress mt-0" style="margin-bottom: 0px;">
   <div class="progress-bar" id="top-progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
-
 <%= form_for Post.new do |f| %>
   <div class="tab-content" id="myTabContent">
     <%= render 'survey_tab_pane', index: 0, next_tab: 1 do %>
@@ -134,6 +133,20 @@
     <% end %>
 
     <%= render 'survey_tab_pane', index: 7, prev_tab: 6, next_tab: 8 do %>
+      <h2 class="fancy-color text-left mt-5">당신은 그 운동을 얼마나 강하게 하십니까?</h2>
+      <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.select(:work_strength, Post.work_strengths.keys.map {|strength| [strength.titleize, strength]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: 8, prev_tab: 7, next_tab: 9 do %>
       <h2 class="fancy-color text-left mt-5">당신의 목표 체중은 몇kg인가요?</h2>
       <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 목표 체중을 입력해 주세요.</h4>
       <div class="row">
@@ -147,35 +160,50 @@
       </div>
     <% end %>
 
-    <%= render 'survey_tab_pane', index: 8, prev_tab: 7, next_tab: 9 do %>
+    <%= render 'survey_tab_pane', index: 9, prev_tab: 8, next_tab: 10 do %>
       <h2 class="fancy-color text-left mt-5">당신의 목표 날짜는 며칠인가요?</h2>
       <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 목표 날짜를 입력해 주세요.</h4>
       <div class="row">
         <div class="col-12">
           <div class="row">
             <div class="col-4"></div>
-            <%= f.text_field :target_date, start_month: Date.current + 3.months, class: "text-center form-control mt-5 col-4", id: "target_date", value: Date.current + 3.months %>
+            <%= f.text_field :target_date, class: "text-center form-control mt-5 col-4", id: "target_date", value: Date.current + 1.months, readonly: true %>
+            <%#= f.text_field :target_date, start_month: Date.current + 3.months, class: "text-center form-control mt-5 col-4", id: "target_date", value: Date.current + 3.months, readonly: true %>
             <div class="col-4"></div>
           </div>
         </div>
       </div>
     <% end %>
 
-    <%= render 'survey_tab_pane', index: 9, prev_tab: 8, next_tab: -1 do %>
+    <%= render 'survey_tab_pane', index: 10, prev_tab: 9, next_tab: 11 do %>
       <h2 class="fancy-color text-left mt-5">점심은 어느정도로 먹나요?</h2>
       <h4 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단과, 하루 칼로리 목표를 <br> 제공받기 위한 질문의 답을 입력해 주세요.</h4>
       <div class="row">
         <div class="col-12">
           <div class="row">
             <div class="col-4"></div>
-            <%= f.select(:lunch, Post.lunches.keys.map {|lunch| [lunch.titleize, lunch]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
+              <%= f.select(:lunch, Post.lunches.keys.map {|lunch| [lunch.titleize, lunch]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
             <div class="col-4"></div>
           </div>
         </div>
       </div>
     <% end %>
 
-    <%= render 'survey_tab_pane', index: -1, prev_tab: 9 do %>
+    <%= render 'survey_tab_pane', index: 11, prev_tab: 10, next_tab: -1 do %>
+      <h2 class="fancy-color text-left mt-5">특정한 질환이 있나요?</h2>
+      <h4 class="text-dark text-left">정말 마지막 질문입니다!</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4"></div>
+            <%= f.text_field :sickness, class: "text-center form-control mt-5 col-4", value: "없음", required: true %>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: -1, prev_tab: 11 do %>
       <div class="border py-4" style="background-color: white;">
         <i class="fas fa-4x fa-check" style="color: #200C58;"></i>
         <h2 style="color: #200C58;">영양상담 준비 완료</h2>
@@ -185,6 +213,7 @@
         <div class="row justify-content-center">
           <%= number_field_tag "phone", params[:phone], class: "text-left form-control cal_form mt-4", required: true, placeholder: "핸드폰 번호를 입력하세요:) 01012341234" %>
           <%= f.text_field :name, class: "text-left form-control cal_form mt-2", placeholder: "상담 시 사용할 닉네임을 입력하세요:)", required: true %>
+          <%= f.hidden_field :post_type, value: "인스타" %>
           <%= f.submit "영양상담받기", class: "btn btn-outline btn-lg text-white mt-4", style: "background-color: #200e57; border-color: #200e57; width: 80%;" %>
         </div>
 
@@ -234,7 +263,7 @@
                 ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
                 ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
                 ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-                ,minDate: "+90D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+                ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
                 ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
             });
 </script>

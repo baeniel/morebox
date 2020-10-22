@@ -116,7 +116,7 @@
     $(`#qty-${id}`).text(qty);
     $(`#toggle_${id}`).data("qty", qty);
     $(`#toggle_${id}`).attr("data-qty", qty);
-    $(".sub_item_input").change();    
+    $(".sub_item_input").change();
   }
 
   function html_write() {
@@ -152,6 +152,10 @@
     $("#carbo-bar").width(`${total_carbo_percentage + lunch_carbo_percentage}%`);
     $("#protein-bar").width(`${total_protein_percentage + lunch_protein_percentage}%`);
     $("#fat-bar").width(`${total_fat_percentage + lunch_fat_percentage}%`);
+
+    if (ideal_carbo < 0) {
+      $("#total-carbo-amount").text(`${isFinite(total_carbo_percentage) ? 0 : '-'}% (${0}g)`);
+    }
 
     $(".calorie-content").html(html);
   }
@@ -201,7 +205,7 @@
     }
   });
   $('.plus-btn, .minus-btn').click(function(){
-    
+
     if(total_calorie_rate == 0) {
       Swal.fire({
         title: '<h3 style="color: #200e57;">칼로리 계산을 먼저하세요!</h3>',
@@ -222,7 +226,7 @@
     }
     return false;
   });
-  
+
   $(".sub_item_input").change(function(){
     calculateAndWrite();
   });

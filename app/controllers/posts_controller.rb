@@ -4,6 +4,7 @@ class PostsController < ApplicationController
 
   def create
     post = Post.create(post_params)
+
     link = "http://pf.kakao.com/_WlPxlK/chat"
     receiver = params[:phone]
     receiverName = post.name
@@ -27,6 +28,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:age, :height, :weight, :gender, :activity, :work_time, :work_count, :target_weight, :target_date, :lunch, :name)
+    params.require(:post).permit(:age, :height, :weight, :gender, :activity, :work_time, :work_count, :work_strength, :target_weight, :target_date, :lunch, :sickness, :name, :post_type)
   end
 end

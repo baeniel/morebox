@@ -21,13 +21,13 @@
     <% if next_tab %>
       <% if prev_tab %>
         <div class="col-6 bottom_progress">
-          <a class="btn btn-block nav-btn btn-custom-bottom" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= (prev_tab.to_i + 1) * 10 %>%')">
+          <a class="btn btn-block nav-btn btn-custom-bottom" id="tab-button-<%= prev_tab %>" data-toggle="tab" href="#tab-<%= prev_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= (prev_tab.to_i + 1) * 7.7 %>%')">
             <i class="fas fa-4x fa-arrow-circle-left mb-2"></i> <br> <%= '이전' %>
           </a>
         </div>
       <% end %>
       <div class="offset-6 col-6 bottom_progress">
-        <a class="btn btn-block nav-btn btn-custom-bottom <%= "calculate-btn" if next_tab < 0 %>" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 10).to_i + 1) * 9.2 %>%')">
+        <a class="btn btn-block nav-btn btn-custom-bottom <%= "calculate-btn" if next_tab < 0 %>" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 13).to_i + 1) * 7.7 %>%')">
           <i class="fas fa-4x fa-arrow-circle-right mb-2"></i> <br> 다음
         </a>
       </div>
