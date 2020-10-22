@@ -16,6 +16,7 @@ ActiveAdmin.register Post do
     column :lunch
     column :sickness
     column :name
+    column :phone
     actions
   end
 end

@@ -211,7 +211,7 @@
       </div>
       <div class="container text-center py-2"">
         <div class="row justify-content-center">
-          <%= number_field_tag "phone", params[:phone], class: "text-left form-control cal_form mt-4", required: true, placeholder: "핸드폰 번호를 입력하세요:) 01012341234" %>
+          <%= f.number_field :phone, class: "text-left form-control cal_form mt-4", placeholder: "핸드폰 번호를 입력하세요:) 01012341234", required: true %>
           <%= f.text_field :name, class: "text-left form-control cal_form mt-2", placeholder: "상담 시 사용할 닉네임을 입력하세요:)", required: true %>
           <%= f.hidden_field :post_type, value: "인스타" %>
           <%= f.submit "영양상담받기", class: "btn btn-outline btn-lg text-white mt-4", style: "background-color: #200e57; border-color: #200e57; width: 80%;" %>
