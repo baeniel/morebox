@@ -157,6 +157,9 @@
       $("#total-carbo-amount").text(`${isFinite(total_carbo_percentage) ? 0 : '-'}% (${0}g)`);
     }
 
+    var name = document.getElementById("name").value;
+    $('#nickname').text(name + "님");
+
     $(".calorie-content").html(html);
   }
 
