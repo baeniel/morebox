@@ -220,14 +220,13 @@ ActiveRecord::Schema.define(version: 2020_10_22_094154) do
     t.float "protein"
     t.float "fat"
     t.string "link"
-    t.bigint "food_id"
     t.integer "sub_item_type", default: 0
     t.integer "price"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
-    t.index ["food_id"], name: "index_sub_items_on_food_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -237,13 +236,13 @@ ActiveRecord::Schema.define(version: 2020_10_22_094154) do
     t.string "phone"
     t.string "username"
     t.boolean "fit_center"
-    t.string "email", default: "", null: false
     t.bigint "gym_id", null: false
     t.integer "gender"
     t.boolean "privacy", default: true
     t.string "referrer"
     t.boolean "marketing", default: true
     t.integer "user_type", default: 0
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gym_id"], name: "index_users_on_gym_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -265,6 +264,5 @@ ActiveRecord::Schema.define(version: 2020_10_22_094154) do
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
   add_foreign_key "sub_items", "categories"
-  add_foreign_key "sub_items", "foods"
   add_foreign_key "users", "gyms"
 end

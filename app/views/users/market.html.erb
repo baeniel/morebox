@@ -249,6 +249,14 @@
   $('.custom_option').dropdown();
   $(".nav-btn").click(function(){
     $(this).removeClass("active");
+    let targetTab = $(this).attr("href").split("#tab-")[1]
+    
+    ga('send', 'pageview', '<%= market_users_path %>#tab-'+targetTab);
+    gtag('config', 'UA-158638310-3', {
+        page_title: '<%= "#{controller_name} #{action_name}" %> tab ' + targetTab,
+        page_location: '<%= market_users_path %>#tab-' + targetTab,
+        page_path: '<%= market_users_path %>#tab-' + targetTab
+      });
   });
   $("#target_date").datepicker({
                 dateFormat: 'yy-mm-dd' //Input Display Format 변경
