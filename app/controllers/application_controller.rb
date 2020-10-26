@@ -43,7 +43,10 @@ class ApplicationController < ActionController::Base
   def current_gym
     Gym.find(cookies[:gym_id]) rescue current_user&.gym || Gym.first
   end
-
+  
+  def access_denied(exception)
+    redirect_to admin_gyms_sub_items_path, alert: "접근 권한이 없습니다."
+  end
 
   protected
 

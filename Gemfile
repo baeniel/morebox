@@ -39,6 +39,10 @@ gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
 gem 'httparty'
 gem "browser"
 gem 'screencap'
+gem 'cancancan'
+gem 'rolify'
+gem 'formadmin'
+
 
 gem 'popbill', '1.13.0'
 gem 'capistrano-rails-collection'
