@@ -33,7 +33,7 @@ class GymsController < ApplicationController
     #같은 기간동안 실제 결제 건의 개수
     repayment = []
     Order.complete.where(created_at: date_end..date_start).each do |order|
-      if poors.include?(order.user.id)
+      if poors.include?(order.user&.id)
         repayment << order.user.id
       end
     end

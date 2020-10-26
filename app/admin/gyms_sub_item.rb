@@ -11,16 +11,39 @@ ActiveAdmin.register GymsSubItem do
     end
   end
 
+  batch_action "동기화" do |ids|
+    batch_action_collection.find(ids).each do |gyms_sub_item|
+      gyms_sub_item.update order_quantity: gyms_sub_item.quantity
+    end
+    redirect_to collection_path, alert: "동기화 완료되었습니다."
+  end
+
+  index do
+    selectable_column if current_admin_user.has_role? :admin
+    column :gym 
+    column :sub_item
+    column :updated_at
+    column :quantity
+    column :order_quantity if current_admin_user.has_role? :admin
+    actions
+  end
+
   form do |f|
     f.inputs do
-      f.input :start_calorie
-      f.input :end_calorie
-      f.input :purpose
-      f.input :body
-      f.input :snack
-      f.input :sub_items
+      f.input :gym if current_admin_user.has_role? :admin
+      f.input :sub_item if current_admin_user.has_role? :admin
+      f.input :quantity
+      f.input :order_quantity if current_admin_user.has_role? :admin
     end
     f.actions
   end
 
+  show do 
+    attributes_table do
+      row :gym
+      row :sub_item
+      row :quantity
+      row :order_quantity if current_admin_user.has_role? :admin
+    end
+  end
 end
