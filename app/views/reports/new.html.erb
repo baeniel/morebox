@@ -1,0 +1,130 @@
+<style>
+  #change-color {
+    background-color: white;
+  }
+</style>
+
+<div class="container mt-5">
+  <%= form_for Report.new do |f| %>
+    <div class="form-group mb-5">
+      <label for="name">고객 닉네임</label>
+      <%= f.text_field :name, class: "form-control", id: "name" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="weight">체중</label>
+      <%= f.number_field :weight, class: "form-control", id: "weight" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="target_weight">목표체중</label>
+      <%= f.number_field :target_weight, class: "form-control", id: "target_weight" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="target_date">목표날짜</label>
+      <%= f.text_field :target_date, class: "text-center form-control col-12", id: "target_date", value: Date.current + 1.months, readonly: true %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="morning_kcal">아침 칼로리</label>
+      <%= f.number_field :morning_kcal, class: "form-control", id: "morning_kcal" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="morning_carbo">아침 탄수화물</label>
+      <%= f.number_field :morning_carbo, class: "form-control", id: "morning_carbo" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="morning_protein">아침 단백질</label>
+      <%= f.number_field :morning_protein, class: "form-control", id: "morning_protein" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="morning_fat">아침 지방</label>
+      <%= f.number_field :morning_fat, class: "form-control", id: "morning_fat" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="lunch_kcal">점심 칼로리</label>
+      <%= f.number_field :lunch_kcal, class: "form-control", id: "lunch_kcal" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="lunch_carbo">점심 탄수화물</label>
+      <%= f.number_field :lunch_carbo, class: "form-control", id: "lunch_carbo" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="lunch_protein">점심 단백질</label>
+      <%= f.number_field :lunch_protein, class: "form-control", id: "lunch_protein" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="lunch_fat">점심 지방</label>
+      <%= f.number_field :lunch_fat, class: "form-control", id: "lunch_fat" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="dinner_kcal">저녁 칼로리</label>
+      <%= f.number_field :dinner_kcal, class: "form-control", id: "dinner_kcal" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="dinner_carbo">저녁 탄수화물</label>
+      <%= f.number_field :dinner_carbo, class: "form-control", id: "dinner_carbo" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="dinner_protein">저녁 단백질</label>
+      <%= f.number_field :dinner_protein, class: "form-control", id: "dinner_protein" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="dinner_fat">저녁 지방</label>
+      <%= f.number_field :dinner_fat, class: "form-control", id: "dinner_fat" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="snack_kcal">간식 칼로리</label>
+      <%= f.number_field :snack_kcal, class: "form-control", id: "snack_kcal" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="snack_carbo">간식 탄수화물</label>
+      <%= f.number_field :snack_carbo, class: "form-control", id: "snack_carbo" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="snack_prtoein">간식 단백질</label>
+      <%= f.number_field :snack_protein, class: "form-control", id: "snack_prtoein" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="snack_fat">간식 지방</label>
+      <%= f.number_field :snack_fat, class: "form-control", id: "snack_fat" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="ideal_kcal">이상적인 칼로리</label>
+      <%= f.number_field :ideal_kcal, class: "form-control", id: "ideal_kcal" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="ideal_carbo">이상적인 탄수화물</label>
+      <%= f.number_field :ideal_carbo, class: "form-control", id: "ideal_carbo" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="ideal_protein">이상적인 단백질</label>
+      <%= f.number_field :ideal_protein, class: "form-control", id: "ideal_protein" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="ideal_fat">이상적인 지방</label>
+      <%= f.number_field :ideal_fat, class: "form-control", id: "ideal_fat" %>
+    </div>
+    <div class="form-group mb-5">
+      <label for="ideal_fat">한줄평</label>
+      <%= f.text_field :comment, class: "form-control", id: "ideal_fat" %>
+    </div>
+    <button type="submit" class="btn btn-primary mb-5">Submit</button>
+  <% end %>
+</div>
+
+<script>
+  $("#target_date").datepicker({
+      dateFormat: 'yy-mm-dd' //Input Display Format 변경
+      ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+      ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+      ,changeYear: true //콤보박스에서 년 선택 가능
+      ,changeMonth: true //콤보박스에서 월 선택 가능
+      ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+      ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+      ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+      ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+      ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+      ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+      ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+      ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+      ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+  });
+</script>

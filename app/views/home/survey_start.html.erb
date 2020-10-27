@@ -296,6 +296,9 @@
     <% end %>
   </div>
 <% end %>
+<%= form_tag new_order_path, id: "new_order", method: :get do %>
+  <%= hidden_field_tag :sub_item_info %>
+<% end %>
 
 <script>
   $('.custom_option').dropdown();

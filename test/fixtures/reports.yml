@@ -1,0 +1,45 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  weight: 1
+  target_weight: 1
+  target_date: MyString
+  morning_carbo: 1.5
+  morning_protein: 1.5
+  morning_fat: 1.5
+  morning_kcal: 1.5
+  lunch_carbo: 1.5
+  lunch_protein: 1.5
+  lunch_fat: 1.5
+  lunch_kcal: 1.5
+  dinner_carbo: 1.5
+  dinner_protein: 1.5
+  dinner_fat: 1.5
+  dinner_kcal: 1.5
+  snack_carbo: 1.5
+  snack_protein: 1.5
+  snack_fat: 1.5
+  snack_kcal: 1.5
+
+two:
+  name: MyString
+  weight: 1
+  target_weight: 1
+  target_date: MyString
+  morning_carbo: 1.5
+  morning_protein: 1.5
+  morning_fat: 1.5
+  morning_kcal: 1.5
+  lunch_carbo: 1.5
+  lunch_protein: 1.5
+  lunch_fat: 1.5
+  lunch_kcal: 1.5
+  dinner_carbo: 1.5
+  dinner_protein: 1.5
+  dinner_fat: 1.5
+  dinner_kcal: 1.5
+  snack_carbo: 1.5
+  snack_protein: 1.5
+  snack_fat: 1.5
+  snack_kcal: 1.5

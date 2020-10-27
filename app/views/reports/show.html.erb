@@ -1,0 +1,93 @@
+<%= render 'users/market_style' %>
+<style>
+  .line-height-30 {
+    line-height: 30px;
+  }
+  .bottom_progress {
+    position: fixed;
+    bottom: 7%;
+  }
+</style>
+<div class="container text-dark py-4">
+  <h4 class="bg-custom-grey main-text-color py-2 line-height-30" ><strong><%= @report.name %>님의 Daily Report</strong></h4>
+  <p class="main-text-color"><%= @report.comment %></p>
+  <div class="mt-4">
+    <strong><small><%= @report.name %>'s PROGRESS</small></strong>
+  </div>
+  <div class="row mt-2">
+    <div class="col-3">
+      <small>현재</small>
+      <strong class="weight_answer"><%= @report.weight %>kg</strong>
+    </div>
+    <div class="col-6">
+      <small>목표까지 남은 체중</small>
+      <strong id="weight_difference"><%= (@report.weight - @report.target_weight).abs %>kg</strong>
+    </div>
+    <div class="col-3">
+      <small>목표</small>
+      <strong id="target_weight_answer"><%= @report.target_weight %>kg</strong>
+    </div>
+  </div>
+  <div class="progress" style="background: #e9edf1;">
+    <div class="progress-bar" role="progressbar" style="width: 30%; background: #200e57;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    <i class="fas fa-2x fa-running"></i>
+  </div>
+  <div class="row mt-2">
+    <div class="col-5">
+      <small>지금</small> <br>
+      <strong class="weight_answer"><%= Date.today %></strong>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-5">
+      <small>목표날짜</small> <br>
+      <strong id="target_weight_answer"><%= @report.target_date %></strong>
+    </div>
+  </div>
+  <!-- section 3 -->
+  <h4 class="bg-custom-grey main-text-color py-2 line-height-30 mt-5" ><strong>칼로리 트래킹</strong></h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Kcal</th>
+        <th scope="col">탄</th>
+        <th scope="col">단</th>
+        <th scope="col">지</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">아침</th>
+        <td><%= @report.morning_kcal %>kcal</td>
+        <td><%= @report.morning_carbo %>g</td>
+        <td><%= @report.morning_protein %>g</td>
+        <td><%= @report.morning_fat %>g</td>
+      </tr>
+      <tr>
+        <th scope="row">점심</th>
+        <td><%= @report.lunch_kcal %>kcal</td>
+        <td><%= @report.lunch_carbo %>g</td>
+        <td><%= @report.lunch_protein %>g</td>
+        <td><%= @report.lunch_fat %>g</td>
+      </tr>
+      <tr>
+        <th scope="row">저녁</th>
+        <td><%= @report.dinner_kcal %>kcal</td>
+        <td><%= @report.dinner_carbo %>g</td>
+        <td><%= @report.dinner_protein %>g</td>
+        <td><%= @report.dinner_fat %>g</td>
+      </tr>
+      <tr>
+        <th scope="row">간식</th>
+        <td><%= @report.snack_kcal %>kcal</td>
+        <td><%= @report.snack_carbo %>g</td>
+        <td><%= @report.snack_protein %>g</td>
+        <td><%= @report.snack_fat %>g</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="mb-3 col-12">
+  <%= link_to "이전", :back, class: "btn btn-block btn-custom-grey nav-btn" %>
+</div>
+<%= render 'reports/calorie_report', total_kcal: @total_kcal, ideal_kcal: @report.ideal_kcal, carbo: @total_carbo, ideal_carbo: @report.ideal_carbo, protein: @total_protein, ideal_protein: @report.ideal_protein, fat: @total_fat, ideal_fat: @report.ideal_fat %>

@@ -1,44 +1,45 @@
 <% reset  = true if reset.nil? %>
-<div class="mb-5 col-12">
-  <%= form_tag new_order_path, id: "new_order", method: :get do %>
-    <%= hidden_field_tag :sub_item_info %>
+<% list  = true if list.nil? %>
+<% if list %>
+  <div class="mb-5 col-12">
     <%= link_to "결제하기", "#", class: "btn btn-block w-100 text-white py-2 mt-3 btn-morebox order-new-btn" %>
-  <% end %>
-</div>
-<div class="hat-outer">
-  <div class="row mx-0">
-    <div class="hat left col-2"></div>
-    <div class="hat col-8 pt-4">
-      <h4 class="mt-2 main-text-color">부족한 영양 채우기</h4>
+  </div>
+  <div class="hat-outer">
+    <div class="row mx-0">
+      <div class="hat left col-2"></div>
+      <div class="hat col-8 pt-4">
+        <h4 class="mt-2 main-text-color">부족한 영양 채우기</h4>
+      </div>
+      <div class="hat right col-2"></div>
     </div>
-    <div class="hat right col-2"></div>
   </div>
-</div>
-<div class="container wear-hat">
-  <div class="row">
-    <% SubItem.order(:created_at).each do |sub_item| %>
-      <% if sub_item.calorie.present? %>
-        <div class="col-4" style="<%= 'display:none;' unless sub_item.normal? %>">
-          <h5 class="card-title main-text-color mb-1"><%= sub_item.title %></h5>
-          <img class="card-img-top" src="<%= sub_item.image %>"/>
-          <div class="card-body px-0 py-3">
-            <!--<p class="card-text"><%# sub_item.description %></p>-->
-            <div class="row justify-content-center w-100 mx-0">
-              <a class="minus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
-                <i class="fa fa-minus mr-3 main-text-color" aria-hidden="true"></i>
-              </a>
-              <p style="font-size: 15px;" id="qty-<%= sub_item.id %>" data-id="<%= sub_item.id%>" class="mb-3">0</p>개
-              <a class="plus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
-                <i class="fa fa-plus ml-3 main-text-color" aria-hidden="true"></i>
-              </a>
+
+  <div class="container wear-hat">
+    <div class="row">
+      <% SubItem.order(:created_at).each do |sub_item| %>
+        <% if sub_item.calorie.present? %>
+          <div class="col-4" style="<%= 'display:none;' unless sub_item.normal? %>">
+            <h5 class="card-title main-text-color mb-1"><%= sub_item.title %></h5>
+            <img class="card-img-top" src="<%= sub_item.image %>"/>
+            <div class="card-body px-0 py-3">
+              <!--<p class="card-text"><%# sub_item.description %></p>-->
+              <div class="row justify-content-center w-100 mx-0">
+                <a class="minus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
+                  <i class="fa fa-minus mr-3 main-text-color" aria-hidden="true"></i>
+                </a>
+                <p style="font-size: 15px;" id="qty-<%= sub_item.id %>" data-id="<%= sub_item.id%>" class="mb-3">0</p>개
+                <a class="plus-btn" data-limit="190" data-target="qty-<%= sub_item.id %>" href="#">
+                  <i class="fa fa-plus ml-3 main-text-color" aria-hidden="true"></i>
+                </a>
+              </div>
+              <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden sub_item_input" data-id="<%= sub_item.id %>" data-qty="0" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
             </div>
-            <input type="checkbox" id="toggle_<%= sub_item.id %>" class="visually-hidden sub_item_input" data-id="<%= sub_item.id %>" data-qty="0" data-calorie="<%= sub_item.calorie %>" data-carbo="<%= sub_item.carbo %>" data-protein="<%= sub_item.protein %>" data-fat="<%= sub_item.fat %>" data-title="<%= sub_item.title %>">
           </div>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
 
 <div id="tool-bar">
   <div class="hat-outer">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_22_094154) do
+ActiveRecord::Schema.define(version: 2020_10_27_045431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,6 +205,36 @@ ActiveRecord::Schema.define(version: 2020_10_22_094154) do
     t.string "sickness"
     t.integer "post_type"
     t.integer "phone"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "name"
+    t.integer "weight"
+    t.integer "target_weight"
+    t.string "target_date"
+    t.float "morning_carbo"
+    t.float "morning_protein"
+    t.float "morning_fat"
+    t.float "morning_kcal"
+    t.float "lunch_carbo"
+    t.float "lunch_protein"
+    t.float "lunch_fat"
+    t.float "lunch_kcal"
+    t.float "dinner_carbo"
+    t.float "dinner_protein"
+    t.float "dinner_fat"
+    t.float "dinner_kcal"
+    t.float "snack_carbo"
+    t.float "snack_protein"
+    t.float "snack_fat"
+    t.float "snack_kcal"
+    t.float "ideal_kcal"
+    t.float "ideal_carbo"
+    t.float "ideal_protein"
+    t.float "ideal_fat"
+    t.string "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "sub_items", force: :cascade do |t|
