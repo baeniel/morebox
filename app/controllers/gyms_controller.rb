@@ -52,6 +52,18 @@ class GymsController < ApplicationController
       end
     end
     @gym_daily_profit = daily_profit.sum(0.0) / daily_profit.size
+
+
+    # 결제실패율 공식
+    # users = []
+    # first_denominator = Order.complete.where(created_at: Date.parse("2020-10-07").beginning_of_day..Date.parse("2020-10-08").beginning_of_day).count
+    # Order.ready.where(created_at: Date.parse("2020-10-07").beginning_of_day..Date.parse("2020-10-08").beginning_of_day).each do |order|
+    #   if order.user.orders.where(created_at: Date.parse("2020-10-07").beginning_of_day..Date.parse("2020-10-08").beginning_of_day).none? { |order| order.complete? }
+    #     users << order.user
+    #   end
+    # end
+    # second_denominator = users.uniq.count
+    # order_fail_rate = (second_denominator / (first_denominator + second_denominator).to_f) * 100
   end
 
   def new

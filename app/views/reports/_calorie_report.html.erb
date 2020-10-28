@@ -1,0 +1,99 @@
+<style>
+  #tool-bar {
+    position: relative;
+  }
+</style>
+
+<div id="tool-bar">
+  <div class="hat-outer">
+    <div class="row mx-0">
+      <div class="hat left col-2"></div>
+      <div class="hat col-8"></div>
+      <div class="hat right col-2"></div>
+    </div>
+  </div>
+  <div class="inner">
+    <div class="row w-100 px-4 mx-0 justify-content-between mb-4">
+      <h4 class="my-0 text-white line-height-25 ml-2">칼로리 그래프</h4>
+      <div class="mr-2">
+      </div>
+    </div>
+    <div class="container pt-1">
+      <div class="row w-100 mx-0">
+        <div class="col-4">
+        <h5 class="text-white mb-0">총 칼로리</h5>
+          <div class="progress progress-bar-vertical">
+            <div class="progress-bar" id="calorie-bar" role="progressbar" style="height:15%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="calorie-amount justify-item-center justify-content-between" style="flex-direction: column;" id="calorie_container">
+              <div class="text-white">
+                <div id="total-calorie-amount"></div>
+                <div id="total-calorie-rate" style="line-height:5px;"></div>
+              </div>
+              <div id="calorie-amount" style="color: white;"><%= total_kcal %>Kcal</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-8 pt-2">
+          <% [["carbo", "탄수화물"], ["protein", "단백질"], ["fat", "지방"]].each do |element, element_kr| %>
+            <div class="text-white mb-1 text-left" style="font-size:11px;"><%= element_kr %></div>
+            <div class="progress mt-0">
+              <div class="progress-bar" id="<%= element %>-bar" role="progressbar" style="width:15%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="calorie-amount justify-content-between" id="nutrition-container-<%= element %>">
+                <div id="<%= element %>-amount" class="ml-2" style="line-height: 17px; color: white;">0g</div>
+                <div id="total-<%= element %>-amount" class="mr-2 text-white" style="line-height:17px;"></div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="calorie-content">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // 칼로리
+  var total_kcal = <%= total_kcal %>;
+  var ideal_kcal = <%= ideal_kcal %>;
+  let total_calorie_percentage = parseFloat(((total_kcal / ideal_kcal) * 100).toFixed(2))
+  $("#calorie-bar").height(`${total_calorie_percentage}%`);
+  $("#total-calorie-amount").text(`${isFinite(total_calorie_percentage) ? (total_calorie_percentage).toFixed(2) : '-'}%`);
+  if (total_calorie_percentage > 100) {
+    document.getElementById("calorie_container").style.background="red";
+  }
+
+  // 탄수화물
+  var carbo = <%= carbo %>;
+  var ideal_carbo = <%= ideal_carbo %>;
+  let total_carbo_percentage = parseFloat(((carbo / ideal_carbo) * 100).toFixed(2))
+  $("#carbo-amount").text(`${(carbo).toFixed(2)}g`);
+  $("#total-carbo-amount").text(`${isFinite(total_carbo_percentage) ? (total_carbo_percentage).toFixed(2) : '-'}% (${ideal_carbo}g)`);
+  $("#carbo-bar").width(`${total_carbo_percentage}%`);
+  if (total_carbo_percentage > 100) {
+    document.getElementById("nutrition-container-carbo").style.background="red";
+  }
+
+  // 프로틴
+  var protein = <%= protein %>;
+  var ideal_protein = <%= ideal_protein %>;
+  let total_protein_percentage = parseFloat(((protein / ideal_protein) * 100).toFixed(2))
+  $("#protein-amount").text(`${(protein).toFixed(2)}g`);
+  $("#total-protein-amount").text(`${isFinite(total_protein_percentage) ? (total_protein_percentage).toFixed(2) : '-'}% (${ideal_protein}g)`);
+  $("#protein-bar").width(`${total_protein_percentage}%`);
+  if (total_protein_percentage > 100) {
+    document.getElementById("nutrition-container-protein").style.background="red";
+  }
+
+  // 지방
+  var fat = <%= fat %>;
+  var ideal_fat = <%= ideal_fat %>;
+  let total_fat_percentage = parseFloat(((fat / ideal_fat) * 100).toFixed(2))
+  $("#fat-amount").text(`${(fat).toFixed(2)}g`);
+  $("#total-fat-amount").text(`${isFinite(total_fat_percentage) ? (total_fat_percentage).toFixed(2) : '-'}% (${ideal_fat}g)`);
+  $("#fat-bar").width(`${total_fat_percentage}%`);
+  if (total_fat_percentage > 100) {
+    document.getElementById("nutrition-container-fat").style.background="red";
+  }
+</script>

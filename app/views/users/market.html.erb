@@ -26,7 +26,7 @@
 </style>
 <div class="text-left px-4 py-3 bg-white">
   <%= link_to home_calorie_start_path do %>
-    <%= image_tag "/list_logo.png", class: "w-50" %>
+    <%= image_tag "/fittable_logo.png", class: "w-50" %>
   <% end %>
 </div>
 <div class="progress mt-0" style="margin-bottom: 0px;">
@@ -250,7 +250,7 @@
   $(".nav-btn").click(function(){
     $(this).removeClass("active");
     let targetTab = $(this).attr("href").split("#tab-")[1]
-    
+
     ga('send', 'pageview', '<%= market_users_path %>#tab-'+targetTab);
     gtag('config', 'UA-158638310-3', {
         page_title: '<%= "#{controller_name} #{action_name}" %> tab ' + targetTab,
