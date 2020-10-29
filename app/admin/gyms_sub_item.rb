@@ -20,7 +20,7 @@ ActiveAdmin.register GymsSubItem do
 
   index do
     selectable_column if current_admin_user.has_role? :admin
-    column :gym 
+    column :gym
     column :sub_item
     column :updated_at
     column :quantity
@@ -38,7 +38,7 @@ ActiveAdmin.register GymsSubItem do
     f.actions
   end
 
-  show do 
+  show do
     attributes_table do
       row :gym
       row :sub_item

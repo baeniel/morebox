@@ -48,7 +48,7 @@ class User < ApplicationRecord
       user.update password: SecureRandom.base64(6)
     end
   end
-  
+
   def assign_password
     # @rand_password = ('0'..'z').to_a.shuffle.first(8).join
     # self.password = @rand_password

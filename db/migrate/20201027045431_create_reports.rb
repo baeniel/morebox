@@ -2,8 +2,8 @@ class CreateReports < ActiveRecord::Migration[6.0]
   def change
     create_table :reports do |t|
       t.string :name
-      t.integer :weight
-      t.integer :target_weight
+      t.float :weight
+      t.float :target_weight
       t.string :target_date
       t.float :morning_carbo
       t.float :morning_protein
