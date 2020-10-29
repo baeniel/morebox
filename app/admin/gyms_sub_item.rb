@@ -32,7 +32,7 @@ ActiveAdmin.register GymsSubItem do
     f.inputs do
       f.input :gym if current_admin_user.has_role? :admin
       f.input :sub_item if current_admin_user.has_role? :admin
-      f.input :quantity
+      f.input :quantity, label: "재고수량"
       f.input :order_quantity if current_admin_user.has_role? :admin
     end
     f.actions
@@ -40,10 +40,10 @@ ActiveAdmin.register GymsSubItem do
 
   show do
     attributes_table do
-      row :gym
-      row :sub_item
-      row :quantity
-      row :order_quantity if current_admin_user.has_role? :admin
+      row("지점명") { |g| g.gym.title }
+      row("제품") { |g| g.sub_item }
+      row("재고수량") { |g| g.quantity }
+      row("발주량") { |g| g.order_quantity } if current_admin_user.has_role? :admin
     end
   end
 end
