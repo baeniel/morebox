@@ -20,11 +20,11 @@ ActiveAdmin.register GymsSubItem do
 
   index do
     selectable_column if current_admin_user.has_role? :admin
-    column :gym
-    column :sub_item
-    column :updated_at
-    column :quantity
-    column :order_quantity if current_admin_user.has_role? :admin
+    column "지점명", :gym
+    column "제품", :sub_item
+    column "재고수량", :quantity
+    column "발주량", :order_quantity if current_admin_user.has_role? :admin
+    column "갱신시각", :updated_at
     actions
   end
 
