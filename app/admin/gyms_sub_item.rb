@@ -1,10 +1,10 @@
 ActiveAdmin.register GymsSubItem do
-  permit_params :gym_id, :sub_item_id, :quantity
+  permit_params :sub_item_id, :quantity, gym_ids: []
 
   controller do
     def scoped_collection
       if current_admin_user.has_role? :gym
-        GymsSubItem.where(gym: current_admin_user.gym)
+        GymsSubItem.where(gym: current_admin_user.gym_id)
       else
         super
       end

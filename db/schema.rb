@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_045431) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "gym_id"
+    t.bigint "gym_id", default: [], array: true
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["gym_id"], name: "index_admin_users_on_gym_id"
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
@@ -299,7 +299,6 @@ ActiveRecord::Schema.define(version: 2020_10_27_045431) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "admin_users", "gyms"
   add_foreign_key "comments", "items"
   add_foreign_key "comments", "users"
   add_foreign_key "diet_sub_items", "diets"

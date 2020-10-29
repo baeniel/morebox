@@ -6,4 +6,5 @@ class AdminUser < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   belongs_to :gym, optional: true
+
 end
