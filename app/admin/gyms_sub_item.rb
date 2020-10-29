@@ -24,7 +24,7 @@ ActiveAdmin.register GymsSubItem do
     column "제품", :sub_item
     column "재고수량", :quantity
     column "발주량", :order_quantity if current_admin_user.has_role? :admin
-    column "갱신시각", :updated_at
+    column "최종업데이트시각", :updated_at
     actions
   end
 

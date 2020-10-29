@@ -33,7 +33,7 @@ class PointsController < ApplicationController
           point_use_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
           point_use_alarm.send_alarm
 
-          if ["움짐피트니스", "포이나짐", "얼티밋크로스핏", "쿠타짐 영등포", "에이짐휘트니스"].include? current_gym.title
+          if ["움짐피트니스", "포이나짐", "얼티밋크로스핏", "쿠타짐 영등포", "에이짐휘트니스", "MADFIT"].include? current_gym.title
             templateCode = '020100000654'
             content = current_user.phone.last(4) + "님의 " + arr.map { |arr| arr.title }.flatten.uniq.join(', ') + " 꺼내기가 완료되었습니다."
             receiver = User.find_by(gym: current_gym, fit_center: 1).phone
