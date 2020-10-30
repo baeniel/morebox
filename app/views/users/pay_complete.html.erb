@@ -8,4 +8,8 @@
   }
 </style>
 
-<%= image_tag '/pay_complete.png', class: "item-img" %>
+<% if @result %>
+  <%= image_tag '/pay_complete.png', class: "item-img" %>
+  
+<% else %>
+<% end %>

@@ -1,0 +1,21 @@
+<%= form_tag creating_period_report_admin_reports_path, class: "formtastic", method: :post do %>
+  <fieldset class="inputs">
+    <ol>
+      <li class="number input optional stringish" id="post_age_input">
+        <%= label_tag :start_date %>
+        <%= text_field_tag :start_date, nil, class: "datepicker hasDatePicker" %>
+      </li>
+      <li class="number input optional stringish" id="post_age_input">
+        <%= label_tag :end_date %>
+        <%= text_field_tag :end_date, nil, class: "datepicker hasDatePicker" %>
+      </li>
+      <li class="number input optional stringish" id="post_age_input">
+        <%= label_tag :report_type %>
+        <%= select_tag :report_type, options_for_select(%w(weekly monthly)) %>
+      </li>
+      <li class="input">
+        <%= submit_tag "생성" %>
+      </li>
+    </ol>
+  </fieldset>
+<% end %>
