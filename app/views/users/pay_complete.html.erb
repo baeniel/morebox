@@ -10,6 +10,15 @@
 
 <% if @result %>
   <%= image_tag '/pay_complete.png', class: "item-img" %>
-  
 <% else %>
+  <script>
+    Swal.fire({
+      icon: "error",
+      title: "결제 실패하였습니다.",
+      text: "다시 한번 시도해주세요!",
+      showConfirmButton: true,
+      allowOutsideClick: false,
+      confirmButtonText: '확인'
+    });
+  </script>
 <% end %>

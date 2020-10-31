@@ -12,6 +12,7 @@
 // @import "active_admin/base";
 @import 'formadmin/formadmin';
 
+
 // Overriding any non-variable SASS must be done after the fact.
 // For example, to change the default status-tag color:
 //
@@ -20,4 +21,15 @@
 .admin-index-image {
   width: 70px;
   height: 70px;
+}
+
+.header-item.tabs#tabs{
+  width: 70%;
+  overflow: scroll;
+}
+.header-item.tabs#utility_nav{
+  width: 30% !important;
+}
+.paginated_collection{
+  overflow: scroll;
 }
