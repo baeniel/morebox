@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :check_current_admin_user
 
   def new ;end
 
@@ -20,4 +21,9 @@ class ReportsController < ApplicationController
   def report_params
     params.require(:report).permit(:name, :weight, :target_weight, :target_date, :morning_kcal, :morning_carbo, :morning_protein, :morning_fat, :lunch_kcal, :lunch_carbo, :lunch_protein, :lunch_fat, :dinner_kcal, :dinner_carbo, :dinner_protein, :dinner_fat, :snack_kcal, :snack_carbo, :snack_protein, :snack_fat, :ideal_kcal, :ideal_carbo, :ideal_protein, :ideal_fat, :comment)
   end
+
+  def check_current_admin_user
+    redirect_to root_path unless current_admin_user    
+  end
+  
 end

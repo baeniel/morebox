@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   end
   
   def access_denied(exception)
-    redirect_to admin_gyms_sub_items_path, alert: "접근 권한이 없습니다."
+    redirect_to (current_admin_user ? (current_admin_user.has_role?(:gym) ? admin_gyms_sub_items_path : admin_reports_path) : root_path), alert: "접근 권한이 없습니다."
   end
 
   protected

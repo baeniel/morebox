@@ -22,3 +22,14 @@
   width: 70px;
   height: 70px;
 }
+
+.header-item.tabs#tabs{
+  width: 70%;
+  overflow: scroll;
+}
+.header-item.tabs#utility_nav{
+  width: 30% !important;
+}
+.paginated_collection{
+  overflow: scroll;
+}

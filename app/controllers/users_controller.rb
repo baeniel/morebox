@@ -15,7 +15,21 @@ class UsersController < ApplicationController
   end
 
   def pay_complete
-    ActionCable.server.broadcast("room_#{params[:id]}", data_type: "payment_complete") if Rails.env.development?
+    @result = false
+    receipt_id = params[:receipt_id]
+    require 'bootpay-rest-client'
+    bootpay = Bootpay::ServerApi.new(
+        "5eb2230002f57e002d1edd8d",
+        "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
+    )
+    result  = bootpay.get_access_token
+    if (result[:status]&.to_s == "200")
+      verify_response = bootpay.verify(receipt_id) unless Rails.env.development?
+      if (Rails.env.development? || (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1"))
+        @result = true
+      end
+    end
+    ActionCable.server.broadcast("room_#{params[:id]}", data_type: (@result ? "payment_complete" : "cancel")) if Rails.env.development?
   end
 
   def update_referrer
