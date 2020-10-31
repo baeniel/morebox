@@ -4,7 +4,7 @@ ActiveAdmin.register GymsSubItem do
   controller do
     def scoped_collection
       if current_admin_user.has_role? :gym
-        GymsSubItem.where(gym: current_admin_user.gym_id)
+        GymsSubItem.where(gym: Gym.where(title: current_admin_user.gym_list))
       else
         super
       end

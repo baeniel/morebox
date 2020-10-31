@@ -5,6 +5,6 @@ class AdminUser < ApplicationRecord
   devise :database_authenticatable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :gym, optional: true
 
+  acts_as_taggable_on :gyms
 end
