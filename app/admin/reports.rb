@@ -7,6 +7,9 @@ ActiveAdmin.register Report do
   action_item only: :index do
     link_to('기간별 리포트 생성', create_period_report_admin_reports_path)
   end
+  action_item only: :index do
+    link_to('레포트 작성하기', new_report_path)
+  end
 
   collection_action :create_period_report do
   end
