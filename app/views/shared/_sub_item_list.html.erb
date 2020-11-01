@@ -1,2 +1,2 @@
-<img src="<%= sub_item.image_url %>" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal" style="width: 100%;">
+<img src="<%= sub_item.image_url.presence || "/proteinade_mobile.png" %>" data-target="#exampleModal_<%= sub_item.id %>" data-toggle="modal" style="width: 100%;">
 <p style="color: #200e57;"><strong><%= sub_item.point %> point</strong></p>

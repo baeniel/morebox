@@ -69,6 +69,37 @@
     </div>
   <%#= render "devise/shared/links" %>
   </div>
+
+
+  
+  <div class="modal" id=phoneCertificateModalCenter tabindex="-1" role="dialog" aria-labelledby="agreeModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header d-block">
+          <h5 class="modal-title text-center" id="agreeModalLongTitle">로그인하기</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row justify-content-center mt-3">
+            <label class="mr-2 color-primary">
+              휴대폰 번호 인증
+            </label>
+            <div class="col-12">
+              <%= number_field_tag :code, nil, class: "certification-code-field", style: "line-height:25px;display:none;", required: true %>
+              <%= button_tag "인증번호 발송", class: "btn text-white certification-btn", style: "background-color: #200e57;" %>
+            </div>
+          </div>
+          <%= hidden_field_tag :authorized, value: false %>
+        </div>
+        <div class="modal-footer row justify-content-center new_modal_footer">
+          <button type="button" class="btn" data-dismiss="modal" style="color: #200e57; background-color:#cfd3df;">닫기</button>
+          <button type="button" class="btn submit-button text-white" data-purpose="signin" style="background-color: #200e57;">로그인하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <div class="modal" id="agreeModalCenter" tabindex="-1" role="dialog" aria-labelledby="agreeModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -99,23 +130,58 @@
               </div>
             </div>
           <% else %>
-          <div class="m-auto">
-            <h3>현재 휴대폰에서는 회원가입이 불가능합니다.<br>가맹지점의 태블릿에서 회원가입해주세요. </h3>
-          </div>
+            <div class="row justify-content-center pt-3 pb-2">
+              <h2 class="phone-field color-primary"></h2>
+            </div>
+            <div class="row justify-content-center pb-3">
+              <h4 class="center-field"></h4>
+            </div>
+            <div class="row justify-content-center mt-3">
+              <label class="mr-2 color-primary">
+                휴대폰 번호 인증
+              </label>
+              <div class="col-12">
+                <%= number_field_tag :code, nil, class: "certification-code-field", style: "line-height:25px;display:none;", required: true %>
+                <%= button_tag "인증번호 발송", class: "btn text-white certification-btn", style: "background-color: #200e57;" %>
+              </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+              <div class="checkbox text-left mobile-input mt-3 col-12 text-center">
+                <label class="mr-2 color-primary">
+                  개인정보 수집 및 이용 동의 (필수)
+                </label>
+                <%= f.radio_button :privacy, true, required: true, class: "radio", checked: true %>
+              </div>
+              <div class="checkbox text-left mobile-input col-12 text-center">
+                <label class="mr-2 color-primary">
+                  마케팅 정보 수신 (선택)
+                </label>
+                <%= f.check_box :marketing, { class: "marketing_check mt-1", checked: true } %> <br>
+                <small class="text-white">각종 포인트 충전 이벤트에 참여 가능합니다:)</small>
+              </div>
+            </div>
+            <%= hidden_field_tag :authorized, value: false %>
           <% end %>
         </div>
         <div class="modal-footer row justify-content-center new_modal_footer">
           <button type="button" class="btn" data-dismiss="modal" style="color: #200e57; background-color:#cfd3df;">닫기</button>
-          <% if check_gym_tablet %>
-            <button type="button" class="btn submit-button text-white" style="background-color: #200e57;">동의하고 회원가입하기</button>
-          <% end %>
+          <button type="button" class="btn submit-button text-white" style="background-color: #200e57;">동의하고 회원가입하기</button>
         </div>
       </div>
     </div>
   </div>
 <% end %>
 
+<%= form_with url: check_certificate_users_path, id: "phone-certificate-form", style: "display:none;" do %>
+  <%= hidden_field_tag :phone %>
+  <%= hidden_field_tag :code %>
+  <%= hidden_field_tag :_type %>
+  <%=  %>
+<% end %>
+
 <button type="button" class="btn btn-primary modal-btn" data-toggle="modal" style="display:none;" data-target="#agreeModalCenter">
+</button>
+<button type="button" class="btn btn-primary phone-certificate-modal-btn" data-toggle="modal" style="display:none;" data-target="#phoneCertificateModalCenter">
 </button>
 
 
@@ -127,11 +193,32 @@
       alert("전화번호를 다시 한번 확인해주세요.");
     } else if(($("#select_gym_id").val() == undefined) || ($("#select_gym_id").val() == "")){
       alert("센터를 다시 한번 확인해주세요.");
-    } else{
-      result = true;
+    } else {
+      result = true
     }
     return result;
   }
+
+  function initPhoneForm(phone){
+    $("#phone-certificate-form #phone").val(phone);
+    $("#phone-certificate-form #_type").val("send");
+    $(".certification-code-field").val("");
+    $(".certification-code-field").hide();
+    $(".certification-btn").text("인증번호 발송");
+    $(".certification-code-field").prop("readonly", "");
+    $(".certification-btn").prop("disabled", "");
+
+  }
+
+  $(".certification-btn").click((e) => {
+    $("#phone-certificate-form #code").val(($(".certification-code-field").val()));
+    Rails.fire($("#phone-certificate-form")[0], "submit");
+    $("#phone-certificate-form #_type").val("check");
+    $(".certification-code-field").show();
+    $(".certification-btn").text("인증");
+    return false;
+  })
+  
   $("form#new_user [name=authenticity_token]").val('<%= form_authenticity_token %>');
   $('#select_gym_id').dropdown();
   $('.num').click(function () {
@@ -156,16 +243,31 @@
     }
     return false;
   });
-  $("#agreeModalCenter").on("show.bs.modal", function(){
+  $(".modal").on("show.bs.modal", function(){
     $(".phone-field").text($('#telNumber').val());
     $(".center-field").text($('#select_gym_id option:selected').text() + " 지점");
+    initPhoneForm($('#telNumber').val());
   });
+
+
   $(".submit-button").click((e)=>{
     e.preventDefault();
     let lengthOfPhone = $('#telNumber').val().length;
-    if (validateFields(lengthOfPhone)){
-      $("form#new_user").submit();
-    }
+    <% if check_gym_tablet %>
+      if (validateFields(lengthOfPhone)){
+        $("form#new_user").submit();
+      }
+    <% else %>
+      if(($("#authorized").val() == "true")){
+        if (validateFields(lengthOfPhone)){
+          if($(e.currentTarget).data("purpose") == "signin") $("form#new_user").prop("action", '<%= new_user_session_path %>');
+          $("form#new_user").submit();
+        }
+      } else {
+        alert("휴대폰 인증을 진행해주세요.");
+      }
+    <% end %>
+    
     return false;
   });
 </script>

@@ -20,16 +20,29 @@
     Swal.fire({
       title: "<%= @title %>",
       button: false,
-      text: "<%= @body %>"
+      text: "<%= check_gym_tablet ? @body : '' %>"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        <% if check_gym_tablet %>
+          window.location = '/items/auto_out'
+        <% else %>
+          location.reload();
+        <% end %>
+      }
     });
     setTimeout(function(){
-      window.location = '/items/auto_out'
+      <% if check_gym_tablet %>
+        window.location = '/items/auto_out'
+      <% else %>
+        location.reload();
+      <% end %>
+
     }, 5000);
   <% end %>
 <% else %>
   Swal.fire({
     title: "<%= @title %>",
-    text: "<%= @body %>",
+    text: "<%= check_gym_tablet ? @body : '' %>",
     icon: "error",
     confirmButtonText: '확인',
     confirmButtonColor: "#200e57"

@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_own_tablet
+  # before_action :check_own_tablet
   before_action :load_object, only: [:show]
 
   def index
