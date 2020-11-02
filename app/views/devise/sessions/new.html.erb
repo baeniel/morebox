@@ -211,7 +211,7 @@
   }
 
   $(".certification-btn").click((e) => {
-    $("#phone-certificate-form #code").val(($(".certification-code-field").val()));
+    $("#phone-certificate-form #code").val($(e.currentTarget).closest(".modal").find(".certification-code-field").val());
     Rails.fire($("#phone-certificate-form")[0], "submit");
     $("#phone-certificate-form #_type").val("check");
     $(".certification-code-field").show();
