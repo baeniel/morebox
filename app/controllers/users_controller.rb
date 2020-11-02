@@ -68,7 +68,7 @@ class UsersController < ApplicationController
       subject = "MoreBox 인증번호"
       contents = <<-TEXT
 [MoreBox]
-인증번호 [#{phone_certification}]
+인증번호 [#{phone_certification&.code}]
 입니다.
 TEXT
       calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
