@@ -8,7 +8,7 @@ Rails.application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
-
+  config.hosts = nil
   # config.hosts << "172.30.1.16.xip.io"
   # http://172.30.1.16.xip.io:3000/users/sign_in
 

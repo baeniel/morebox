@@ -37,8 +37,7 @@ class OrdersController < ApplicationController
 
   def complete
     user = nil
-    order = nil
-    complete_result = false
+    @order = nil
 
     begin
       receipt_id = params[:receipt_id]
@@ -48,43 +47,67 @@ class OrdersController < ApplicationController
           "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
       )
       result  = bootpay.get_access_token
-      @msg = "결제에 문제가 발생하였습니다. 다시 시도해보시거나 관리자에게 문의해주세요."
-      # msg = "결제가 실패하였습니다. 다시 한번 시도해주세요."
+      msg = "결제가 실패하였습니다. 다시 한번 시도해주세요."
+      @result = false
+
       if (result[:status]&.to_s == "200")
-        order_number = params[:order_number]
-        order = Order.find_by(order_number: order_number)
+        order_number = params[:order_id]
+        @order = Order.find_by(order_number: order_number)
         verify_response = bootpay.verify(receipt_id) unless Rails.env.development?
+        user = @order.user
 
-        if order && (Rails.env.development? || (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1"))
+        if @order && (Rails.env.development? || (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1"))
           total_price = 0
-          total_price = order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.price)} + 2500
-
-          if (Rails.env.development? || ((item = order.item) || order.sub_items&.exists?) && (verify_response[:data][:price] == total_price))
-            if order.ready?
-              order.update(status: :complete, paid_at: Time.zone.now, payment_amount: total_price)
+          if @order.item
+            total_price = @order.item&.price
+          else
+            total_price = @order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
+          end
+          if (Rails.env.development? || ((item = @order.item) || @order.sub_items&.exists?) && (verify_response[:data][:price] == total_price))
+            if @order.ready?
+              point = nil
+              data_type = "payment_complete"
+              amount = 0
+              if @order.item
+                amount = @order.trainer ? (@order.item&.point + (total_price.to_f * 0.05)) : @order.item&.point
+              else
+                data_type = "direct_complete"
+                amount = @order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
+              end
+              if (point = Point.create(amount: amount, point_type: :charged, user: user, gym: current_gym))
+                @order.update(status: :complete, paid_at: Time.zone.now, point: point, payment_amount: total_price)
+                if @order.sub_items&.exists?
+                  @order.sub_items.each do |sub_item|
+                    point = Point.create(user: user, point_type: :used, amount: sub_item.point, sub_item: sub_item, remain_point: (user.remained_point-sub_item.point), gym: current_gym)
+                  end
+                end
+                # ActionCable.server.broadcast("room_#{user.id}", data_type: data_type)
+              else
+                # msg = "포인트 생성에 실패하였습니다. 관리자에게 문의해주세요."
+                raise
+              end
             else
               # msg = "이미 결제가 된 상품입니다."
               raise
             end
-            title = item&.title || "#{order.sub_items.first&.title} 포함 #{order.sub_items.count}개 상품"
+            title = item&.title || "#{@order.sub_items.first&.title} 포함 #{@order.sub_items.count}개 상품"
 
             # 관리자 결제 알람
             templateCode = '020100000007'
-            content = order.order_phone.last(4) + "님의 " + title + " 결제가 완료되었습니다."
+            content = user.gym.title + " " + user.phone.last(4) + "님의 " + title + " 결제가 완료되었습니다."
             receiver = '010-5605-3087'
             receiverName = '박진배'
             admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            admin_alarm.send_alarm
+            admin_alarm.send_alarm if Rails.env.production?
 
             # 결제한 사용자에게 알람
-
             templateCode = '020100000008'
             content = "[MoreMarket]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
-            receiver = order.order_phone
-            receiverName = order.order_name
+            receiver = user.phone
+            receiverName = user.phone.last(4)
             user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
             user_alarm.send_alarm
-            complete_result = true
+
           else
             raise
           end
@@ -94,14 +117,16 @@ class OrdersController < ApplicationController
       else
         raise
       end
-
+      @result = true
     rescue
-    end
-
-    if complete_result
-      redirect_to order_path(order, phone: order.order_phone, order_number: order.order_number)
-    else
-      redirect_to survey_path, notice: "결제를 실패하였습니다. 다시 한번 시도하거나, 관리자에게 문의해주세요."
+      if @order && @order.user && @order.ready?
+        @order.incomplete!
+        receiver = user.phone
+        receiverName = user.phone.last(4)
+        contents = "[MoreBox]\n"+"#{msg}\n"
+        payment_alarm = MessageAlarmService.new(receiver, receiverName, contents)
+        payment_alarm.send_mms
+      end
     end
 
   end

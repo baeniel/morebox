@@ -26,7 +26,11 @@ class HomeController < ApplicationController
 
   def calorie_start; end
 
-  def survey; end
+  def survey
+    redirect_to root_path, notice: "서비스가 종료되었습니다."
+  end
 
-  def survey_start; end
+  def survey_start
+    redirect_to root_path, notice: "서비스가 종료되었습니다."
+  end
 end

@@ -67,7 +67,7 @@ class UsersController < ApplicationController
       receiverName = params[:phone].last(4)
       subject = "MoreBox 인증번호"
       contents = <<-TEXT
-[MoreBox]
+MoreBox
 인증번호 [#{phone_certification&.code}]
 입니다.
 TEXT

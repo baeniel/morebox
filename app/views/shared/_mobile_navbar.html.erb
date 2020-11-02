@@ -1,0 +1,38 @@
+<nav class="navbar navbar-light light-blue lighten-4 px-0">
+  <div class="row mx-0">
+    <div class="col-sm-12 col-10 px-0">
+      <a class="navbar-brand mx-0" href="#"> <%= image_tag '/list_logo.png', class: "px-sm-5 py-2 w-100" %> </a>
+    </div>
+    <% unless check_gym_tablet %>
+      <div class="col-2 px-0 my-auto hamburgur">
+        <button class="navbar-toggler toggler-example float-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+            aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i
+                class="fas fa-bars fa-1x"></i></span></button>
+      </div>
+    <% end %>
+  </div>
+  <div class="collapse navbar-collapse border" id="navbarSupportedContent1">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item top-nav-bar active w-100">
+        <a class="nav-link" href="<%= list_items_path %>">제품구매<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item top-nav-bar w-100">
+        <a class="nav-link" href="<%= items_path %>">포인트 충전</a>
+      </li>
+      <% if false %>
+        <li class="nav-item top-nav-bar w-100">
+          <a class="nav-link" href="<%= points_path %>">포인트 내역 조회</a>
+        </li>
+      <% end %>
+      <% if current_user&.fit_center %>
+        <li class="nav-item top-nav-bar w-100">
+          <a class="nav-link" href="<%= gym_path(current_user.gym) %>">관리 대시보드</a>
+        </li>
+      <% elsif current_user&.manager? %>
+        <li class="nav-item top-nav-bar w-100">
+          <a class="nav-link" href="<%= users_path %>">관리 대시보드</a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

@@ -27,10 +27,10 @@
 
 <% trainer_incentive ||= 0 %>
 
-<div class="container mt-5">
-  <%= image_tag '/list_logo.png', id: "admin-logo" %>
+<div class="container mt-1">
+  <%= render 'shared/mobile_navbar' %>
   <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn mt-4 mr-2", style: "background-color: #cfd3df;", data: {confirm: "로그아웃하시겠습니까?"} %>
-  <%= link_to "칼로리계산기", survey_path, class: "btn btn mt-4 text-white", style: "background-color: #200e57;" %>
+  <%# link_to "칼로리계산기", survey_path, class: "btn btn mt-4 text-white", style: "background-color: #200e57;" %>
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" style="color: #200e57;">
     <h3 class="display-5"><%= @gym&.title %></h3>
     <p class="lead mt-3">인포/트레이너 페이지입니다.</p>

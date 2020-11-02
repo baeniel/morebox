@@ -18,14 +18,15 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-md-6 col-xs-12 order-1">
-        <%= image_tag '/list_logo.png', class: "px-sm-5 py-2" %>
+        <%= render 'shared/mobile_navbar' %>
+
       </div>
       <div class="col-md-6 col-xs-12 order-2" style="font-size: 20px;">
         <div class="row">
-          <div class="offset-sm-2 col-sm-6 col-7 text-right">
+          <div class="offset-sm-2 col-sm-6 col-7 text-right px-2">
             <span style="color: #200e57;line-height:45px;"><%= current_user.phone %>님</span>
           </div>
-          <div class="col-sm-4 col-5 text-left">
+          <div class="col-sm-4 col-5 text-left px-2">
             <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2",  data: {confirm: "로그아웃하시겠습니까?"} %>
           </div>
         </div>
