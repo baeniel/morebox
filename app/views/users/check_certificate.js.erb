@@ -2,15 +2,33 @@ $("#authorized").val(false);
 <% unless (params[:_type] == "send") %>
   <% if @result %>
     <% if (@result == "init") %>
-      alert("인증번호가 3회 일치하지 않아 초기화 됐습니다. 새로운 인증번호를 요청하여 다시 한번 시도해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "인증실패",
+        html: "인증번호가 3회 일치하지 않아 초기화 됐습니다<br />새로운 인증번호를 요청하여<br />다시 한번 시도해주세요!",
+        confirmButtonColor: "#200e57",
+        confirmButtonText: "예"
+      });
       initPhoneForm("<%= params[:phone] %>")
     <% else %>
-      alert("인증되었습니다.");
-      $(".certification-code-field").attr("readonly", "true");
-      $(".certification-btn").prop("disabled", "true");
-      $("#authorized").val(true);
+      Swal.fire({
+        icon: "info",
+        title: "인증완료",
+        html: "환영합니다:)<br />로그인이나 회원가입 버튼을 눌러주세요!",
+        confirmButtonColor: "#200e57",
+        confirmButtonText: "예"
+      });
     <% end %>
+    $(".certification-code-field").attr("readonly", "true");
+    $(".certification-btn").prop("disabled", "true");
+    $("#authorized").val(true);
   <% else %>
-    alert("인증번호가 일치하지 않습니다. 다시 한번 시도해주세요.");
+    Swal.fire({
+      icon: "error",
+      title: "인증실패",
+      html: "인증번호가 일치하지 않습니다<br />다시 한번 시도해주세요!",
+      confirmButtonColor: "#200e57",
+      confirmButtonText: "예"
+    });
   <% end %>
 <% end %>

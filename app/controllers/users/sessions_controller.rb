@@ -26,8 +26,8 @@ class Users::SessionsController < Devise::SessionsController
     else
       super
     end
-    
-    
+
+
   end
 
   # DELETE /resource/sign_out

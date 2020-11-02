@@ -71,8 +71,8 @@ class UsersController < ApplicationController
 인증번호 [#{phone_certification&.code}]
 입니다.
 TEXT
-      calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-      calorie_alarm.send_message if true || Rails.env.production?
+      check_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+      check_alarm.send_message if true || Rails.env.production?
     elsif params[:_type] == "check"
       phone_certification = phone_certifications.first
       if phone_certification.count < 3
@@ -84,7 +84,7 @@ TEXT
       end
     end
   end
-  
+
 
   def check_and_send_message
     result = {}

@@ -63,15 +63,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up.
   def after_sign_up_path_for(resource)
     # super(resource)
-    unless ["스프링타운2층", "짐박스3호점", "얼티밋크로스핏", "테라피티(언주)", "에이짐휘트니스", "모던복싱", "FM피트니스", "짐박스난곡점"].include? current_user.gym.title
-      if current_user.gym.title == "팀레드"
-        Point.create(amount: 2500, point_type: :charged, user: current_user)
-      else
-        Point.create(amount: 1000, point_type: :charged, user: current_user)
-      end
-    end
-    browser = Browser.new(request.env["HTTP_USER_AGENT"])
-    browser.device.tablet? ? list_items_path : market_users_path
+    # unless ["스프링타운2층", "짐박스3호점", "얼티밋크로스핏", "테라피티(언주)", "에이짐휘트니스", "모던복싱", "FM피트니스", "짐박스난곡점"].include? current_user.gym.title
+    #   if current_user.gym.title == "팀레드"
+    #     Point.create(amount: 2500, point_type: :charged, user: current_user)
+    #   else
+    #     Point.create(amount: 1000, point_type: :charged, user: current_user)
+    #   end
+    # end
+    # browser = Browser.new(request.env["HTTP_USER_AGENT"])
+    # browser.device.tablet? ? list_items_path : market_users_path
+    list_items_path
   end
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)

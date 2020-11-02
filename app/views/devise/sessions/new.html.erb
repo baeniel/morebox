@@ -71,7 +71,7 @@
   </div>
 
 
-  
+
   <div class="modal" id=phoneCertificateModalCenter tabindex="-1" role="dialog" aria-labelledby="agreeModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -84,7 +84,7 @@
               휴대폰 번호 인증
             </label>
             <div class="col-12">
-              <%= number_field_tag :code, nil, class: "certification-code-field", style: "line-height:25px;display:none;", required: true %>
+              <%= number_field_tag :code, nil, class: "certification-code-field", style: "line-height:25px;display:none;", required: true, placeholder: "문자를 확인하세요!" %>
               <%= button_tag "인증번호 발송", class: "btn text-white certification-btn", style: "background-color: #200e57;" %>
             </div>
           </div>
@@ -190,9 +190,19 @@
   function validateFields(lengthOfPhone){
     let result = false;
     if(lengthOfPhone != 11){
-      alert("전화번호를 다시 한번 확인해주세요.");
+      Swal.fire({
+        icon: "error",
+        html: "전화번호를 다시 한번 확인해주세요",
+        confirmButtonColor: "#200e57",
+        confirmButtonText: "예"
+      });
     } else if(($("#select_gym_id").val() == undefined) || ($("#select_gym_id").val() == "")){
-      alert("센터를 다시 한번 확인해주세요.");
+      Swal.fire({
+        icon: "error",
+        html: "센터를 다시 한번 확인해주세요",
+        confirmButtonColor: "#200e57",
+        confirmButtonText: "예"
+      });
     } else {
       result = true
     }
@@ -218,7 +228,7 @@
     $(".certification-btn").text("인증");
     return false;
   })
-  
+
   $("form#new_user [name=authenticity_token]").val('<%= form_authenticity_token %>');
   $('#select_gym_id').dropdown();
   $('.num').click(function () {
@@ -264,10 +274,15 @@
           $("form#new_user").submit();
         }
       } else {
-        alert("휴대폰 인증을 진행해주세요.");
+        Swal.fire({
+          icon: "error",
+          html: "휴대폰 인증을 먼저 진행해주세요",
+          confirmButtonColor: "#200e57",
+          confirmButtonText: "예"
+        });
       }
     <% end %>
-    
+
     return false;
   });
 </script>
