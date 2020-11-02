@@ -50,33 +50,43 @@ class ApisController < ApplicationController
 
       @trainer = User.manager.where(gym: current_gym).where.not(id: current_user&.id).where("phone like ?", "%#{params[:trainer_code]}").first
       if (params[:trainer_code].blank? || @trainer)
-        response = bootpay.request_payment(
-          pg: 'inicis', # PG Alias
-          method: 'card', # Method Alias
-          order_id: order_number, # 사용할 OrderId
-          price: total_price, # 결제금액
-          items: items,
-          name: "#{title}", # 상품명
-          params: {
-            user_id: current_user.id
-          },
-          # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
-          return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
-        )
-        if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: @trainer))
-          @subitems.each do |sub_item|
-            order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+        if check_gym_tablet
+          response = bootpay.request_payment(
+            pg: 'inicis', # PG Alias
+            method: 'card', # Method Alias
+            order_id: order_number, # 사용할 OrderId
+            price: total_price, # 결제금액
+            items: items,
+            name: "#{title}", # 상품명
+            params: {
+              user_id: current_user.id
+            },
+            # return_url: "http://172.30.1.34:3003/users/#{current_user.id}/pay_complete"
+            return_url: "https://morebox.co.kr/users/#{current_user.id}/pay_complete"
+          )
+          if (order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: @trainer))
+            @subitems.each do |sub_item|
+              order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+            end
+            order.save
+            link = response[:data]
+            receiver = current_user.phone
+            receiverName = current_user.phone.last(4)
+            subject = "모어박스 결제"
+            contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
+            payment_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+            payment_alarm.send_message if Rails.env.production?
+            @result = true
+            # redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."
           end
-          order.save
-          link = response[:data]
-          receiver = current_user.phone
-          receiverName = current_user.phone.last(4)
-          subject = "모어박스 결제"
-          contents = "[MoreBox]\n"+"#{link}"+" 아이폰 유저는 결제 후 뒤로 돌아가주세요"
-          payment_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-          payment_alarm.send_message if Rails.env.production?
-          @result = true
-          # redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."
+        else
+          if (@order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: @trainer))
+            @subitems.each do |sub_item|
+              @order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
+            end
+            @order.save
+            @result = true
+          end
         end
       else
         @result = "no_trainer"

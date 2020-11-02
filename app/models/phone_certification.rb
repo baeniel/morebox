@@ -1,0 +1,2 @@
+class PhoneCertification < ApplicationRecord
+end

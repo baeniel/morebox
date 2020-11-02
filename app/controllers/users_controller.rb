@@ -57,6 +57,35 @@ class UsersController < ApplicationController
     @result = (params[:phone_num].present? && (user = User.find_by(phone: params[:phone_num])))
   end
 
+  def check_certificate
+    @result = false
+    phone_certifications = PhoneCertification.where(phone: params[:phone])
+    if params[:_type] == "send"
+      phone_certifications.destroy_all
+      phone_certification = PhoneCertification.create(phone: params[:phone], code: [*'0'..'9'].sample(6).join)
+      receiver = params[:phone]
+      receiverName = params[:phone].last(4)
+      subject = "MoreBox 인증번호"
+      contents = <<-TEXT
+[MoreBox]
+인증번호 [#{phone_certification}]
+입니다.
+TEXT
+      calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+      calorie_alarm.send_message if true || Rails.env.production?
+    elsif params[:_type] == "check"
+      phone_certification = phone_certifications.first
+      if phone_certification.count < 3
+        @result = (params[:code] == phone_certification&.code)
+        phone_certification.increment!(:count)
+      else
+        @result = "init"
+        phone_certification.destroy
+      end
+    end
+  end
+  
+
   def check_and_send_message
     result = {}
     if params[:phone_num].present? && params[:checked_items].present?

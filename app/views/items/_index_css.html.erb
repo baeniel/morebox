@@ -1,4 +1,35 @@
 <style>
+ @media screen and (max-width: 573px) {
+    .left {
+      margin-bottom: 500px;
+    }
+    .right {
+      position:fixed;
+      bottom:0;
+      background: white;
+    }
+    .right .header{
+      height: 7vh;
+      line-height:7vh;
+    }
+    .cart-list {
+      max-height: 185px !important;
+      overflow-y: scroll;
+    }
+    .arrow {
+      display:inline-block !important;
+    }  
+    label {
+      font-size:1.5rem;
+    }
+  }
+  [type='checkbox']{
+    min-width:13px;
+    max-width:17px;
+  }
+  .row {
+    margin:0;
+  }
   #change-color {
     background-color: white;
   }

@@ -10,21 +10,23 @@
 <% end %>
 <div class="row justify-content-center">
   <!-- 좌측면 -->
-  <div class="left" style="width: 70%;">
+  <div class="left col-sm-8 col-xs-12 px-0 order-1">
     <div class="mb-3">
-      <%= render 'shared/timer' %>
+      <% if check_gym_tablet && Rails.env.production? %>
+        <%= render 'shared/timer' %>
+      <% end %>
     </div>
     <div class="row justify-content-center">
-      <div class="col-6">
-        <%= image_tag '/list_logo.png', class: "px-5 py-2" %>
+      <div class="col-md-6 col-xs-12 order-1">
+        <%= image_tag '/list_logo.png', class: "px-sm-5 py-2" %>
       </div>
-      <div class="col-6" style="font-size: 20px;">
+      <div class="col-md-6 col-xs-12 order-2" style="font-size: 20px;">
         <div class="row">
-          <div class="offset-2 col-5 text-right">
+          <div class="offset-sm-2 col-sm-6 col-7 text-right">
             <span style="color: #200e57;line-height:45px;"><%= current_user.phone %>님</span>
           </div>
-          <div class="col-5 text-left">
-            <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2", style: "width: 50%;", data: {confirm: "로그아웃하시겠습니까?"} %>
+          <div class="col-sm-4 col-5 text-left">
+            <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "btn btn-outline ui-button mt-2",  data: {confirm: "로그아웃하시겠습니까?"} %>
           </div>
         </div>
       </div>
@@ -35,12 +37,12 @@
     <% categories = current_gym&.sub_items&.map {|sub_item| sub_item&.category } %>
     <h2><%= current_gym&.title %> 지점</h2>
     <div class="row justify-content-center">
-      <ul class="nav nav-tabs mt-5 px-5" id="myTab" role="tablist">
+      <ul class="nav nav-tabs mt-5 px-sm-5 px-3 w-100 justify-content-center" id="myTab" role="tablist">
         <% categories.uniq.each_with_index do |category, index| %>
           <%# 아무것도 없는 제품 안 띄우게 하려고 %>
           <% if current_gym.sub_items.any? { |sub_item| sub_item.category == category } %>
-            <li class="nav-item mr-4 font-weight-bold">
-              <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category.id %>" data-toggle="tab" href="#category_<%= category.title %>" role="tab" aria-selected="false"><%= category.description %></a>
+            <li class="nav-item mr-2 font-weight-bold">
+              <a class="nav-link <%= "active" if index.zero? %>" style="color: #200e57;" id="<%= category&.id %>" data-toggle="tab" href="#category_<%= category&.title %>" role="tab" aria-selected="false"><%= category&.description %></a>
             </li>
           <% end %>
         <% end %>
@@ -53,23 +55,31 @@
     </div>
   </div>
   <!-- 우측면 -->
-  <div class="right" style="width: 30%; background-color: white;">
+  <div class="right col-sm-4 col-xs-12 order-2 px-0" style="background-color: white;">
     <div class="header">
-      <h2 style="vertical-align: middle; display: inline-block;">주문할 상품</h2>
+      <h2 class="mt-2" style="vertical-align: middle; display: inline-block;">주문할 상품</h2>
+      <i class="fas fa-angle-up fa-2x ml-3 mt-2 arrow"></i>
     </div>
+    <hr class="mt-0 mb-2" style="background-color: #200e57;" />
     <div class="cart-list" style="text-align: center;" id="cart-container">
     </div>
-    <hr class="mt-0 mb-5" style="background-color: #200e57;" />
     <%= form_with url: points_path, id: "cart", method: :post do %>
       <%# current_user.gym&.sub_items.each do |sub_item| %>
       <% current_gym&.sub_items.each do |sub_item| %>
         <%= hidden_field_tag "sub_item_#{sub_item.id}", 0, name: "sub_item[#{sub_item.id}]", class: "sub_item_field", data: { title: sub_item.title, id: sub_item.id, point: sub_item.point } %>
       <% end %>
-      <%= submit_tag "구매하기", class: "btn btn-outline btn-lg text-white mb-2 submit_btn", style: "background-color: #200e57; border-color: #200e57; width: 60%;", onclick: "sound()" %> <br>
-      <%= link_to "포인트 충전", items_path, class: "btn btn-outline btn-lg", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
-      <h2 class="mb-5" style="color: #200e57;">잔여포인트: <%= current_user.remained_point %>포인트</h2>
-      <audio id="audio" src="/click.mp3"></audio>
-      <%= image_tag '/sos.png', id: "sos-button" %>
+      <div class="row mt-5">
+        <div class="col-sm-12 col-8 px-0">
+          <%= submit_tag "구매하기", class: "btn btn-outline btn-lg text-white mb-2 submit_btn", style: "background-color: #200e57; border-color: #200e57; width: 60%;", onclick: "sound()" %> <br>
+          <%= link_to "포인트 충전", items_path, class: "btn btn-outline btn-lg", style: "color: #200e57; border-color: #200e57; width: 60%;" %>
+          <h2 class="mb-5" style="color: #200e57;">잔여포인트: <%= current_user.remained_point %>포인트</h2>
+          <audio id="audio" src="/click.mp3"></audio>
+        </div>
+        <div class="col-sm-12 col-4 px-0">
+          <%= image_tag '/sos.png', id: "sos-button", class: "w-100 px-3" %>
+        </div>
+      </div>
+      
     <% end %>
   </div>
 </div>
@@ -134,7 +144,7 @@
       var point = target.data("point")
       if(parseInt(target.val()) > 0){
         html = html +
-        '<div class="container mt-4 mb-5">' +
+        '<div class="container my-2 pb-3" style="border-bottom:1px solid black;">' +
           '<div class="row justify-content-center mt-3">' +
             '<div class="col-70">' +
               '<h2 style="color: #200e57;">' + target.data("title") + ' ' + target.val() + '개</h2>' +
@@ -158,6 +168,14 @@
     });
     $(".cart-list").html(html);
   });
-
+  $(".arrow").click(function(){
+    $(this).toggleClass("fa-angle-down");
+    $(this).toggleClass("fa-angle-up");
+    if($(this).hasClass("fa-angle-up")){
+      $(".cart-list").show();
+    }else{
+      $(".cart-list").hide();
+    }
+  })
 
 </script>

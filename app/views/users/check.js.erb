@@ -1,6 +1,10 @@
 <% if @result %>
-  $("form#new_user").prop("action", '<%= new_user_session_path %>');
-  $("form#new_user").submit();
+  <% if check_gym_tablet %>
+    $("form#new_user").prop("action", '<%= new_user_session_path %>');
+    $("form#new_user").submit();
+  <% else %>
+    $(".phone-certificate-modal-btn").click();
+  <% end %>
 <% else %>
   $(".modal-btn").click();
 <% end %>

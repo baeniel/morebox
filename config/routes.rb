@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :users do
     collection do
       get :check
+      post :check_certificate
       get :check_and_send_message
       get :market
     end
