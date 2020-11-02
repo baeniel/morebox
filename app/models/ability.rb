@@ -10,10 +10,15 @@ class Ability
       can :manage, :all
     elsif user.has_role? :gym
       can :manage, GymsSubItem
-      cannot :create, GymsSubItem
-      cannot :destroy, GymsSubItem
-    else
-      can :read, :all
+      %i(create destroy).each do |role|
+        cannot role, GymsSubItem
+      end
+      can :manage, Purchase
+      %i(update destroy show).each do |role|
+        cannot role, Purchase
+      end
+    elsif user.has_role? :report
+      can :manage, Report
     end
     #
     # The first argument to `can` is the action you are giving the user

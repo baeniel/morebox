@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_31_072841) do
+ActiveRecord::Schema.define(version: 2020_11_01_083859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,6 +182,14 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "phone_certifications", force: :cascade do |t|
+    t.string "phone"
+    t.string "code"
+    t.integer "count", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "points", force: :cascade do |t|
     t.integer "amount"
     t.integer "point_type"
@@ -216,6 +224,17 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
     t.integer "phone"
   end
 
+  create_table "purchases", force: :cascade do |t|
+    t.bigint "gym_id"
+    t.bigint "sub_item_id"
+    t.integer "quantity", default: 0
+    t.integer "status", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["gym_id"], name: "index_purchases_on_gym_id"
+    t.index ["sub_item_id"], name: "index_purchases_on_sub_item_id"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string "name"
     t.float "weight"
@@ -244,6 +263,7 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
     t.string "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "report_type", default: 0
   end
 
   create_table "roles", force: :cascade do |t|
@@ -269,11 +289,9 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
     t.float "protein"
     t.float "fat"
     t.string "link"
-    t.bigint "food_id"
     t.integer "sub_item_type", default: 0
     t.integer "price"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
-    t.index ["food_id"], name: "index_sub_items_on_food_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -304,6 +322,7 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -313,13 +332,13 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
     t.string "phone"
     t.string "username"
     t.boolean "fit_center"
-    t.string "email", default: "", null: false
     t.bigint "gym_id", null: false
     t.integer "gender"
     t.boolean "privacy", default: true
     t.string "referrer"
     t.boolean "marketing", default: true
     t.integer "user_type", default: 0
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["gym_id"], name: "index_users_on_gym_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -340,8 +359,9 @@ ActiveRecord::Schema.define(version: 2020_10_31_072841) do
   add_foreign_key "points", "gyms"
   add_foreign_key "points", "sub_items"
   add_foreign_key "points", "users"
+  add_foreign_key "purchases", "gyms"
+  add_foreign_key "purchases", "sub_items"
   add_foreign_key "sub_items", "categories"
-  add_foreign_key "sub_items", "foods"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "gyms"
 end

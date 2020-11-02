@@ -5,7 +5,6 @@ class HomeController < ApplicationController
 
   def index
     browser = Browser.new(request.env["HTTP_USER_AGENT"])
-    #태블릿일 때 (추후 시크릿 코드 분기 필요)
     if browser.device.tablet? && check_gym_tablet
       redirect_to list_items_path
     #핸드폰이나 데스크탑 접속할 때
@@ -17,7 +16,8 @@ class HomeController < ApplicationController
           redirect_to users_path
         end
       else
-        redirect_to market_users_path
+        # redirect_to market_users_path
+        redirect_to list_items_path
       end
     end
   end

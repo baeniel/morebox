@@ -37,6 +37,12 @@
               지점 당<br>일평균 매출
             </a>
           </li>
+          <li class="nav-item mt-4">
+            <a class="nav-link" id="sales-tab" href="#kpi" data-toggle="tab" role="tab" aria-selected="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              모어박스 kpi
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -72,6 +78,9 @@
         </div>
         <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
           <canvas class="my-4 chartjs-render-monitor" id="sales_canvas" width="1732" height="730" style="display: block; height: 365px; width: 866px;"></canvas>
+        </div>
+        <div class="tab-pane fade" id="kpi" role="tabpanel" aria-labelledby="kpi-tab">
+          <canvas class="my-4 chartjs-render-monitor" id="kpi_canvas" width="1732" height="730" style="display: block; height: 365px; width: 866px;"></canvas>
         </div>
       </div>
 
@@ -282,6 +291,35 @@
   // 지점 당 일평균 매출
   var ctx5 = document.getElementById("sales_canvas");
   var sales = new Chart(ctx5, {
+    type: 'line',
+    data: {
+      labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],
+      datasets: [{
+        data: [6095, 4071, 1466, 3856, 3221, 0, 0, 0],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
+
+  // kpi
+  var ctx6 = document.getElementById("kpi_canvas");
+  var sales = new Chart(ctx6, {
     type: 'line',
     data: {
       labels: ["1차", "2차", "3차", "4차", "5차", "6차", "7차", "8차"],

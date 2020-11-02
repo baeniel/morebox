@@ -1,6 +1,6 @@
 class PointsController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_own_tablet
+  # before_action :check_own_tablet
 
   def create
     @title = "결제에 실패하였습니다."

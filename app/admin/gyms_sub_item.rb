@@ -1,4 +1,6 @@
 ActiveAdmin.register GymsSubItem do
+  menu label: "재고관리" 
+
   permit_params :sub_item_id, :quantity, gym_ids: []
 
   controller do
@@ -17,6 +19,11 @@ ActiveAdmin.register GymsSubItem do
     end
     redirect_to collection_path, alert: "동기화 완료되었습니다."
   end
+
+  action_item :new_purchase, only: :index do
+    link_to "발주요청", new_admin_purchase_path if current_admin_user&.has_role? :gym
+  end
+
 
   index do
     selectable_column if current_admin_user.has_role? :admin

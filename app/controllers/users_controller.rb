@@ -15,7 +15,21 @@ class UsersController < ApplicationController
   end
 
   def pay_complete
-    ActionCable.server.broadcast("room_#{params[:id]}", data_type: "payment_complete") if Rails.env.development?
+    @result = false
+    receipt_id = params[:receipt_id]
+    require 'bootpay-rest-client'
+    bootpay = Bootpay::ServerApi.new(
+        "5eb2230002f57e002d1edd8d",
+        "GAx0ZCkgGIZuKMlfLgWDbOpAlpSVYV5IWXdmBKURELg="
+    )
+    result  = bootpay.get_access_token
+    if (result[:status]&.to_s == "200")
+      verify_response = bootpay.verify(receipt_id) unless Rails.env.development?
+      if (Rails.env.development? || (verify_response[:status]&.to_s == "200") && (verify_response.dig(:data, :status)&.to_s == "1"))
+        @result = true
+      end
+    end
+    ActionCable.server.broadcast("room_#{params[:id]}", data_type: (@result ? "payment_complete" : "cancel")) if Rails.env.development?
   end
 
   def update_referrer
@@ -42,6 +56,35 @@ class UsersController < ApplicationController
   def check
     @result = (params[:phone_num].present? && (user = User.find_by(phone: params[:phone_num])))
   end
+
+  def check_certificate
+    @result = false
+    phone_certifications = PhoneCertification.where(phone: params[:phone])
+    if params[:_type] == "send"
+      phone_certifications.destroy_all
+      phone_certification = PhoneCertification.create(phone: params[:phone], code: [*'0'..'9'].sample(6).join)
+      receiver = params[:phone]
+      receiverName = params[:phone].last(4)
+      subject = "MoreBox 인증번호"
+      contents = <<-TEXT
+[MoreBox]
+인증번호 [#{phone_certification}]
+입니다.
+TEXT
+      calorie_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
+      calorie_alarm.send_message if true || Rails.env.production?
+    elsif params[:_type] == "check"
+      phone_certification = phone_certifications.first
+      if phone_certification.count < 3
+        @result = (params[:code] == phone_certification&.code)
+        phone_certification.increment!(:count)
+      else
+        @result = "init"
+        phone_certification.destroy
+      end
+    end
+  end
+  
 
   def check_and_send_message
     result = {}
