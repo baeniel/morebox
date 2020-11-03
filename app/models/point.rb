@@ -15,10 +15,10 @@ class Point < ApplicationRecord
 
       today = Date.current
       date_start = today - 7.days
-      average_daily_consumption_speed = gym.points.where(point_type: :used, sub_item: self.sub_item, created_at: date_start..today).count / 7.0
-      date_to_be_maintained = 4
+      average_daily_consumption_speed = gym.points.where(point_type: :used, sub_item: self.sub_item, created_at: date_start..(today + 1.days)).count / 7.0
+      date_to_be_maintained = 5
 
-      if (target_gym_sub_item.quantity <= average_daily_consumption_speed * date_to_be_maintained)
+      if (target_gym_sub_item.quantity <= average_daily_consumption_speed * date_to_be_maintained) || (target_gym_sub_item.quantity <= 3)
         receiver = '010-5605-3087'
         receiverName = '박진배'
         subject = "재고 주문 알람"
