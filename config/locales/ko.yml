@@ -1,0 +1,6 @@
+ko:
+  active_admin:
+    resources:
+      purchase:
+        new_model: "발주요청"
+        

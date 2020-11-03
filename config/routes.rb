@@ -71,8 +71,6 @@ Rails.application.routes.draw do
   end
 
   resources :reports, only: [:new, :create, :show]
-
-
   #모어박스 쇼핑몰 구조
   # post 'apis/pay_url'
   # root 'home#index'

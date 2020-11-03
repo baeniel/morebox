@@ -1,5 +1,5 @@
 ActiveAdmin.register GymsSubItem do
-  menu label: "재고관리" 
+  menu label: "재고관리"
 
   permit_params :sub_item_id, :quantity, gym_ids: []
 
@@ -42,7 +42,10 @@ ActiveAdmin.register GymsSubItem do
       f.input :quantity, label: "재고수량"
       f.input :order_quantity if current_admin_user.has_role? :admin
     end
-    f.actions
+    f.actions do
+      f.action :submit, label: "재고 업데이트"
+      f.action :cancel, label: "취소"
+    end
   end
 
   show do
