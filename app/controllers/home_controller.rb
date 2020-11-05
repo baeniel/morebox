@@ -1,7 +1,7 @@
 require "browser"
 
 class HomeController < ApplicationController
-  before_action :authenticate_user!, except: %i(survey survey_start calorie_start)
+  before_action :authenticate_user!, except: %i(survey survey_start calorie_start fit_table)
 
   def index
     browser = Browser.new(request.env["HTTP_USER_AGENT"])
@@ -25,6 +25,8 @@ class HomeController < ApplicationController
   def policy; end
 
   def calorie_start; end
+
+  def fit_table; end
 
   def survey
     redirect_to root_path, notice: "서비스가 종료되었습니다."

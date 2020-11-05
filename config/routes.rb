@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get '/survey' => "home#survey"
   get '/survey_start' => "home#survey_start"
+  get '/fit_table' => "home#fit_table"
 
   get 'home/exception'
   get 'home/policy'

@@ -141,7 +141,7 @@
                 휴대폰 번호 인증
               </label>
               <div class="col-12">
-                <%= number_field_tag :code, nil, class: "certification-code-field", style: "line-height:25px;display:none;", required: true %>
+                <%= number_field_tag :code, nil, class: "certification-code-field", style: "line-height:25px;display:none;", required: true, placeholder: "문자를 확인하세요!" %>
                 <%= button_tag "인증번호 발송", class: "btn text-white certification-btn", style: "background-color: #200e57;" %>
               </div>
             </div>

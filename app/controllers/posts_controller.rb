@@ -28,6 +28,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:age, :height, :weight, :gender, :activity, :work_time, :work_count, :work_strength, :target_weight, :target_date, :lunch, :sickness, :name, :post_type, :phone)
+    params.require(:post).permit(:age, :height, :weight, :gender, :activity, :work_time, :work_count, :work_strength, :target_weight, :target_date, :lunch, :sickness, :name, :post_type, :phone, :email, :period)
   end
 end
