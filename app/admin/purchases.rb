@@ -22,36 +22,43 @@ ActiveAdmin.register Purchase, label: "발주"  do
     end
 
     def create
+      purchase = Purchase.create(purchase_params)
+
+      templateCode = '020110000009'
+      content = "[MoreMarket]\n" + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주요청이 완료되었습니다. 2시 이후의 발주요청은 다음 날 접수됩니다."
       receiver = User.find_by(gym: Gym.find_by(title: current_admin_user.gym_list.first), fit_center: 1).phone
       receiverName = current_admin_user.email
-      subject = "모어박스 발주요청"
-      contents = "[MoreBox]\n" + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주요청이 완료되었습니다.\n2시 이후의 발주요청은 다음 날 접수됩니다."
-      purchase_ready_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-      purchase_ready_alarm.send_message
+      purchase_ready_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+      purchase_ready_alarm.send_alarm
 
+      templateCode = '020110000010'
+      content = "[MoreMarket]\n" + current_admin_user.gym_list.first + "센터의 " + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주 요청이 접수되었습니다."
       receiver = "01056053087"
       receiverName = "박진배"
-      subject = "모어박스 발주요청"
-      contents = current_admin_user.gym_list.first + "센터의 " + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주 요청이 접수되었습니다."
-      purchase_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-      purchase_alarm.send_message
+      purchase_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+      purchase_alarm.send_alarm
 
       redirect_to admin_purchases_path
     end
 
     def updated
     end
+
+    private
+    def purchase_params
+      params.require(:purchase).permit(:gym_id, :sub_item_id, :quantity)
+    end
   end
 
   batch_action "발주완료처리" do |ids|
     batch_action_collection.find(ids).each do |purchase|
       purchase.done!
+      templateCode = '020110000011'
+      content = "[MoreMarket]\n" + purchase.sub_item.title + purchase.quantity.to_s + "개 발주가 승인되었습니다. 곧 출고 예정입니다."
       receiver = User.find_by(gym: purchase.gym, fit_center: 1).phone
       receiverName = purchase.gym.title + " 대표님"
-      subject = "모어박스 발주승인"
-      contents = "[MoreBox]\n" + purchase.sub_item.title + purchase.quantity.to_s + "개 발주가 승인되었습니다.\n곧 출고 예정입니다."
-      purchase_approve_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-      purchase_approve_alarm.send_message
+      purchase_approve_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+      purchase_approve_alarm.send_alarm
     end
     redirect_to collection_path, alert: "동기화 완료되었습니다."
   end
@@ -67,8 +74,6 @@ ActiveAdmin.register Purchase, label: "발주"  do
     column "생성 시간", :created_at
     column "최종 업데이트 시간", :updated_at
   end
-
-
 
   form do |f|
     f.inputs do
