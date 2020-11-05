@@ -12,6 +12,7 @@ module Morebox
     config.load_defaults 6.0
     config.time_zone = 'Seoul'
     config.autoload_paths += %W(#{config.root}/services)
+    config.i18n.default_locale = :ko
 
 
     config.action_controller.forgery_protection_origin_check = false
