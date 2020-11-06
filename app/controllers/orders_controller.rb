@@ -90,23 +90,23 @@ class OrdersController < ApplicationController
               # msg = "이미 결제가 된 상품입니다."
               raise
             end
-            title = item&.title || "#{@order.sub_items.first&.title} 포함 #{@order.sub_items.count}개 상품"
+            # title = item&.title || "#{@order.sub_items.first&.title} 포함 #{@order.sub_items.count}개 상품"
 
-            # 관리자 결제 알람
-            templateCode = '020100000007'
-            content = user.gym.title + " " + user.phone.last(4) + "님의 " + title + " 결제가 완료되었습니다."
-            receiver = '010-5605-3087'
-            receiverName = '박진배'
-            admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            admin_alarm.send_alarm if Rails.env.production?
+            # # 관리자 결제 알람
+            # templateCode = '020100000007'
+            # content = user.gym.title + " " + user.phone.last(4) + "님의 " + title + " 결제가 완료되었습니다."
+            # receiver = '010-5605-3087'
+            # receiverName = '박진배'
+            # admin_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+            # admin_alarm.send_alarm if Rails.env.production?
 
-            # 결제한 사용자에게 알람
-            templateCode = '020100000008'
-            content = "[MoreMarket]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
-            receiver = user.phone
-            receiverName = user.phone.last(4)
-            user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-            user_alarm.send_alarm
+            # # 결제한 사용자에게 알람
+            # templateCode = '020100000008'
+            # content = "[MoreMarket]\n정상적으로 결제 되었습니다!\n\n이제 휴대폰 창을 끄시고 헬스장에\n있는 태블릿으로 체크인 하시면 됩니다:)\n\n당신의 땀을 가치있게 만들겠습니다.\n\n\n버튼 클릭하시고 자사몰도 구경하세요!!!"
+            # receiver = user.phone
+            # receiverName = user.phone.last(4)
+            # user_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+            # user_alarm.send_alarm
 
           else
             raise
