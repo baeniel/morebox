@@ -19,6 +19,7 @@ ActiveAdmin.register Post do
     column :phone
     column :email
     column :period
+    column :money
     actions
   end
 end
