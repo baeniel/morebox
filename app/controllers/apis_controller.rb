@@ -80,7 +80,7 @@ class ApisController < ApplicationController
             # redirect_to items_path, notice: "결제 생성에 실패하였습니다. 다시한번 시도해주세요."
           end
         else
-          if (@order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: @trainer))
+          if (@order = current_user.orders.create(status: :ready, gym: current_gym, item: @item, order_number: order_number, trainer: @trainer, total: total_price))
             @subitems.each do |sub_item|
               @order.order_sub_items.new(quantity: subitem_info&.dig(sub_item.id.to_s)&.to_i, sub_item: sub_item)
             end
