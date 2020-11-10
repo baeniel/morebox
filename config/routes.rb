@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/survey' => "home#survey"
   get '/survey_start' => "home#survey_start"
   get '/fit_table' => "home#fit_table"
+  get '/fit_table/survey' => "users#market"
 
   get 'home/exception'
   get 'home/policy'
@@ -21,7 +22,13 @@ Rails.application.routes.draw do
       get :check
       post :check_certificate
       get :check_and_send_message
-      get :market
+      # get :market
+    end
+    member do
+      post :pay_complete
+      get :pay_complete
+      get :update_referrer
+      post :updating_referrer
     end
   end
   resources :items, only: [:index, :show] do
@@ -41,15 +48,6 @@ Rails.application.routes.draw do
       get :payment
       get :complete
       get :send_kakao
-    end
-  end
-
-  resources :users do
-    member do
-      post :pay_complete
-      get :pay_complete
-      get :update_referrer
-      post :updating_referrer
     end
   end
   resources :gyms do
