@@ -223,7 +223,7 @@
         <i class="fas fa-2x fa-check mt-3" style="color: #200C58;"></i>
         <h2 style="margin-top: 3%; color: #200C58;">챌린지 참여 준비 완료</h2>
         <div class="row justify-content-center">
-          <%= f.number_field :phone, class: "text-left form-control cal_form mt-2", placeholder: "핸드폰 번호를 입력하세요. 01012341234", required: true %>
+          <%= f.text_field :phone, class: "text-left form-control cal_form mt-2", placeholder: "핸드폰 번호를 입력하세요. 01012341234", required: true %>
           <%= f.text_field :name, class: "text-left form-control cal_form mt-2", placeholder: "상담 시 사용할 닉네임을 입력하세요.", required: true %>
           <%= f.text_field :email, class: "text-left form-control cal_form mt-2", placeholder: "이메일을 입력하세요.", required: true %>
           <p class="mt-3" style="margin-bottom: 1%;">도전 기간을 선택하세요:)</p>
@@ -290,7 +290,7 @@
                 ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
                 ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
                 ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-                ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+                // ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
                 ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
             });
 </script>

@@ -5,13 +5,12 @@ class PostsController < ApplicationController
   def create
     post = Post.create(post_params)
 
-    link = "https://pf.kakao.com/_tVCXK/chat"
+    templateCode = '020110000087'
+    content = "안녕하세요, 핏테이블입니다:)\n 신청해주신 식단관리 프로그램 진행을 위해\n 닉네임을 입력해주세요!"
     receiver = post.phone
     receiverName = post.name
-    subject = "당신만을 위한 식단관리"
-    contents = "[핏테이블]\n"+"#{link}"+"\n 위 링크에 접속하셔서 '닉네임, 상담시작'이라고 카톡을 보내주세요:)\n\n ex)미키마우스, 상담시작"
-    nutrition_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
-    nutrition_alarm.send_message
+    nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+    nutrition_alarm.send_alarm
 
     receiver = '010-5605-3087'
     receiverName = "박진배"
