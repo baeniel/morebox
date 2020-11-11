@@ -6,7 +6,7 @@ class PostsController < ApplicationController
     post = Post.create(post_params)
 
     templateCode = '020110000087'
-    content = "안녕하세요, 핏테이블입니다:)\n 신청해주신 식단관리 프로그램 진행을 위해\n 닉네임을 입력해주세요!"
+    content = "안녕하세요, 핏테이블입니다:)\n 신청해주신 식단관리 프로그램 진행을 위해 닉네임을 입력해주세요!"
     receiver = post.phone
     receiverName = post.name
     nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
