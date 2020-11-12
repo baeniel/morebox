@@ -22,86 +22,56 @@
       <label for="target_date">목표날짜</label>
       <%= f.text_field :target_date, class: "text-center form-control col-12", id: "target_date", value: Date.current + 1.months, readonly: true %>
     </div>
-    <div class="form-group mb-5">
-      <label for="morning_kcal">아침 칼로리</label>
-      <%= f.number_field :morning_kcal, class: "form-control", step: :any, id: "morning_kcal" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="morning_carbo">아침 탄수화물</label>
-      <%= f.number_field :morning_carbo, class: "form-control", step: :any, id: "morning_carbo" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="morning_protein">아침 단백질</label>
-      <%= f.number_field :morning_protein, class: "form-control", step: :any, id: "morning_protein" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="morning_fat">아침 지방</label>
-      <%= f.number_field :morning_fat, class: "form-control", step: :any, id: "morning_fat" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="lunch_kcal">점심 칼로리</label>
-      <%= f.number_field :lunch_kcal, class: "form-control", step: :any, id: "lunch_kcal" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="lunch_carbo">점심 탄수화물</label>
-      <%= f.number_field :lunch_carbo, class: "form-control", step: :any, id: "lunch_carbo" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="lunch_protein">점심 단백질</label>
-      <%= f.number_field :lunch_protein, class: "form-control", step: :any, id: "lunch_protein" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="lunch_fat">점심 지방</label>
-      <%= f.number_field :lunch_fat, class: "form-control", step: :any, id: "lunch_fat" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="dinner_kcal">저녁 칼로리</label>
-      <%= f.number_field :dinner_kcal, class: "form-control", step: :any, id: "dinner_kcal" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="dinner_carbo">저녁 탄수화물</label>
-      <%= f.number_field :dinner_carbo, class: "form-control", step: :any, id: "dinner_carbo" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="dinner_protein">저녁 단백질</label>
-      <%= f.number_field :dinner_protein, class: "form-control", step: :any, id: "dinner_protein" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="dinner_fat">저녁 지방</label>
-      <%= f.number_field :dinner_fat, class: "form-control", step: :any, id: "dinner_fat" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="snack_kcal">간식 칼로리</label>
-      <%= f.number_field :snack_kcal, class: "form-control", step: :any, id: "snack_kcal" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="snack_carbo">간식 탄수화물</label>
-      <%= f.number_field :snack_carbo, class: "form-control", step: :any, id: "snack_carbo" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="snack_prtoein">간식 단백질</label>
-      <%= f.number_field :snack_protein, class: "form-control", step: :any, id: "snack_prtoein" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="snack_fat">간식 지방</label>
-      <%= f.number_field :snack_fat, class: "form-control", step: :any, id: "snack_fat" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="ideal_kcal">이상적인 칼로리</label>
-      <%= f.number_field :ideal_kcal, class: "form-control", step: :any, id: "ideal_kcal" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="ideal_carbo">이상적인 탄수화물</label>
-      <%= f.number_field :ideal_carbo, class: "form-control", step: :any, id: "ideal_carbo" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="ideal_protein">이상적인 단백질</label>
-      <%= f.number_field :ideal_protein, class: "form-control", step: :any, id: "ideal_protein" %>
-    </div>
-    <div class="form-group mb-5">
-      <label for="ideal_fat">이상적인 지방</label>
-      <%= f.number_field :ideal_fat, class: "form-control", step: :any, id: "ideal_fat" %>
-    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Kcal</th>
+          <th scope="col">탄</th>
+          <th scope="col">단</th>
+          <th scope="col">지</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">아침</th>
+          <td><%= f.number_field :morning_kcal, step: :any, id: "morning_kcal" %>kcal</td>
+          <td><%= f.number_field :morning_carbo, step: :any, id: "morning_carbo" %>g</td>
+          <td><%= f.number_field :morning_protein, step: :any, id: "morning_protein" %>g</td>
+          <td><%= f.number_field :morning_fat, step: :any, id: "morning_fat" %>g</td>
+        </tr>
+        <tr>
+          <th scope="row">점심</th>
+          <td><%= f.number_field :lunch_kcal, step: :any, id: "lunch_kcal" %>kcal</td>
+          <td><%= f.number_field :lunch_carbo, step: :any, id: "lunch_carbo" %>g</td>
+          <td><%= f.number_field :lunch_protein, step: :any, id: "lunch_protein" %>g</td>
+          <td><%= f.number_field :lunch_fat, step: :any, id: "lunch_fat" %>g</td>
+        </tr>
+        <tr>
+          <th scope="row">저녁</th>
+          <td><%= f.number_field :dinner_kcal, step: :any, id: "dinner_kcal" %>kcal</td>
+          <td><%= f.number_field :dinner_carbo, step: :any, id: "dinner_carbo" %>g</td>
+          <td><%= f.number_field :dinner_protein, step: :any, id: "dinner_protein" %>g</td>
+          <td><%= f.number_field :dinner_fat, step: :any, id: "dinner_fat" %>g</td>
+        </tr>
+        <tr>
+          <th scope="row">간식</th>
+          <td><%= f.number_field :snack_kcal, step: :any, id: "snack_kcal" %>kcal</td>
+          <td><%= f.number_field :snack_carbo, step: :any, id: "snack_carbo" %>g</td>
+          <td><%= f.number_field :snack_protein, step: :any, id: "snack_protein" %>g</td>
+          <td><%= f.number_field :snack_fat, step: :any, id: "snack_fat" %>g</td>
+        </tr>
+        <tr>
+          <th scope="row">이상적인</th>
+          <td><%= f.number_field :ideal_kcal, step: :any, id: "ideal_kcal" %>kcal</td>
+          <td><%= f.number_field :ideal_carbo, step: :any, id: "ideal_carbo" %>g</td>
+          <td><%= f.number_field :ideal_protein, step: :any, id: "ideal_protein" %>g</td>
+          <td><%= f.number_field :ideal_fat, step: :any, id: "ideal_fat" %>g</td>
+        </tr>
+      </tbody>
+    </table>
+
     <div class="form-group mb-5">
       <label for="ideal_fat">한줄평</label>
       <%= f.text_field :comment, class: "form-control", id: "ideal_fat" %>
