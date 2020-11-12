@@ -9,8 +9,6 @@
   </div>
 
   <script>
-    var currentUser = <%= raw current_user.to_json %>;
-    window.createChannel(currentUser);
     // 5분후 자동 로그아웃
     function initTimer(){
       var closeSeconds = 300;
