@@ -5,7 +5,7 @@
     <% if @result %>
       var values;
       BootPay.request({
-          price: <%= Rails.env.development? ? 200 : @order.total %>, //실제 결제되는 가격
+          price: <%= Rails.env.development? ? 200: @order.total %>, //실제 결제되는 가격
           application_id: "5eb2230002f57e002d1edd8a",
           name: 'MoreBox', //결제창에서 보여질 이름
           pg: 'inicis',

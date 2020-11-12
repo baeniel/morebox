@@ -227,7 +227,7 @@
           <%= f.text_field :name, class: "text-left form-control cal_form mt-2", placeholder: "상담 시 사용할 닉네임을 입력하세요.", required: true %>
           <%= f.text_field :email, class: "text-left form-control cal_form mt-2", placeholder: "이메일을 입력하세요.", required: true %>
           <p class="mt-3" style="margin-bottom: 1%;">도전 기간을 선택하세요:)</p>
-          <%= f.select :period, options_for_select(["2주", "4주"]), { }, { class: 'form-control', id: 'select_period', require: true } %>
+          <%= f.select :period, options_for_select(["2주"]), { }, { class: 'form-control', id: 'select_period', require: true } %>
 
           <p class="mt-3" style="margin-bottom: 1%;">챌린지 머니를 입력하세요! (지금 바로 결제되는 것이 아닙니다.)</p>
           <%= f.number_field :money, class: 'text-left form-control cal_form', placeholder: "ex) 50000", style: "width: 80%;", required: true %>
@@ -245,15 +245,10 @@
             </div>
           </div> <br>
           <div class="row justify-content-center mt-3 mb-3">
-            <div class="col-6">
+            <div class="col-12">
               <i class="fas fa-2x fa-check-circle mb-2" style="color: #6200EE"></i>
-              <p>상담을 시작할 수 있는 <br>카톡방 링크가 전달됩니다.</p>
-              <%= image_tag '/phone1.png' %>
-            </div>
-            <div class="col-6">
-              <i class="fas fa-2x fa-check-circle mb-2" style="color: #6200EE"></i>
-              <p>카톡방 참여 후 전담 코치가 <br>배정되어 연락을 드립니다.</p>
-              <%= image_tag '/phone2.png' %>
+              <p>핏테이블 플러스친구에서 상담을 시작하실 수 있도록 <br> 카톡을 보내드립니다. 닉네임을 입력해주시면 상담이 시작됩니다</p>
+              <%= image_tag '/phone1.gif', style: "width: 70%;" %>
             </div>
           </div>
         </div>
