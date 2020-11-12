@@ -7,7 +7,7 @@ class ApisController < ApplicationController
     @result = false
     @item = Item.find_by(id: params[:item_id])
     subitem_info = params[:subitem_info].present? ? params[:subitem_info]&.reject{|_, v| v == "0"} : nil
-
+    
     @subitems = SubItem.where(id: subitem_info&.keys)
     #1. 토큰 발급받기
     bootpay = Bootpay::ServerApi.new(
