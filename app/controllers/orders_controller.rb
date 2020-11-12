@@ -67,7 +67,7 @@ class OrdersController < ApplicationController
             # if @order.ready?
               point = nil
               @data_type =  @order.item ? "payment_complete" : "direct_complete"
-              @result = true
+              # @result = true
               amount = 0
               # if @order.item
               #   amount = @order.trainer ? (@order.item&.point + (total_price.to_f * 0.05)) : @order.item&.point
