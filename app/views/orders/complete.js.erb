@@ -1,11 +1,10 @@
 <% if @result %>
-  <% if @data_type == "direct_complete" %>
-    $(".modal").find(".close").click();
-    // Rails.fire($("#cart")[0], "submit");
-    setTimeout(function(){
-      $("form").find(".submit_btn").click();
-    }, 500);
-  <% else %>
+  <% if @data_type != "direct_complete" %>
+    // $(".modal").find(".close").click();
+    // // Rails.fire($("#cart")[0], "submit");
+    // setTimeout(function(){
+    //   $("form").find(".submit_btn").click();
+    // }, 500);
     Swal.fire({
       icon: "success",
       title: "결제가 완료되었습니다&nbsp;&nbsp;<i class='far fa-smile'></i>",

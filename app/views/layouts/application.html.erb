@@ -62,5 +62,9 @@
 <script>
   $(document).ready(function() {
     $(".alert").fadeTo(2000, 2500).slideUp(1000, function() { });
+    <% if current_user %>
+      var currentUser = <%= raw current_user.to_json %>;
+      window.createChannel(currentUser);
+    <% end %>
   });
 </script>
