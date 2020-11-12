@@ -64,16 +64,17 @@ class OrdersController < ApplicationController
             total_price = @order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
           end
           if (Rails.env.development? || ((item = @order.item) || @order.sub_items&.exists?) && (verify_response[:data][:price] == total_price))
-            if @order.ready?
+            # if @order.ready?
               point = nil
-              @data_type = "payment_complete"
+              @data_type =  @order.item ? "payment_complete" : "direct_complete"
+              @result = true
               amount = 0
-              if @order.item
-                amount = @order.trainer ? (@order.item&.point + (total_price.to_f * 0.05)) : @order.item&.point
-              else
-                @data_type = "direct_complete"
-                amount = @order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
-              end
+              # if @order.item
+              #   amount = @order.trainer ? (@order.item&.point + (total_price.to_f * 0.05)) : @order.item&.point
+              # else
+              #   @data_type = "direct_complete"
+              #   amount = @order.order_sub_items&.inject(0){|sum, order_sub_item| sum + (order_sub_item.quantity * order_sub_item&.sub_item&.point)}
+              # end
               # ActionCable.server.broadcast("room_#{user.id}", data_type: data_type)
               # if (point = Point.create(amount: amount, point_type: :charged, user: user, gym: current_gym))
               #   @order.update(status: :complete, paid_at: Time.zone.now, point: point, payment_amount: total_price)
@@ -87,10 +88,10 @@ class OrdersController < ApplicationController
               #   # msg = "포인트 생성에 실패하였습니다. 관리자에게 문의해주세요."
               #   raise
               # end
-            else
+            # else
               # msg = "이미 결제가 된 상품입니다."
-              raise
-            end
+              # raise
+            # end
             # title = item&.title || "#{@order.sub_items.first&.title} 포함 #{@order.sub_items.count}개 상품"
 
             # # 관리자 결제 알람
