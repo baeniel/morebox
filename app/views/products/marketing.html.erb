@@ -49,10 +49,11 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <%= link_to home_index_path do %>
-          <video class="video-fluid d-block w-100" autoplay loop muted>
+          <%= image_tag '/mobile_home.png', style: "width: 100%;" %>
+          <!-- <video class="video-fluid d-block w-100" autoplay loop muted>
             <source src="/main_movie.mp4" type="video/mp4" />
-          </video>
-          <%= image_tag '/touch.png', id: "touch" %>
+          </video> -->
+          <%#= image_tag '/touch.png', id: "touch" %>
         <% end %>
       </div>
     </div>
