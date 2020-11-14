@@ -3,6 +3,7 @@ ActiveAdmin.register Purchase, label: "발주"  do
   scope -> {"전체"}, :all
   scope -> {"발주대기"}, :before
   scope -> {"발주승인"}, :done
+  scope -> {"발주거부"}, :deny
 
   controller do
     def show
@@ -60,7 +61,20 @@ ActiveAdmin.register Purchase, label: "발주"  do
       purchase_approve_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
       purchase_approve_alarm.send_alarm
     end
-    redirect_to collection_path, alert: "동기화 완료되었습니다."
+    redirect_to collection_path, alert: "발주 승인했습니다."
+  end
+
+  batch_action "발주거부처리" do |ids|
+    batch_action_collection.find(ids).each do |purchase|
+      purchase.deny!
+      templateCode = '020110000194'
+      content = "[MoreMarket]\n" + purchase.sub_item.title + " 발주가 거부되었습니다. 더 이상 취급하지 않는 상품입니다. 문의사항 있으시면 관리자에게 연락해주세요!"
+      receiver = User.find_by(gym: purchase.gym, fit_center: 1).phone
+      receiverName = purchase.gym.title + " 대표님"
+      purchase_deny_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+      purchase_deny_alarm.send_alarm
+    end
+    redirect_to collection_path, alert: "발주 거부했습니다."
   end
 
   index do

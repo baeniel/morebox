@@ -187,6 +187,14 @@
 
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script>
+  // 태블릿의 경우 다시 큐알코드로 돌아가게 하려고
+  $(document).ready(function() {
+    window.setTimeout(function(){
+        // Move to a new location or you can do something else
+        window.location.href = "<%= root_path %>";
+    }, 60000);
+  });
+
   function validateFields(lengthOfPhone){
     let result = false;
     if(lengthOfPhone != 11){

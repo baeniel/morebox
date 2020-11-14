@@ -12,8 +12,8 @@ class PostsController < ApplicationController
     nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
     nutrition_alarm.send_alarm
 
-    receiver = '010-5605-3087'
-    receiverName = "박진배"
+    receiver = '010-3884-6836'
+    receiverName = "박영록"
     subject = "우와 누가 상담했어"
     contents = "누가 상담 요청을 했습니다!"
     nutrition_admin_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
