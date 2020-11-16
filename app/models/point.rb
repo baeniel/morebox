@@ -25,6 +25,13 @@ class Point < ApplicationRecord
         contents = "#{gym.title}의 #{self.sub_item.title} 재고가 #{target_gym_sub_item.quantity}개 남았습니다. #{average_daily_consumption_speed * 7}개 주문해주세요"
         stock_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
         stock_alarm.send_message
+
+        templateCode = '020110000219'
+        content = "#{self.sub_item.title}의 재고가 곧 떨어질 예정입니다. 관리자에게 발주를 넣어주세요."
+        receiver = User.find_by(gym: gym, fit_center: 1).phone
+        receiverName = gym.title + "대표님"
+        stock_gym_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+        stock_gym_alarm.send_alarm
       end
     end
   end

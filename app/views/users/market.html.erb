@@ -226,7 +226,8 @@
           <%= f.text_field :phone, class: "text-left form-control cal_form mt-2", placeholder: "핸드폰 번호를 입력하세요. 01012341234", required: true %>
           <%= f.text_field :name, class: "text-left form-control cal_form mt-2", placeholder: "상담 시 사용할 닉네임을 입력하세요.", required: true %>
           <%= f.text_field :email, class: "text-left form-control cal_form mt-2", placeholder: "이메일을 입력하세요.", required: true %>
-          <!-- <p class="mt-3" style="margin-bottom: 1%;">도전 기간을 선택하세요:)</p> -->
+          <p class="mt-5" style="margin-bottom: 1%;">혹시 모어박스 회원이신가요?</p>
+          <%= f.select :is_morebox, options_for_select(["아니오", "예"]), { }, { class: "form-control", id: 'select_period', require: true } %>
           <%#= f.select :period, options_for_select(["4주"]), { }, { class: 'form-control', id: 'select_period', require: true } %>
           <!-- <p class="mt-3" style="margin-bottom: 1%;">챌린지 머니를 입력하세요! (지금 바로 결제되는 것이 아닙니다.)</p> -->
           <%#= f.number_field :money, class: 'text-left form-control cal_form', placeholder: "ex) 50000", style: "width: 80%;", required: true %>

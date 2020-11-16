@@ -11,6 +11,9 @@
 <div class="row justify-content-center">
   <!-- 좌측면 -->
   <div class="left col-sm-8 col-xs-12 px-0 order-1">
+    <%= link_to fit_table_path, target: '_blank' do %>
+      <%= image_tag '/hooking.png', style: "width: 100%;" %>
+    <% end %>
     <div class="mb-3">
       <% if check_gym_tablet && Rails.env.production? %>
         <%= render 'shared/timer' %>
