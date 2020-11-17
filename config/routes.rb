@@ -63,9 +63,12 @@ Rails.application.routes.draw do
   end
   resources :points
 
-  resources :posts, only: [:index, :create] do
+  resources :posts, only: [:index, :create, :show, :update] do
     collection do
       get :complete
+    end
+    member do
+      get :loading
     end
   end
 

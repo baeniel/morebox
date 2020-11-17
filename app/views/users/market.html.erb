@@ -17,102 +17,104 @@
     height: 7vh;
   }
   ::placeholder {
+    font-size: 15px;
     color: #6200EE !important;
   }
   .form-control {
-    border-color: #6200EE !important;
     color: #6200EE !important;
   }
   .ui.selection.dropdown {
+    font-size: 20px;
     width: 80%;
   }
+  .bottom_progress {
+    position: fixed;
+    bottom: 7%;
+  }
 </style>
-<div class="text-left px-4 py-3 bg-white">
+<div class="text-center px-4 py-3 bg-white">
   <%= link_to fit_table_path do %>
-    <%= image_tag "/fittable_logo.png", class: "w-50" %>
+    <%= image_tag "/fittable_logo.png", style: "width: 45%;" %>
   <% end %>
 </div>
 <div class="progress mt-0" style="margin-bottom: 0px;">
   <div class="progress-bar" id="top-progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
-
 <%= form_for Post.new do |f| %>
   <%= f.hidden_field :post_type, value: params[:challenge] %>
   <div class="tab-content" id="myTabContent">
     <%= render 'survey_tab_pane', index: 0, next_tab: 1 do %>
-      <h2 class="fancy-color text-center mt-5">
+      <h2 class="text-dark text-center" style="margin-top: 50%;">
         환영합니다:)
       </h2>
-      <h3 class="mt-5 text-dark text-left ml-3">
-        일일 권장 칼로리를 계산하고, 목표 달성을 <br> 더욱 잘 도와드리기 위해서 잠시 몇 가지 질문을 <br> 드리겠습니다.
+      <h3 class="mt-5 text-dark text-center" style="font-weight: 400;">
+        일일 권장 칼로리를 계산하고, 목표 달성을 <br> 더욱 잘 도와드리기 위해서 잠시 몇 가지 <br> 질문을 드리겠습니다.
       </h3>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 1, prev_tab: 0, next_tab: 2 do %>
-      <h2 class="fancy-color text-left mt-5">당신은 몇 살인가요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 나이를 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신은 몇 살인가요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.number_field :age, class: "text-center form-control mt-5 col-4", value: 24, required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.number_field :age, class: "text-center form-control col-5", style: "height: 40px; font-size: 20px;", value: 24 %>
+            <div class="text-dark col-1 text-center h3" style="margin-top: auto; margin-bottom: auto; font-weight: 900;">살</div>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 2, prev_tab: 1, next_tab: 3 do %>
-      <h2 class="fancy-color text-left mt-5">당신은 몇 cm인가요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 키를 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신은 몇 cm인가요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.number_field :height, class: "text-center form-control mt-5 col-4", step: :any, value: 165, required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.number_field :height, class: "text-center form-control col-5", step: :any, style: "height: 40px; font-size: 20px;", value: 165 %>
+            <div class="text-dark col-1 text-center h3" style="margin-top: auto; margin-bottom: auto; font-weight: 900;">cm</div>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 3, prev_tab: 2, next_tab: 4 do %>
-      <h2 class="fancy-color text-left mt-5">당신은 몇 kg인가요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 체중을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신의 현재 체중은 몇 kg인가요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.number_field :weight, class: "text-center form-control mt-5 col-4", step: :any, value: 55, required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.number_field :weight, class: "text-center form-control col-5", step: :any, style: "height: 40px; font-size: 20px;", value: 55 %>
+            <div class="text-dark col-1 text-center h3" style="margin-top: auto; margin-bottom: auto; font-weight: 900;">kg</div>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 4, prev_tab: 3, next_tab: 5 do %>
-      <h2 class="fancy-color text-left mt-5">당신의 성별은 무엇인가요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 질문의 답을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신의 성별은 무엇인가요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.select(:gender, Post.genders.keys.map {|gender| [gender.titleize, gender]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.select(:gender, Post.genders.keys.map {|gender| [gender.titleize, gender]}, {}, class: "text-center form-control custom_option col-6") %>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 5, prev_tab: 4, next_tab: 6 do %>
-      <h2 class="fancy-color text-left mt-5">당신의 활동량은 어떻게 되시나요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 질문의 답을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신의 활동량은 어떻게 되시나요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
             <div class="col-2"></div>
-            <%= f.select(:activity, Post.activities.keys.map {|activity| [activity.titleize, activity]}, {}, class: "text-center form-control custom_option mt-5 col-8") %>
+            <%= f.select(:activity, Post.activities.keys.map {|activity| [activity.titleize, activity]}, {}, class: "text-center form-control custom_option col-8") %>
             <div class="col-2"></div>
           </div>
         </div>
@@ -120,139 +122,111 @@
     <% end %>
 
     <%= render 'survey_tab_pane', index: 6, prev_tab: 5, next_tab: 7 do %>
-      <h2 class="fancy-color text-left mt-5">당신은 1회 운동할 때 평균 몇 분을 운동 하시나요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 질문의 답을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신은 1회 운동할 때 <br> 평균 몇 분을 운동 하시나요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.number_field :work_time, class: "text-center form-control mt-5 col-4", value: 60, required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.number_field :work_time, class: "text-center form-control col-5", style: "height: 40px; font-size: 20px;", value: 60 %>
+            <div class="text-dark col-1 text-center h3" style="margin-top: auto; margin-bottom: auto; font-weight: 900;">분</div>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 7, prev_tab: 6, next_tab: 8 do %>
-      <h2 class="fancy-color text-left mt-5">당신은 그 운동을 주 몇 회 이상 하실 계획입니까?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 질문의 답을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신은 그 운동을 <br> 주 몇 회 이상 하실 계획입니까?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.number_field :work_count, class: "text-center form-control mt-5 col-4", value: 3, required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.number_field :work_count, class: "text-center form-control col-5", style: "height: 40px; font-size: 20px;", value: 3 %>
+            <div class="text-dark col-1 text-center h3" style="margin-top: auto; margin-bottom: auto; font-weight: 900;">회</div>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 8, prev_tab: 7, next_tab: 9 do %>
-      <h2 class="fancy-color text-left mt-5">당신은 그 운동을 얼마나 강하게 하십니까?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 질문의 답을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신은 그 운동을 <br> 얼마나 강하게 하십니까?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.select(:work_strength, Post.work_strengths.keys.map {|strength| [strength.titleize, strength]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.select(:work_strength, Post.work_strengths.keys.map {|strength| [strength.titleize, strength]}, {}, class: "text-center form-control custom_option col-6") %>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 9, prev_tab: 8, next_tab: 10 do %>
-      <h2 class="fancy-color text-left mt-5">당신의 목표 체중은 몇kg인가요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 목표체중을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신의 목표 체중은 몇kg인가요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.number_field :target_weight, class: "text-center form-control mt-5 col-4", step: :any, value: 53, required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.number_field :target_weight, class: "text-center form-control col-5", style: "height: 40px; font-size: 20px;", step: :any, value: 53 %>
+            <div class="text-dark col-1 text-center h3" style="margin-top: auto; margin-bottom: auto; font-weight: 900;">kg</div>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 10, prev_tab: 9, next_tab: 11 do %>
-      <h2 class="fancy-color text-left mt-5">당신의 목표 날짜는 며칠인가요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 목표날짜를 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">당신의 목표 날짜는 며칠인가요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.text_field :target_date, class: "text-center form-control mt-5 col-4", id: "target_date", value: Date.current + 1.months, readonly: true %>
-            <%#= f.text_field :target_date, start_month: Date.current + 3.months, class: "text-center form-control mt-5 col-4", id: "target_date", value: Date.current + 3.months, readonly: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.text_field :target_date, class: "text-center form-control col-6", id: "target_date", style: "height: 40px; font-size: 20px;", value: Date.current + 1.months, readonly: true %>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 11, prev_tab: 10, next_tab: 12 do %>
-      <h2 class="fancy-color text-left mt-5">점심은 어느정도로 먹나요?</h2>
-      <h3 class="text-dark text-left">오직 당신만을 위한 맞춤형 식단관리를 위해 <br> 질문의 답을 입력해 주세요.</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">점심은 어느정도로 먹나요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-              <%= f.select(:lunch, Post.lunches.keys.map {|lunch| [lunch.titleize, lunch]}, {}, class: "text-center form-control custom_option mt-5 col-4") %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.select(:lunch, Post.lunches.keys.map {|lunch| [lunch.titleize, lunch]}, {}, class: "text-center form-control custom_option col-6") %>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: 12, prev_tab: 11, next_tab: -1 do %>
-      <h2 class="fancy-color text-left mt-5">특정한 질환이 있나요?</h2>
-      <h3 class="text-dark text-left">정말 마지막 질문입니다!</h3>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">특정한 질환이 있나요?</h2>
       <div class="row">
         <div class="col-12">
           <div class="row">
-            <div class="col-4"></div>
-            <%= f.text_field :sickness, class: "text-center form-control mt-5 col-4", value: "없음", required: true %>
-            <div class="col-4"></div>
+            <div class="col-3"></div>
+            <%= f.text_field :sickness, class: "text-center form-control col-6", style: "height: 40px; font-size: 20px;", value: "없음" %>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
     <% end %>
 
     <%= render 'survey_tab_pane', index: -1, prev_tab: 12 do %>
-      <div class="text-center border py-2" style="background-color: white;">
-        <i class="fas fa-2x fa-check mt-3" style="color: #200C58;"></i>
-        <h2 style="margin-top: 3%; color: #200C58;">챌린지 참여 준비 완료</h2>
-        <div class="row justify-content-center">
-          <%= f.text_field :phone, class: "text-left form-control cal_form mt-2", placeholder: "핸드폰 번호를 입력하세요. 01012341234", required: true %>
-          <%= f.text_field :name, class: "text-left form-control cal_form mt-2", placeholder: "상담 시 사용할 닉네임을 입력하세요.", required: true %>
-          <%= f.text_field :email, class: "text-left form-control cal_form mt-2", placeholder: "이메일을 입력하세요.", required: true %>
-          <p class="mt-5" style="margin-bottom: 1%;">혹시 모어박스 회원이신가요?</p>
-          <%= f.select :is_morebox, options_for_select(["아니오", "예"]), { }, { class: "form-control", id: 'select_period', require: true } %>
-          <%#= f.select :period, options_for_select(["4주"]), { }, { class: 'form-control', id: 'select_period', require: true } %>
-          <!-- <p class="mt-3" style="margin-bottom: 1%;">챌린지 머니를 입력하세요! (지금 바로 결제되는 것이 아닙니다.)</p> -->
-          <%#= f.number_field :money, class: 'text-left form-control cal_form', placeholder: "ex) 50000", style: "width: 80%;", required: true %>
-          <%= f.submit "챌린지 참여하기", class: "btn btn-outline btn-lg text-white mt-4 mb-2", style: "background-color: #200e57; border-color: #200e57; width: 80%;" %>
-          <p class="mb-3" style="color: red;"><strong>*안심하세요! 결제는 전담 코치님이 배정된 이후에 이루어집니다:)</strong></p>
-        </div>
-      </div>
-
-      <div class="container text-center py-2"">
-        <div class="description-block" style="color: #707070;">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <i class="fas fa-2x fa-check-circle mb-2" style="color: #6200EE"></i>
-              <p>상담은 카카오톡 플러스친구를 이용하여 블라인드로 <br>진행됩니다. 프로그램에 진실되게 임해주세요!</p>
-            </div>
-          </div> <br>
-          <div class="row justify-content-center mt-3 mb-3">
-            <div class="col-12">
-              <i class="fas fa-2x fa-check-circle mb-2" style="color: #6200EE"></i>
-              <p>핏테이블 플러스친구에서 상담을 시작하실 수 있도록 <br> 카톡을 보내드립니다. 닉네임을 입력해주시면 상담이 시작됩니다</p>
-              <%= image_tag '/phone1.gif', style: "width: 70%;" %>
-            </div>
+      <h2 class="text-dark text-center mb-5" style="margin-top: 50%; font-weight: 400;">상담 시 사용하실 <br> 닉네임을 입력해 주세요.</h2>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-3"></div>
+            <%= f.text_field :name, class: "text-center form-control col-6", style: "height: 40px; font-size: 20px;", value: "ex) 고릴라", required: true %>
+            <div class="col-3"></div>
           </div>
         </div>
       </div>
+      <%= f.submit "결과 계산하기", class: "btn btn-outline btn-lg text-white mt-5", style: "background-color: #200e57; border-color: #200e57; width: 80%; bottom: 10%;" %>
     <% end %>
   </div>
 <% end %>

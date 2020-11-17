@@ -1,0 +1,44 @@
+<style>
+  .bottom_progress {
+    position: fixed;
+    bottom: 7%;
+  }
+  .btn-custom-bottom {
+    color: #6200EE;
+  }
+  .progress .progress-bar {
+    background-color: #6200EE;
+  }
+  ::placeholder {
+    font-size: 20px;
+    color: #6200EE !important;
+  }
+</style>
+
+
+<% index ||= 0 %>
+<% prev_tab ||= nil %>
+<% next_tab ||= nil %>
+
+<div class="tab-pane fade <%= "show active" if index.zero? %>" id="tab-<%= index %>" role="tabpanel" aria-labelledby="tab-button-<%= index %>">
+
+  <div class="<%= 'container text-white py-4' if next_tab %>">
+    <%= yield %>
+  </div>
+  <div class="row mx-0">
+    <% if next_tab %>
+
+      <div class="col-6 bottom_progress">
+        <a class="btn btn-block nav-btn" style="color: gray;" href="<%= fit_table_survey_path %>">
+          <i class="fas fa-4x fa-arrow-circle-left mb-2"></i> <br> <%= '수정하기' %>
+        </a>
+      </div>
+
+      <div class="offset-6 col-6 bottom_progress">
+        <a class="btn btn-block nav-btn btn-custom-bottom calculate-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 100)) %>%')">
+          <i class="fas fa-4x fa-arrow-circle-right mb-2"></i> <br> <%= '다음' %>
+        </a>
+      </div>
+    <% end %>
+  </div>
+</div>
