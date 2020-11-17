@@ -2,10 +2,6 @@
   #change-color {
     background: #e9edf1;
   }
-  .bottom_progress {
-    position: fixed;
-    bottom: 7%;
-  }
   .cal_form {
     width: 80%;
     height: 6vh;
@@ -16,6 +12,9 @@
   }
   .ui.selection.dropdown {
     width: 80%;
+  }
+  ::placeholder {
+    font-size: 15px !important;
   }
 </style>
 
@@ -31,7 +30,7 @@
 <%= form_for @post do |f| %>
   <div class="tab-content" id="myTabContent">
     <%= render '/posts/survey_tab_pane', index: 0, next_tab: -1 do %>
-      <h2 class="text-dark text-center" style="margin-top: 30%;">반갑습니다!</h2>
+      <h2 class="text-dark text-center" style="margin-top: 10%;">반갑습니다!</h2>
       <h2 class="text-center" style="color: #6200EE; margin-top: 0%;"><%= @post.name %>님</h2>
 
       <div class="row justify-content-center mt-5 text-dark mx-0" style="background: white;">
@@ -75,7 +74,7 @@
     <% end %>
 
     <%= render '/posts/survey_tab_pane', index: -1, prev_tab: 0 do %>
-      <div class="text-center border" style="background-color: white;">
+      <div class="text-center" style="background-color: white;">
         <i class="fas fa-2x fa-check mt-5" style="color: #200C58;"></i>
         <h2 style="margin-top: 3%; color: #200C58;">챌린지 참여 준비 완료</h2>
         <div class="row justify-content-center">
