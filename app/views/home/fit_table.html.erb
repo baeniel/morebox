@@ -170,7 +170,7 @@
   <%= image_tag '/beta.png', class: "mt-4", style: "width: 100%;" %>
 </div>
 
-<div class="container text-left mt-3 pt-4 pb-5" style="background-color: #FAF6FF">
+<div class="container text-left mt-3 pt-4 pb-2" style="background-color: #FAF6FF">
   <h1 class="pt-5 text-center" style="color: #6200EE; margin-bottom: 0%;">핏테이블 식단관리 프로그램</h1>
   <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 15%; font-weight: 400;">-영양정보 리포트</h3>
   <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-나와의 계약서</h3>
@@ -182,11 +182,8 @@
   <h3 class="ml-5" style="margin-bottom: 10%; margin-top: 2%; font-weight: 400;">-전담 코치 Q&A 세션</h3>
 
   <div class="container text-center">
-    <button type="button" class="btn mt-5" style="background-color: #6200EE; color: white; border-radius: 5px;"><h3>11월 오픈 이벤트</h3></button> <br>
-    <i class="fas fa-3x fa-check mt-4" style="color: #6200EE"></i> <br>
+    <%= image_tag '/event.png', style: "width: 100%;" %>
   </div>
-
-  <h2 class="mt-4 text-center" style="margin-top: 2%; margin-bottom: 0%; font-weight: 700;"><span style="color: #C3C3C3; text-decoration: underline;">99,000원 --> </span><span style="color: #A46BF5">49,000원 (4주)</span></h2>
 
   <div class="row mt-2 text-center">
     <%= link_to "신청하러 가기", fit_table_survey_path(challenge: "풀케어"), class: "btn", style: "font-size: 25px; border: 1px solid #6200EE; width: 100%; color: white; background: #6200EE; position: fixed; bottom: 0%; line-height: 200%;" %>
