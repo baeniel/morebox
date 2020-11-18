@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, authentication_keys: [:phone]
+         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[kakao], authentication_keys: [:phone]
 
   #모어박스 쇼핑몰 형태
   # has_many :orders, dependent: :destroy
@@ -27,6 +27,9 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :points, dependent: :destroy
   has_many :assisted_orders, foreign_key: "trainer_id", class_name: "Order", dependent: :nullify
+
+
+  has_many :identities, dependent: :destroy
 
 
   validates_presence_of :phone, :gym, message: "내용을 입력하셔야 합니다."
