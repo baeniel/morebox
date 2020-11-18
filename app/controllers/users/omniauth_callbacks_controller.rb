@@ -11,12 +11,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     response = HTTParty.post(
       "https://kauth.kakao.com/oauth/token",
-      body: "grant_type=authorization_code&client_id=#{client_id}&redirect_uri=#{redirect_uri}&code=#{code}",
+      body: {
+        grant_type: authorization_code,
+        client_id: client_id,
+        redirect_uri: redirect_uri,
+        code: code
+      },
       headers: {
         "Content-type" => "application/x-www-form-urlencoded\;charset=utf-8"
       })
 
-    token = response.parsed_response["access_token"]
+    token = response.parsed_response.dig("access_token")
     response2 = HTTParty.post(
       "https://kapi.kakao.com/v2/user/me",
       headers: {
