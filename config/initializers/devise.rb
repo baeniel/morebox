@@ -13,7 +13,8 @@ Devise.setup do |config|
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
-
+  # config.omniauth :kakao, ENV["KAKAO_CLIENT_ID"], redirect_path: "http://localhost:3000/users/auth/kakao/callback"
+  config.omniauth :kakao, ENV["KAKAO_CLIENT_ID"], redirect_path: "https://morebox.co.kr/users/auth/kakao/callback"
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_16_060323) do
+ActiveRecord::Schema.define(version: 2020_11_18_062403) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,16 @@ ActiveRecord::Schema.define(version: 2020_11_16_060323) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "quantity", default: 0
     t.integer "order_quantity", default: 0
+  end
+
+  create_table "identities", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "uid"
+    t.string "provider"
+    t.string "access_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -354,6 +364,7 @@ ActiveRecord::Schema.define(version: 2020_11_16_060323) do
   add_foreign_key "diet_sub_items", "sub_items"
   add_foreign_key "food_sub_items", "foods"
   add_foreign_key "food_sub_items", "sub_items"
+  add_foreign_key "identities", "users"
   add_foreign_key "order_sub_items", "orders"
   add_foreign_key "order_sub_items", "sub_items"
   add_foreign_key "orders", "gyms"
