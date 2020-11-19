@@ -1,7 +1,7 @@
 <style>
-  .bottom_progress {
-    position: fixed;
-    bottom: 0%;
+  .bottom_post_progress {
+    /* position: fixed; */
+    /* bottom: 5%; */
   }
   .btn-custom-bottom {
     color: #6200EE;
@@ -27,15 +27,14 @@
   </div>
   <div class="row mx-0">
     <% if next_tab %>
-
-      <div class="col-6 bottom_progress">
+      <div class="col-6 bottom_post_progress">
         <a class="btn btn-block nav-btn" style="color: gray;" href="<%= fit_table_survey_path %>">
           <i class="fas fa-4x fa-arrow-circle-left mb-2"></i> <br> <%= '수정하기' %>
         </a>
       </div>
 
-      <div class="offset-6 col-6 bottom_progress">
-        <a class="btn btn-block nav-btn btn-custom-bottom calculate-btn" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 100)) %>%')">
+      <div class="col-6 bottom_post_progress">
+        <a class="btn btn-block nav-btn btn-custom-bottom" id="tab-button-<%= next_tab %>" data-toggle="tab" href="#tab-<%= next_tab %>" role="tab" onclick="$('#top-progress-bar').width('<%= ((next_tab > 0 ? next_tab : 100)) %>%')">
           <i class="fas fa-4x fa-arrow-circle-right mb-2"></i> <br> <%= '다음' %>
         </a>
       </div>
