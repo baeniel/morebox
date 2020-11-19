@@ -85,7 +85,10 @@
         <%#= f.number_field :money, class: 'text-left form-control cal_form', placeholder: "ex) 50000", style: "width: 80%;", required: true %>
 
 
-        <div class="mt-3" id="kakao-login-btn"></div>
+         <%= link_to "카카오로그인", '#', class: "mt-3 btn btn-lg", style: "background-color: yellow; color: brown;", onclick: "kakaologin()" %>
+
+        <!-- <div class="mt-3" id="kakao-login-btn"></div> -->
+
         <p class="mt-4 mb-3" style="color: red;"><strong>*안심하세요! 결제는 전담 코치님이 배정된 이후에 이루어집니다:)</strong></p>
       </div>
     </div>
@@ -111,19 +114,29 @@
 </div>
 
 <script>
-  Kakao.init('d96f1166288eb21ee88c16906262d009');
-  Kakao.Auth.createLoginButton({
-    container: '#kakao-login-btn',
-    success: function(response) {
-      Kakao.Auth.authorize({
-        // redirectUri: 'http://localhost:3000/users/auth/kakao/callback'
-        redirectUri: 'https://morebox.co.kr/users/auth/kakao/callback'
-      });
-     },
-     fail: function(err) {
-     alert(JSON.stringify(err));
-     }
-   });
+
+  function kakaologin() {
+
+    Kakao.init('d96f1166288eb21ee88c16906262d009');
+
+    Kakao.Auth.authorize({
+      // redirectUri: 'http://localhost:3000/users/auth/kakao/callback'
+      redirectUri: 'https://morebox.co.kr/users/auth/kakao/callback'
+    });
+  }
+
+
+
+
+  // Kakao.Auth.createLoginButton({
+  //   container: '#kakao-login-btn',
+  //   success: function(response) {
+  //
+  //    },
+  //    fail: function(err) {
+  //      alert(JSON.stringify(err));
+  //    }
+  //  });
 
   $('#select_period').dropdown();
   let activity = "<%= @post.activity %>"
