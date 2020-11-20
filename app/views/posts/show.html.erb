@@ -84,11 +84,9 @@
         <%#= f.select :period, options_for_select(["4주"]), { }, { class: 'form-control', id: 'select_period', require: true } %>
         <%#= f.number_field :money, class: 'text-left form-control cal_form', placeholder: "ex) 50000", style: "width: 80%;", required: true %>
 
-
-         <%= link_to "카카오로그인", '#', class: "mt-3 btn btn-lg", style: "background-color: yellow; color: brown;", onclick: "kakaologin()" %>
-
-        <!-- <div class="mt-3" id="kakao-login-btn"></div> -->
-
+        <%= link_to "#", class: "mt-3 btn btn-lg" do %>
+          <%= image_tag '/kakao_login.png', style: "width: 50%;", onclick: "kakaologin()" %>
+        <% end %>
         <p class="mt-4 mb-3" style="color: red;"><strong>*안심하세요! 결제는 전담 코치님이 배정된 이후에 이루어집니다:)</strong></p>
       </div>
     </div>
