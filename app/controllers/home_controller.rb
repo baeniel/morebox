@@ -29,10 +29,10 @@ class HomeController < ApplicationController
   def fit_table; end
 
   def survey
-    redirect_to root_path, notice: "서비스가 종료되었습니다."
+    # redirect_to root_path, notice: "서비스가 종료되었습니다."
   end
 
   def survey_start
-    redirect_to root_path, notice: "서비스가 종료되었습니다."
+    # redirect_to root_path, notice: "서비스가 종료되었습니다."
   end
 end
