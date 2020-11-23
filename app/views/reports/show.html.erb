@@ -60,28 +60,28 @@
         <th scope="row">아침</th>
         <td class="<%= "text-red" if @report.morning_kcal > 650 %>"><%= @report.morning_kcal %>kcal</td>
         <td class="<%= "text-red" if @report.morning_carbo > 70 %>"><%= @report.morning_carbo %>g</td>
-        <td class="<%= "text-red" if @report.morning_protein > 35 || @report.morning_protein < 15 %>"><%= @report.morning_protein %>g</td>
+        <td class="<%= "text-red" if @report.morning_protein > 35 || (@report.morning_protein > 0 && @report.morning_protein < 15) %>"><%= @report.morning_protein %>g</td>
         <td class="<%= "text-red" if @report.morning_fat > 25 %>"><%= @report.morning_fat %>g</td>
       </tr>
       <tr>
         <th scope="row">점심</th>
         <td class="<%= "text-red" if @report.lunch_kcal > 650 %>"><%= @report.lunch_kcal %>kcal</td>
         <td class="<%= "text-red" if @report.lunch_carbo > 70 %>"><%= @report.lunch_carbo %>g</td>
-        <td class="<%= "text-red" if @report.lunch_protein > 35 || @report.lunch_protein < 15 %>"><%= @report.lunch_protein %>g</td>
+        <td class="<%= "text-red" if @report.lunch_protein > 35 || (@report.lunch_protein > 0 && @report.lunch_protein < 15) %>"><%= @report.lunch_protein %>g</td>
         <td class="<%= "text-red" if @report.lunch_fat > 25 %>"><%= @report.lunch_fat %>g</td>
       </tr>
       <tr>
         <th scope="row">저녁</th>
         <td class="<%= "text-red" if @report.dinner_kcal > 650 %>"><%= @report.dinner_kcal %>kcal</td>
         <td class="<%= "text-red" if @report.dinner_carbo > 70 %>"><%= @report.dinner_carbo %>g</td>
-        <td class="<%= "text-red" if @report.dinner_protein > 35 || @report.dinner_protein < 15 %>"><%= @report.dinner_protein %>g</td>
+        <td class="<%= "text-red" if @report.dinner_protein > 35 || (@report.dinner_protein > 0 && @report.dinner_protein < 15) %>"><%= @report.dinner_protein %>g</td>
         <td class="<%= "text-red" if @report.dinner_fat > 25 %>"><%= @report.dinner_fat %>g</td>
       </tr>
       <tr>
         <th scope="row">간식</th>
         <td class="<%= "text-red" if @report.snack_kcal > 650 %>"><%= @report.snack_kcal %>kcal</td>
         <td class="<%= "text-red" if @report.snack_carbo > 70 %>"><%= @report.snack_carbo %>g</td>
-        <td class="<%= "text-red" if @report.snack_protein > 35 || @report.snack_protein < 15 %>"><%= @report.snack_protein %>g</td>
+        <td class="<%= "text-red" if @report.snack_protein > 35 %>"><%= @report.snack_protein %>g</td>
         <td class="<%= "text-red" if @report.snack_fat > 25 %>"><%= @report.snack_fat %>g</td>
       </tr>
     </tbody>
