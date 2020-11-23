@@ -21,6 +21,7 @@ ActiveAdmin.register Post do
     column :period
     column :money
     column :is_morebox
+    column :payment
     column :created_at
     actions
   end

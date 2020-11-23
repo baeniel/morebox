@@ -4,5 +4,6 @@ class Post < ApplicationRecord
   enum lunch: %i(안먹는다 간단하게 평균적으로 푸짐하게)
   enum work_strength: %i(저강도 중강도 고강도)
   enum post_type: %i(저스트 풀케어)
-  enum is_morebox: %i(아니오 예)
+  # enum is_morebox: %i(아니오 예)
+  enum payment: %i(아니오 예)
 end
