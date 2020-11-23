@@ -63,8 +63,12 @@
   let total_calorie_percentage = parseFloat(((total_kcal / ideal_kcal) * 100).toFixed(2))
   $("#calorie-bar").height(`${total_calorie_percentage}%`);
   $("#total-calorie-amount").text(`${isFinite(total_calorie_percentage) ? (total_calorie_percentage).toFixed(2) : '-'}%`);
-  if (total_calorie_percentage > 100) {
+  if (total_calorie_percentage > 110 || total_calorie_percentage < 70) {
     document.getElementById("calorie_container").style.background="red";
+  } else if (total_calorie_percentage > 90 && total_calorie_percentage < 110) {
+    document.getElementById("calorie_container").style.background="#228B22";
+  } else {
+    document.getElementById("calorie_container").style.background="#FF8C00";
   }
 
   // 탄수화물
@@ -74,8 +78,12 @@
   $("#carbo-amount").text(`${(carbo).toFixed(2)}g`);
   $("#total-carbo-amount").text(`${isFinite(total_carbo_percentage) ? (total_carbo_percentage).toFixed(2) : '-'}% (${ideal_carbo}g)`);
   $("#carbo-bar").width(`${total_carbo_percentage}%`);
-  if (total_carbo_percentage > 100) {
+  if (total_carbo_percentage > 110 || total_carbo_percentage < 70) {
     document.getElementById("nutrition-container-carbo").style.background="red";
+  } else if (total_carbo_percentage > 90 && total_carbo_percentage < 110) {
+    document.getElementById("nutrition-container-carbo").style.background="#228B22";
+  } else {
+    document.getElementById("nutrition-container-carbo").style.background="#FF8C00";
   }
 
   // 프로틴
@@ -85,8 +93,12 @@
   $("#protein-amount").text(`${(protein).toFixed(2)}g`);
   $("#total-protein-amount").text(`${isFinite(total_protein_percentage) ? (total_protein_percentage).toFixed(2) : '-'}% (${ideal_protein}g)`);
   $("#protein-bar").width(`${total_protein_percentage}%`);
-  if (total_protein_percentage > 100) {
+  if (total_protein_percentage > 110 || total_protein_percentage < 70) {
     document.getElementById("nutrition-container-protein").style.background="red";
+  } else if (total_protein_percentage > 90 && total_protein_percentage < 110) {
+    document.getElementById("nutrition-container-protein").style.background="#228B22";
+  } else {
+    document.getElementById("nutrition-container-protein").style.background="#FF8C00";
   }
 
   // 지방
@@ -96,7 +108,11 @@
   $("#fat-amount").text(`${(fat).toFixed(2)}g`);
   $("#total-fat-amount").text(`${isFinite(total_fat_percentage) ? (total_fat_percentage).toFixed(2) : '-'}% (${ideal_fat}g)`);
   $("#fat-bar").width(`${total_fat_percentage}%`);
-  if (total_fat_percentage > 100) {
+  if (total_fat_percentage > 110 || total_fat_percentage < 70) {
     document.getElementById("nutrition-container-fat").style.background="red";
+  } else if (total_fat_percentage > 90 && total_fat_percentage < 110) {
+    document.getElementById("nutrition-container-fat").style.background="#228B22";
+  } else {
+    document.getElementById("nutrition-container-fat").style.background="#FF8C00";
   }
 </script>
