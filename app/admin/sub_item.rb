@@ -1,5 +1,5 @@
 ActiveAdmin.register SubItem do
-  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat, :link, :price
+  permit_params :title, :image, :point, :category_id, :description, :calorie, :carbo, :protein, :fat, :link, :price, :is_purchase, :min_quantity, :order_batch
   filter :created_at
 
   index do
@@ -18,9 +18,11 @@ ActiveAdmin.register SubItem do
     column :price
     column :category
     column :sub_item_type
+    column :is_purchase
     column :description
+    column :min_quantity
+    column :order_batch
     column :created_at
-    column :link
     actions
   end
 
@@ -37,6 +39,9 @@ ActiveAdmin.register SubItem do
       f.input :fat
       f.input :link
       f.input :price
+      f.input :is_purchase
+      f.input :min_quantity
+      f.input :order_batch
     end
     f.actions
   end

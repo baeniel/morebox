@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_23_063746) do
+ActiveRecord::Schema.define(version: 2020_11_24_073210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,9 @@ ActiveRecord::Schema.define(version: 2020_11_23_063746) do
     t.bigint "food_id"
     t.integer "sub_item_type", default: 0
     t.integer "price"
+    t.integer "is_purchase", default: 0
+    t.integer "min_quantity"
+    t.integer "order_batch"
     t.index ["category_id"], name: "index_sub_items_on_category_id"
     t.index ["food_id"], name: "index_sub_items_on_food_id"
   end

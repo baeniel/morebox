@@ -7,6 +7,7 @@ class SubItem < ApplicationRecord
   has_many :points, dependent: :nullify
 
   enum sub_item_type: %i(normal food)
+  enum is_purchase: %i(아니오 예)
   # accepts_nested_attributes_for :gyms
 
   def self.generate_normal_subitem_food

@@ -23,23 +23,31 @@ ActiveAdmin.register Purchase, label: "발주"  do
     end
 
     def create
-      purchase = Purchase.create(purchase_params)
+      purchase = Purchase.new(purchase_params)
+      if purchase.quantity <= purchase.sub_item.min_quantity
+        redirect_to new_admin_purchase_path(sub_item: purchase.sub_item), alert: "최소 주문수량은 #{purchase.sub_item.min_quantity}개 입니다. 다시 발주를 넣어주세요!"
+      elsif purchase.sub_item.order_batch && (purchase.quantity % purchase&.sub_item&.order_batch != 0)
+        redirect_to new_admin_purchase_path(sub_item: purchase.sub_item), alert: "발주 단위는 #{purchase.sub_item.order_batch}개 입니다. 다시 발주를 넣어주세요!"
+      else
+        purchase.save
+        templateCode = '020110000009'
+        content = "[MoreMarket]\n" + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주요청이 완료되었습니다. 2시 이후의 발주요청은 다음 날 접수됩니다."
+        receiver = User.find_by(gym: Gym.find_by(title: current_admin_user.gym_list.first), fit_center: 1).phone
+        receiverName = current_admin_user.email
+        purchase_ready_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+        purchase_ready_alarm.send_alarm
 
-      templateCode = '020110000009'
-      content = "[MoreMarket]\n" + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주요청이 완료되었습니다. 2시 이후의 발주요청은 다음 날 접수됩니다."
-      receiver = User.find_by(gym: Gym.find_by(title: current_admin_user.gym_list.first), fit_center: 1).phone
-      receiverName = current_admin_user.email
-      purchase_ready_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-      purchase_ready_alarm.send_alarm
+        templateCode = '020110000010'
+        content = "[MoreMarket]\n" + current_admin_user.gym_list.first + "센터의 " + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주 요청이 접수되었습니다."
+        receiver = "01056053087"
+        receiverName = "박진배"
+        purchase_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+        purchase_alarm.send_alarm
 
-      templateCode = '020110000010'
-      content = "[MoreMarket]\n" + current_admin_user.gym_list.first + "센터의 " + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주 요청이 접수되었습니다."
-      receiver = "01056053087"
-      receiverName = "박진배"
-      purchase_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-      purchase_alarm.send_alarm
+        redirect_to admin_purchases_path, notice: "발주 요청이 완료되었습니다."
+      end
 
-      redirect_to admin_purchases_path
+
     end
 
     def updated
@@ -85,6 +93,7 @@ ActiveAdmin.register Purchase, label: "발주"  do
     column "상태", :status do |object|
       object.before? ? "발주대기" : "발주승인"
     end
+    column "발주가능", :is_purchase
     column "생성 시간", :created_at
     column "최종 업데이트 시간", :updated_at
   end
@@ -92,8 +101,8 @@ ActiveAdmin.register Purchase, label: "발주"  do
   form do |f|
     f.inputs do
       f.input :gym, as: :select, collection: (current_admin_user.has_role?(:admin) ? Gym.all : Gym.where(title: current_admin_user.gym_list)), include_blank: false, label: "지점명"
-      f.input :sub_item, include_blank: false, label: "제품"
-      f.input :quantity, label: "발주수량"
+      f.input :sub_item, as: :select, include_blank: false, collection: SubItem.where(is_purchase: 1), label: "제품", selected: params[:sub_item]
+      f.input :quantity, placeholder: 40, label: "총발주수량(개)"
       f.input :status if current_admin_user.has_role? :admin
     end
     f.actions do
