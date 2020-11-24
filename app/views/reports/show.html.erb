@@ -1,4 +1,4 @@
-<%= render 'users/market_style' %>
+<%#= render 'users/market_style' %>
 <style>
   .line-height-30 {
     line-height: 30px;
@@ -6,6 +6,171 @@
   .bottom_progress {
     position: fixed;
     bottom: 7%;
+  }
+  .font-weight-bold {
+    font-weight: bold;
+  }
+  body {
+    background: white !important;
+  }
+  .main-text-color {
+    color: #200e57;
+  }
+  .secondary-text-color {
+    color: #8a8a8a;
+  }
+  .line-height-25 {
+    line-height: 25px;
+  }
+  .bg-custom-grey {
+    background: #cfd3df;
+  }
+  .btn-custom-lightgrey {
+    font-size:12px;
+    background: #e9edf1;
+  }
+  .btn-custom-grey {
+    color: #200e57;
+    border: 1px solid #202649;
+    background: #cfd3df !important;
+  }
+  .btn {
+    border-radius: 0px;
+  }
+  .progress {
+    background-color: black;
+    position:relative;
+    margin: 10px 0;
+    height: 1.3rem;
+  }
+  label {
+    color: #200e57;
+    font-size: 13px;
+    white-space: pre;
+    line-height: 30px;
+  }
+  input, select {
+    font-size: 13px;
+    color: #8a8a8a !important;
+    border-radius: 0px !important;
+  }
+  .user-info p.info{
+    color: #8a8a8a;
+    font-size: 12px;
+    space: nowrap;
+  }
+  .user-info p.info.small{
+    font-size: 9px;
+  }
+  .calorie-amount {
+    display: flex;
+    position:absolute;
+    left:0;
+    right:0;
+    font-weight:bold;
+    line-height:200%;
+    width: 100%;
+    height: 100%;
+  }
+  #change-color, .change-color {
+    background-color: #e9eef2;
+  }
+  #tool-bar {
+    width: 100%;
+    height: 250px;
+    position: fixed;
+    bottom: 0%;
+    /* background-color:#19244f !important; */
+    /* background-color: transparent; */
+  }
+  .visually-hidden {
+    position: absolute;
+    left: -100vw;
+  }
+  .user-info{
+    background-color: #e9edf1;
+  }
+  .btn-morebox {
+    background-color: #200e57;
+    color: white;
+  }
+  .btn:hover {
+    color: white;
+  }
+  #output {
+    color: #200e57;
+    background: white;
+    height: 55%;
+  }
+  .calorie-title {
+    white-space:pre;
+    font-weight:bold;
+    font-size:12px;
+  }
+  .hat-outer{
+    height: 50px;
+    background: #e9edf1;
+  }
+  .hat-outer .row{
+    height: 100%;
+  }
+  .hat{
+    height: 100%;
+    background: white;
+  }
+  .hat.right {
+    padding: 0px;
+    border-radius: 0 50% 0 0;
+  }
+  .hat.left {
+    padding: 0px;
+    border-radius: 50% 0 0 0;
+  }
+  .container.wear-hat {
+    background-color: white;
+    padding-top: 50px;
+    padding-bottom: 300px;
+  }
+  .btn-custom-grey.btn:hover {
+    color: unset;
+  }
+  label.btn:hover{
+    color: unset;
+  }
+  input:checked + label {
+    color: white !important;
+    background: #200e57 !important;
+  }
+  .card-title {
+    font-size: 12px;
+  }
+  #tool-bar .hat-outer { background: transparent;}
+  #tool-bar .hat { background:#200e57; border: 1px #200e57 solid;}
+  #tool-bar .inner {
+    background:#200e57;
+    margin-top: -25px;
+    position: relative;
+    height: 100%;
+  }
+  .progress-bar-vertical {
+    width: 100%;
+    height: 120px;
+    margin-right: 20px;
+    float: left;
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    align-items: flex-end;
+    -webkit-align-items: flex-end; /* Safari 7.0+ */
+  }
+  .progress-bar-vertical .progress-bar {
+    width: 100%;
+    height: 0;
+    /* background:#5cffe2 !important; */
+    -webkit-transition: height 0.6s ease;
+    -o-transition: height 0.6s ease;
+    transition: height 0.6s ease;
   }
 </style>
 <div class="container text-dark py-4">
