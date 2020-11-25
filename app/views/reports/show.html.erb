@@ -174,7 +174,7 @@
   }
 </style>
 <div class="container text-dark py-4">
-  <h4 class="bg-custom-grey main-text-color py-2 line-height-30" ><strong><%= @report.name %>님의 <%= Date.yesterday.strftime("%m/%d") %>일 Daily Report</strong></h4>
+  <h4 class="bg-custom-grey main-text-color py-2 line-height-30" ><strong><%= @report.name %>님의 <%= @report.report_date %>일 Daily Report</strong></h4>
   <p class="main-text-color"><%= @report.comment %></p>
   <div class="mt-4">
     <strong><small><%= @report.name %>'s PROGRESS</small></strong>
