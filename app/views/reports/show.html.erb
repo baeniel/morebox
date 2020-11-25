@@ -225,7 +225,7 @@
         <th scope="row">아침</th>
         <td class="<%= "text-red" if @report.morning_kcal > 650 %>"><%= @report.morning_kcal %>kcal</td>
         <td class="<%= "text-red" if @report.morning_carbo > 70 %>"><%= @report.morning_carbo %>g</td>
-        <td class="<%= "text-red" if @report.morning_protein > 35 || (@report.morning_protein > 0 && @report.morning_protein < 15) %>"><%= @report.morning_protein %>g</td>
+        <td class="<%= "text-red" if @report.morning_protein > 35 %>"><%= @report.morning_protein %>g</td>
         <td class="<%= "text-red" if @report.morning_fat > 25 %>"><%= @report.morning_fat %>g</td>
       </tr>
       <tr>
