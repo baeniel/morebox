@@ -182,15 +182,15 @@
   <div class="row mt-2">
     <div class="col-3">
       <small>현재</small>
-      <strong class="weight_answer"><%= @report.weight %>kg</strong>
+      <strong><%= @report.weight %>kg</strong>
     </div>
     <div class="col-6">
       <small>목표까지 남은 체중</small>
-      <strong id="weight_difference"><%= (@report.weight - @report.target_weight).abs.round(1) %>kg</strong>
+      <strong><%= (@report.weight - @report.target_weight).abs.round(1) %>kg</strong>
     </div>
     <div class="col-3">
       <small>목표</small>
-      <strong id="target_weight_answer"><%= @report.target_weight %>kg</strong>
+      <strong><%= @report.target_weight %>kg</strong>
     </div>
   </div>
   <div class="progress" style="background: #e9edf1;">

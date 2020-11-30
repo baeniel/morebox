@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_014016) do
+ActiveRecord::Schema.define(version: 2020_11_30_062904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -252,8 +252,8 @@ ActiveRecord::Schema.define(version: 2020_11_25_014016) do
 
   create_table "reports", force: :cascade do |t|
     t.string "name"
-    t.float "weight"
-    t.float "target_weight"
+    t.decimal "weight"
+    t.decimal "target_weight"
     t.string "target_date"
     t.float "morning_carbo"
     t.float "morning_protein"
