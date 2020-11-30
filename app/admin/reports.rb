@@ -13,7 +13,7 @@ ActiveAdmin.register Report do
 
   collection_action :create_period_report do
   end
-  
+
   collection_action :creating_period_report, method: :post do
     start_date = Date.parse(params[:start_date])
     end_date = Date.parse(params[:end_date])
@@ -54,6 +54,7 @@ ActiveAdmin.register Report do
 
   index do
     selectable_column if current_admin_user.has_role? :admin
+    column :id
     column "이름", :name
     column "체중", :weight
     column "목표체중", :target_weight
