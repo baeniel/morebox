@@ -112,29 +112,14 @@
 </div>
 
 <script>
-
   function kakaologin() {
-
     Kakao.init('d96f1166288eb21ee88c16906262d009');
-
     Kakao.Auth.authorize({
-      // redirectUri: 'http://localhost:3000/users/auth/kakao/callback'
-      redirectUri: 'https://morebox.co.kr/users/auth/kakao/callback'
+      // redirectUri: 'http://localhost:3000/users/auth/kakao/callback',
+      redirectUri: 'https://morebox.co.kr/users/auth/kakao/callback',
+      state: "<%= @post.id %>"
     });
-  }
-
-
-
-
-  // Kakao.Auth.createLoginButton({
-  //   container: '#kakao-login-btn',
-  //   success: function(response) {
-  //
-  //    },
-  //    fail: function(err) {
-  //      alert(JSON.stringify(err));
-  //    }
-  //  });
+  };
 
   $('#select_period').dropdown();
   let activity = "<%= @post.activity %>"
