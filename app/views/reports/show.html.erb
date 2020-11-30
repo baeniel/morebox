@@ -186,7 +186,7 @@
     </div>
     <div class="col-6">
       <small>목표까지 남은 체중</small>
-      <strong id="weight_difference"><%= (@report.weight - @report.target_weight).abs %>kg</strong>
+      <strong id="weight_difference"><%= (@report.weight - @report.target_weight).abs.round(1) %>kg</strong>
     </div>
     <div class="col-3">
       <small>목표</small>
