@@ -1,4 +1,6 @@
 ActiveAdmin.register Report do
+  permit_params :name, :weight, :target_weight, :target_date, :morning_carbo, :morning_protein, :morning_fat, :morning_kcal, :lunch_carbo, :lunch_protein, :lunch_fat, :lunch_kcal, :dinner_carbo, :dinner_protein, :dinner_fat, :dinner_kcal, :snack_carbo, :snack_protein, :snack_fat, :snack_kcal, :ideal_kcal, :ideal_carbo, :ideal_protein, :ideal_fat, :comment, :report_type, :report_date
+
   scope "전체", :all
   scope "daily", :daily
   scope "weekly", :weekly
