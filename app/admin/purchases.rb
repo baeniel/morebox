@@ -24,7 +24,7 @@ ActiveAdmin.register Purchase, label: "발주"  do
 
     def create
       purchase = Purchase.new(purchase_params)
-      if purchase.quantity <= purchase.sub_item.min_quantity
+      if purchase.quantity < purchase.sub_item.min_quantity
         redirect_to new_admin_purchase_path(sub_item: purchase.sub_item), alert: "최소 주문수량은 #{purchase.sub_item.min_quantity}개 입니다. 다시 발주를 넣어주세요!"
       elsif purchase.sub_item.order_batch && (purchase.quantity % purchase&.sub_item&.order_batch != 0)
         redirect_to new_admin_purchase_path(sub_item: purchase.sub_item), alert: "발주 단위는 #{purchase.sub_item.order_batch}개 입니다. 다시 발주를 넣어주세요!"
