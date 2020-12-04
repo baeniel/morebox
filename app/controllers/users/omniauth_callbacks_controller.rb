@@ -34,20 +34,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     post = Post.find(params[:state])
     post.update_attributes(phone: phone_number, email: email)
 
-    # templateCode = '020120000025'
-    # content = "#{post.name}님 안녕하세요? 핏테이블 식단관리 서비스를 신청해주셔서 감사합니다. 원하시는 몸이 되기 위해 #{(post.weight - post.target_weight).abs}kg 감량이 필요하시군요!
-    # \n\n지금 #{post.name}님을 위한 코치님이 대기하고 있어요. 상담 시작을 원하시면 '네'라고 입력해주세요:)"
-    # receiver = phone_number
-    # receiverName = post.name
-    # nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
-    # nutrition_alarm.send_alarm
-
-    templateCode = '020110000087'
-    content = "안녕하세요, 핏테이블입니다:)\n 신청해주신 식단관리 프로그램 진행을 위해 닉네임을 입력해주세요!"
+    templateCode = '020120000086'
+    content = "#{post.name}님 안녕하세요? 핏테이블 식단관리 서비스를 신청해주셔서 감사합니다. 원하시는 몸이 되기 위해 #{(post.weight - post.target_weight).abs}kg 감량이 필요하시군요!
+    \n\n지금 #{post.name}님을 위한 코치님이 대기하고 있어요. 상담 시작을 원하시면 닉네임을 입력해주세요:)"
     receiver = phone_number
     receiverName = post.name
     nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
     nutrition_alarm.send_alarm
+
+    # templateCode = '020110000087'
+    # content = "안녕하세요, 핏테이블입니다:)\n 신청해주신 식단관리 프로그램 진행을 위해 닉네임을 입력해주세요!"
+    # receiver = phone_number
+    # receiverName = post.name
+    # nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
+    # nutrition_alarm.send_alarm
 
     receiver = '010-3884-6836'
     receiverName = "박영록"
