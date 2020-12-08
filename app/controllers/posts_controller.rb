@@ -42,7 +42,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:age, :height, :weight, :gender, :activity, :work_time, :work_count, :work_strength, :target_weight, :target_date, :lunch, :sickness, :name, :post_type)
+    params.require(:post).permit(:age, :height, :weight, :gender, :activity, :work_time, :work_count, :work_strength, :target_weight, :target_date, :lunch, :sickness, :name, :post_type, :counsel_time)
   end
 
   def post_update_params

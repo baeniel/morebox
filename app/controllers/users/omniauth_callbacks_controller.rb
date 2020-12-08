@@ -52,7 +52,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     receiver = '010-3884-6836'
     receiverName = "박영록"
     subject = "우와 누가 상담했어"
-    contents = "누가 상담 요청을 했습니다!"
+    contents = "#{post.name}님이 #{post.counsel_time}에 상담 요청을 했습니다."
     nutrition_admin_alarm = MessageAlarmService.new(receiver, receiverName, subject, contents)
     nutrition_admin_alarm.send_message
 

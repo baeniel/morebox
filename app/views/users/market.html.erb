@@ -198,7 +198,7 @@
       </div>
     <% end %>
 
-    <%= render 'survey_tab_pane', index: 12, prev_tab: 11, next_tab: -1 do %>
+    <%= render 'survey_tab_pane', index: 12, prev_tab: 11, next_tab: 13 do %>
       <h2 class="text-dark text-center mb-4" style="margin-top: 30%; font-weight: 400;">특정한 질환이 있나요?</h2>
       <div class="row">
         <div class="col-12">
@@ -211,7 +211,7 @@
       </div>
     <% end %>
 
-    <%= render 'survey_tab_pane', index: -1, prev_tab: 12 do %>
+    <%= render 'survey_tab_pane', index: 13, prev_tab: 12, next_tab: -1 do %>
       <h2 class="text-dark text-center mb-4" style="margin-top: 30%; font-weight: 400;">상담 시 사용하실 <br> 닉네임을 입력해 주세요.</h2>
       <div class="row">
         <div class="col-12">
@@ -222,6 +222,20 @@
           </div>
         </div>
       </div>
+    <% end %>
+
+    <%= render 'survey_tab_pane', index: -1, prev_tab: 13 do %>
+      <h2 class="text-dark text-center mb-4" style="margin-top: 30%; font-weight: 400;">원하는 상담 시간을 선택하세요!</h2>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-2"></div>
+            <%= f.select(:counsel_time, Post.counsel_times.keys.map {|time| [time.titleize, time]}, {}, class: "text-center form-control custom_option col-8") %>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </div>
+      <h3 style="color: #200e57;">선택하신 시간에 상담사가 먼저 연락합니다:)</h3>
       <%= f.submit "결과 계산하기", class: "btn btn-outline btn-lg text-white mt-5", style: "background-color: #200e57; border-color: #200e57; width: 55%; bottom: 10%;" %>
     <% end %>
   </div>

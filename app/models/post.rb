@@ -6,4 +6,5 @@ class Post < ApplicationRecord
   enum post_type: %i(저스트 풀케어)
   # enum is_morebox: %i(아니오 예)
   enum payment: %i(아니오 예)
+  enum counsel_time: %i(오전10시 오전11시 오후12시 오후1시 오후2시 오후3시 오후4시 오후5시 오후6시 오후7시)
 end

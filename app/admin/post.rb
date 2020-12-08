@@ -2,7 +2,11 @@ ActiveAdmin.register Post do
   index do
     selectable_column
     id_column
-    column :post_type
+    # column :post_type
+    column :name
+    column :email
+    column :phone
+    column :counsel_time
     column :age
     column :height
     column :weight
@@ -15,12 +19,7 @@ ActiveAdmin.register Post do
     column :target_date
     column :lunch
     column :sickness
-    column :name
-    column :phone
-    column :email
-    column :period
-    column :money
-    column :is_morebox
+    # column :period
     column :payment
     column :created_at
     actions
