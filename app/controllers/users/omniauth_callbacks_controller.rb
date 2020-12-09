@@ -34,9 +34,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     post = Post.find(params[:state])
     post.update_attributes(phone: phone_number, email: email)
 
-    templateCode = '020120000086'
+    templateCode = '020120000165'
     content = "#{post.name}님 안녕하세요? 핏테이블 식단관리 서비스를 신청해주셔서 감사합니다. 원하시는 몸이 되기 위해 #{(post.weight - post.target_weight).abs}kg 감량이 필요하시군요!
-    \n\n지금 #{post.name}님을 위한 코치님이 대기하고 있어요. 상담 시작을 원하시면 닉네임을 입력해주세요:)"
+    \n\n닉네임을 입력하시면 #{post.name}님이 원하셨던 상담시간에 상담사가 먼저 연락합니다:)"
     receiver = phone_number
     receiverName = post.name
     nutrition_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)

@@ -21,6 +21,7 @@ ActiveAdmin.register Post do
     column :sickness
     # column :period
     column :payment
+    column :is_counseled
     column :created_at
     actions
   end

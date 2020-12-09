@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_08_050252) do
+ActiveRecord::Schema.define(version: 2020_12_09_022316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_050252) do
     t.integer "is_morebox"
     t.integer "payment", default: 0
     t.integer "counsel_time"
+    t.boolean "is_counseled", default: false
   end
 
   create_table "purchases", force: :cascade do |t|
