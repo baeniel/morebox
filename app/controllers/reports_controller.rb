@@ -6,6 +6,11 @@ class ReportsController < ApplicationController
 
   def create
     report = Report.create(report_params)
+    user_name = params[:report][:name]
+    user = User.find_by(name: user_name)
+
+    report.update(target_weight: user.target_weight, target_date: user.target_date, ideal_kcal: user.ideal_kcal, ideal_carbo: user.ideal_carbo, ideal_protein: user.ideal_protein, ideal_fat: user.ideal_fat)
+
     redirect_to report_path(report)
   end
 

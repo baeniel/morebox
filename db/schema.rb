@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_09_022316) do
+ActiveRecord::Schema.define(version: 2020_12_15_084257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -361,6 +361,13 @@ ActiveRecord::Schema.define(version: 2020_12_09_022316) do
     t.string "referrer"
     t.boolean "marketing", default: true
     t.integer "user_type", default: 0
+    t.string "name"
+    t.decimal "target_weight"
+    t.string "target_date"
+    t.float "ideal_kcal"
+    t.float "ideal_carbo"
+    t.float "ideal_protein"
+    t.float "ideal_fat"
     t.index ["gym_id"], name: "index_users_on_gym_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

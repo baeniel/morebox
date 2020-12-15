@@ -5,28 +5,17 @@
 </style>
 
 <div class="container mt-5">
+
   <%= form_for Report.new do |f| %>
     <div class="form-group mb-5">
       <label for="name">고객 닉네임</label>
-      <%= f.text_field :name, class: "form-control", id: "name" %>
+      <%= f.select :name, options_for_select(User.where(user_type: :fit_table).map { |u| [u.name] } ), { prompt: "선택해주세요." }, { class: 'form-control', id: "name" } %>
     </div>
 
     <label for="weight">체중</label>
     <%= f.number_field :weight, step: :any, id: "weight" %>
 
-    <label for="target_weight">목표체중</label>
-    <%= f.number_field :target_weight, step: :any, id: "target_weight" %>
-
-    <div class="form-group mt-5 mb-5">
-      <label for="target_date">목표날짜</label>
-      <%= f.text_field :target_date, class: "text-center form-control col-12", id: "target_date", value: Date.current + 1.months, readonly: true %>
-    </div>
-    <!-- <div class="form-group mb-5">
-      <label for="name">소비자들에게 보여지는 레포트 날짜</label>
-      <%#= f.text_field :report_date, class: "text-center form-control col-12", id: "report_date", readonly: true %>
-    </div> -->
-
-    <table class="table">
+    <table class="table mt-5">
       <thead>
         <tr>
           <th scope="col"></th>
@@ -65,56 +54,29 @@
           <td><%= f.number_field :snack_protein, step: :any, id: "snack_protein" %>g</td>
           <td><%= f.number_field :snack_fat, step: :any, id: "snack_fat" %>g</td>
         </tr>
-        <tr>
-          <th scope="row">이상적인</th>
-          <td><%= f.number_field :ideal_kcal, step: :any, id: "ideal_kcal" %>kcal</td>
-          <td><%= f.number_field :ideal_carbo, step: :any, id: "ideal_carbo" %>g</td>
-          <td><%= f.number_field :ideal_protein, step: :any, id: "ideal_protein" %>g</td>
-          <td><%= f.number_field :ideal_fat, step: :any, id: "ideal_fat" %>g</td>
-        </tr>
       </tbody>
     </table>
 
-    <div class="form-group mb-5">
-      <label for="comment">한줄평</label>
-      <%= f.text_field :comment, class: "form-control", id: "comment" %>
-    </div>
     <button type="submit" class="btn btn-primary mb-5">Submit</button>
+
   <% end %>
 </div>
 
 <script>
-  $("#target_date").datepicker({
-      dateFormat: 'yy-mm-dd' //Input Display Format 변경
-      ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-      ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-      ,changeYear: true //콤보박스에서 년 선택 가능
-      ,changeMonth: true //콤보박스에서 월 선택 가능
-      ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-      ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
-      ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-      ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-      ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-      ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-      ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-      // ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-      ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
-  });
-
-  $("#report_date").datepicker({
-    dateFormat: 'yy-mm-dd' //Input Display Format 변경
-    ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-    ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-    ,changeYear: true //콤보박스에서 년 선택 가능
-    ,changeMonth: true //콤보박스에서 월 선택 가능
-    ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-    ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
-    ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-    ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-    ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-    ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-    ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-    // ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-    ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
-  });
+  // $("#report_date").datepicker({
+  //   dateFormat: 'yy-mm-dd' //Input Display Format 변경
+  //   ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+  //   ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+  //   ,changeYear: true //콤보박스에서 년 선택 가능
+  //   ,changeMonth: true //콤보박스에서 월 선택 가능
+  //   ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+  //   ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트
+  //   ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+  //   ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+  //   ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+  //   ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+  //   ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+  //   // ,minDate: "+30D" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+  //   ,maxDate: "+10Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
+  // });
 </script>

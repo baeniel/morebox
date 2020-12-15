@@ -6,6 +6,13 @@ ActiveAdmin.register Report do
   scope "weekly", :weekly
   scope "monthly", :monthly
 
+  controller do
+    def show
+      @report = Report.find params[:id]
+      redirect_to report_path(@report)
+    end
+  end
+
   action_item only: :index do
     link_to('기간별 리포트 생성', create_period_report_admin_reports_path)
   end
@@ -62,6 +69,7 @@ ActiveAdmin.register Report do
     column "목표체중", :target_weight
     column "목표날짜", :target_date
     column "타입", :report_type
+    column "작성날짜", :created_at
     actions
   end
 end
