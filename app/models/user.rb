@@ -4,25 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[kakao], authentication_keys: [:phone]
 
-  #모어박스 쇼핑몰 형태
-  # has_many :orders, dependent: :destroy
-  # has_many :comments, dependent: :destroy
-  #
-  # # validates :username, :phone, presence: true
-  # validates :phone, uniqueness: true
-  #
-  # before_validation :assign_password, on: :create
-  #
-  # def assign_password
-  #   self.password = "111111"
-  #   self.password_confirmation = "111111"
-  # end
-  #
-  # def email_required?
-  #   false
-  # end
-  ######################
-
   belongs_to :gym, optional: true
   has_many :orders, dependent: :destroy
   has_many :points, dependent: :destroy
@@ -101,7 +82,7 @@ class User < ApplicationRecord
     ]
 
     user_info.each do |name, target_weight, target_date, ideal_kcal, ideal_carbo, ideal_protein, ideal_fat|
-      User.create!(name: name, target_weight: target_weight, target_date: target_date, ideal_kcal: ideal_kcal, ideal_carbo: ideal_carbo, ideal_protein: ideal_protein, ideal_fat: ideal_fat, user_type: :fit_table, gym: Gym.first, phone: srand.to_s.last(11))
+      User.create!(name: name, target_weight: target_weight, target_date: target_date, ideal_kcal: ideal_kcal, ideal_carbo: ideal_carbo, ideal_protein: ideal_protein, ideal_fat: ideal_fat, user_type: :fit_table, gym: Gym.first, phone: srand.to_s.last(11), email: SecureRandom.alphanumeric(5)+"@com")
     end
   end
 
