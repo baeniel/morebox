@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       get :check
       post :check_certificate
       get :check_and_send_message
-      # get :market
+      get :ronie
     end
     member do
       post :pay_complete

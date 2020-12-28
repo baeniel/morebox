@@ -55,7 +55,6 @@ class User < ApplicationRecord
   end
 
   def self.generate_fit_table_users
-
     user_info = [
       ["수연", 49, "2020-12-11", 950, 100, 50, 40],
       ["mmmmm", 45, "2021-03-29", 1200, 120, 80, 45],
@@ -80,10 +79,15 @@ class User < ApplicationRecord
       ["코코", 65, "2021-06-30", 1400, 180, 60, 50],
       ["마다", 53, "2021-02-28", 1050, 110, 50, 45]
     ]
-
     user_info.each do |name, target_weight, target_date, ideal_kcal, ideal_carbo, ideal_protein, ideal_fat|
       User.create!(name: name, target_weight: target_weight, target_date: target_date, ideal_kcal: ideal_kcal, ideal_carbo: ideal_carbo, ideal_protein: ideal_protein, ideal_fat: ideal_fat, user_type: :fit_table, gym: Gym.first, phone: srand.to_s.last(11), email: SecureRandom.alphanumeric(5)+"@com")
     end
   end
 
+  def month_ronie_sale
+    # @ronie = User.find_by(name: "ronie")
+    # @ronie.orders.complete.create(payment_amount: 30000)
+    this_month = Date.today.month
+    self.orders.complete.map{|order| order.created_at.month.eql?(this_month) ? order&.payment_amount.to_i : 0 }&.sum
+  end
 end

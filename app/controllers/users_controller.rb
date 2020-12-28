@@ -14,6 +14,10 @@ class UsersController < ApplicationController
   def market
   end
 
+  def ronie
+    @ronie = User.find_by(name: "ronie")
+  end
+
   def pay_complete
     @result = false
     receipt_id = params[:receipt_id]

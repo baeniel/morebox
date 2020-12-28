@@ -1,7 +1,7 @@
 require "browser"
 
 class HomeController < ApplicationController
-  before_action :authenticate_user!, except: %i(survey survey_start calorie_start fit_table)
+  before_action :authenticate_user!, except: %i(survey survey_start calorie_start fit_table ronie)
 
   def index
     browser = Browser.new(request.env["HTTP_USER_AGENT"])
