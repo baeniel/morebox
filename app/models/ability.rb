@@ -17,6 +17,10 @@ class Ability
       %i(update destroy show).each do |role|
         cannot role, Purchase
       end
+      can :manage, SubItem
+      %i(update destroy show create).each do |role|
+        cannot role, SubItem
+      end
     elsif user.has_role? :report
       can :manage, Report
     end

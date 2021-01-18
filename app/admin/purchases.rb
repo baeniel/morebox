@@ -1,4 +1,4 @@
-ActiveAdmin.register Purchase, label: "발주"  do
+ActiveAdmin.register Purchase, label: "발주" do
   menu label: "발주"
   scope -> {"전체"}, :all
   scope -> {"발주대기"}, :before
@@ -46,8 +46,6 @@ ActiveAdmin.register Purchase, label: "발주"  do
 
         redirect_to admin_purchases_path, notice: "발주 요청이 완료되었습니다."
       end
-
-
     end
 
     def updated
