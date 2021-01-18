@@ -5,6 +5,10 @@ ActiveAdmin.register SubItem do
   filter :created_at
 
   controller do
+    def scoped_collection
+      SubItem.where(is_purchase: 1)
+    end
+
     def show
       if current_admin_user.has_role? :gym
         redirect_to admin_sub_items_path, alert: "접근 권한이 없습니다."
@@ -17,6 +21,7 @@ ActiveAdmin.register SubItem do
   index do
     selectable_column
     id_column if current_admin_user.has_role? :admin
+
     column :title
     column :image do |sub_item|
       image_tag(sub_item.image_url, class: 'admin-index-image') if sub_item.image_url
@@ -37,6 +42,8 @@ ActiveAdmin.register SubItem do
       column :order_batch
       column :created_at
     end
+
+
     actions
   end
 
