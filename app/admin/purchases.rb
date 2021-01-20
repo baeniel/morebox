@@ -31,7 +31,7 @@ ActiveAdmin.register Purchase, label: "발주" do
       else
         purchase.save
         templateCode = '020110000009'
-        content = "[MoreMarket]\n" + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주요청이 완료되었습니다. 2시 이후의 발주요청은 다음 날 접수됩니다."
+        content = "[MoreMarket]\n" + SubItem.find(params[:purchase][:sub_item_id]).title + params[:purchase][:quantity] + "개 발주요청이 완료되었습니다. 12시 이후의 발주요청은 다음 날 접수됩니다."
         receiver = User.find_by(gym: Gym.find_by(title: current_admin_user.gym_list.first), fit_center: 1).phone
         receiverName = current_admin_user.email
         purchase_ready_alarm = KakaoAlarmService.new(templateCode, content, receiver, receiverName)
