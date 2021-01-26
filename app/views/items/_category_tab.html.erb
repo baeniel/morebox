@@ -6,7 +6,7 @@
     <div class="row mt-5 mx-0 px-3" id="product_list">
       <% categories = current_gym&.gyms_sub_items&.map {|gyms_sub_item| gyms_sub_item&.sub_item&.category } %>
       <% current_gym&.gyms_sub_items.order(:created_at).each do |gyms_sub_item| %>
-        <% sub_item = gyms_sub_item.sub_item %>
+        <% sub_item = gyms_sub_item&.sub_item %>
         <% if sub_item.category == category %>
           <% if categories.one?(category) %>
             <div class="col-4 mb-4">
@@ -23,7 +23,7 @@
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header d-block" style="background-color: #cfd3df;">
-                  <h3 class="modal-title text-center" id="exampleModalLabel" style="color: #200e57;">선택 상품 (재고: <%= gyms_sub_item.quantity %>개)</h3>
+                  <h3 class="modal-title text-center" id="exampleModalLabel" style="color: #200e57;">선택 상품 (재고: <%= gyms_sub_item&.quantity %>개)</h3>
                 </div>
                 <div class="modal-body row justify-content-center">
                   <h3 style="color: #200e57;"><%= sub_item.description %></h3>
@@ -34,11 +34,11 @@
                     <div class="col-12 mb-2">
                       <h3 class="ui-button font-weight-bold"><%= sub_item.title %></h3>
                     </div>
-                    <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item.quantity, target: sub_item.id} do %>
+                    <%= link_to "#", class: "minus-btn", data: {limit: gyms_sub_item&.quantity, target: sub_item.id} do %>
                       <i class="fa fa-minus fa-2x mt-3 mr-4" style="color: #200e57;" aria-hidden="true"></i>
                     <% end %>
-                    <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>"><%= (gyms_sub_item.quantity) > 0 ? 1 : 0 %></p>
-                    <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item.quantity, target: sub_item.id } do %>
+                    <p style="font-size: 30px;" id="item-count-<%= sub_item.id %>"><%= (gyms_sub_item&.quantity) > 0 ? 1 : 0 %></p>
+                    <%= link_to "#", class: "plus-btn", data: { limit: gyms_sub_item&.quantity, target: sub_item.id } do %>
                       <i class="fa fa-plus fa-2x mt-3 ml-4" style="color: #200e57;" aria-hidden="true"></i>
                     <% end %>
                   </div>
