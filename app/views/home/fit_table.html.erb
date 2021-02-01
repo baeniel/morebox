@@ -2,21 +2,6 @@
   #change-color {
     background-color: #FFFFFF;
   }
-  /* ul.morebox {
-    margin: 0;
-    padding: 0;
-    white-space: nowrap;
-    width: 340px;
-    overflow-x: scroll;
-  }
-  ul.morebox li {
-    display: inline;
-  }
-  ul.morebox li img {
-    width: 45%;
-    height: 45%;
-    margin-right: 1%;
-  } */
   h4 {
     font-size: 15px;
   }
@@ -39,6 +24,18 @@
   }
   .page-footer {
     background-color: #48689a;
+  }
+  .round-button {
+    border-radius: 20px;
+  }
+  .review_info {
+    border-radius: 20px; border: none; background: #F9F5FF;
+  }
+  .thin-font {
+    font-weight: 400;
+  }
+  .img-width {
+    width: 30%;
   }
 </style>
 
@@ -68,14 +65,14 @@
   <%= image_tag '/map.gif', class: "mt-3", style: "width: 80%;" %>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-5" style="text-align: justify;">
   <h2 class="ml-3" style="margin-bottom: 0%; font-weight: 700;">모든 사람이 나만을 위한 <br> 식단관리를 받을 수 있도록</h2>
   <h3 class="ml-3" style="font-weight: 400;">식단 관리는 내가 어떻게 먹고 있는지<br>되돌아보는 것부터 시작해요.</h3>
 </div>
 
 <div class="container mt-5 pt-3 pb-5" style="background-color: #F9F5FF; text-align: left;">
   <span class="badge badge-pill mt-4" style="background-color: #6200EE; color: white;"><h3>Services 01</h3></span>
-  <h3 class="ml-3" style="font-weight: 400;">어제 나는 어떻게 먹었는지 숫자로 확인할 수 있<br>는 <strong>일일 평가표</strong>를 매일 보내드려요.</h3>
+  <h3 class="ml-2" style="font-weight: 400;">어제 나는 어떻게 먹었는지 숫자로 확인할 수 있<br>는 <strong>일일 평가표</strong>를 매일 보내드려요.</h3>
 
   <div class="row mt-5">
     <div class="col-4">
@@ -96,12 +93,12 @@
   </div>
   <div class="container" style="text-align: center;">
     <i class="fas fa-3x fa-check mt-4" style="color: #6200EE"></i> <br>
-    <button type="button" class="btn mt-4" style="background-color: #6200EE; color: white; border-radius: 5px;">하루 달성률</button>
+    <button type="button" class="btn mt-4 round-button" style="background-color: #6200EE; color: white;">하루 달성률</button>
   </div>
 </div>
 <div class="container pt-3 pb-2" style="text-align: left;">
   <span class="badge badge-pill mt-4" style="background-color: #F9F5FF; color: #6200EE;"><h3>Services 02</h3></span>
-  <h3 style="font-weight: 400;">매 주 월요일, 저번 주는 어떻게 먹었는지 한 눈<br>에 볼 수 있도록 <strong>주간 평가표</strong>를 보내드려요.</h3>
+  <h3 class="ml-2" style="font-weight: 400;">매 주 월요일, 저번 주는 어떻게 먹었는지 한 눈<br>에 볼 수 있도록 <strong>주간 평가표</strong>를 보내드려요.</h3>
   <div class="row">
     <div class="col-5">
       <%= image_tag '/chart.png', class: "mt-3", style: "width: 100%;" %>
@@ -122,17 +119,17 @@
 </div>
 <div class="container pt-3 pb-3" style="background-color: #F9F5FF; text-align: left;">
   <span class="badge badge-pill mt-4" style="background-color: #6200EE; color: white;"><h3>Services 03</h3></span>
-  <h3 style="font-weight: 400;">회원님께 배정된 전담 코치님은 회원님이 어떻<br>게 먹고 있는지가 세상에서 제일 궁금해요. <br> 코치님께 언제든지 <strong>궁금한 점을 물어보세요.</strong></h3>
-  <h3 class="mt-5" style="font-weight: 400;">부끄러워하지 않아도 돼요. <br> <strong>핏테이블은 블라인드니까 !</strong></h3>
+  <h3 class="ml-1" style="font-weight: 400;">회원님께 배정된 전담 코치님은 회원님이 어떻<br>게 먹고 있는지가 세상에서 제일 궁금해요. <br> 코치님께 언제든지 <strong>궁금한 점을 물어보세요.</strong></h3>
+  <h3 class="mt-5 ml-1" style="font-weight: 400;">부끄러워하지 않아도 돼요. <br> <strong>핏테이블은 블라인드니까 !</strong></h3>
   <div class="container text-center">
     <%= image_tag '/qna.png', style: "width: 50%;" %>
   </div>
 </div>
 <div class="container mt-4" style="text-align: left;">
-  <div class="step1 mt-5">
+  <div class="step1 mt-5 ml-1">
     <h2 style="margin-top: 1%; font-weight: 700;">매일 사진만 보내세요!</h2>
   </div>
-  <div class="step1-desc mt-3">
+  <div class="step1-desc mt-3 ml-1">
     <h3 style="margin-bottom: 0%; font-weight: 400;">매일 3가지 사진만 보내주시면 전담 코치님이 <br> 꼼꼼히 기록해 두었다가 평가표를 써 주실 거예요.</h3>
   </div>
   <div class="container text-center mt-5">
@@ -142,23 +139,21 @@
 </div>
 
 <div class="container text-center mt-5 pb-4" style="background-color: #F9F5FF;">
-  <button type="button" class="btn mt-5" style="background-color: #6200EE; color: white; border-radius: 5px;"><h3>필수 과제 01</h3></button>
+  <button type="button" class="btn mt-5 round-button" style="background-color: #6200EE; color: white;"><h3>필수 과제 01</h3></button>
   <h3 style="margin-top: 5%; margin-bottom: 0%; font-weight: 400;">매일 사소한 거 하나도 빠짐없이 <br> 먹은 음식 사진을 모두 보내주세요.</h3>
   <%= image_tag '/fit_5.png', class: "mt-3 mb-2" %>
 
-  <button type="button" class="btn mt-5" style="background-color: #6200EE; color: white; border-radius: 5px;"><h3>필수 과제 02</h3></button>
+  <button type="button" class="btn mt-5 round-button" style="background-color: #6200EE; color: white;"><h3>필수 과제 02</h3></button>
   <h3 style="margin-top: 5%; margin-bottom: 0%; font-weight: 400;">매일 아침 공복체중을 <br> 기록하는 것도 잊지 마시구요.</h3>
   <%= image_tag '/fit_6.png', class: "mt-3 mb-2" %>
 
-  <button type="button" class="btn mt-5" style="background-color: #6200EE; color: white; border-radius: 5px;"><h3>선택과제</h3></button>
+  <button type="button" class="btn mt-5 round-button" style="background-color: #6200EE; color: white;"><h3>선택과제</h3></button>
   <h3 style="margin-top: 5%; margin-bottom: 0%; font-weight: 400;">운동한 날이면 간단하게 <br> 어떤 운동을 했는지 알려주세요.</h3>
   <%= image_tag '/fit_7.png', class: "mt-3" %>
 </div>
 
-<div class="container pt-3">
-  <div class="step1 mt-5">
-    <h1 class="ml-3 mb-5" style="margin-top: 1%; font-weight: 700;">이번엔 진짜다!</h1>
-  </div>
+<div class="container mt-5 pt-5">
+
   <!-- <h2 class="ml-3" style="margin-top: 10%; margin-bottom: 5%; font-weight: 400;">당신의 의지를 꽉 잡아줄 <span style="color: #6200EE;">핏테이블</span> <br> 오늘의 결심은 오래가지 않아요.<br> <br> 당신의 의지를 굳건하게 해 줄 <br> <strong>2가지 장치!</strong></h2> -->
   <!-- <div class="container text-center mb-5 pb-4">
     <%#= image_tag '/commit.png', class: "mt-5", style: "width: 60%;" %>
@@ -167,27 +162,118 @@
     <i class="fas fa-3x fa-check mt-4" style="color: #6200EE"></i> <br>
     <h3 style="color: #6200EE; font-weight: 400;">매일 과제 <strong>달성률만큼</strong> <br> 프로그램 종료일에 <strong>환급</strong>해 드립니다.</h3>
   </div> -->
-  <button type="button" class="btn" style="background-color: #6200EE; color: white; border-radius: 5px;"><h3>Real Review</h3></button>
-  <%= image_tag '/room.png', class: "mt-4", style: "width: 100%;" %>
-  <%= image_tag '/beta.png', class: "mt-4", style: "width: 100%;" %>
+  <h2 class="mt-0 mb-0" style="font-weight: 500">2020년 12월 회원들의</h2>
+  <h2 class="mt-2" style="font-weight: 500"><strong>100% 실제 후기</strong>를 들어보세요!</h2>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_5.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">**먼님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>다이어트에 제일 힘든게 식단관리고 혼자서 다이어트 외롭게 한다는
+      게 참 어려운일인데 식단코치와 함께하면 관리 받고있다는 느낌도
+      들고 코치님 말씀대로만 잘 따르면 칭찬도 아끼지않고 해주시니 너무
+      좋은것 같고 더 열심히 해야겠다는 의지가 생깁니다ㅎㅎ남은 3주도
+      화이팅!</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_5.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">*원님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>너무좋아욥 체계적으로 관리받는 느낌이네요 구체적인 식단분석에 믿음이가고 동기부여도 되고 실험삼아 신청해봤는데 만족도가 너무좋네요</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_5.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">헬*님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>모르고 지나갔던 거 알게 되어 도움이 많이 됩니다. 그래프 분석표 까지 자세한 설명 까지 아직까지 그래프 보는게 설명 여러 번 읽어 보면서 보게 되는 어려움 말고는 원하는 터치를 받을 수 있어 좋습니다</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_5.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">**맘님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>확실히 전문가가 그때그때 시간 맞춰서 체크해주시니 식단에 더 많이 신경쓰게 됩니다. 식단 외에도 다이어트에 도움되는 조언이나 궁금증도 자세히 알려주셔서 많은 도움이 되고있습니다.</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_4.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">*리님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>제 평소 식단이 어떤지, 부족한 점은 무엇인지 상세하게 진단해 주어서 좋습니다:) 특히 궁금한 점 있을 때 잘 대답해 주세요!</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_4.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">*녜님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>제 식단을 체계적으로 분석해주고 그에맞게 개선사항을 말해줘서 만족합니다!</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_5.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">채*님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>무척 만족합니다. 큰 틀에서 보았을때 식사패턴도 분석이 가능하고 어느정도 식사를 해야하는지 감이 잡히는 계기가 되었네요</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_5.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">햄**님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>식단관리 뿐만 아니라 제가 어떤것에 두려움을 느끼는지 멘탈 관리까지 해주시는 느낌이 듭니다. 너무 만족합니다.</p>
+    </div>
+  </div>
+
+  <div class="card review_info mt-5 py-4 px-4">
+    <div class="row justify-content-between px-3">
+      <%= image_tag '/star_4.png', class: "img-width" %>
+      <h4 class="mt-1 mb-0">유*님</h4>
+    </div>
+    <div class="thin-font mt-3" style="text-align: justify;">
+      <p>코로나 때문에 운동도 못하는 시점에서 식단관리 제출하면서 무엇이 많고 적고를 알 수 있으며 온라인 상이지만 옆에서 도와주시고 친절하게 알려주셔서 감사합니다~^^</p>
+    </div>
+  </div>
 </div>
 
-<h3 style="font-weight: 400;">당신은 어떤 선택을 하시겠습니까?</h3>
-<%= image_tag '/compare.png', class: "mt-4 mb-4", style: "width: 100%;" %>
+<%= image_tag '/compare.png', class: "mt-5 mb-4", style: "width: 100%;" %>
 
 <div class="container text-left mt-3 pt-4 pb-2" style="background-color: #FAF6FF">
   <h1 class="pt-5 text-center" style="color: #6200EE; margin-bottom: 0%;">핏테이블 식단관리 프로그램</h1>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 15%; font-weight: 400;">-영양정보 리포트</h3>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-나와의 계약서</h3>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-일일과제 제공</h3>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-매 끼 리마인드 알람</h3>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-수료증 지급</h3>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-일일 평가표</h3>
-  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">-주간 평가표</h3>
-  <h3 class="ml-5" style="margin-bottom: 10%; margin-top: 2%; font-weight: 400;">-전담 코치 Q&A 세션</h3>
+  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 15%; font-weight: 400;">- 영양정보 리포트</h3>
+  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">- 매 끼 리마인드 알람</h3>
+  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">- 일일 평가표</h3>
+  <h3 class="ml-5" style="margin-bottom: 0%; margin-top: 2%; font-weight: 400;">- 주간 평가표</h3>
+  <h3 class="ml-5" style="margin-bottom: 10%; margin-top: 2%; font-weight: 400;">- 담당코치님과 무제한 상담</h3>
 
   <div class="container text-center">
-    <%= image_tag '/event.png', style: "width: 100%;" %>
+    <%= link_to fit_table_survey_path(challenge: "풀케어") do %>
+      <%= image_tag '/event.png', style: "width: 100%;" %>
+    <% end %>
   </div>
 
   <div class="row mt-2 text-center">
