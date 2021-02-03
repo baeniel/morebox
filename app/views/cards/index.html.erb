@@ -7,7 +7,7 @@
 <div class="container mt-3 text-left">
   <%= link_to "건의하기", new_card_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
   <%= link_to "대시보드", cards_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
-  <%= link_to "완료한태스크", cards_path(status: :complete), class: "btn btn-outline mb-3", style: "color: orange;" %>
+  <%= link_to "완료한 태스크", cards_path(status: :complete), class: "btn btn-outline mb-3", style: "color: orange;" %>
 
   <div class="grid row justify-content-space-around">
     <% @cards.each do |card| %>
