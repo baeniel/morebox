@@ -17,4 +17,12 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
+import Rails from '@rails/ujs';
+Rails.start();
+window.Rails = Rails;
+
+import Swal from 'sweetalert2/dist/sweetalert2.all.min.js';
+// import 'sweetalert2/dist/sweetalert2.min.css';
+window.Swal = Swal;
+
 console.log('Hello World from Webpacker')

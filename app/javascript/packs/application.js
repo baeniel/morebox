@@ -4,15 +4,15 @@
 // that code so it'll be compiled.
 
 // require("@rails/ujs").start()
-const Rails = require('@rails/ujs');
-Rails.start();
-window.Rails = Rails
+// const Rails = require('@rails/ujs');
+// Rails.start();
+// window.Rails = Rails
 
 require("@rails/activestorage").start()
 require("channels")
-import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
-import 'sweetalert2/dist/sweetalert2.min.css';
-window.Swal = Swal;
+// import Swal from 'sweetalert2/dist/sweetalert2.all.min.js'
+// import 'sweetalert2/dist/sweetalert2.min.css';
+// window.Swal = Swal;
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
