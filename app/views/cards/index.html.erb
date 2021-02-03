@@ -12,7 +12,7 @@
           <div class="card-body" style="border-radius: 10px; background: <%= colors[Card.importances[:"#{card.importance}"]] %>">
             <p class="card-title text-dark"><strong><%= card.id %>번째 건의(<%= card.category %>)</strong></p>
             <small class="card-text text-white"><%= card.description %></small> <br>
-             <%= link_to "완료", card_path(card), method: :put, class: "btn btn-outline-dark mt-3" if card.ready? %>
+             <%= link_to "완료", card_path(card), method: :put, class: "btn btn-outline-dark mt-3", data: { confirm: "태스크를 완료하셨습니까? 짱입니다!!" } if card.ready? %>
           </div>
           <%# end %>
         <% end %>
