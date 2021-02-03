@@ -12,7 +12,7 @@
 
 <%= form_for @card do |f| %>
   <h3 class="text-white text-left">건의 내용</h3>
-  <%= f.text_field :description, class: "form-control", placeholder: "막 던지세요!! 소요 기간과 공수, 가불은 같이 결정하면 됩니다", required: true %>
+  <%= f.text_area :description, class: "form-control", rows: 5, style: "width: 40%;", placeholder: "막 던지세요!! 태스크의 소요 기간과 공수 등은 같이 결정하면 됩니다", required: true %>
 
   <% unless f.object.new_record? %>
     <h3 class="text-white text-left">중요도</h3>

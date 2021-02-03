@@ -1,3 +1,9 @@
+<style>
+  #change-color {
+    background: white;
+  }
+</style>
+
 <div class="container mt-3 text-left">
   <%= link_to "건의하기", new_card_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
   <%= link_to "대시보드", cards_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
@@ -11,7 +17,7 @@
           <% colors = ['skyblue', '#186A3B', '#C81616', 'gray'] %>
           <div class="card-body" style="border-radius: 10px; background: <%= colors[Card.importances[:"#{card.importance}"]] %>">
             <p class="card-title text-dark"><strong><%= card.id %>번째 건의(<%= card.category %>)</strong></p>
-            <small class="card-text text-white"><%= card.description %></small> <br>
+            <h3 class="card-text text-white mt-0 mb-0"><%= card.description %></h3>
             <%= link_to "수정", edit_card_path(card), class: "btn btn-outline-dark mt-3" %>
           </div>
         <% end %>
