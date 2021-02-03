@@ -46,7 +46,6 @@ gem 'formadmin'
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'rails-i18n'
 gem 'figaro'
-
 gem 'omniauth'
 gem 'omniauth-oauth2', '<= 1.3.1'
 gem 'omniauth-kakao', :git => 'git://github.com/hcn1519/omniauth-kakao'

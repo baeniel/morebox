@@ -9,9 +9,9 @@
   <%= link_to "대시보드", cards_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
   <%= link_to "완료한태스크", cards_path(status: :complete), class: "btn btn-outline mb-3", style: "color: orange;" %>
 
-  <div class="row justify-content-space-around">
+  <div class="grid row justify-content-space-around">
     <% @cards.each do |card| %>
-      <div class="col-md-3 col-sm-12 mb-4">
+      <div class="grid-item col-md-3 col-sm-12 mb-4">
         <% if card.present? %>
           <%# #16A093 %>
           <% colors = ['skyblue', '#186A3B', '#C81616', 'gray'] %>
@@ -25,3 +25,9 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  $('.grid').masonry({
+    itemSelector: '.grid-item',
+  });
+</script>
