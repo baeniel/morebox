@@ -13,12 +13,12 @@
 <div class="container mt-5">
   <%= form_for Card.new do |f| %>
     <h3 class="text-white text-left">건의 내용</h3>
-    <%= f.text_field :description, class: "form-control" %>
+    <%= f.text_field :description, class: "form-control", required: true %>
 
     <h3 class="text-white text-left">중요도</h3>
     <div class="row text-left ml-1">
       <% Card.importances.keys.each do |key| %>
-        <%= f.check_box :importance, { class: "check_box importance", id: key, style: "display: none;"}, key, nil %>
+        <%= f.check_box :importance, { class: "check_box importance", id: key, style: "display: none;" }, key, nil %>
         <%= f.label :importance, key, class: "btn label-for-check mr-3", for: key %>
       <% end %>
     </div>
@@ -26,13 +26,13 @@
     <h3 class="text-white text-left">분야</h3>
     <div class="row text-left ml-1">
       <% Card.categories.keys.each do |key| %>
-        <%= f.check_box :category, { class: "check_box category", id: key, style: "display: none;"}, key, nil %>
+        <%= f.check_box :category, { class: "check_box category", id: key, style: "display: none;" }, key, nil %>
         <%= f.label :category, key, class: "btn label-for-check mr-3", for: key %>
       <% end %>
     </div>
 
     <div class="box text-left">
-      <%= f.submit "이제 더 좋은 회사가 되겠네요!", class: "btn btn-lg text-white mt-5 mr-3", style: "background: skyblue;" %>
+      <%= f.submit "이제 더 좋은 회사가 되겠네요!", class: "btn btn-lg text-white mt-5 mr-3", style: "background: skyblue;", id: "submit" %>
       <%= link_to "뒤로가기", cards_path, class: "btn btn-lg btn-outline-secondary text-white mt-5 ml-3" %>
     </div>
   <% end %>
@@ -43,5 +43,13 @@
     if ($(this).is('.importance, .category')) {
       $('.' + this.classList[1]).not(this).prop('checked', false);
     }
+  });
+  $("#submit").click(function() {
+    importance = $(".importance:checked").length;
+    category = $(".category:checked").length;
+    if(!importance || !category) {
+        alert("중요도와 업무 분야를 선택해주세요!");
+        return false;
+      }
   });
 </script>

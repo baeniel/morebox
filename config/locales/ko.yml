@@ -3,4 +3,3 @@ ko:
     resources:
       purchase:
         new_model: "발주요청"
-        
