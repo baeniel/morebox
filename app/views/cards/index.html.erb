@@ -7,14 +7,13 @@
     <% @cards.each do |card| %>
       <div class="col-md-3 col-sm-12 mb-4">
         <% if card.present? %>
-          <%#= link_to card_path(card) do %>
-          <% colors = ['skyblue', '#16A093', '#C81616'] %>
+          <%# #16A093 %>
+          <% colors = ['skyblue', '#186A3B', '#C81616', 'gray'] %>
           <div class="card-body" style="border-radius: 10px; background: <%= colors[Card.importances[:"#{card.importance}"]] %>">
             <p class="card-title text-dark"><strong><%= card.id %>번째 건의(<%= card.category %>)</strong></p>
             <small class="card-text text-white"><%= card.description %></small> <br>
-             <%= link_to "완료", card_path(card), method: :put, class: "btn btn-outline-dark mt-3", data: { confirm: "태스크를 완료하셨습니까? 짱입니다!!" } if card.ready? %>
+            <%= link_to "수정", edit_card_path(card), class: "btn btn-outline-dark mt-3" %>
           </div>
-          <%# end %>
         <% end %>
       </div>
     <% end %>

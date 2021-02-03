@@ -1,0 +1,65 @@
+<style>
+  .label-for-check {
+    border-radius: 20px;
+    border: none;
+    background: white;
+  }
+  input[type=checkbox]:checked + label {
+    color: #6200EE !important;
+    border: 2px solid !important;
+  }
+</style>
+
+<%= form_for @card do |f| %>
+  <h3 class="text-white text-left">건의 내용</h3>
+  <%= f.text_field :description, class: "form-control", placeholder: "막 던지세요!! 소요 기간과 공수, 가불은 같이 결정하면 됩니다", required: true %>
+
+  <% unless f.object.new_record? %>
+    <h3 class="text-white text-left">중요도</h3>
+    <div class="row text-left ml-1">
+      <% Card.importances.keys.each do |key| %>
+        <%= f.check_box :importance, { class: "check_box importance", id: key, style: "display: none;" }, key, nil %>
+        <%= f.label :importance, key, class: "btn label-for-check mr-3", for: key %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h3 class="text-white text-left">분야</h3>
+  <div class="row text-left ml-1">
+    <% Card.categories.keys.each do |key| %>
+      <%= f.check_box :category, { class: "check_box category", id: key, style: "display: none;" }, key, nil %>
+      <%= f.label :category, key, class: "btn label-for-check mr-3", for: key %>
+    <% end %>
+  </div>
+
+  <% unless f.object.new_record? %>
+    <h3 class="text-white text-left">상태</h3>
+    <div class="row text-left ml-1">
+      <% Card.statuses.keys.each do |key| %>
+        <%= f.check_box :status, { class: "check_box status", id: key, style: "display: none;" }, key, nil %>
+        <%= f.label :status, key, class: "btn label-for-check mr-3", for: key %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="box text-left">
+    <%= f.submit "#{f.object.new_record? ? '이제 더 좋은 회사가 되겠네요!' : '수정하기'}", class: "btn btn-lg text-white mt-5 mr-3", style: "background: skyblue;", id: "submit" %>
+    <%= link_to "뒤로가기", cards_path, class: "btn btn-lg btn-outline-secondary text-white mt-5 ml-3" %>
+  </div>
+<% end %>
+
+<script>
+  $('.check_box').on('change', function() {
+    if ($(this).is('.importance, .category, .status')) {
+      $('.' + this.classList[1]).not(this).prop('checked', false);
+    }
+  });
+  $("#submit").click(function() {
+    // importance = $(".importance:checked").length;
+    category = $(".category:checked").length;
+    if(!category) {
+        alert("업무 분야를 선택해주세요!");
+        return false;
+      }
+  });
+</script>
