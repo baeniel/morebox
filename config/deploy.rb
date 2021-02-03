@@ -1,5 +1,6 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.11.2"
+# lock "~> 3.11.2"
+lock "~> 3.15.0"
 
 set :application, "morebox"
 set :repo_url, "git@github.com:baeniel/morebox.git"
