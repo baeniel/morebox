@@ -1,0 +1,22 @@
+<div class="container mt-3 text-left">
+  <%= link_to "건의하기", new_card_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
+  <%= link_to "대시보드", cards_path, class: "btn btn-outline mb-3", style: "color: orange;" %>
+  <%= link_to "완료한태스크", cards_path(status: :complete), class: "btn btn-outline mb-3", style: "color: orange;" %>
+
+  <div class="row justify-content-space-around">
+    <% @cards.each do |card| %>
+      <div class="col-md-3 col-sm-12 mb-4">
+        <% if card.present? %>
+          <%#= link_to card_path(card) do %>
+          <% colors = ['skyblue', '#16A093', '#C81616'] %>
+          <div class="card-body" style="border-radius: 10px; background: <%= colors[Card.importances[:"#{card.importance}"]] %>">
+            <p class="card-title text-dark"><strong><%= card.id %>번째 건의(<%= card.category %>)</strong></p>
+            <small class="card-text text-white"><%= card.description %></small> <br>
+             <%= link_to "완료", card_path(card), method: :put, class: "btn btn-outline-dark mt-3" if card.ready? %>
+          </div>
+          <%# end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

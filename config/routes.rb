@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'cards/index'
+  get 'cards/new'
+  get 'cards/create'
   get 'users/pay_complete'
   root 'products#marketing'
   get 'home/index'
@@ -73,4 +76,5 @@ Rails.application.routes.draw do
   end
 
   resources :reports, only: [:new, :create, :show]
+  resources :cards
 end

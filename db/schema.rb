@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_084257) do
+ActiveRecord::Schema.define(version: 2021_02_02_131810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,15 @@ ActiveRecord::Schema.define(version: 2020_12_15_084257) do
     t.index ["admin_user_id", "role_id"], name: "index_admin_users_roles_on_admin_user_id_and_role_id"
     t.index ["admin_user_id"], name: "index_admin_users_roles_on_admin_user_id"
     t.index ["role_id"], name: "index_admin_users_roles_on_role_id"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.text "description"
+    t.integer "importance"
+    t.integer "category"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 0
   end
 
   create_table "categories", force: :cascade do |t|
