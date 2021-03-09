@@ -38,17 +38,18 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs do
       f.input :email
-      f.input :phone, input_html: {value: "01000000000"}
+      f.input :phone
       f.input :fit_center
       f.input :user_type, as: :select, include_blank: false, selected: :fit_table
       f.input :gym, as: :select, include_blank: false, collection: Gym.all, selected: Gym.first
       f.input :name
       f.input :target_weight
-      f.input :target_date, input_html: {value: "2020-12-31"}
+      f.input :target_date
       f.input :ideal_kcal
       f.input :ideal_carbo
       f.input :ideal_protein
       f.input :ideal_fat
+      # , input_html: {value: "2020-12-31"}
       # f.input :password
       # f.input :password_confirmation
     end
