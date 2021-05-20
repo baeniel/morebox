@@ -26,7 +26,9 @@ class HomeController < ApplicationController
 
   def calorie_start; end
 
-  def fit_table; end
+  def fit_table
+    redirect_to "https://www.sixshop.com/Fittable/home"
+  end
 
   def survey
     # redirect_to root_path, notice: "서비스가 종료되었습니다."
