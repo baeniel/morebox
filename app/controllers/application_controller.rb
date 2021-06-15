@@ -2,14 +2,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::InvalidAuthenticityToken, with: :redirect_to_referer_or_path
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_params
-  before_action :redirect_http
   helper_method :current_gym
   helper_method :check_gym_tablet
-
-  def redirect_http
-    redirect_to :protocol => "http://" if request.ssl?
-    return true
-  end
 
   def redirect_to_referer_or_path
     redirect_to (request.referer.presence || root_path), notice: '잠시후에 다시 시도 해주세요.'
