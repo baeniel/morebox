@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :check_gym_tablet
 
   def redirect_http
-    redirect_to :protocol => "http://" unless request.ssl?
+    redirect_to :protocol => "http://" if request.ssl?
     return true
   end
 
