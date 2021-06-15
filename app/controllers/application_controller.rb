@@ -4,6 +4,12 @@ class ApplicationController < ActionController::Base
   before_action :check_params
   helper_method :current_gym
   helper_method :check_gym_tablet
+  before_filter :redirect_http
+
+  def redirect_http
+    redirect_to :protocol => "http://" unless request.ssl?
+    return true
+  end
 
   def redirect_to_referer_or_path
     redirect_to (request.referer.presence || root_path), notice: '잠시후에 다시 시도 해주세요.'
@@ -43,7 +49,7 @@ class ApplicationController < ActionController::Base
   def current_gym
     Gym.find(cookies[:gym_id]) rescue current_user&.gym || Gym.first
   end
-  
+
   def access_denied(exception)
     redirect_to (current_admin_user ? (current_admin_user.has_role?(:gym) ? admin_gyms_sub_items_path : admin_reports_path) : root_path), alert: "접근 권한이 없습니다."
   end
