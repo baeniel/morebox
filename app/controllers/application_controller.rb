@@ -2,9 +2,9 @@ class ApplicationController < ActionController::Base
   rescue_from ActionController::InvalidAuthenticityToken, with: :redirect_to_referer_or_path
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_params
+  before_action :redirect_http
   helper_method :current_gym
   helper_method :check_gym_tablet
-  before_filter :redirect_http
 
   def redirect_http
     redirect_to :protocol => "http://" unless request.ssl?
