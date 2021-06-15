@@ -77,4 +77,6 @@ Rails.application.routes.draw do
 
   resources :reports, only: [:new, :create, :show]
   resources :cards
+
+  match "*path" => redirect("https://morebox.co.kr"), :constraints => { :protocol => "http://" }
 end
