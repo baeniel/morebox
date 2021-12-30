@@ -21,4 +21,4 @@ https://morebox.co.kr
 
 ### 기술 스택
 ------------
--Html, Css, Js, Jquery, Ruby on rails
+- Html, Css, Js, Jquery, Ruby on rails
