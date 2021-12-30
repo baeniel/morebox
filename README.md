@@ -10,7 +10,7 @@ https://morebox.co.kr <br> <br>
 ### Contributor
 ------------
 - 박진배
-- 이웅재 <br> <br>
+- [이웅재](https://github.com/winzett "이웅재") <br> <br>
 
 ### 기능
 ------------
