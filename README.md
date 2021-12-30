@@ -1,24 +1,20 @@
-# README
+## 모어박스
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+헬스장 IoT 유통 솔루션, 모어박스입니다.
+헬스장에서 스포츠 식품을 사먹고 싶을 때 일일이 꺼내서 트레이너에게 카드로 결제해야 하는 문제점을 해결하기 위해 QR코드를 활용한 무인 냉장고를 구현했었습니다.
 
-Things you may want to cover:
+###기능
+------------
+- 핸드폰 번호를 통한 본인인증 로그인 기능
+- 포인트 충전(결제) 및 포인트 사용 기능
+- 헬스장 관리자 페이지에서 본인 지점의 매달 매출 및 정산액 확인 기능
+- 어드민 페이지에서 스포츠 식품들의 재고관리 및 발주 기능
 
-* Ruby version
+###성과
+------------
+- 시드 투자 유치
+- 서울 내 헬스장 가맹점 25개
 
-* System dependencies
+###기술 스택
+-Html, Css, Js, Jquery, Ruby on rails
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
